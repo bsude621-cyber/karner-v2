@@ -106,10 +106,18 @@ function Rig({
   mouse: React.MutableRefObject<{ x: number; y: number }>;
   mobile: boolean;
 }) {
-  // Mobilde robotlar birbirine yakın, biraz küçük ve aşağıda dursun
+  // Mobilde robotlar birbirine yakın, biraz küçük ve aşağıda dursun.
+  // y birimini piksele çevirmek için: kamera fov 38° ve mobilde z=8.2 olduğundan
+  // görünür yarı yükseklik tan(19°)*8.2 ≈ 2.82 birim. 812 px'lik bir ekranda
+  // bu 406 px demek, yani 1 birim ≈ 144 px. -0.7 değeri robotları paragrafın
+  // altına indiriyor (eskiden -0.35'ti ve kafaları paragrafla çakışıyordu).
   const x = mobile ? 1.15 : 2.7;
-  const y = mobile ? -0.35 : -0.15;
+  const y = mobile ? -0.7 : -0.15;
   const fit = mobile ? 1.7 : 2.1;
+  // Gölge robotların ayak hizasında dursun. Model kendi merkezine hizalandığı
+  // için ayak seviyesi y - fit/2; 0.08 birim altına konuyor ki gölge ayakların
+  // altından taşsın. Masaüstünde bu -1.28 veriyor (eski sabit değerin aynısı).
+  const shadowY = y - fit / 2 - 0.08;
   return (
     <>
       <ambientLight intensity={0.85} />
@@ -130,7 +138,7 @@ function Rig({
       {/* Her karede yeniden render edilen bir gölge haritası — çözünürlük
           düşük tutuluyor, zaten yoğun blur'un altında kayboluyor. */}
       <ContactShadows
-        position={[0, -1.28, 0]}
+        position={[0, shadowY, 0]}
         scale={14}
         far={2.2}
         blur={2.8}
