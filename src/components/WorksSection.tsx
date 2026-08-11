@@ -32,19 +32,19 @@ const works: Work[] = [
     title: "İç Mimarlık Stüdyosu",
     sector: "İç Mimarlık",
     summary:
-      "Video hero, proje galerisi ve teklif formu. Ziyaretçiyi ilk ekranda yakalayan sinematik giriş.",
+      "Ziyaretçi daha okumadan işin kalitesini görüyor, teklif formu elinin altında.",
     url: "https://icmimar-demo.vercel.app",
     video: "/demos/icmimar.webm",
     poster: "/demos/icmimar-poster.jpg",
     posterTime: 8,
-    tags: ["Video Hero", "Galeri", "Form"],
+    tags: ["Video Hero", "Proje Galerisi", "Teklif Formu"],
   },
   {
     id: "mimar",
     title: "Mimarlık Stüdyosu",
     sector: "Mimarlık",
     summary:
-      "Koyu, sakin bir dil; projelerin öne çıktığı sade yerleşim ve akıcı bölüm geçişleri.",
+      "Sade tasarım projeleri öne çıkarıyor, dikkat doğrudan işin kendisine gidiyor.",
     url: "https://mimar-demo.vercel.app",
     video: "/demos/mimar.webm",
     poster: "/demos/mimar-poster.jpg",
@@ -56,19 +56,19 @@ const works: Work[] = [
     title: "İnşaat & Mühendislik",
     sector: "İnşaat",
     summary:
-      "Full HD hero videosu, hizmet kartları ve referans bölümüyle kurumsal bir vitrin.",
+      "Büyük bütçeli işlerde aranan kurumsal güveni veren duruş, referanslar önde.",
     url: "https://insaat-web-eight.vercel.app",
     video: "/demos/insaat.webm",
     poster: "/demos/insaat-poster.jpg",
     posterTime: 4,
-    tags: ["Kurumsal", "Full HD", "Referans"],
+    tags: ["Kurumsal", "Referanslar", "Güven"],
   },
   {
     id: "dustas",
     title: "Duşakabin & Banyo",
-    sector: "Perakende",
+    sector: "Banyo & Yapı",
     summary:
-      "Ürün odaklı yerleşim; kategori kartları ve iletişime yönlendiren net çağrılar.",
+      "Ziyaretçi aradığı ürünü birkaç tıkta buluyor, iletişim her ekranda.",
     url: "https://dustas-demo.vercel.app",
     video: "/demos/dustas.webm",
     poster: "/demos/dustas-poster.jpg",
@@ -80,7 +80,7 @@ const works: Work[] = [
     title: "Diyetisyen Kliniği",
     sector: "Sağlık",
     summary:
-      "Randevuya yönlendiren sıcak bir arayüz; hizmet paketleri ve danışan yorumları.",
+      "Randevuya giden yolu kısaltıyor, danışan yorumları güveni pekiştiriyor.",
     url: "https://diyetisyen-demo.vercel.app",
     video: "/demos/diyetisyen.webm",
     poster: "/demos/diyetisyen-poster.jpg",
@@ -89,17 +89,17 @@ const works: Work[] = [
   },
   {
     id: "meridyen",
-    title: "Meridyen Gayrimenkul",
+    title: "Gayrimenkul Ofisi",
     sector: "Gayrimenkul",
     summary:
-      "Scroll ile kare kare ilerleyen sinematik giriş — 120 görsellik dizi, canvas üzerinde.",
+      "Kaydırdıkça açılan sinematik giriş — ilan sitelerinden ayrışan ilk izlenim.",
     url: "https://meridyen-demo.vercel.app",
     // Kaynak sitede video yok: hero'su 120 JPEG'lik kare dizisi. Kartta
     // oynatabilmek için o kareler videoya dönüştürüldü (24 fps, 5 sn).
     video: "/demos/meridyen.webm",
     poster: "/demos/meridyen-poster.jpg",
     posterTime: 2.5,
-    tags: ["Scroll Animasyon", "Canvas"],
+    tags: ["Scroll Animasyon", "Sinematik"],
   },
 ];
 
