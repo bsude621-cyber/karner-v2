@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+:root {
+  /* KARNER marka paleti — bkz. BRAND.md */
+  --background: #05060a;
+  --foreground: #f2f3f7;
+  --accent: #7b3fe4; /* parlak mor */
+  --accent-2: #4b1d96; /* derin mor — gradyan/gölge için; METİN İÇİN KULLANMA */
+  /* Marka morunun metin için güvenli açık tonu. --accent-2 koyu zeminde
+     1.85:1 kontrast veriyor (okunmuyor); bu ton 6.14:1 ile WCAG AA geçiyor. */
+  --accent-light: #a371ff;
+  --silver: #a6a9ad;
+  --gray: #5c5f66;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-silver: var(--silver);
+  --color-gray: var(--gray);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-light: var(--accent-light);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* subtle grid + glow background */
+.bg-grid {
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* =====================================================================
+   KARNER Tasarım Sistemi — paylaşılan yardımcılar
+   ===================================================================== */
+
+/* ---- Erişilebilirlik: hareket azaltma tercihi ---- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Klavye odak halkası (tüm etkileşimli öğeler) ---- */
+:where(a, button, [role="button"], input, textarea, select):focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--background),
+    0 0 0 4px var(--accent);
+  border-radius: 0.6rem;
+}
+
+/* ---- Cam kart yüzeyi (tek tutarlı stil) ---- */
+.glass {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.02)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  border-radius: 1rem;
+  box-shadow: 0 14px 44px -16px rgba(0, 0, 0, 0.7);
+}
+.glass-hover {
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-hover:hover {
+  transform: translateY(-4px);
+  border-color: rgba(123, 63, 228, 0.5);
+  box-shadow: 0 24px 60px -18px rgba(123, 63, 228, 0.55);
+}
+
+/* ---- Buton sistemi ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.25s ease, background-color 0.25s ease,
+    border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  padding: 0.85rem 2rem;
+  box-shadow: 0 10px 30px -8px rgba(123, 63, 228, 0.5);
+}
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--accent) 90%, white);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 16px 40px -8px rgba(123, 63, 228, 0.6);
+}
+.btn-secondary {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.85);
+  padding: 0.85rem 2rem;
+  background: transparent;
+}
+.btn-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ---- Bölüm ayracı (gradient saç teli) ---- */
+.section-divider {
+  height: 1px;
+  width: 100%;
+  border: 0;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(123, 63, 228, 0.55),
+    transparent
+  );
+}
