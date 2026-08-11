@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
@@ -13,15 +12,17 @@ type Work = {
   sector: string;
   summary: string;
   url: string;
-  /** Hero videosu (public/demos altında). Yoksa image kullanılır. */
-  video?: string;
-  image?: string;
+  /** Hero videosu (public/demos altında). */
+  video: string;
   /**
-   * Poster olarak gösterilecek saniye. Medya parçası (#t=) ile veriliyor:
-   * tarayıcı o karede duruyor, ayrıca poster dosyası üretmeye gerek kalmıyor.
-   * Değerler videoların parlaklığı ölçülerek seçildi (bazılarının ilk karesi siyah).
+   * Gerçek poster görseli. Önceden video adresine `#t=8` gibi medya parçası
+   * ekleyip tarayıcıdan o kareyi göstermesini istiyordum; masaüstünde çalıştı
+   * ama iOS Safari kullanıcı dokunmadan videoyu yüklemediği için kartlar
+   * siyah kutu olarak görünüyordu. Poster görseli her yerde çalışıyor.
    */
-  posterTime?: number;
+  poster: string;
+  /** Oynatma bu saniyeden başlar — poster karesiyle aynı yer, geçiş pürüzsüz olsun. */
+  posterTime: number;
   tags: string[];
 };
 
@@ -34,6 +35,7 @@ const works: Work[] = [
       "Video hero, proje galerisi ve teklif formu. Ziyaretçiyi ilk ekranda yakalayan sinematik giriş.",
     url: "https://icmimar-demo.vercel.app",
     video: "/demos/icmimar.webm",
+    poster: "/demos/icmimar-poster.jpg",
     posterTime: 8,
     tags: ["Video Hero", "Galeri", "Form"],
   },
@@ -45,6 +47,7 @@ const works: Work[] = [
       "Koyu, sakin bir dil; projelerin öne çıktığı sade yerleşim ve akıcı bölüm geçişleri.",
     url: "https://mimar-demo.vercel.app",
     video: "/demos/mimar.webm",
+    poster: "/demos/mimar-poster.jpg",
     posterTime: 8,
     tags: ["Sinematik", "Portfolyo"],
   },
@@ -56,6 +59,7 @@ const works: Work[] = [
       "Full HD hero videosu, hizmet kartları ve referans bölümüyle kurumsal bir vitrin.",
     url: "https://insaat-web-eight.vercel.app",
     video: "/demos/insaat.webm",
+    poster: "/demos/insaat-poster.jpg",
     posterTime: 4,
     tags: ["Kurumsal", "Full HD", "Referans"],
   },
@@ -67,6 +71,7 @@ const works: Work[] = [
       "Ürün odaklı yerleşim; kategori kartları ve iletişime yönlendiren net çağrılar.",
     url: "https://dustas-demo.vercel.app",
     video: "/demos/dustas.webm",
+    poster: "/demos/dustas-poster.jpg",
     posterTime: 8,
     tags: ["Ürün Vitrini", "Katalog"],
   },
@@ -78,6 +83,7 @@ const works: Work[] = [
       "Randevuya yönlendiren sıcak bir arayüz; hizmet paketleri ve danışan yorumları.",
     url: "https://diyetisyen-demo.vercel.app",
     video: "/demos/diyetisyen.webm",
+    poster: "/demos/diyetisyen-poster.jpg",
     posterTime: 8,
     tags: ["Randevu", "Paketler"],
   },
@@ -91,6 +97,7 @@ const works: Work[] = [
     // Kaynak sitede video yok: hero'su 120 JPEG'lik kare dizisi. Kartta
     // oynatabilmek için o kareler videoya dönüştürüldü (24 fps, 5 sn).
     video: "/demos/meridyen.webm",
+    poster: "/demos/meridyen-poster.jpg",
     posterTime: 2.5,
     tags: ["Scroll Animasyon", "Canvas"],
   },
@@ -170,18 +177,18 @@ function WorkCard({
   const videoRef = useRef<HTMLVideoElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // 1) Tembel kaynak: src ancak kart ekrana yaklaşınca atanır.
-  //    preload="metadata" + #t= birlikte dosyanın büyük kısmını indiriyor
-  //    (ölçtük: 6 kart için açılışta 1.67 MB). src'yi geciktirince açılış 0 bayt.
+  // 1) Tembel kaynak: src ancak kart ekrana yaklaşınca atanır. Kart görüntüsü
+  //    poster görselinden geliyor, o yüzden src gelene kadar da doğru görünür.
+  //    preload="none" ile src atandıktan sonra bile oynatılana kadar bayt inmez.
   useEffect(() => {
     const el = cardRef.current;
     const v = videoRef.current;
-    if (!el || !v || !work.video) return;
+    if (!el || !v) return;
 
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !v.getAttribute("src")) {
-          v.setAttribute("src", `${work.video}#t=${work.posterTime ?? 0}`);
+          v.setAttribute("src", `${work.video}#t=${work.posterTime}`);
           io.disconnect();
         }
       },
@@ -218,26 +225,18 @@ function WorkCard({
     return () => io.disconnect();
   }, [onPlay, onStop, work.posterTime]);
 
-  const media = work.video ? (
+  const media = (
     <video
       ref={videoRef}
       // src bilerek verilmiyor — yukarıdaki gözlemci kart ekrana yaklaşınca
-      // atıyor. Kare, medya parçası (#t=) ile geliyor; poster dosyası yok.
+      // atıyor. Görüntü poster'dan geliyor, video yalnızca oynatılınca iniyor.
+      poster={work.poster}
       muted
       loop
       playsInline
-      preload="metadata"
+      preload="none"
       aria-hidden
       className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-    />
-  ) : (
-    <Image
-      src={work.image as string}
-      alt=""
-      aria-hidden
-      fill
-      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-      className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
     />
   );
 

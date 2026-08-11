@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { animate, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Shuffle, Sparkles } from "lucide-react";
+import { ArrowUpRight, Sparkles } from "lucide-react";
 import { SpaceBackground } from "@/components/ui/space-background";
 import SectionHeading from "@/components/ui/section-heading";
 import { services as serviceData } from "@/data/services";
@@ -24,7 +24,6 @@ export default function ServicesSection() {
   const gridRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
   const reduceMotion = useReducedMotion();
-  const [played, setPlayed] = useState(false);
   const dealingRef = useRef(false);
   /** Kartlar gizlendi, dağıtılmayı bekliyor. */
   const armedRef = useRef(false);
@@ -48,7 +47,6 @@ export default function ServicesSection() {
     if (!grid || dealingRef.current) return;
     dealingRef.current = true;
     armedRef.current = false;
-    setPlayed(true);
 
     const gr = grid.getBoundingClientRect();
     const originX = gr.left + gr.width / 2; // deste: üst-orta
@@ -110,11 +108,6 @@ export default function ServicesSection() {
     return () => io.disconnect();
   }, [reduceMotion, arm, deal]);
 
-  // Buton: kullanıcı bilerek tetikliyor, gizlenmeyi görmesi sorun değil
-  const handleReplay = () => {
-    deal();
-  };
-
   return (
     <section
       id="hizmetler"
@@ -131,18 +124,6 @@ export default function ServicesSection() {
           title="Hizmetlerimiz"
           subtitle="Karta gelince büyür, tıklayınca ilgili sayfaya geçersiniz — yazılım ve medyada uçtan uca dijital çözümler."
         />
-
-        {/* Dağıtma tetikleyici */}
-        <div className="mt-8 flex justify-center">
-          <button
-            type="button"
-            onClick={handleReplay}
-            className="group inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-accent/10 backdrop-blur-sm transition-all duration-300 hover:border-accent hover:bg-accent/20 hover:shadow-accent/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            <Shuffle className="h-4 w-4 text-accent-light transition-transform duration-300 group-hover:rotate-180" />
-            {played ? "Tekrar Dağıt" : "Hizmetleri Gör"}
-          </button>
-        </div>
       </div>
 
       {/* 2 satırlık ızgara: mobil 1, tablet 2-3, masaüstü 4 sütun (4 + 3) */}
