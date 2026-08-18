@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, X, ArrowRight } from "lucide-react";
 import {
@@ -9,15 +9,29 @@ import {
 } from "@/lib/assistant";
 
 /**
- * Mobil/küçük ekran asistanı: sağ-altta sabit sohbet butonu.
- * Robotlar mobilde gizli olduğu için asistan deneyimini burada verir.
- * Yalnızca lg altında görünür.
+ * Sağ-altta sabit sohbet asistanı (tüm ekranlar).
+ * Mobilde yuvarlak buton görünür; masaüstünde buton gizli, panel
+ * hero'daki "Sorunuz mu var?" balonundan gelen olayla açılır.
  */
 export default function MobileAssistant() {
   const [open, setOpen] = useState(false);
 
+  // Hero balonundan gelen açılış olayı + durumu hero'ya geri bildir
+  useEffect(() => {
+    const openHandler = () => setOpen(true);
+    window.addEventListener("karner:open-assistant", openHandler);
+    return () =>
+      window.removeEventListener("karner:open-assistant", openHandler);
+  }, []);
+
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent("karner:assistant-state", { detail: { open } }),
+    );
+  }, [open]);
+
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3 lg:hidden">
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
       <AnimatePresence>
         {open && (
           <motion.div
@@ -27,13 +41,23 @@ export default function MobileAssistant() {
             transition={{ duration: 0.25 }}
             className="w-[80vw] max-w-xs overflow-hidden rounded-2xl border border-accent/40 bg-[#120a1c]/95 shadow-2xl shadow-accent/25 backdrop-blur-xl"
           >
-            <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
-              <span className="grid h-7 w-7 place-items-center rounded-lg bg-accent/20 ring-1 ring-inset ring-accent/30">
-                <MessageCircle className="h-4 w-4 text-accent-light" />
-              </span>
-              <span className="text-sm font-semibold text-white">
-                KARNER Asistan
-              </span>
+            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+              <div className="flex items-center gap-2">
+                <span className="grid h-7 w-7 place-items-center rounded-lg bg-accent/20 ring-1 ring-inset ring-accent/30">
+                  <MessageCircle className="h-4 w-4 text-accent-light" />
+                </span>
+                <span className="text-sm font-semibold text-white">
+                  KARNER Asistan
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Kapat"
+                className="text-white/50 transition hover:text-white"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
             <div className="px-4 py-3">
               <p className="mb-3 text-xs text-white/60">
@@ -65,7 +89,7 @@ export default function MobileAssistant() {
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-label={open ? "Asistanı kapat" : "Asistanı aç"}
-        className="relative flex h-14 w-14 items-center justify-center rounded-full bg-accent text-white shadow-lg shadow-accent/40 transition hover:scale-105"
+        className="relative flex h-14 w-14 items-center justify-center rounded-full bg-accent text-white shadow-lg shadow-accent/40 transition hover:scale-105 lg:hidden"
       >
         {open ? (
           <X className="h-6 w-6" />
