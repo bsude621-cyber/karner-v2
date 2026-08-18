@@ -14,7 +14,7 @@ const footerLinks = [
   {
     title: "Şirket",
     links: [
-      { label: "Hakkımızda", href: "#hakkimizda" },
+      { label: "Hakkımızda", href: "/hakkimizda" },
       { label: "Hizmetler", href: "#hizmetler" },
       { label: "İletişim", href: "#iletisim" },
       { label: "AYSA Vitrin", href: "#hizmetler" },
