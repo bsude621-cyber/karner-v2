@@ -1,20 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { MessageCircle, X, ArrowRight } from "lucide-react";
+import { MessageCircle, X, Send } from "lucide-react";
 import {
   assistantQuestions as questions,
   scrollToSection as scrollTo,
 } from "@/lib/assistant";
 
+type Msg = { role: "user" | "assistant"; content: string };
+
+const GREETING: Msg = {
+  role: "assistant",
+  content: "Merhaba! Ben KARNER Asistan. Size nasıl yardımcı olabilirim?",
+};
+
 /**
  * Sağ-altta sabit sohbet asistanı (tüm ekranlar).
  * Mobilde yuvarlak buton görünür; masaüstünde buton gizli, panel
  * hero'daki "Sorunuz mu var?" balonundan gelen olayla açılır.
+ * Serbest yazışma /api/chat üzerinden yanıtlanır.
  */
 export default function MobileAssistant() {
   const [open, setOpen] = useState(false);
+  const [msgs, setMsgs] = useState<Msg[]>([GREETING]);
+  const [input, setInput] = useState("");
+  const [busy, setBusy] = useState(false);
+  const listRef = useRef<HTMLDivElement>(null);
 
   // Hero balonundan gelen açılış olayı + durumu hero'ya geri bildir
   useEffect(() => {
@@ -30,6 +42,57 @@ export default function MobileAssistant() {
     );
   }, [open]);
 
+  // Yeni mesajda en alta kaydır
+  useEffect(() => {
+    listRef.current?.scrollTo({ top: listRef.current.scrollHeight });
+  }, [msgs, busy, open]);
+
+  async function send(text: string) {
+    const content = text.trim();
+    if (!content || busy) return;
+    const next: Msg[] = [...msgs, { role: "user", content }];
+    setMsgs(next);
+    setInput("");
+    setBusy(true);
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: next.slice(1) }),
+      });
+      const data = await res.json();
+      setMsgs((m) => [
+        ...m,
+        {
+          role: "assistant",
+          content:
+            res.ok && data.reply
+              ? data.reply
+              : "Şu anda yanıt veremiyorum. Bize 0544 218 8645 numarasından veya karneryazilim@gmail.com adresinden ulaşabilirsiniz.",
+        },
+      ]);
+    } catch {
+      setMsgs((m) => [
+        ...m,
+        {
+          role: "assistant",
+          content:
+            "Bağlantı sorunu yaşadım. Bize 0544 218 8645 numarasından veya karneryazilim@gmail.com adresinden ulaşabilirsiniz.",
+        },
+      ]);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  // Hazır soru: hem sohbete gönder hem ilgili bölüme kaydır
+  function ask(q: string, target: string) {
+    scrollTo(target);
+    void send(q);
+  }
+
+  const showChips = msgs.length === 1;
+
   return (
     <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
       <AnimatePresence>
@@ -39,7 +102,7 @@ export default function MobileAssistant() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="w-[80vw] max-w-xs overflow-hidden rounded-2xl border border-accent/40 bg-[#120a1c]/95 shadow-2xl shadow-accent/25 backdrop-blur-xl"
+            className="flex max-h-[70vh] w-[85vw] max-w-sm flex-col overflow-hidden rounded-2xl border border-accent/40 bg-[#120a1c]/95 shadow-2xl shadow-accent/25 backdrop-blur-xl"
           >
             <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
               <div className="flex items-center gap-2">
@@ -59,28 +122,83 @@ export default function MobileAssistant() {
                 <X className="h-4 w-4" />
               </button>
             </div>
-            <div className="px-4 py-3">
-              <p className="mb-3 text-xs text-white/60">
-                Merhaba! Size nasıl yardımcı olabilirim?
-              </p>
-              <ul className="flex flex-col gap-2">
-                {questions.map((item) => (
-                  <li key={item.q}>
+
+            {/* Mesaj akışı */}
+            <div
+              ref={listRef}
+              className="flex min-h-[12rem] flex-1 flex-col gap-2.5 overflow-y-auto px-4 py-3"
+            >
+              {msgs.map((m, i) =>
+                m.role === "assistant" ? (
+                  <div
+                    key={i}
+                    className="max-w-[85%] self-start rounded-2xl rounded-bl-sm border border-white/10 bg-white/[0.05] px-3 py-2 text-sm text-white/90"
+                  >
+                    {m.content}
+                  </div>
+                ) : (
+                  <div
+                    key={i}
+                    className="max-w-[85%] self-end rounded-2xl rounded-br-sm bg-accent/80 px-3 py-2 text-sm text-white"
+                  >
+                    {m.content}
+                  </div>
+                ),
+              )}
+
+              {busy && (
+                <div className="flex items-center gap-1 self-start rounded-2xl rounded-bl-sm border border-white/10 bg-white/[0.05] px-3 py-2.5">
+                  {[0, 1, 2].map((d) => (
+                    <span
+                      key={d}
+                      className="h-1.5 w-1.5 animate-bounce rounded-full bg-accent-light"
+                      style={{ animationDelay: `${d * 0.15}s` }}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {showChips && !busy && (
+                <div className="mt-1 flex flex-col gap-2">
+                  {questions.map((item) => (
                     <button
+                      key={item.q}
                       type="button"
-                      onClick={() => {
-                        scrollTo(item.target);
-                        setOpen(false);
-                      }}
-                      className="group flex w-full items-center justify-between gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-left text-sm text-white/85 transition hover:border-accent/50 hover:bg-accent/10"
+                      onClick={() => ask(item.q, item.target)}
+                      className="rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-left text-sm text-white/85 transition hover:border-accent/50 hover:bg-accent/10"
                     >
                       {item.q}
-                      <ArrowRight className="h-4 w-4 shrink-0 text-white/60 transition group-hover:translate-x-0.5 group-hover:text-accent-light" />
                     </button>
-                  </li>
-                ))}
-              </ul>
+                  ))}
+                </div>
+              )}
             </div>
+
+            {/* Yazma alanı */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                void send(input);
+              }}
+              className="flex items-center gap-2 border-t border-white/10 px-3 py-2.5"
+            >
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Mesajınızı yazın..."
+                maxLength={500}
+                className="min-w-0 flex-1 bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none"
+              />
+              <button
+                type="submit"
+                disabled={busy || !input.trim()}
+                aria-label="Gönder"
+                className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-accent text-white transition enabled:hover:scale-105 disabled:opacity-40"
+              >
+                <Send className="h-4 w-4" />
+              </button>
+            </form>
           </motion.div>
         )}
       </AnimatePresence>
