@@ -60,11 +60,11 @@ export default function Hero() {
       <nav className="absolute top-0 z-30 flex w-full items-center justify-between px-6 py-6 sm:px-10">
         <a href="#" className="flex items-center gap-4">
           <Image
-            src="/logo.png"
+            src="/logo-emblem.png"
             alt="KARNER"
             width={72}
             height={72}
-            className="h-16 w-16 rounded-xl object-cover shadow-lg shadow-accent/20 ring-1 ring-white/10"
+            className="h-16 w-16 object-contain drop-shadow-lg"
             priority
           />
           <span className="text-2xl font-bold tracking-[0.25em]">KARNER</span>

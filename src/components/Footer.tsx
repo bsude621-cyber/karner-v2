@@ -75,11 +75,11 @@ export default function Footer() {
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-3">
               <Image
-                src="/logo.png"
+                src="/logo-emblem.png"
                 alt="KARNER"
                 width={44}
                 height={44}
-                className="h-11 w-11 rounded-lg object-cover ring-1 ring-white/10"
+                className="h-11 w-11 object-contain"
               />
               <span className="text-xl font-bold tracking-[0.2em] text-white">
                 KARNER

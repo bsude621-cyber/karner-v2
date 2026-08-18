@@ -40,11 +40,11 @@ export default async function ServiceDetailPage({
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/10 bg-background/70 px-6 py-4 backdrop-blur-md sm:px-10">
         <Link href="/" className="flex items-center gap-3">
           <Image
-            src="/logo.png"
+            src="/logo-emblem.png"
             alt="KARNER"
             width={40}
             height={40}
-            className="h-10 w-10 rounded-lg object-cover ring-1 ring-white/10"
+            className="h-10 w-10 object-contain"
           />
           <span className="text-lg font-bold tracking-[0.2em]">KARNER</span>
         </Link>
