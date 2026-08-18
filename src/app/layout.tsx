@@ -1,8 +1,15 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Orbitron } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
+import {
+  ORG_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+  organizationJsonLd,
+  webSiteJsonLd,
+} from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,9 +29,42 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "KARNER — Yazılım ve Medya Şirketi",
-  description:
-    "KARNER; yazılım ve medya alanında, 3D ve modern web teknolojileriyle profesyonel dijital çözümler üretir.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "KARNER — Yazılım ve Medya Ajansı | 3D Web, Mobil, AI Video",
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: ORG_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "tr_TR",
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#05060a",
+};
+
+// Organization + WebSite düğümleri @id ile birbirine bağlı tek graph —
+// sayfa bazlı schema'lar (Service, AboutPage...) bu @id'lere referans verir.
+const rootJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [organizationJsonLd(), webSiteJsonLd()],
 };
 
 export default function RootLayout({
@@ -38,6 +78,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable}`}
     >
       <body className="min-h-screen antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(rootJsonLd) }}
+        />
         <CustomCursor />
         <SmoothScroll>{children}</SmoothScroll>
       </body>

@@ -1,5 +1,7 @@
 export type ServiceFeature = { title: string; desc: string };
 
+export type ServiceFaq = { q: string; a: string };
+
 export type Service = {
   slug: string;
   no: string;
@@ -11,6 +13,16 @@ export type Service = {
   intro: string;
   features: ServiceFeature[];
   proof?: string;
+  /** SERP başlığı — 50-60 karakter, hedef anahtar kelime önde */
+  seoTitle?: string;
+  /** SERP açıklaması — 140-160 karakter */
+  seoDescription?: string;
+  /**
+   * Sık sorulan sorular — FAQPage schema + sayfa içeriği + llms-full.txt
+   * buradan beslenir. Kural: yalnızca genel teknik/sektör bilgisi;
+   * fiyat, süre garantisi ve onaysız firma iddiası yazılmaz.
+   */
+  faq?: ServiceFaq[];
 };
 
 export const services: Service[] = [
@@ -43,6 +55,23 @@ export const services: Service[] = [
         desc: "İçeriğinizi rahatça güncelleyebileceğiniz altyapı ve bakım desteği.",
       },
     ],
+    seoTitle: "3D Web Sitesi ve Modern Web Geliştirme | KARNER",
+    seoDescription:
+      "3D ve animasyonlu, hızlı yüklenen modern web siteleri. Next.js, React Three Fiber ve Tailwind ile Türkiye genelinde web sitesi geliştirme hizmeti.",
+    faq: [
+      {
+        q: "3D web sitesi nedir, klasik siteden farkı ne?",
+        a: "3D web sitesi; ziyaretçinin fareyle veya dokunuşla etkileşime girebildiği, WebGL tabanlı üç boyutlu sahneler içeren web sitesidir. Klasik sitedeki durağan görsellerin yerine ürünü veya markayı döndürülebilir, canlı bir sahne olarak sunar; sitede geçirilen süreyi ve akılda kalıcılığı artırır.",
+      },
+      {
+        q: "3D öğeler siteyi yavaşlatır mı?",
+        a: "Doğru optimize edilmezse yavaşlatır. Model dosyalarını sıkıştırma (Draco, KTX2), sahneyi yalnızca ekrana geldiğinde yükleme ve mobil cihazlarda hafif alternatif gösterme gibi tekniklerle 3D içeren bir sayfa hız testlerinden yüksek puanla geçebilir.",
+      },
+      {
+        q: "Hangi teknolojilerle geliştiriyorsunuz?",
+        a: "Web'de Next.js ve Astro, 3D sahnelerde Three.js ve React Three Fiber, arayüzde Tailwind CSS kullanıyoruz. Bu yığın; hız, arama motoru uyumluluğu ve uzun ömürlü bakım kolaylığı için seçildi.",
+      },
+    ],
   },
   {
     slug: "mobil-uygulama",
@@ -71,6 +100,23 @@ export const services: Service[] = [
       {
         title: "Mağaza Yayınlama",
         desc: "App Store ve Google Play sürecini biz yönetiyoruz.",
+      },
+    ],
+    seoTitle: "Mobil Uygulama Geliştirme — iOS & Android | KARNER",
+    seoDescription:
+      "Expo / React Native ile tek kod tabanından iOS ve Android uygulama. Supabase backend, yönetim paneli ve mağaza yayınlama dahil uçtan uca geliştirme.",
+    faq: [
+      {
+        q: "iOS ve Android için ayrı uygulama mı gerekiyor?",
+        a: "Hayır. React Native ve Expo ile tek kod tabanından hem iOS hem Android uygulaması üretilir. Aynı ekip tek projeyi geliştirir; iki ayrı native ekibe göre daha hızlı ve daha ekonomiktir.",
+      },
+      {
+        q: "Uygulamanın arka planı (backend) nasıl çalışır?",
+        a: "Kimlik doğrulama, veritabanı ve gerçek zamanlı veri için Supabase (PostgreSQL) kullanıyoruz. Yanına Next.js ile bir yönetim paneli kurulur; siparişleri, kullanıcıları ve içeriği buradan yönetirsiniz.",
+      },
+      {
+        q: "Mağaza yayınlama süreci nasıl işler?",
+        a: "App Store ve Google Play, geliştirici hesabı ve inceleme sürecinden geçen bir yayın akışı ister. Mağaza kayıtları, sürüm paketleri, ekran görselleri ve inceleme sürecindeki düzeltmeler dahil yayınlamayı biz yürütüyoruz.",
       },
     ],
   },
@@ -103,6 +149,23 @@ export const services: Service[] = [
         desc: "n8n ile tekrarlayan video üretimini otomatik akışlara bağlıyoruz.",
       },
     ],
+    seoTitle: "AI Video Reklam ve Tanıtım Filmi Üretimi | KARNER",
+    seoDescription:
+      "Veo, Kling ve Adobe Firefly ile reklam filmi, Reels ve Shorts üretimi. Senaryodan kurguya yapay zekâ destekli video reklam — Türkiye genelinde.",
+    faq: [
+      {
+        q: "AI video reklam nedir?",
+        a: "Yapay zekâ video modelleriyle (Veo, Kling gibi) üretilen reklam ve tanıtım içeriğidir. Senaryo ve marka dili insan elinden çıkar; görüntü üretimi yapay zekâya devredilir. Böylece çekim ekibi, mekân ve oyuncu maliyeti olmadan sinematik içerik üretilebilir.",
+      },
+      {
+        q: "AI video gerçek çekimin yerini tutar mı?",
+        a: "Her yerde değil. Ürün ve hizmet tanıtımı, konsept anlatımı ve sosyal medya içeriğinde AI video hızı ve maliyetiyle öne geçer; uzun oyunculu anlatımlarda ve birebir mekân çekimlerinde gerçek prodüksiyon hâlâ gereklidir. Doğru araç, içeriğin türüne göre seçilir.",
+      },
+      {
+        q: "Hangi formatlar için üretiyorsunuz?",
+        a: "Instagram Reels, TikTok, YouTube Shorts gibi dikey formatlar ile yatay tanıtım filmleri. Her platformun süre, altyazı ve ses alışkanlıklarına göre ayrı kurgu yapılır.",
+      },
+    ],
   },
   {
     slug: "ai-urun-gorseli",
@@ -133,6 +196,23 @@ export const services: Service[] = [
         desc: "Çok sayıda ürün için hızlı ve tutarlı görsel üretimi.",
       },
     ],
+    seoTitle: "AI Ürün Görseli ve Sanal Manken (Try-on) | KARNER",
+    seoDescription:
+      "Ürün fotoğrafını sanal manken üzerinde gösteren gerçekçi try-on görselleri. Butikler ve e-ticaret satıcıları için stüdyo kalitesinde AI ürün çekimi.",
+    faq: [
+      {
+        q: "Sanal manken (try-on) görseli nedir?",
+        a: "Elinizdeki ürün fotoğrafını, ürün bir manken üzerindeymiş gibi gösteren yapay zekâ üretimi görseldir. Stüdyo, manken ve çekim ekibi olmadan profesyonel katalog görünümü elde edilir.",
+      },
+      {
+        q: "Hangi işletmeler için uygun?",
+        a: "Butikler, ikinci el satıcıları ve e-ticaret mağazaları için uygundur. Askıda veya serili çekilmiş ürünün manken üzerinde gösterilmesi, alıcının ürünü üzerinde hayal etmesini kolaylaştırdığı için özellikle giyimde etkilidir.",
+      },
+      {
+        q: "Ürün fotoğrafı nasıl olmalı?",
+        a: "Net, iyi aydınlatılmış ve ürünün tamamını gösteren bir fotoğraf yeterlidir. Düz zemin işi kolaylaştırır ama şart değildir; mevcut telefon çekimlerinden de çalışılabilir.",
+      },
+    ],
   },
   {
     slug: "seo-geo-aeo",
@@ -161,6 +241,23 @@ export const services: Service[] = [
       {
         title: "Yapısal Veri",
         desc: "Schema.org işaretlemeleriyle motorların sitenizi doğru anlaması.",
+      },
+    ],
+    seoTitle: "SEO, GEO ve AEO Hizmeti — AI Aramada Görünürlük | KARNER",
+    seoDescription:
+      "Google'da, ChatGPT'de ve Gemini'de aynı anda görünür olun. Teknik SEO, generatif arama (GEO) ve cevap motoru (AEO) optimizasyonu — Türkiye genelinde.",
+    faq: [
+      {
+        q: "GEO ve AEO ne demek?",
+        a: "GEO (Generative Engine Optimization); ChatGPT, Gemini ve Perplexity gibi yapay zekâ arama araçlarının bir soruya cevap verirken sizin sitenizi kaynak göstermesini sağlama çalışmasıdır. AEO (Answer Engine Optimization) ise Google'ın öne çıkan snippet, sesli arama ve 'Diğer sorular' kutularında görünmeyi hedefler.",
+      },
+      {
+        q: "ChatGPT'de firmamın önerilmesi mümkün mü?",
+        a: "Mümkün. Bunun için sitenin AI botlarına açık olması, yapısal veri (schema.org) taşıması, alıntılanabilir netlikte içerik sunması ve varsa sektörünüzdeki resmi yetki/üyelik kayıtlarıyla tutarlı olması gerekir. Bu sinyaller kurulduğunda AI araçları firmayı kaynak olarak kullanmaya başlayabilir.",
+      },
+      {
+        q: "SEO sonuçları ne zaman görünür?",
+        a: "Aramanın rekabetine göre değişir. Düşük rekabetli ve yerel aramalarda haftalar içinde hareket görülebilir; rekabetli ulusal aramalarda aylar sürer. Yeni bir alan adının arama motorlarında güven kazanması da zaman ister — bu yüzden doğru anahtar kelime seçimi işin ilk adımıdır.",
       },
     ],
     proof:
@@ -195,6 +292,23 @@ export const services: Service[] = [
         desc: "Otomatik e-posta/mesaj bildirimleri ve düzenli raporlarla süreçleri görünür kılma.",
       },
     ],
+    seoTitle: "İş Akışı Otomasyonu ve AI Agent Kurulumu | KARNER",
+    seoDescription:
+      "n8n ile sistemlerinizi birbirine bağlayın: veri aktarımı, bildirim, raporlama ve AI destekli müşteri akışları uçtan uca otomatik çalışsın.",
+    faq: [
+      {
+        q: "İş akışı otomasyonu nedir?",
+        a: "Bir sistemde gerçekleşen olayın (yeni sipariş, form, mesaj) başka sistemlerde el değmeden işlem başlatmasıdır: kayıt açılır, bildirim gider, rapor güncellenir. Tekrarlayan el işi ortadan kalkar, hata payı düşer.",
+      },
+      {
+        q: "Hangi uygulamalar birbirine bağlanabilir?",
+        a: "n8n; CRM'ler, e-ticaret platformları, WhatsApp ve Telegram, Google hizmetleri, ödeme sistemleri ve e-posta dahil yüzlerce hazır entegrasyon sunar. Hazır bağlantısı olmayan sistemlere de API ve webhook üzerinden bağlanılır.",
+      },
+      {
+        q: "AI agent ne yapar?",
+        a: "Yapay zekâ destekli agent; gelen soruları anlayıp yanıtlar, talep toplar ve tanımlı işlemleri kendisi yürütür — örneğin müşteri mesajını sınıflandırıp doğru kişiye iletmek veya randevu kaydı açmak. Kurallı otomasyonun karar gerektiren adımlarını devralır.",
+      },
+    ],
   },
   {
     slug: "marka-grafik-tasarim",
@@ -223,6 +337,23 @@ export const services: Service[] = [
       {
         title: "Tasarım Sistemi",
         desc: "Figma üzerinde yeniden kullanılabilir bileşenler ve marka kılavuzu.",
+      },
+    ],
+    seoTitle: "Logo, Kurumsal Kimlik ve Grafik Tasarım | KARNER",
+    seoDescription:
+      "Markanız için özgün logo, kurumsal kimlik ve sosyal medya tasarımı. Figma tabanlı tasarım sistemi ile her yüzeyde tutarlı görsel dil.",
+    faq: [
+      {
+        q: "Kurumsal kimlik neleri kapsar?",
+        a: "Logo, renk paleti, tipografi, kartvizit, antetli kağıt ve sunum şablonları gibi markanın tüm görsel yüzeylerini kapsar. Amaç; markanın her temas noktasında aynı dille konuşmasıdır.",
+      },
+      {
+        q: "Logo süreci nasıl ilerler?",
+        a: "Önce marka hedefi ve hedef kitle netleştirilir, ardından taslak yönler sunulur; seçilen yön revizyonlarla olgunlaştırılır. Teslimde baskı ve dijital kullanım için vektör (SVG/PDF) ve PNG dosyaları ile kullanım kılavuzu verilir.",
+      },
+      {
+        q: "Tasarımlar hangi araçlarla yapılıyor?",
+        a: "Figma üzerinde çalışıyoruz. Böylece tasarımlar yeniden kullanılabilir bileşenlere dönüşür; sosyal medya şablonlarınızı ekibiniz de kolayca güncelleyebilir.",
       },
     ],
   },

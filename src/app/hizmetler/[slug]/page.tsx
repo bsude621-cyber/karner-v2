@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check, ArrowRight } from "lucide-react";
 import { services, getService } from "@/data/services";
+import { SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -17,10 +18,74 @@ export async function generateMetadata({
   const { slug } = await params;
   const service = getService(slug);
   if (!service) return { title: "KARNER" };
+  const title = service.seoTitle ?? `${service.title} — KARNER`;
+  const description = service.seoDescription ?? service.summary;
   return {
-    title: `${service.title} — KARNER`,
-    description: service.summary,
+    // seoTitle marka ekini içerir; layout template'inin tekrar eklememesi için absolute.
+    title: { absolute: title },
+    description,
+    alternates: { canonical: `/hizmetler/${slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `/hizmetler/${slug}`,
+    },
   };
+}
+
+/** Service + BreadcrumbList + FAQPage — layout'taki Organization/WebSite @id'lerine bağlanır. */
+function serviceJsonLd(service: NonNullable<ReturnType<typeof getService>>) {
+  const pageUrl = `${SITE_URL}/hizmetler/${service.slug}`;
+  const graph: Record<string, unknown>[] = [
+    {
+      "@type": "Service",
+      "@id": `${pageUrl}#service`,
+      name: service.title,
+      description: service.summary,
+      url: pageUrl,
+      serviceType: service.title,
+      provider: { "@id": `${SITE_URL}/#organization` },
+      areaServed: { "@type": "Country", name: "Türkiye" },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${pageUrl}#breadcrumb`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Ana Sayfa",
+          item: SITE_URL,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Hizmetler",
+          item: `${SITE_URL}/#hizmetler`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: service.title,
+          item: pageUrl,
+        },
+      ],
+    },
+  ];
+
+  if (service.faq?.length) {
+    graph.push({
+      "@type": "FAQPage",
+      "@id": `${pageUrl}#faq`,
+      mainEntity: service.faq.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    });
+  }
+
+  return { "@context": "https://schema.org", "@graph": graph };
 }
 
 export default async function ServiceDetailPage({
@@ -36,6 +101,11 @@ export default async function ServiceDetailPage({
 
   return (
     <main className="relative min-h-screen bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd(service)) }}
+      />
+
       {/* Üst bar */}
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/10 bg-background/70 px-6 py-4 backdrop-blur-md sm:px-10">
         <Link href="/" className="flex items-center gap-3">
@@ -122,6 +192,30 @@ export default async function ServiceDetailPage({
             <p className="mt-3 text-lg leading-relaxed text-white/85">
               {service.proof}
             </p>
+          </div>
+        ) : null}
+
+        {/* SSS — FAQPage schema ile birebir aynı içerik */}
+        {service.faq?.length ? (
+          <div className="mt-14">
+            <h2 className="text-2xl font-semibold sm:text-3xl">
+              Sık sorulan sorular
+            </h2>
+            <div className="mt-6 space-y-4">
+              {service.faq.map((f) => (
+                <details
+                  key={f.q}
+                  className="group rounded-2xl border border-white/10 bg-white/[0.03] transition hover:border-accent/40"
+                >
+                  <summary className="cursor-pointer list-none px-6 py-5 font-medium text-white marker:content-none [&::-webkit-details-marker]:hidden">
+                    {f.q}
+                  </summary>
+                  <p className="px-6 pb-6 leading-relaxed text-white/70">
+                    {f.a}
+                  </p>
+                </details>
+              ))}
+            </div>
           </div>
         ) : null}
 

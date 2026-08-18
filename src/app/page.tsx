@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import ServicesSection from "@/components/ServicesSection";
 import WorksSection from "@/components/WorksSection";
@@ -6,6 +7,11 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import SectionDivider from "@/components/ui/section-divider";
 import MobileAssistant from "@/components/MobileAssistant";
+
+export const metadata: Metadata = {
+  // Ana sayfa layout'taki default title'ı kullanır; canonical burada sabitlenir.
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (
