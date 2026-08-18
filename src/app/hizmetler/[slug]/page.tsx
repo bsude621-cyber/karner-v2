@@ -184,6 +184,21 @@ export default async function ServiceDetailPage({
           ))}
         </div>
 
+        {service.guide ? (
+          <Link
+            href={service.guide.href}
+            className="group mt-10 flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-7 transition hover:border-accent/50 hover:bg-white/[0.06]"
+          >
+            <div>
+              <p className="text-sm font-medium uppercase tracking-wider text-accent-light">
+                {service.guide.label}
+              </p>
+              <p className="mt-2 text-white/70">{service.guide.desc}</p>
+            </div>
+            <ArrowRight className="h-5 w-5 shrink-0 text-white/40 transition group-hover:translate-x-1 group-hover:text-accent-light" />
+          </Link>
+        ) : null}
+
         {service.proof ? (
           <div className="mt-10 rounded-2xl border border-accent/40 bg-gradient-to-br from-accent/15 to-accent-2/10 p-7">
             <p className="text-sm font-medium uppercase tracking-wider text-accent-light">

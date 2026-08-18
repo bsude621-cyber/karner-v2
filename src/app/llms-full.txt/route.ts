@@ -1,4 +1,5 @@
 import { services } from "@/data/services";
+import { PILLAR_3D, PILLAR_3D_FAQ } from "@/data/pillar-3d";
 import { CONTACT, ORG_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-static";
@@ -42,6 +43,22 @@ export function GET() {
     }
     parts.push("---", "");
   }
+
+  // Rehber: 3D Web Sitesi pillar sayfası
+  parts.push(
+    `## Rehber: ${PILLAR_3D.title}`,
+    "",
+    `URL: ${SITE_URL}/${PILLAR_3D.slug}`,
+    "",
+    PILLAR_3D.summary,
+    "",
+    "### Sık sorulan sorular",
+    "",
+  );
+  for (const f of PILLAR_3D_FAQ) {
+    parts.push(`**${f.q}**`, "", f.a, "");
+  }
+  parts.push("---", "");
 
   return new Response(parts.join("\n"), {
     headers: { "Content-Type": "text/plain; charset=utf-8" },

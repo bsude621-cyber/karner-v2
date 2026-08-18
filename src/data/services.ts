@@ -23,6 +23,8 @@ export type Service = {
    * fiyat, süre garantisi ve onaysız firma iddiası yazılmaz.
    */
   faq?: ServiceFaq[];
+  /** Hizmetle ilişkili rehber sayfası — detay sayfasında link kartı olarak çıkar */
+  guide?: { href: string; label: string; desc: string };
 };
 
 export const services: Service[] = [
@@ -55,9 +57,14 @@ export const services: Service[] = [
         desc: "İçeriğinizi rahatça güncelleyebileceğiniz altyapı ve bakım desteği.",
       },
     ],
-    seoTitle: "3D Web Sitesi ve Modern Web Geliştirme | KARNER",
+    seoTitle: "Web Sitesi Geliştirme — Modern, Hızlı, 3D | KARNER",
     seoDescription:
-      "3D ve animasyonlu, hızlı yüklenen modern web siteleri. Next.js, React Three Fiber ve Tailwind ile Türkiye genelinde web sitesi geliştirme hizmeti.",
+      "Next.js ve Astro ile hızlı yüklenen, arama motorlarında öne çıkan modern web siteleri. 3D ve animasyonlu tasarım dahil, Türkiye genelinde geliştirme hizmeti.",
+    guide: {
+      href: "/3d-web-sitesi",
+      label: "Rehber: 3D Web Sitesi",
+      desc: "3D web sitesi nedir, kimlere uygun, hızı ve SEO'yu nasıl etkiler — detaylı rehberimizi okuyun.",
+    },
     faq: [
       {
         q: "3D web sitesi nedir, klasik siteden farkı ne?",

@@ -18,6 +18,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${SITE_URL}/3d-web-sitesi`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
     ...services.map((s) => ({
       url: `${SITE_URL}/hizmetler/${s.slug}`,
       lastModified,
