@@ -21,6 +21,8 @@ export function GET() {
     "## Rehberler",
     "",
     `- [3D Web Sitesi](${SITE_URL}/3d-web-sitesi): 3D web sitesi nedir, kimlere uygun, hız ve SEO ilişkisi, üretim süreci`,
+    `- [Yapay Zekâ ile Reklam Videosu](${SITE_URL}/yapay-zeka-reklam-videosu): AI reklam videosu nedir, klasik prodüksiyondan farkı, üretim süreci`,
+    `- [Yapay Zekâ Aramasında Görünmek](${SITE_URL}/yapay-zeka-aramasinda-gorunmek): ChatGPT/Gemini/Perplexity'de kaynak seçilme mühendisliği (GEO)`,
     "",
     "## Kurumsal",
     "",

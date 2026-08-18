@@ -159,6 +159,11 @@ export const services: Service[] = [
     seoTitle: "AI Video Reklam ve Tanıtım Filmi Üretimi | KARNER",
     seoDescription:
       "Veo, Kling ve Adobe Firefly ile reklam filmi, Reels ve Shorts üretimi. Senaryodan kurguya yapay zekâ destekli video reklam — Türkiye genelinde.",
+    guide: {
+      href: "/yapay-zeka-reklam-videosu",
+      label: "Rehber: Yapay Zekâ ile Reklam Videosu",
+      desc: "AI reklam videosu nedir, klasik prodüksiyondan farkı ne, üretim süreci nasıl işler — detaylı rehberimizi okuyun.",
+    },
     faq: [
       {
         q: "AI video reklam nedir?",
@@ -250,9 +255,14 @@ export const services: Service[] = [
         desc: "Schema.org işaretlemeleriyle motorların sitenizi doğru anlaması.",
       },
     ],
-    seoTitle: "SEO, GEO ve AEO Hizmeti — AI Aramada Görünürlük | KARNER",
+    seoTitle: "SEO, GEO ve AEO Hizmeti — Üç Arama Yüzeyinde | KARNER",
     seoDescription:
-      "Google'da, ChatGPT'de ve Gemini'de aynı anda görünür olun. Teknik SEO, generatif arama (GEO) ve cevap motoru (AEO) optimizasyonu — Türkiye genelinde.",
+      "Google'da, ChatGPT'de ve Gemini'de aynı anda öne çıkın. Teknik SEO, generatif arama (GEO) ve cevap motoru (AEO) optimizasyonu — Türkiye genelinde.",
+    guide: {
+      href: "/yapay-zeka-aramasinda-gorunmek",
+      label: "Rehber: ChatGPT'de Çıkmak",
+      desc: "Yapay zekâ araçları hangi siteleri kaynak seçer, firmanız neden görünmüyor, görünürlük nasıl kurulur — detaylı rehberimizi okuyun.",
+    },
     faq: [
       {
         q: "GEO ve AEO ne demek?",

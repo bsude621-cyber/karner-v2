@@ -1,6 +1,14 @@
 import { services } from "@/data/services";
 import { PILLAR_3D, PILLAR_3D_FAQ } from "@/data/pillar-3d";
+import { PILLAR_AI_VIDEO, PILLAR_AI_VIDEO_FAQ } from "@/data/pillar-ai-video";
+import { PILLAR_GEO, PILLAR_GEO_FAQ } from "@/data/pillar-geo";
 import { CONTACT, ORG_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+
+const pillars = [
+  { meta: PILLAR_3D, faq: PILLAR_3D_FAQ },
+  { meta: PILLAR_AI_VIDEO, faq: PILLAR_AI_VIDEO_FAQ },
+  { meta: PILLAR_GEO, faq: PILLAR_GEO_FAQ },
+];
 
 export const dynamic = "force-static";
 
@@ -44,21 +52,23 @@ export function GET() {
     parts.push("---", "");
   }
 
-  // Rehber: 3D Web Sitesi pillar sayfası
-  parts.push(
-    `## Rehber: ${PILLAR_3D.title}`,
-    "",
-    `URL: ${SITE_URL}/${PILLAR_3D.slug}`,
-    "",
-    PILLAR_3D.summary,
-    "",
-    "### Sık sorulan sorular",
-    "",
-  );
-  for (const f of PILLAR_3D_FAQ) {
-    parts.push(`**${f.q}**`, "", f.a, "");
+  // Rehber (pillar) sayfaları
+  for (const { meta, faq } of pillars) {
+    parts.push(
+      `## Rehber: ${meta.title}`,
+      "",
+      `URL: ${SITE_URL}/${meta.slug}`,
+      "",
+      meta.summary,
+      "",
+      "### Sık sorulan sorular",
+      "",
+    );
+    for (const f of faq) {
+      parts.push(`**${f.q}**`, "", f.a, "");
+    }
+    parts.push("---", "");
   }
-  parts.push("---", "");
 
   return new Response(parts.join("\n"), {
     headers: { "Content-Type": "text/plain; charset=utf-8" },

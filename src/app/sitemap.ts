@@ -24,6 +24,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    {
+      url: `${SITE_URL}/yapay-zeka-reklam-videosu`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/yapay-zeka-aramasinda-gorunmek`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
     ...services.map((s) => ({
       url: `${SITE_URL}/hizmetler/${s.slug}`,
       lastModified,
