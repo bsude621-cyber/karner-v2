@@ -5,8 +5,12 @@
  * ortam değişkenini gerçek domainle set et — canonical, sitemap, og:url,
  * robots ve llms.txt hepsi buradan beslenir.
  */
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://karner.example";
+// trim: env değeri satır sonu/boşlukla gelirse new URL() build'i düşürüyor
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://karner.example"
+)
+  .trim()
+  .replace(/\/+$/, "");
 
 export const SITE_NAME = "KARNER";
 
