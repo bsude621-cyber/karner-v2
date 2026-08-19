@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useEffect, useState, useId } from "react";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export const TextHoverEffect = ({
@@ -60,17 +59,17 @@ export const TextHoverEffect = ({
           )}
         </linearGradient>
 
-        <motion.radialGradient
+        {/* İmleç takibi zaten anlıktı (duration 0) — framer'sız düz attribute */}
+        <radialGradient
           id={maskId}
           gradientUnits="userSpaceOnUse"
           r="20%"
-          initial={{ cx: "50%", cy: "50%" }}
-          animate={maskPosition}
-          transition={{ duration: duration ?? 0, ease: "easeOut" }}
+          cx={maskPosition.cx}
+          cy={maskPosition.cy}
         >
           <stop offset="0%" stopColor="white" />
           <stop offset="100%" stopColor="black" />
-        </motion.radialGradient>
+        </radialGradient>
 
         <mask id={textMaskId}>
           <rect x="0" y="0" width="100%" height="100%" fill={`url(#${maskId})`} />
@@ -89,19 +88,16 @@ export const TextHoverEffect = ({
         {text}
       </text>
 
-      <motion.text
+      <text
         x="50%"
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
         strokeWidth="0.3"
-        className="fill-transparent stroke-accent/60 font-[family-name:var(--font-geist-sans)] text-7xl font-bold"
-        initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
-        animate={{ strokeDashoffset: 0, strokeDasharray: 1000 }}
-        transition={{ duration: 4, ease: "easeInOut" }}
+        className="draw-stroke fill-transparent stroke-accent/60 font-[family-name:var(--font-geist-sans)] text-7xl font-bold"
       >
         {text}
-      </motion.text>
+      </text>
 
       <text
         x="50%"

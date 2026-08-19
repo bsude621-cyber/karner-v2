@@ -23,11 +23,13 @@ const nextConfig: NextConfig = {
    * geçerli — üretim derlemesini etkilemez.
    */
   allowedDevOrigins: ["192.168.1.*"],
-  images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "plus.unsplash.com" },
-    ],
+  experimental: {
+    /**
+     * CSS'i <style> olarak HTML'e göm: render-blocking CSS isteği kalkar,
+     * FCP/LCP düşer. Tailwind atomic CSS ~13KB olduğu için maliyeti düşük;
+     * arama trafiği ağırlıklı sitede ziyaretçilerin çoğu ilk-ziyaret.
+     */
+    inlineCss: true,
   },
 };
 

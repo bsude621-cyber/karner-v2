@@ -15,9 +15,8 @@ const footerLinks = [
     title: "Şirket",
     links: [
       { label: "Hakkımızda", href: "/hakkimizda" },
-      { label: "Hizmetler", href: "#hizmetler" },
-      { label: "İletişim", href: "#iletisim" },
-      { label: "AYSA Vitrin", href: "#hizmetler" },
+      { label: "Hizmetler", href: "/#hizmetler" },
+      { label: "İletişim", href: "/#iletisim" },
     ],
   },
   {
@@ -27,6 +26,20 @@ const footerLinks = [
       { label: "Mobil Uygulama", href: "/hizmetler/mobil-uygulama" },
       { label: "AI Video & Reklam", href: "/hizmetler/ai-video-reklam" },
       { label: "AI Ürün Görseli", href: "/hizmetler/ai-urun-gorseli" },
+      { label: "SEO / GEO / AEO", href: "/hizmetler/seo-geo-aeo" },
+      { label: "Otomasyon", href: "/hizmetler/otomasyon-sistemleri" },
+      { label: "Marka & Tasarım", href: "/hizmetler/marka-grafik-tasarim" },
+    ],
+  },
+  {
+    title: "Rehberler",
+    links: [
+      { label: "3D Web Sitesi", href: "/3d-web-sitesi" },
+      { label: "AI Reklam Videosu", href: "/yapay-zeka-reklam-videosu" },
+      {
+        label: "Yapay Zekâ Aramasında Görünmek",
+        href: "/yapay-zeka-aramasinda-gorunmek",
+      },
     ],
   },
 ];
@@ -45,7 +58,7 @@ const contactInfo = [
   {
     icon: <MapPin size={18} className="text-accent" />,
     text: "Muğla & Ankara",
-    href: "#iletisim",
+    href: "/#iletisim",
   },
 ];
 
@@ -53,7 +66,7 @@ const socialLinks = [
   {
     icon: <Share2 size={18} />,
     label: "Sosyal",
-    href: "#iletisim",
+    href: "/#iletisim",
   },
   {
     icon: <GitBranch size={18} />,
@@ -63,7 +76,7 @@ const socialLinks = [
   {
     icon: <Globe size={18} />,
     label: "Web",
-    href: "https://karner-site.vercel.app",
+    href: "/",
   },
 ];
 
@@ -71,7 +84,7 @@ export default function Footer() {
   return (
     <footer className="relative m-4 overflow-hidden rounded-3xl bg-background/40 sm:m-6">
       <div className="relative z-40 mx-auto max-w-7xl px-6 py-8 sm:px-10 sm:py-10">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-6 lg:grid-cols-4 lg:gap-10">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-6 lg:grid-cols-5 lg:gap-10">
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-3">
               <Image

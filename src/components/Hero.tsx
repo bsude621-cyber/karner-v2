@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
+import DeferredMount from "@/components/DeferredMount";
 
 // Shader sadece tarayıcıda yüklensin (SSR kapalı)
 const KarnerLineFlow = dynamic(
@@ -29,9 +29,13 @@ export default function Hero() {
   // Safari'nin çubuğunun altında kalıp görünmez oluyorlardı.
   return (
     <section className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-background">
-      {/* En arkada: çapraz akan KARNER filament shader arka planı */}
+      {/* En arkada: çapraz akan KARNER filament shader arka planı.
+          DeferredMount: shader + robotlar kritik render yolundan çıkarıldı —
+          metin ve gradient anında boyanır (LCP), sahneler ardından gelir. */}
       <div className="absolute inset-0 z-0">
-        <KarnerLineFlow angleDeg={-22} />
+        <DeferredMount>
+          <KarnerLineFlow angleDeg={-22} />
+        </DeferredMount>
       </div>
 
       {/* robotların arkasında yumuşak mor hâle (atmosfer) */}
@@ -47,11 +51,15 @@ export default function Hero() {
 
       {/* 3B robot maskotlar — shader'ın üstünde, metnin altında (mobilde de görünür) */}
       <div className="absolute inset-0 z-[12]">
-        <HeroRobots />
+        <DeferredMount>
+          <HeroRobots />
+        </DeferredMount>
       </div>
 
       {/* Robot konuşma balonları (karşılayıcı + asistan) */}
-      <HeroAssistant />
+      <DeferredMount>
+        <HeroAssistant />
+      </DeferredMount>
 
       {/* gradient karartma — metin okunurluğu için (robotların üstünde ince bir kat) */}
       <div className="pointer-events-none absolute inset-0 z-[14] bg-gradient-to-b from-background/40 via-transparent to-background" />
@@ -101,69 +109,46 @@ export default function Hero() {
         {/* initial'da opacity YOK — metin sunucudan görünür gelsin. JavaScript
             çalışmasa da okunur kalır (arama motorları ve AI botları ham HTML'i
             okuyor). Giriş efekti kaydırmayla korunuyor. */}
-        <motion.p
-          initial={{ y: 20 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="mb-4 text-[11px] uppercase tracking-[0.3em] text-accent-light sm:mb-6 sm:text-sm sm:tracking-[0.4em]"
-        >
-Yazılım ve Medya Şirketi
-        </motion.p>
+        {/* Girişler saf CSS (.rise-in): framer-motion'a bağlı olsaydı boyama
+            hydration'ı beklerdi — LCP bu yüzden 6 sn'ye sarkıyordu. */}
+        <p className="rise-in rise-in-1 mb-4 text-[11px] uppercase tracking-[0.3em] text-accent-light sm:mb-6 sm:text-sm sm:tracking-[0.4em]">
+          Yazılım ve Medya Şirketi
+        </p>
 
-        <motion.h1
-          initial={{ y: 30 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 1, delay: 0.4 }}
-          className="max-w-[18rem] text-3xl font-semibold leading-[1.15] sm:max-w-4xl sm:text-7xl sm:leading-[1.05]"
-        >
+        <h1 className="rise-in rise-in-2 max-w-[18rem] text-3xl font-semibold leading-[1.15] sm:max-w-4xl sm:text-7xl sm:leading-[1.05]">
           Geleceği{" "}
           <span className="bg-gradient-to-r from-accent to-accent-2 bg-clip-text text-transparent">
             mühendislikle
           </span>{" "}
           inşa ediyoruz
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          initial={{ y: 30 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 1, delay: 0.6 }}
-          className="mt-5 max-w-[19rem] text-sm leading-relaxed text-white/60 sm:mt-8 sm:max-w-xl sm:text-lg"
-        >
+        <p className="rise-in rise-in-3 mt-5 max-w-[19rem] text-sm leading-relaxed text-white/60 sm:mt-8 sm:max-w-xl sm:text-lg">
           3D, WebGL ve modern yazılım teknolojileriyle markalar için sıra dışı
           dijital deneyimler tasarlıyoruz.
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ y: 30 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 1, delay: 0.8 }}
-          // Mobilde alta yapıştırmak yerine yüzdeyle konumlandırılıyor: robotların
-          // ayakları hero yüksekliğinin ~%77.5'ine denk geliyor (kamera fov 38°,
-          // z=8.2, ayak seviyesi -1.55 birim). %83 onların hemen altında kalıyor
-          // ve boşluk ekran yüksekliğiyle orantılı büyüyüp küçülüyor — alta
-          // yapışıkken bu mesafe uzun telefonlarda açılıyordu.
-          className="absolute inset-x-0 top-[83%] flex flex-wrap items-center justify-center gap-4 sm:static sm:mt-12"
-        >
+        {/* Mobilde alta yapıştırmak yerine yüzdeyle konumlandırılıyor: robotların
+            ayakları hero yüksekliğinin ~%77.5'ine denk geliyor (kamera fov 38°,
+            z=8.2, ayak seviyesi -1.55 birim). %83 onların hemen altında kalıyor
+            ve boşluk ekran yüksekliğiyle orantılı büyüyüp küçülüyor — alta
+            yapışıkken bu mesafe uzun telefonlarda açılıyordu. */}
+        <div className="rise-in rise-in-4 absolute inset-x-0 top-[83%] flex flex-wrap items-center justify-center gap-4 sm:static sm:mt-12">
           <a href="#hizmetler" className="btn btn-primary">
             Keşfet
           </a>
           <a href="#iletisim" className="btn btn-secondary">
             İletişime Geç
           </a>
-        </motion.div>
+        </div>
       </div>
 
       {/* Scroll göstergesi — mobilde gizli: butonlar artık en altta duruyor,
           ikisi aynı yeri paylaşıyordu. */}
-      <motion.div
-        initial={{ y: 10 }}
-        animate={{ y: 0 }}
-        transition={{ delay: 1.4, duration: 0.6 }}
-        className="absolute bottom-8 z-20 hidden flex-col items-center gap-2 text-white/60 sm:flex"
-      >
+      <div className="rise-in rise-in-4 absolute bottom-8 z-20 hidden flex-col items-center gap-2 text-white/60 sm:flex">
         <span className="text-xs uppercase tracking-widest">Kaydır</span>
         <span className="h-10 w-px animate-pulse bg-white/40" />
-      </motion.div>
+      </div>
     </section>
   );
 }

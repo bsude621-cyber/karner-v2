@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import SectionHeading from "@/components/ui/section-heading";
 import { cn } from "@/lib/utils";
@@ -148,14 +147,8 @@ export default function WorksSection() {
         />
 
         <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {works.map((w, i) => (
-            <WorkCard
-              key={w.id}
-              work={w}
-              delay={0.1 + i * 0.07}
-              onPlay={play}
-              onStop={stop}
-            />
+          {works.map((w) => (
+            <WorkCard key={w.id} work={w} onPlay={play} onStop={stop} />
           ))}
         </div>
       </div>
@@ -165,12 +158,10 @@ export default function WorksSection() {
 
 function WorkCard({
   work,
-  delay,
   onPlay,
   onStop,
 }: {
   work: Work;
-  delay: number;
   onPlay: (v: HTMLVideoElement | null) => void;
   onStop: (v: HTMLVideoElement | null, resetTo?: number) => void;
 }) {
@@ -241,12 +232,9 @@ function WorkCard({
   );
 
   return (
-    <motion.div
+    <div
       ref={cardRef}
-      initial={{ y: 24 }}
-      whileInView={{ y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.5, delay }}
+      className="reveal"
       onPointerEnter={() => onPlay(videoRef.current)}
       onPointerLeave={() => onStop(videoRef.current, work.posterTime)}
     >
@@ -305,6 +293,6 @@ function WorkCard({
           </span>
         </div>
       </a>
-    </motion.div>
+    </div>
   );
 }
