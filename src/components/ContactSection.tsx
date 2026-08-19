@@ -1,10 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
 import { Phone, Mail, MapPin, Send } from "lucide-react";
-import LocationOverlay from "@/components/LocationOverlay";
 import SectionHeading from "@/components/ui/section-heading";
+
+// Overlay yalnızca tıklanınca açılır — framer-motion'lı kodu ayrı chunk'ta
+// kalsın, ana pakete girmesin diye dinamik yükleniyor.
+const LocationOverlay = dynamic(() => import("@/components/LocationOverlay"), {
+  ssr: false,
+});
 
 const PHONE = "0544 218 8645";
 const EMAIL = "karneryazilim@gmail.com";
@@ -101,13 +106,9 @@ export default function ContactSection() {
           </div>
 
           {/* Sağ: form */}
-          <motion.form
+          <form
             onSubmit={handleSubmit}
-            initial={{ y: 30 }}
-            whileInView={{ y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="rounded-3xl border border-white/10 bg-white/[0.03] p-7 sm:p-9"
+            className="reveal rounded-3xl border border-white/10 bg-white/[0.03] p-7 sm:p-9"
           >
             <div className="grid gap-5">
               <div className="grid gap-5 sm:grid-cols-2">
@@ -151,7 +152,7 @@ export default function ContactSection() {
                 Gönder
               </button>
             </div>
-          </motion.form>
+          </form>
         </div>
       </div>
 

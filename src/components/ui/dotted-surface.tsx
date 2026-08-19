@@ -2,7 +2,10 @@
 
 import { cn } from "@/lib/utils";
 import React, { useEffect, useRef } from "react";
-import * as THREE from "three";
+// Yalnızca tip — çalışma zamanında silinir. three'nin kendisi aşağıda,
+// bölüm viewport'a yaklaşınca dinamik import edilir; statik import edilseydi
+// ~600KB'lık kütüphane ana pakete girer, açılışta 2+ sn script yerdi.
+import type * as ThreeNS from "three";
 
 type DottedSurfaceProps = React.ComponentProps<"div">;
 
@@ -22,138 +25,161 @@ export function DottedSurface({
 }: DottedSurfaceProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef<{
-    animationId: number;
-    renderer: THREE.WebGLRenderer;
-    scene: THREE.Scene;
-  } | null>(null);
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
     const container = containerRef.current;
     if (!wrapper || !container) return;
 
-    const SEPARATION = 150;
-    const AMOUNTX = 40;
-    const AMOUNTY = 60;
+    let cancelled = false;
+    let cleanupScene: (() => void) | undefined;
 
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(BRAND.fog, 1800, 9000);
+    const start = async () => {
+      const THREE: typeof ThreeNS = await import("three");
+      if (cancelled) return;
 
-    const camera = new THREE.PerspectiveCamera(60, 1, 1, 10000);
-    camera.position.set(0, 355, 1220);
+      const SEPARATION = 150;
+      const AMOUNTX = 40;
+      const AMOUNTY = 60;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(BRAND.bg, 1);
-    container.appendChild(renderer.domElement);
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.Fog(BRAND.fog, 1800, 9000);
 
-    const geometry = new THREE.BufferGeometry();
-    const positions: number[] = [];
-    const colors: number[] = [];
+      const camera = new THREE.PerspectiveCamera(60, 1, 1, 10000);
+      camera.position.set(0, 355, 1220);
 
-    for (let ix = 0; ix < AMOUNTX; ix++) {
-      for (let iy = 0; iy < AMOUNTY; iy++) {
-        const x = ix * SEPARATION - (AMOUNTX * SEPARATION) / 2;
-        const z = iy * SEPARATION - (AMOUNTY * SEPARATION) / 2;
-        positions.push(x, 0, z);
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setClearColor(BRAND.bg, 1);
+      container.appendChild(renderer.domElement);
 
-        const mix = (ix / AMOUNTX + iy / AMOUNTY) / 2;
-        const c =
-          mix > 0.55
-            ? BRAND.accent
-            : mix > 0.3
-              ? BRAND.silver
-              : BRAND.accent2;
+      const geometry = new THREE.BufferGeometry();
+      const positions: number[] = [];
+      const colors: number[] = [];
 
-        colors.push(
-          c.r / 255 + (BRAND.gray.r / 255) * 0.15,
-          c.g / 255 + (BRAND.gray.g / 255) * 0.15,
-          c.b / 255 + (BRAND.gray.b / 255) * 0.15
-        );
-      }
-    }
-
-    geometry.setAttribute(
-      "position",
-      new THREE.Float32BufferAttribute(positions, 3)
-    );
-    geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
-
-    const material = new THREE.PointsMaterial({
-      size: 7,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.75,
-      sizeAttenuation: true,
-    });
-
-    const points = new THREE.Points(geometry, material);
-    scene.add(points);
-
-    let count = 0;
-    let animationId = 0;
-
-    const resize = () => {
-      const { width, height } = wrapper.getBoundingClientRect();
-      if (width === 0 || height === 0) return;
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
-    };
-
-    let visible = true;
-
-    const animate = () => {
-      animationId = requestAnimationFrame(animate);
-      if (!visible) return; // ekran dışındayken çizme (performans)
-
-      const positionAttribute = geometry.attributes.position;
-      const pos = positionAttribute.array as Float32Array;
-
-      let i = 0;
       for (let ix = 0; ix < AMOUNTX; ix++) {
         for (let iy = 0; iy < AMOUNTY; iy++) {
-          const index = i * 3;
-          pos[index + 1] =
-            Math.sin((ix + count) * 0.3) * 50 + Math.sin((iy + count) * 0.5) * 50;
-          i++;
+          const x = ix * SEPARATION - (AMOUNTX * SEPARATION) / 2;
+          const z = iy * SEPARATION - (AMOUNTY * SEPARATION) / 2;
+          positions.push(x, 0, z);
+
+          const mix = (ix / AMOUNTX + iy / AMOUNTY) / 2;
+          const c =
+            mix > 0.55
+              ? BRAND.accent
+              : mix > 0.3
+                ? BRAND.silver
+                : BRAND.accent2;
+
+          colors.push(
+            c.r / 255 + (BRAND.gray.r / 255) * 0.15,
+            c.g / 255 + (BRAND.gray.g / 255) * 0.15,
+            c.b / 255 + (BRAND.gray.b / 255) * 0.15
+          );
         }
       }
 
-      positionAttribute.needsUpdate = true;
-      renderer.render(scene, camera);
-      count += 0.1;
+      geometry.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(positions, 3)
+      );
+      geometry.setAttribute(
+        "color",
+        new THREE.Float32BufferAttribute(colors, 3)
+      );
+
+      const material = new THREE.PointsMaterial({
+        size: 7,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.75,
+        sizeAttenuation: true,
+      });
+
+      const points = new THREE.Points(geometry, material);
+      scene.add(points);
+
+      let count = 0;
+      let animationId = 0;
+
+      const resize = () => {
+        const { width, height } = wrapper.getBoundingClientRect();
+        if (width === 0 || height === 0) return;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+      };
+
+      let visible = true;
+
+      const animate = () => {
+        animationId = requestAnimationFrame(animate);
+        if (!visible) return; // ekran dışındayken çizme (performans)
+
+        const positionAttribute = geometry.attributes.position;
+        const pos = positionAttribute.array as Float32Array;
+
+        let i = 0;
+        for (let ix = 0; ix < AMOUNTX; ix++) {
+          for (let iy = 0; iy < AMOUNTY; iy++) {
+            const index = i * 3;
+            pos[index + 1] =
+              Math.sin((ix + count) * 0.3) * 50 +
+              Math.sin((iy + count) * 0.5) * 50;
+            i++;
+          }
+        }
+
+        positionAttribute.needsUpdate = true;
+        renderer.render(scene, camera);
+        count += 0.1;
+      };
+
+      resize();
+      animate();
+
+      const observer = new ResizeObserver(resize);
+      observer.observe(wrapper);
+
+      const visIo = new IntersectionObserver(
+        ([entry]) => {
+          visible = entry.isIntersecting;
+        },
+        { threshold: 0.01 }
+      );
+      visIo.observe(wrapper);
+
+      cleanupScene = () => {
+        observer.disconnect();
+        visIo.disconnect();
+        cancelAnimationFrame(animationId);
+
+        geometry.dispose();
+        material.dispose();
+        renderer.dispose();
+
+        if (container.contains(renderer.domElement)) {
+          container.removeChild(renderer.domElement);
+        }
+      };
     };
 
-    resize();
-    animate();
-
-    const observer = new ResizeObserver(resize);
-    observer.observe(wrapper);
-
-    const io = new IntersectionObserver(
+    // three ancak bölüm viewport'a yaklaşınca inmeye başlar
+    const loadIo = new IntersectionObserver(
       ([entry]) => {
-        visible = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          loadIo.disconnect();
+          void start();
+        }
       },
-      { threshold: 0.01 }
+      { rootMargin: "300px" }
     );
-    io.observe(wrapper);
-
-    sceneRef.current = { animationId, renderer, scene };
+    loadIo.observe(wrapper);
 
     return () => {
-      observer.disconnect();
-      io.disconnect();
-      cancelAnimationFrame(animationId);
-
-      geometry.dispose();
-      material.dispose();
-      renderer.dispose();
-
-      if (container.contains(renderer.domElement)) {
-        container.removeChild(renderer.domElement);
-      }
+      cancelled = true;
+      loadIo.disconnect();
+      cleanupScene?.();
     };
   }, []);
 

@@ -12,14 +12,19 @@ import {
   webSiteJsonLd,
 } from "@/lib/site";
 
+// display: "optional" — font ilk ~100ms'de gelmezse o görüntülemede fallback
+// kalır; geç swap büyük başlığı yeniden boyatıp LCP'yi geciktiriyordu.
+// Fontlar preload'lu olduğu için normal bağlantıda fark hissedilmez.
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "optional",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "optional",
 });
 
 // Logo'yla uyumlu geometrik başlık fontu (spiral KARNER yazısı için)
@@ -27,6 +32,7 @@ const orbitron = Orbitron({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["700", "900"],
+  display: "optional",
 });
 
 export const metadata: Metadata = {

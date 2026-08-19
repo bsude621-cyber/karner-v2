@@ -87,6 +87,68 @@ html.lenis body {
   }
 }
 
+/* ---- Hero giriş animasyonu (saf CSS) ----
+   framer-motion yerine: boyama hydration'ı beklemez, LCP anında gelir.
+   Metin baştan görünür (opacity düşürülmez) — yalnızca yumuşak yükselme. */
+@keyframes rise-in {
+  from {
+    transform: translateY(30px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.rise-in {
+  animation: rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.rise-in-1 {
+  animation-delay: 0.15s;
+}
+.rise-in-2 {
+  animation-delay: 0.35s;
+}
+.rise-in-3 {
+  animation-delay: 0.55s;
+}
+.rise-in-4 {
+  animation-delay: 0.75s;
+}
+
+/* ---- Kaydırmayla görünme (saf CSS, JS yok) ----
+   framer-motion whileInView yerine: animation-timeline destekleyen
+   tarayıcılarda yumuşak giriş, desteklemeyenlerde içerik doğrudan görünür. */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: reveal-up 1ms linear both;
+    animation-timeline: view();
+    animation-range: entry 10% entry 55%;
+  }
+
+  @keyframes reveal-up {
+    from {
+      transform: translateY(28px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ---- SVG kontur çizim animasyonu (footer KARNER yazısı) ---- */
+.draw-stroke {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-stroke 4s ease-in-out forwards;
+}
+
+@keyframes draw-stroke {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 /* ---- Klavye odak halkası (tüm etkileşimli öğeler) ---- */
 :where(a, button, [role="button"], input, textarea, select):focus-visible {
   outline: none;

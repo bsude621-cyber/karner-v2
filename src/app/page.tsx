@@ -6,7 +6,7 @@ import AboutTeaser from "@/components/AboutTeaser";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import SectionDivider from "@/components/ui/section-divider";
-import MobileAssistant from "@/components/MobileAssistant";
+import DeferredAssistant from "@/components/DeferredAssistant";
 
 export const metadata: Metadata = {
   // Ana sayfa layout'taki default title'ı kullanır; canonical burada sabitlenir.
@@ -32,8 +32,8 @@ export default function Home() {
 
       <Footer />
 
-      {/* Mobil asistan — sağ-altta sabit sohbet butonu */}
-      <MobileAssistant />
+      {/* Mobil asistan — sağ-altta sabit sohbet butonu (kritik yol dışında) */}
+      <DeferredAssistant />
     </main>
   );
 }

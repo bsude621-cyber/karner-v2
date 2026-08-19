@@ -1,9 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { animate, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 import { SpaceBackground } from "@/components/ui/space-background";
 import SectionHeading from "@/components/ui/section-heading";
@@ -23,7 +22,16 @@ const benefits: Record<string, string> = {
 export default function ServicesSection() {
   const gridRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const reduceMotion = useReducedMotion();
+  // framer-motion'ın useReducedMotion'ı yerine yerleşik media query —
+  // kütüphaneyi ana pakete sokmamak için (dağıtım animasyonu artık WAAPI).
+  const [reduceMotion, setReduceMotion] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduceMotion(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setReduceMotion(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
   const dealingRef = useRef(false);
   /** Kartlar gizlendi, dağıtılmayı bekliyor. */
   const armedRef = useRef(false);
@@ -63,17 +71,31 @@ export default function ServicesSection() {
       const delay = i * 0.09;
       last = delay;
 
-      animate(
-        el,
+      // Web Animations API — framer'ın animate'iyle birebir aynı hareket,
+      // sıfır kütüphane maliyeti.
+      const anim = el.animate(
+        [
+          {
+            opacity: 0,
+            transform: `translate(${dx}px, ${dy}px) rotate(${deckRot}deg) scale(0.6)`,
+          },
+          { opacity: 1, transform: "none" },
+        ],
         {
-          opacity: [0, 1],
-          x: [dx, 0],
-          y: [dy, 0],
-          rotate: [deckRot, 0],
-          scale: [0.6, 1],
-        },
-        { duration: 0.55, delay, ease: [0.16, 0.84, 0.3, 1] }
+          duration: 550,
+          delay: delay * 1000,
+          easing: "cubic-bezier(0.16, 0.84, 0.3, 1)",
+          fill: "both",
+        }
       );
+      // fill:both aktif kaldıkça arm()'ın inline opacity=0'ı ezilir —
+      // bitince stil inline'a yazılır, animasyon bırakılır.
+      anim.onfinish = () => {
+        try {
+          anim.commitStyles();
+        } catch {}
+        anim.cancel();
+      };
     });
 
     window.setTimeout(() => {
