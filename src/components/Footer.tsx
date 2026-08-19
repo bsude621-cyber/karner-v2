@@ -76,7 +76,7 @@ const socialLinks = [
   {
     icon: <Globe size={18} />,
     label: "Web",
-    href: "https://karner-site.vercel.app",
+    href: "/",
   },
 ];
 
