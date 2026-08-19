@@ -23,12 +23,6 @@ const nextConfig: NextConfig = {
    * geçerli — üretim derlemesini etkilemez.
    */
   allowedDevOrigins: ["192.168.1.*"],
-  images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "plus.unsplash.com" },
-    ],
-  },
 };
 
 export default nextConfig;

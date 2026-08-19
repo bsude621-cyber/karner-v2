@@ -43,7 +43,9 @@ export function organizationJsonLd() {
     url: SITE_URL,
     logo: {
       "@type": "ImageObject",
-      url: `${SITE_URL}/logo-emblem.png`,
+      url: `${SITE_URL}/logo-emblem-192.png`,
+      width: 192,
+      height: 192,
     },
     description: ORG_DESCRIPTION,
     email: CONTACT.email,

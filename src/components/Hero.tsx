@@ -3,6 +3,7 @@
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
+import DeferredMount from "@/components/DeferredMount";
 
 // Shader sadece tarayıcıda yüklensin (SSR kapalı)
 const KarnerLineFlow = dynamic(
@@ -29,9 +30,13 @@ export default function Hero() {
   // Safari'nin çubuğunun altında kalıp görünmez oluyorlardı.
   return (
     <section className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-background">
-      {/* En arkada: çapraz akan KARNER filament shader arka planı */}
+      {/* En arkada: çapraz akan KARNER filament shader arka planı.
+          DeferredMount: shader + robotlar kritik render yolundan çıkarıldı —
+          metin ve gradient anında boyanır (LCP), sahneler ardından gelir. */}
       <div className="absolute inset-0 z-0">
-        <KarnerLineFlow angleDeg={-22} />
+        <DeferredMount>
+          <KarnerLineFlow angleDeg={-22} />
+        </DeferredMount>
       </div>
 
       {/* robotların arkasında yumuşak mor hâle (atmosfer) */}
@@ -47,11 +52,15 @@ export default function Hero() {
 
       {/* 3B robot maskotlar — shader'ın üstünde, metnin altında (mobilde de görünür) */}
       <div className="absolute inset-0 z-[12]">
-        <HeroRobots />
+        <DeferredMount>
+          <HeroRobots />
+        </DeferredMount>
       </div>
 
       {/* Robot konuşma balonları (karşılayıcı + asistan) */}
-      <HeroAssistant />
+      <DeferredMount>
+        <HeroAssistant />
+      </DeferredMount>
 
       {/* gradient karartma — metin okunurluğu için (robotların üstünde ince bir kat) */}
       <div className="pointer-events-none absolute inset-0 z-[14] bg-gradient-to-b from-background/40 via-transparent to-background" />

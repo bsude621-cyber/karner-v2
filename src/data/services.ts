@@ -34,8 +34,7 @@ export const services: Service[] = [
     tag: "Web",
     title: "Web Sitesi Geliştirme",
     summary: "3D ve animasyonlu, yüksek performanslı modern web siteleri.",
-    imageSrc:
-      "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1600&q=70",
+    imageSrc: "/services/web-sitesi-gelistirme.jpg",
     tags: ["Next.js", "Astro", "React Three Fiber", "Tailwind"],
     intro:
       "Markanızı yalnızca güzel değil; hızlı, bulunur ve akılda kalıcı kılıyoruz. 3D ve animasyonlu, ölçeklenebilir modern web siteleri tasarlayıp geliştiriyoruz.",
@@ -86,8 +85,7 @@ export const services: Service[] = [
     tag: "Mobil",
     title: "Mobil Uygulama",
     summary: "iOS & Android için tek kod tabanı. Supabase backend + panel.",
-    imageSrc:
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=70",
+    imageSrc: "/services/mobil-uygulama.jpg",
     tags: ["Expo", "React Native", "Supabase", "TypeScript"],
     intro:
       "iOS ve Android için tek kod tabanıyla native performanslı uygulamalar geliştiriyoruz. Backend, yönetim paneli ve mağaza yayınlama dahil uçtan uca.",
@@ -133,8 +131,7 @@ export const services: Service[] = [
     tag: "AI Video",
     title: "AI Video & Reklam",
     summary: "Veo, Kling ve Firefly ile reklam filmi & Reels üretimi.",
-    imageSrc:
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1600&q=70",
+    imageSrc: "/services/ai-video-reklam.jpg",
     tags: ["Veo 3", "Kling", "Adobe Firefly", "n8n"],
     intro:
       "Yapay zekâ ile reklam filmi ve sosyal medya içeriği üretiyoruz. Senaryo, görsel ve kurgu — hızlı, tutarlı ve ölçeklenebilir.",
@@ -185,8 +182,7 @@ export const services: Service[] = [
     tag: "AI Görsel",
     title: "AI Ürün Görseli",
     summary: "Ürün fotoğrafını sanal manken üzerinde gösteren try-on görselleri.",
-    imageSrc:
-      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=70",
+    imageSrc: "/services/ai-urun-gorseli.jpg",
     tags: ["Adobe Firefly", "Virtual Try-on", "E-ticaret"],
     intro:
       "Ürün fotoğrafınızı sanal manken üzerindeymiş gibi gösteren gerçekçi try-on görselleri üretiyoruz. Özellikle butikler ve ikinci el satıcılar için dönüşümü artırır.",
@@ -232,8 +228,7 @@ export const services: Service[] = [
     tag: "Görünürlük",
     title: "SEO / GEO / AEO",
     summary: "Google'da, ChatGPT'de ve Gemini'de aynı anda öne çıkma.",
-    imageSrc:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=70",
+    imageSrc: "/services/seo-geo-aeo.jpg",
     tags: ["SEO", "GEO", "AEO", "Schema.org"],
     intro:
       "Sitenizi yalnızca Google'da değil; ChatGPT, Gemini ve Perplexity gibi yapay zekâ aramalarında da öne çıkarıyoruz. Üç arama yüzeyinde birden görünürlük.",
@@ -286,8 +281,7 @@ export const services: Service[] = [
     tag: "Otomasyon",
     title: "Otomasyon Sistemleri",
     summary: "n8n ile iş akışlarını ve tekrarlayan görevleri uçtan uca otomatikleştirme.",
-    imageSrc:
-      "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=70",
+    imageSrc: "/services/otomasyon-sistemleri.jpg",
     tags: ["n8n", "Webhook", "API", "AI Agent"],
     intro:
       "Tekrarlayan işleri ortadan kaldırıyoruz. n8n ile sistemlerinizi birbirine bağlayıp; veri aktarımı, bildirim, raporlama ve müşteri akışlarını otomatik hale getiriyoruz — yapay zekâ destekli agent'larla.",
@@ -333,8 +327,7 @@ export const services: Service[] = [
     tag: "Tasarım",
     title: "Marka & Grafik Tasarım",
     summary: "Logo, kurumsal kimlik ve sosyal medya için tutarlı görsel dil.",
-    imageSrc:
-      "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=1600&q=70",
+    imageSrc: "/services/marka-grafik-tasarim.jpg",
     tags: ["Logo", "Kurumsal Kimlik", "Sosyal Medya", "Figma"],
     intro:
       "Markanızı baştan sona görsel bir dile dönüştürüyoruz. Logo, kurumsal kimlik ve sosyal medya şablonlarıyla her yüzeyde tutarlı, akılda kalıcı bir marka deneyimi tasarlıyoruz.",

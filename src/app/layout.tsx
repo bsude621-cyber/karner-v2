@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Orbitron } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
+import DeferredMount from "@/components/DeferredMount";
 import {
   ORG_DESCRIPTION,
   SITE_NAME,
@@ -82,7 +83,10 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(rootJsonLd) }}
         />
-        <CustomCursor />
+        {/* Saf süsleme — kritik yol dışında, idle/etkileşim sonrası gelir */}
+        <DeferredMount>
+          <CustomCursor />
+        </DeferredMount>
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
