@@ -91,20 +91,48 @@ function Robot({ src, position, faceBias, phase, oscAmp = 0.55, fit = 2.2, mouse
     };
   }, [actions, names]);
 
-  useFrame((state) => {
+  // Giriş animasyonu ilerlemesi (0→1) ve "bakış" hedefi: robot ara sıra yönünü
+  // değiştirir, fareye döner — canlı, ayakta duran bir figür hissi.
+  const entrance = useRef(0);
+  const glance = useRef({ target: 0, next: 2 + phase }); // ilk hedef faza bağlı (saf render)
+
+  useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
+    // giriş: yerden hafif yükselerek, ölçek 0.92→1, ~1.1 sn ease-out
+    if (entrance.current < 1) {
+      entrance.current = Math.min(1, entrance.current + delta / 1.1);
+    }
+    const e = 1 - Math.pow(1 - entrance.current, 3);
+
+    // ara sıra bakış yönü değiştir (2–5 sn'de bir yeni hedef)
+    if (t > glance.current.next) {
+      glance.current.target = (Math.random() - 0.5) * 0.5;
+      glance.current.next = t + 2.5 + Math.random() * 3;
+    }
+
     if (inner.current) {
-      // öne dönük dururken yavaşça sağa-sola salın (yüz çoğunlukla görünür)
-      inner.current.rotation.y = faceBias + Math.sin(t * 0.35 + phase) * oscAmp;
-      // hafif nefes/süzülme — dikey ortalamanın üstüne eklenir
-      inner.current.position.y = baseY.current + Math.sin(t * 0.9 + phase) * 0.04;
+      // hedef yön: temel açı + fareye dönüş + ara sıra bakış + çok yavaş salınım
+      const targetY =
+        faceBias +
+        mouse.current.x * 0.35 +
+        glance.current.target +
+        Math.sin(t * 0.25 + phase) * oscAmp * 0.35;
+      inner.current.rotation.y += (targetY - inner.current.rotation.y) * Math.min(1, delta * 1.6);
+      // ağırlık aktarma: hafif yana eğilme + küçük yatay kayma (ayakta durma hissi)
+      inner.current.rotation.z = Math.sin(t * 0.45 + phase) * 0.018;
+      inner.current.position.x = Math.sin(t * 0.45 + phase) * 0.025;
+      // nefes: çok küçük dikey hareket — asılı durmasın, yere basar gibi
+      inner.current.position.y = baseY.current + Math.sin(t * 1.1 + phase) * 0.012;
     }
     if (outer.current) {
-      // fareye doğru çok hafif yatma (parallax)
-      const tx = mouse.current.y * 0.12;
-      const ty = mouse.current.x * 0.2;
+      // fareye doğru çok hafif yatma (parallax) + giriş ölçeği
+      const tx = mouse.current.y * 0.08;
+      const ty = mouse.current.x * 0.12;
       outer.current.rotation.x += (tx - outer.current.rotation.x) * 0.05;
       outer.current.rotation.y += (ty - outer.current.rotation.y) * 0.05;
+      const sc = 0.92 + 0.08 * e;
+      outer.current.scale.setScalar(sc);
+      outer.current.position.y = position[1] - 0.25 * (1 - e);
     }
   });
 
@@ -162,11 +190,18 @@ function Rig({
         position={[0, shadowY, 0]}
         scale={14}
         far={2.2}
-        blur={2.8}
-        opacity={0.55}
-        color="#2a0f52"
+        blur={2.2}
+        opacity={0.8}
+        color="#1a0a33"
         resolution={256}
       />
+      {/* ayakların altında hafif mor zemin halkası — robotlar bir yüzeyde durur */}
+      {[-x, x].map((px) => (
+        <mesh key={px} rotation-x={-Math.PI / 2} position={[px, shadowY + 0.005, 0.1]}>
+          <ringGeometry args={[0.55, 0.95, 48]} />
+          <meshBasicMaterial color="#7B3FE4" transparent opacity={0.16} depthWrite={false} />
+        </mesh>
+      ))}
 
       {/* soldaki: Robot A, hafif sağa dönük — sağdaki: Robot B, hafif sola dönük */}
       <Robot
