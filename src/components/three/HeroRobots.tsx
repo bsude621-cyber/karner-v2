@@ -62,6 +62,24 @@ function Robot({ src, position, faceBias, phase, oscAmp = 0.55, fit = 2.2, mouse
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scene]);
 
+  // Malzemeleri canlandır: krom gövde ortamı daha güçlü yansıtsın, mor kenar
+  // ışığı gövdeye işlesin. Renk değişmez (gümüş kalır), yalnızca kontrast/parlaklık.
+  useLayoutEffect(() => {
+    scene.traverse((o) => {
+      const m = (o as THREE.Mesh).material as THREE.Material | THREE.Material[] | undefined;
+      if (!m) return;
+      const mats = Array.isArray(m) ? m : [m];
+      for (const mat of mats) {
+        const std = mat as THREE.MeshStandardMaterial;
+        if (!("metalness" in std)) continue;
+        std.envMapIntensity = 1.9;
+        std.metalness = Math.max(std.metalness ?? 0, 0.9);
+        std.roughness = Math.min(Math.max(std.roughness ?? 0.4, 0.18), 0.38);
+        std.needsUpdate = true;
+      }
+    });
+  }, [scene]);
+
   // varsa animasyonu (el salla) döngüde oynat
   useLayoutEffect(() => {
     if (!names.length) return;
@@ -120,18 +138,25 @@ function Rig({
   const shadowY = y - fit / 2 - 0.08;
   return (
     <>
-      <ambientLight intensity={0.85} />
-      <directionalLight position={[3, 5, 4]} intensity={2.4} />
-      <directionalLight position={[-4, 2, 3]} intensity={1.0} color="#ffffff" />
+      <ambientLight intensity={0.55} />
+      {/* anahtar ışık: hafif sıcak beyaz, kromda net parlama */}
+      <directionalLight position={[3, 5, 4]} intensity={3.2} color="#fff4e8" />
+      {/* dolgu: soğuk, gölge tarafını boğmadan açar */}
+      <directionalLight position={[-4, 2, 3]} intensity={1.2} color="#dbe7ff" />
+      {/* önden düşük seviyeli mor dolgu — yüzde ve göğüste renk */}
+      <pointLight position={[0, 0.6, 3.2]} intensity={4} distance={8} decay={2} color="#9d6bff" />
 
-      {/* arkadan mor kenar ışıkları — silüet parlar, gövde gümüş kalır */}
-      <pointLight position={[-2.7, 0.8, -1.4]} intensity={9} distance={7} decay={2} color="#7B3FE4" />
-      <pointLight position={[2.7, 0.8, -1.4]} intensity={9} distance={7} decay={2} color="#8B5CF6" />
+      {/* arkadan mor + camgöbeği kenar ışıkları — silüet renkli parlar */}
+      <pointLight position={[-2.9, 1.0, -1.6]} intensity={16} distance={8} decay={2} color="#7B3FE4" />
+      <pointLight position={[2.9, 1.0, -1.6]} intensity={16} distance={8} decay={2} color="#a78bfa" />
+      <pointLight position={[0, -1.2, -2.2]} intensity={6} distance={7} decay={2} color="#22d3ee" />
 
-      <Environment resolution={256}>
-        <Lightformer form="rect" intensity={3} position={[0, 3, 3]} scale={[10, 4, 1]} color="#ffffff" />
-        <Lightformer form="rect" intensity={2} position={[-6, 1, 2]} scale={[3, 6, 1]} color="#ffffff" />
-        <Lightformer form="rect" intensity={1.6} position={[6, 0, 1]} scale={[3, 6, 1]} color="#c4b5fd" />
+      {/* ortam: şehir HDRI'sı (kontrastlı yansıma) + renkli paneller */}
+      <Environment preset="city" resolution={256} environmentIntensity={0.9}>
+        <Lightformer form="rect" intensity={4} position={[0, 3, 3]} scale={[10, 4, 1]} color="#ffffff" />
+        <Lightformer form="rect" intensity={3} position={[-6, 1, 2]} scale={[3, 6, 1]} color="#c4b5fd" />
+        <Lightformer form="rect" intensity={2.5} position={[6, 0, 1]} scale={[3, 6, 1]} color="#7dd3fc" />
+        <Lightformer form="ring" intensity={2} position={[0, -2, 2]} scale={4} color="#7B3FE4" />
       </Environment>
 
       {/* robotları yere oturtan yumuşak gölge (mor tonlu) */}
@@ -212,6 +237,10 @@ export default function HeroRobots({ className = "" }: { className?: string }) {
         camera={{ position: [0, 0.15, mobile ? 8.2 : 6.2], fov: 38 }}
         dpr={[1, 1.75]}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+        onCreated={({ gl }) => {
+          gl.toneMapping = THREE.ACESFilmicToneMapping;
+          gl.toneMappingExposure = 1.25;
+        }}
       >
         <Rig mouse={mouse} mobile={mobile} />
       </Canvas>
