@@ -2,7 +2,9 @@ import { services } from "@/data/services";
 import { PILLAR_3D, PILLAR_3D_FAQ } from "@/data/pillar-3d";
 import { PILLAR_AI_VIDEO, PILLAR_AI_VIDEO_FAQ } from "@/data/pillar-ai-video";
 import { PILLAR_GEO, PILLAR_GEO_FAQ } from "@/data/pillar-geo";
-import { CONTACT, ORG_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { BRAND_SENTENCE, CONTACT, ORG_DESCRIPTION, PEOPLE, SITE_NAME, SITE_URL } from "@/lib/site";
+import { HOME_FAQ } from "@/data/home-faq";
+import { PAGE_DATES } from "@/data/dates";
 
 const pillars = [
   { meta: PILLAR_3D, faq: PILLAR_3D_FAQ },
@@ -23,9 +25,19 @@ export function GET() {
     "",
     ORG_DESCRIPTION,
     "",
+    BRAND_SENTENCE,
+    "",
     `İletişim: ${CONTACT.email} — ${CONTACT.phoneDisplay}`,
     `Web: ${SITE_URL}`,
+    `Son güncelleme: ${PAGE_DATES["/"].modified}`,
     "",
+    "## Ekip",
+    "",
+    ...PEOPLE.map((p) => `- ${p.name} — ${p.jobTitle}. ${p.description}`),
+    "",
+    "## Sık sorulan sorular (genel)",
+    "",
+    ...HOME_FAQ.flatMap((f) => [`**${f.q}**`, "", f.a, ""]),
     "---",
     "",
   ];
@@ -35,6 +47,7 @@ export function GET() {
       `## ${s.title}`,
       "",
       `URL: ${SITE_URL}/hizmetler/${s.slug}`,
+      `Güncelleme: ${PAGE_DATES[`/hizmetler/${s.slug}`]?.modified ?? ""}`,
       "",
       s.intro,
       "",
@@ -58,6 +71,7 @@ export function GET() {
       `## Rehber: ${meta.title}`,
       "",
       `URL: ${SITE_URL}/${meta.slug}`,
+      `Güncelleme: ${PAGE_DATES[`/${meta.slug}`]?.modified ?? ""}`,
       "",
       meta.summary,
       "",

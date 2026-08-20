@@ -9,6 +9,7 @@ import {
   SITE_NAME,
   SITE_URL,
   organizationJsonLd,
+  peopleJsonLd,
   webSiteJsonLd,
 } from "@/lib/site";
 
@@ -71,7 +72,7 @@ export const viewport: Viewport = {
 // sayfa bazlı schema'lar (Service, AboutPage...) bu @id'lere referans verir.
 const rootJsonLd = {
   "@context": "https://schema.org",
-  "@graph": [organizationJsonLd(), webSiteJsonLd()],
+  "@graph": [organizationJsonLd(), webSiteJsonLd(), ...peopleJsonLd()],
 };
 
 export default function RootLayout({

@@ -15,13 +15,14 @@ const footerLinks = [
     title: "Şirket",
     links: [
       { label: "Hakkımızda", href: "/hakkimizda" },
-      { label: "Hizmetler", href: "/#hizmetler" },
+      { label: "Hizmetler", href: "/hizmetler" },
       { label: "İletişim", href: "/#iletisim" },
     ],
   },
   {
     title: "Hizmetler",
     links: [
+      { label: "Tüm Hizmetler", href: "/hizmetler" },
       { label: "Web Geliştirme", href: "/hizmetler/web-sitesi-gelistirme" },
       { label: "Mobil Uygulama", href: "/hizmetler/mobil-uygulama" },
       { label: "AI Video & Reklam", href: "/hizmetler/ai-video-reklam" },

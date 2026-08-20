@@ -4,7 +4,9 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check, ArrowRight } from "lucide-react";
 import { services, getService } from "@/data/services";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, breadcrumbJsonLd, type Crumb } from "@/lib/site";
+import { pageDates } from "@/data/dates";
+import Breadcrumb from "@/components/seo/Breadcrumb";
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -33,44 +35,73 @@ export async function generateMetadata({
   };
 }
 
-/** Service + BreadcrumbList + FAQPage — layout'taki Organization/WebSite @id'lerine bağlanır. */
+function serviceCrumbs(service: NonNullable<ReturnType<typeof getService>>): Crumb[] {
+  return [
+    { name: "Ana Sayfa", href: "/" },
+    { name: "Hizmetler", href: "/hizmetler" },
+    { name: service.title, href: `/hizmetler/${service.slug}` },
+  ];
+}
+
+/** WebPage + ImageObject + Service + BreadcrumbList + FAQPage — layout'taki Organization/WebSite @id'lerine bağlanır. */
 function serviceJsonLd(service: NonNullable<ReturnType<typeof getService>>) {
   const pageUrl = `${SITE_URL}/hizmetler/${service.slug}`;
+  const dates = pageDates(`/hizmetler/${service.slug}`);
   const graph: Record<string, unknown>[] = [
+    {
+      "@type": "WebPage",
+      "@id": `${pageUrl}#webpage`,
+      url: pageUrl,
+      name: service.seoTitle ?? `${service.title} — KARNER`,
+      description: service.seoDescription ?? service.summary,
+      inLanguage: "tr",
+      isPartOf: { "@id": `${SITE_URL}/#website` },
+      about: { "@id": `${pageUrl}#service` },
+      mainEntity: { "@id": `${pageUrl}#service` },
+      breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      primaryImageOfPage: { "@id": `${pageUrl}#image` },
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: ["h1", ".speakable-intro"],
+      },
+    },
+    {
+      "@type": "ImageObject",
+      "@id": `${pageUrl}#image`,
+      url: `${SITE_URL}${service.imageSrc}`,
+      contentUrl: `${SITE_URL}${service.imageSrc}`,
+      caption: service.title,
+      creditText: "KARNER",
+      copyrightHolder: { "@id": `${SITE_URL}/#organization` },
+    },
     {
       "@type": "Service",
       "@id": `${pageUrl}#service`,
       name: service.title,
       description: service.summary,
       url: pageUrl,
+      image: { "@id": `${pageUrl}#image` },
       serviceType: service.title,
+      category: service.tag,
       provider: { "@id": `${SITE_URL}/#organization` },
       areaServed: { "@type": "Country", name: "Türkiye" },
+      availableChannel: {
+        "@type": "ServiceChannel",
+        serviceUrl: `${SITE_URL}/#iletisim`,
+        availableLanguage: "tr",
+      },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: `${service.title} kapsamı`,
+        itemListElement: service.features.map((f) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: f.title, description: f.desc },
+        })),
+      },
     },
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${pageUrl}#breadcrumb`,
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Ana Sayfa",
-          item: SITE_URL,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Hizmetler",
-          item: `${SITE_URL}/#hizmetler`,
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: service.title,
-          item: pageUrl,
-        },
-      ],
-    },
+    breadcrumbJsonLd(pageUrl, serviceCrumbs(service)),
   ];
 
   if (service.faq?.length) {
@@ -119,7 +150,7 @@ export default async function ServiceDetailPage({
           <span className="text-lg font-bold tracking-[0.2em]">KARNER</span>
         </Link>
         <Link
-          href="/#hizmetler"
+          href="/hizmetler"
           className="group inline-flex items-center gap-2 text-sm text-white/60 transition hover:text-white"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
@@ -141,14 +172,18 @@ export default async function ServiceDetailPage({
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-4xl px-6 py-28 sm:py-36">
+        <div className="relative z-10 mx-auto max-w-4xl px-6 py-24 sm:py-32">
+          <div className="mb-8 inline-block rounded-full bg-background/40 px-3 py-1.5 backdrop-blur-sm">
+            <Breadcrumb crumbs={serviceCrumbs(service)} />
+          </div>
+          <br />
           <span className="inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1 text-xs font-medium uppercase tracking-[0.2em] text-white backdrop-blur-sm">
             {service.no} — {service.tag}
           </span>
           <h1 className="mt-6 text-4xl font-bold leading-tight text-white sm:text-6xl">
             {service.title}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
+          <p className="speakable-intro mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
             {service.intro}
           </p>
           <div className="mt-7 flex flex-wrap gap-2">

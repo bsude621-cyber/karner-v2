@@ -4,7 +4,10 @@ import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Footer from "@/components/Footer";
 import { PILLAR_AI_VIDEO, PILLAR_AI_VIDEO_FAQ } from "@/data/pillar-ai-video";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, breadcrumbJsonLd, type Crumb } from "@/lib/site";
+import { pageDates } from "@/data/dates";
+import Breadcrumb from "@/components/seo/Breadcrumb";
+import ArticleMeta from "@/components/seo/ArticleMeta";
 
 export const metadata: Metadata = {
   title: { absolute: PILLAR_AI_VIDEO.seoTitle },
@@ -18,10 +21,36 @@ export const metadata: Metadata = {
 };
 
 const pageUrl = `${SITE_URL}/${PILLAR_AI_VIDEO.slug}`;
+const dates = pageDates(`/${PILLAR_AI_VIDEO.slug}`);
+const crumbs: Crumb[] = [
+  { name: "Ana Sayfa", href: "/" },
+  { name: "Rehberler", href: "/hizmetler#rehberler" },
+  { name: PILLAR_AI_VIDEO.title, href: `/${PILLAR_AI_VIDEO.slug}` },
+];
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": `${pageUrl}#article`,
+      headline: PILLAR_AI_VIDEO.title,
+      description: PILLAR_AI_VIDEO.seoDescription,
+      abstract: PILLAR_AI_VIDEO.summary,
+      url: pageUrl,
+      mainEntityOfPage: { "@id": `${pageUrl}#webpage` },
+      inLanguage: "tr",
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      author: { "@id": `${SITE_URL}/#organization` },
+      publisher: { "@id": `${SITE_URL}/#organization` },
+      image: { "@id": `${SITE_URL}/#logo` },
+      isAccessibleForFree: true,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: ["h1", ".speakable-summary"],
+      },
+    },
     {
       "@type": "WebPage",
       "@id": `${pageUrl}#webpage`,
@@ -30,25 +59,18 @@ const jsonLd = {
       description: PILLAR_AI_VIDEO.seoDescription,
       inLanguage: "tr",
       isPartOf: { "@id": `${SITE_URL}/#website` },
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+      mainEntity: { "@id": `${pageUrl}#article` },
+      primaryImageOfPage: { "@id": `${SITE_URL}/#logo` },
       about: { "@id": `${SITE_URL}/hizmetler/ai-video-reklam#service` },
       speakable: {
         "@type": "SpeakableSpecification",
         cssSelector: ["h1", ".speakable-summary"],
       },
     },
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${pageUrl}#breadcrumb`,
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: SITE_URL },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: PILLAR_AI_VIDEO.title,
-          item: pageUrl,
-        },
-      ],
-    },
+    breadcrumbJsonLd(pageUrl, crumbs),
     {
       "@type": "FAQPage",
       "@id": `${pageUrl}#faq`,
@@ -140,13 +162,15 @@ export default function PillarAiVideoPage() {
       {/* Başlık */}
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute left-1/2 top-0 h-[28rem] w-[48rem] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(123,63,228,0.18),transparent_65%)] blur-2xl" />
-        <div className="relative mx-auto max-w-3xl px-6 pb-8 pt-20 sm:pt-28">
-          <p className="mb-4 text-sm uppercase tracking-[0.35em] text-accent-light">
+        <div className="relative mx-auto max-w-3xl px-6 pb-8 pt-16 sm:pt-24">
+          <Breadcrumb crumbs={crumbs} />
+          <p className="mb-4 mt-8 text-sm uppercase tracking-[0.35em] text-accent-light">
             Rehber
           </p>
           <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">
             Yapay Zekâ ile Reklam Videosu: Fikirden Yayına Modern Üretim
           </h1>
+          <ArticleMeta dates={dates} />
 
           {/* TL;DR — speakable */}
           <div className="speakable-summary mt-8 rounded-2xl border border-accent/30 bg-accent/[0.07] p-6">

@@ -1,0 +1,11 @@
+/* TEAM */
+Studio: KARNER — Yazılım ve Medya
+Founders: Sude (strateji, içerik, medya), Beyza (geliştirme, mimari)
+Location: Muğla & Ankara, Türkiye
+Contact: karneryazilim@gmail.com
+
+/* SITE */
+Stack: Next.js, React, Three.js / React Three Fiber, Tailwind CSS
+Hosting: Vercel
+Language: Türkçe
+Last update: 2026-08-20

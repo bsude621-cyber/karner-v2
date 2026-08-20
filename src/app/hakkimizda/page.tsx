@@ -4,7 +4,15 @@ import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { services } from "@/data/services";
 import Footer from "@/components/Footer";
-import { SITE_URL } from "@/lib/site";
+import {
+  PEOPLE,
+  SITE_URL,
+  breadcrumbJsonLd,
+  personId,
+  type Crumb,
+} from "@/lib/site";
+import { pageDates } from "@/data/dates";
+import Breadcrumb from "@/components/seo/Breadcrumb";
 
 export const metadata: Metadata = {
   title: { absolute: "Hakkımızda — KARNER Yazılım ve Medya" },
@@ -13,23 +21,47 @@ export const metadata: Metadata = {
   alternates: { canonical: "/hakkimizda" },
 };
 
+const PATH = "/hakkimizda";
+const pageUrl = `${SITE_URL}${PATH}`;
+const dates = pageDates(PATH);
+const crumbs: Crumb[] = [
+  { name: "Ana Sayfa", href: "/" },
+  { name: "Hakkımızda", href: PATH },
+];
+
 /**
- * SEO: AboutPage yapısal verisi — Organization düğümü layout'taki graph'ta
- * tanımlı, burada @id ile referans verilir (çift tanım = çelişki riski).
+ * SEO: AboutPage + BreadcrumbList. Organization ve kurucu Person düğümleri
+ * layout'taki kök graph'ta tanımlı; burada @id ile referans verilir
+ * (çift tanım = çelişki riski).
  */
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "AboutPage",
-  "@id": `${SITE_URL}/hakkimizda#aboutpage`,
-  name: "Hakkımızda — KARNER",
-  url: `${SITE_URL}/hakkimizda`,
-  mainEntity: { "@id": `${SITE_URL}/#organization` },
+  "@graph": [
+    {
+      "@type": "AboutPage",
+      "@id": `${pageUrl}#aboutpage`,
+      name: "Hakkımızda — KARNER",
+      url: pageUrl,
+      inLanguage: "tr",
+      isPartOf: { "@id": `${SITE_URL}/#website` },
+      about: { "@id": `${SITE_URL}/#organization` },
+      mainEntity: { "@id": `${SITE_URL}/#organization` },
+      breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: ["h1", ".speakable-summary"],
+      },
+      mentions: PEOPLE.map((p) => ({ "@id": personId(p.id) })),
+    },
+    breadcrumbJsonLd(pageUrl, crumbs),
+  ],
 };
 
 const team = [
-  { name: "Sude", role: "Strateji & Medya" },
-  { name: "Beyza", role: "Geliştirme & Mimari" },
-  { name: "Ahmet", role: "Teknik Danışman" },
+  ...PEOPLE.map((p) => ({ id: p.id, name: p.name, role: p.jobTitle })),
+  { id: "ahmet", name: "Ahmet", role: "Teknik Danışman" },
 ];
 
 export default function AboutPage() {
@@ -64,14 +96,15 @@ export default function AboutPage() {
       {/* Başlık + özet */}
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute left-1/2 top-0 h-[28rem] w-[48rem] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(123,63,228,0.18),transparent_65%)] blur-2xl" />
-        <div className="relative mx-auto max-w-3xl px-6 pb-8 pt-20 sm:pt-28">
-          <p className="mb-4 text-sm uppercase tracking-[0.35em] text-accent-light">
+        <div className="relative mx-auto max-w-3xl px-6 pb-8 pt-16 sm:pt-24">
+          <Breadcrumb crumbs={crumbs} />
+          <p className="mb-4 mt-8 text-sm uppercase tracking-[0.35em] text-accent-light">
             Hakkımızda
           </p>
           <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">
             Yazılım ve medyayı aynı çatıda birleştiren dijital stüdyo
           </h1>
-          <p className="mt-6 text-lg leading-relaxed text-white/70">
+          <p className="speakable-summary mt-6 text-lg leading-relaxed text-white/70">
             <strong className="text-white">
               KARNER; Muğla ve Ankara&apos;dan Türkiye&apos;nin tamamına hizmet
               veren bir yazılım ve medya şirketidir.
@@ -101,7 +134,7 @@ export default function AboutPage() {
           </p>
           <ul className="mt-6 space-y-3">
             {team.map((m) => (
-              <li key={m.name} className="flex items-baseline gap-3">
+              <li key={m.name} id={m.id} className="flex items-baseline gap-3">
                 <span className="h-1.5 w-1.5 shrink-0 translate-y-[-2px] rounded-full bg-accent/70" />
                 <span className="text-white">{m.name}</span>
                 <span className="text-white/50">— {m.role}</span>

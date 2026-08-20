@@ -1,5 +1,5 @@
 import { services } from "@/data/services";
-import { CONTACT, ORG_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { BRAND_SENTENCE, CONTACT, ORG_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-static";
 
@@ -10,10 +10,13 @@ export function GET() {
     "",
     `> ${ORG_DESCRIPTION}`,
     "",
+    BRAND_SENTENCE,
+    "",
     `İletişim: ${CONTACT.email} — ${CONTACT.phoneDisplay}`,
     "",
     "## Hizmetler",
     "",
+    `- [Tüm hizmetler](${SITE_URL}/hizmetler): Yedi hizmet alanının özeti ve rehber bağlantıları`,
     ...services.map(
       (s) => `- [${s.title}](${SITE_URL}/hizmetler/${s.slug}): ${s.summary}`,
     ),

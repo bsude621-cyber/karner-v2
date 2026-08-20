@@ -18,9 +18,14 @@ export default function AboutTeaser() {
               <p className="mb-3 text-sm uppercase tracking-[0.35em] text-accent-light">
                 Hakkımızda
               </p>
-              <p className="mx-auto mb-8 max-w-md text-base text-white/70 sm:text-lg">
+              <p className="mx-auto max-w-md text-base text-white/85 sm:text-lg">
                 KARNER — yazılım ve medyayı aynı dalgada birleştiren dijital
                 stüdyo
+              </p>
+              <p className="mx-auto mb-8 mt-3 max-w-md text-sm leading-relaxed text-white/55">
+                Muğla ve Ankara merkezli, Türkiye genelinde hizmet veren
+                yazılım ve medya ajansı: web, mobil, yapay zekâ destekli medya,
+                SEO/GEO/AEO ve otomasyon.
               </p>
               <Link href="/hakkimizda" className="btn btn-secondary group">
                 Bizi Tanıyın
