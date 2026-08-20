@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
 const NAV = [
+  { label: "Ana Sayfa", href: "/" },
   { label: "Hizmetler", href: "/hizmetler" },
   { label: "İşlerimiz", href: "/isler" },
   { label: "Rehberler", href: "/rehber" },
@@ -65,7 +66,8 @@ export default function SiteNav() {
 
         <nav aria-label="Site" className="hidden items-center gap-8 text-sm text-white/70 md:flex">
           {NAV.map((item) => {
-            const active = pathname === item.href || pathname.startsWith(item.href + "/");
+            const active =
+              item.href === "/" ? pathname === "/" : pathname === item.href || pathname.startsWith(item.href + "/");
             return (
               <Link
                 key={item.href}
