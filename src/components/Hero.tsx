@@ -79,10 +79,11 @@ export default function Hero() {
         </a>
         <div className="hidden gap-8 text-sm text-white/70 sm:flex">
           {[
-            { label: "Hizmetler", href: "#hizmetler" },
-            { label: "İşlerimiz", href: "#isler" },
-            { label: "Hakkımızda", href: "#hakkimizda" },
-            { label: "İletişim", href: "#iletisim" },
+            { label: "Hizmetler", href: "/hizmetler" },
+            { label: "İşlerimiz", href: "/isler" },
+            { label: "Rehberler", href: "/rehber" },
+            { label: "Paketler", href: "/paketler" },
+            { label: "İletişim", href: "/iletisim" },
           ].map((item) => (
             <a
               key={item.label}
@@ -112,7 +113,7 @@ export default function Hero() {
         {/* Girişler saf CSS (.rise-in): framer-motion'a bağlı olsaydı boyama
             hydration'ı beklerdi — LCP bu yüzden 6 sn'ye sarkıyordu. */}
         <p className="rise-in rise-in-1 mb-4 text-[11px] uppercase tracking-[0.3em] text-accent-light sm:mb-6 sm:text-sm sm:tracking-[0.4em]">
-          Yazılım ve Medya Şirketi
+          Yazılım ve Medya Ajansı
         </p>
 
         <h1 className="rise-in rise-in-2 max-w-[18rem] text-3xl font-semibold leading-[1.15] sm:max-w-4xl sm:text-7xl sm:leading-[1.05]">
@@ -121,6 +122,9 @@ export default function Hero() {
             mühendislikle
           </span>{" "}
           inşa ediyoruz
+          <span className="mt-3 block text-sm font-normal leading-snug tracking-normal text-white/65 sm:mt-5 sm:text-xl">
+            Türkiye genelinde yazılım ve medya ajansı
+          </span>
         </h1>
 
         <p className="rise-in rise-in-3 mt-5 max-w-[19rem] text-sm leading-relaxed text-white/60 sm:mt-8 sm:max-w-xl sm:text-lg">

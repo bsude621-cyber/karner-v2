@@ -142,9 +142,18 @@ export default function WorksSection() {
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <SectionHeading
           eyebrow="Vitrin"
-          title="İşlerimiz"
-          subtitle="Farklı sektörler için tasarlayıp yayına aldığımız demo siteler. Kartın üzerine gelin, hero videosu oynasın — tıklayınca canlı siteye gidersiniz."
+          title="Demo sitelerimiz"
+          highlight="Demo"
+          subtitle="Farklı sektörler için tasarlayıp yayına aldığımız kurgu demo siteler. Kartın üzerine gelin, hero videosu oynasın — tıklayınca canlı demoya gidersiniz."
         />
+        <p className="reveal mt-6 text-center">
+          <a
+            href="/isler"
+            className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-5 py-2.5 text-sm font-medium text-white transition hover:border-accent hover:bg-accent/20"
+          >
+            Gerçek müşteri işlerimiz: AYSA, BNS, Çolakoğlu, Dükkân Takip →
+          </a>
+        </p>
 
         <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {works.map((w) => (

@@ -158,7 +158,26 @@ export default function ServicesHubPage() {
         </ol>
       </section>
 
-      <section id="rehberler" className="mx-auto max-w-5xl px-6 pb-24 pt-6">
+      <section className="mx-auto max-w-5xl px-6 pt-6">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Link href="/isler" className="group rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-accent/50 hover:bg-white/[0.06]">
+            <span className="text-xs uppercase tracking-[0.2em] text-accent-light">Gerçek işler</span>
+            <span className="mt-2 flex items-center justify-between font-medium text-white">
+              AYSA, BNS, Çolakoğlu, Dükkân Takip — vaka sayfaları
+              <ArrowRight className="h-4 w-4 text-white/40 transition group-hover:translate-x-1" />
+            </span>
+          </Link>
+          <Link href="/sektor" className="group rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-accent/50 hover:bg-white/[0.06]">
+            <span className="text-xs uppercase tracking-[0.2em] text-accent-light">Sektörler</span>
+            <span className="mt-2 flex items-center justify-between font-medium text-white">
+              Emlak, klinik, mimarlık, inşaat, yapı ürünleri, yerel hizmet, butik
+              <ArrowRight className="h-4 w-4 text-white/40 transition group-hover:translate-x-1" />
+            </span>
+          </Link>
+        </div>
+      </section>
+
+      <section id="rehberler" className="mx-auto max-w-5xl px-6 pb-24 pt-10">
         <h2 className="text-2xl font-semibold text-white">
           Hizmetleri anlatan rehberler
         </h2>

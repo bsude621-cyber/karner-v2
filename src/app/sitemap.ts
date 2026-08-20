@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 import { services } from "@/data/services";
 import { PAGE_DATES } from "@/data/dates";
 import { SITE_URL } from "@/lib/site";
+import { guides } from "@/data/guides";
+import { sectors } from "@/data/sectors";
+import { cases } from "@/data/cases";
 
 /**
  * lastmod = sayfanın GERÇEK son içerik değişikliği (data/dates.ts).
@@ -54,6 +57,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.8,
       images: [`${SITE_URL}${s.imageSrc}`],
+    })),
+    ...["/rehber", "/isler", "/sektor", "/surec", "/paketler", "/iletisim"].map((p) => ({
+      url: `${SITE_URL}${p}`,
+      lastModified: lm(p),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+    {
+      url: `${SITE_URL}/gizlilik`,
+      lastModified: lm("/gizlilik"),
+      changeFrequency: "yearly" as const,
+      priority: 0.3,
+    },
+    ...guides.map((g) => ({
+      url: `${SITE_URL}/rehber/${g.slug}`,
+      lastModified: new Date(g.modified),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    ...sectors.map((x) => ({
+      url: `${SITE_URL}/sektor/${x.slug}`,
+      lastModified: new Date(x.modified),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    ...cases.map((c) => ({
+      url: `${SITE_URL}/isler/${c.slug}`,
+      lastModified: new Date(c.modified),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+      images: [`${SITE_URL}${c.image.src}`],
     })),
   ];
 }

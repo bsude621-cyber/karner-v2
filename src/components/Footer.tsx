@@ -15,8 +15,12 @@ const footerLinks = [
     title: "Şirket",
     links: [
       { label: "Hakkımızda", href: "/hakkimizda" },
-      { label: "Hizmetler", href: "/hizmetler" },
-      { label: "İletişim", href: "/#iletisim" },
+      { label: "İşlerimiz", href: "/isler" },
+      { label: "Sektörler", href: "/sektor" },
+      { label: "Süreç", href: "/surec" },
+      { label: "Paketler", href: "/paketler" },
+      { label: "İletişim", href: "/iletisim" },
+      { label: "Gizlilik / KVKK", href: "/gizlilik" },
     ],
   },
   {
@@ -35,12 +39,15 @@ const footerLinks = [
   {
     title: "Rehberler",
     links: [
+      { label: "Tüm rehberler", href: "/rehber" },
       { label: "3D Web Sitesi", href: "/3d-web-sitesi" },
       { label: "AI Reklam Videosu", href: "/yapay-zeka-reklam-videosu" },
       {
         label: "Yapay Zekâ Aramasında Görünmek",
         href: "/yapay-zeka-aramasinda-gorunmek",
       },
+      { label: "llms.txt nedir?", href: "/rehber/llms-txt-nedir" },
+      { label: "ChatGPT firmamı neden önermiyor?", href: "/rehber/chatgpt-firmami-neden-onermiyor" },
     ],
   },
 ];

@@ -1,4 +1,7 @@
 import { services } from "@/data/services";
+import { guides } from "@/data/guides";
+import { cases } from "@/data/cases";
+import { sectors } from "@/data/sectors";
 import { BRAND_SENTENCE, CONTACT, ORG_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-static";
@@ -27,9 +30,28 @@ export function GET() {
     `- [Yapay Zekâ ile Reklam Videosu](${SITE_URL}/yapay-zeka-reklam-videosu): AI reklam videosu nedir, klasik prodüksiyondan farkı, üretim süreci`,
     `- [Yapay Zekâ Aramasında Görünmek](${SITE_URL}/yapay-zeka-aramasinda-gorunmek): ChatGPT/Gemini/Perplexity'de kaynak seçilme mühendisliği (GEO)`,
     "",
+    "## Konu rehberleri",
+    "",
+    `- [Tüm rehberler](${SITE_URL}/rehber)`,
+    ...guides.map((g) => `- [${g.title}](${SITE_URL}/rehber/${g.slug}): ${g.seoDescription}`),
+    "",
+    "## İşler (vakalar)",
+    "",
+    `- [İşlerimiz](${SITE_URL}/isler)`,
+    ...cases.map((c) => `- [${c.client}](${SITE_URL}/isler/${c.slug}): ${c.sector}, ${c.location}`),
+    "",
+    "## Sektörler",
+    "",
+    `- [Sektörler](${SITE_URL}/sektor)`,
+    ...sectors.map((x) => `- [${x.name}](${SITE_URL}/sektor/${x.slug}): ${x.seoDescription}`),
+    "",
     "## Kurumsal",
     "",
     `- [Hakkımızda](${SITE_URL}/hakkimizda): KARNER kimdir, ekip ve çalışma biçimi`,
+    `- [Süreç](${SITE_URL}/surec): keşif, tasarım, kurulum, ölçüm — dört adım`,
+    `- [Paketler](${SITE_URL}/paketler): Vitrin, Bölgesel Lider, Dijital Tekel — başlangıç fiyatları ve kapsam`,
+    `- [İletişim](${SITE_URL}/iletisim)`,
+    `- [Gizlilik / KVKK](${SITE_URL}/gizlilik)`,
     "",
     "## Tam içerik",
     "",

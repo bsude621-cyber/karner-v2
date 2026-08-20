@@ -4,6 +4,12 @@ import { PILLAR_AI_VIDEO, PILLAR_AI_VIDEO_FAQ } from "@/data/pillar-ai-video";
 import { PILLAR_GEO, PILLAR_GEO_FAQ } from "@/data/pillar-geo";
 import { BRAND_SENTENCE, CONTACT, ORG_DESCRIPTION, PEOPLE, SITE_NAME, SITE_URL } from "@/lib/site";
 import { HOME_FAQ } from "@/data/home-faq";
+import { guides } from "@/data/guides";
+import { cases } from "@/data/cases";
+import { sectors } from "@/data/sectors";
+import { PROCESS_STEPS } from "@/data/process";
+import { PACKAGES, PACKAGE_FAQ } from "@/data/packages";
+import type { GuideBlock } from "@/data/guides/types";
 import { PAGE_DATES } from "@/data/dates";
 
 const pillars = [
@@ -13,6 +19,26 @@ const pillars = [
 ];
 
 export const dynamic = "force-static";
+
+/** İçerik bloklarını düz metne çevirir (llms-full). */
+function blocksToText(blocks: readonly GuideBlock[]): string[] {
+  const out: string[] = [];
+  for (const b of blocks) {
+    switch (b.type) {
+      case "h2": out.push(`### ${b.text}`, ""); break;
+      case "h3": out.push(`#### ${b.text}`, ""); break;
+      case "p": out.push(b.text, ""); break;
+      case "ul": out.push(...b.items.map((i) => `- ${i}`), ""); break;
+      case "ol": out.push(...b.items.map((i, k) => `${k + 1}. ${i}`), ""); break;
+      case "dl": out.push(...b.items.map((i) => `- **${i.term}**: ${i.def}`), ""); break;
+      case "table":
+        out.push(`| ${b.head.join(" | ")} |`, `| ${b.head.map(() => "---").join(" | ")} |`, ...b.rows.map((r) => `| ${r.join(" | ")} |`), "");
+        break;
+      case "callout": out.push(`> ${b.title ? b.title + ": " : ""}${b.text}`, ""); break;
+    }
+  }
+  return out;
+}
 
 /**
  * llms-full.txt — AI motorlarına tek istekte tüm site içeriği.
@@ -83,6 +109,49 @@ export function GET() {
     }
     parts.push("---", "");
   }
+
+  // Konu rehberleri (spoke)
+  for (const g of guides) {
+    parts.push(`## Rehber: ${g.title}`, "", `URL: ${SITE_URL}/rehber/${g.slug}`, `Güncelleme: ${g.modified}`, "", g.summary, "");
+    parts.push(...blocksToText(g.blocks));
+    parts.push("### Sık sorulan sorular", "");
+    for (const f of g.faq) parts.push(`**${f.q}**`, "", f.a, "");
+    parts.push("---", "");
+  }
+
+  // İşler (vakalar)
+  for (const c of cases) {
+    parts.push(`## İş: ${c.client} — ${c.sector} (${c.location})`, "", `URL: ${SITE_URL}/isler/${c.slug}`, c.url ? `Site: ${c.url}` : "", `Güncelleme: ${c.modified}`, "", c.summary, "");
+    parts.push(...c.facts.map((f) => `- ${f.label}: ${f.value}`), "");
+    parts.push(...blocksToText(c.blocks));
+    if (c.disclosure) parts.push(c.disclosure, "");
+    for (const f of c.faq) parts.push(`**${f.q}**`, "", f.a, "");
+    parts.push("---", "");
+  }
+
+  // Sektörler
+  for (const x of sectors) {
+    parts.push(`## Sektör: ${x.name}`, "", `URL: ${SITE_URL}/sektor/${x.slug}`, "", x.summary, "");
+    parts.push(...blocksToText(x.blocks));
+    for (const f of x.faq) parts.push(`**${f.q}**`, "", f.a, "");
+    parts.push("---", "");
+  }
+
+  // Süreç
+  parts.push("## Süreç: nasıl çalışıyoruz?", "", `URL: ${SITE_URL}/surec`, "");
+  for (const st of PROCESS_STEPS) {
+    parts.push(`### ${st.no} ${st.name} — çıktı: ${st.output}`, "", st.text, "", ...st.detail.map((d) => `- ${d}`), "");
+  }
+  parts.push("---", "");
+
+  // Paketler
+  parts.push("## Paketler (web sitesi) — başlangıç fiyatları, KDV hariç; net teklif keşif sonrası", "", `URL: ${SITE_URL}/paketler`, "");
+  for (const p of PACKAGES) {
+    parts.push(`### ${p.name} — ₺${p.setupFrom.toLocaleString("tr-TR")}'den başlayan kurulum${p.monthlyFrom ? ` + ₺${p.monthlyFrom.toLocaleString("tr-TR")}/ay bakım${p.monthlyOptional ? " (opsiyonel)" : ""}` : ""}`, "", `Kim için: ${p.audience}`, "", ...p.includes.map((i) => `- ${i}`), "", `Dahil olmayan: ${p.excludes.join(", ")}`, "");
+    if (p.guarantee) parts.push(`Taahhüt: ${p.guarantee.yes.join("; ")} — Verilmez: ${p.guarantee.no.join("; ")}`, "");
+  }
+  for (const f of PACKAGE_FAQ) parts.push(`**${f.q}**`, "", f.a, "");
+  parts.push("---", "");
 
   return new Response(parts.join("\n"), {
     headers: { "Content-Type": "text/plain; charset=utf-8" },
