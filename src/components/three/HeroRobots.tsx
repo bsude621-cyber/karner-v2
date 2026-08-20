@@ -106,7 +106,7 @@ function Robot({ src, position, faceBias, phase, oscAmp = 0.55, fit = 2.2, mouse
 
     // ara sıra bakış yönü değiştir (2–5 sn'de bir yeni hedef)
     if (t > glance.current.next) {
-      glance.current.target = (Math.random() - 0.5) * 0.5;
+      glance.current.target = (Math.random() - 0.5) * 0.8;
       glance.current.next = t + 2.5 + Math.random() * 3;
     }
 
@@ -114,15 +114,15 @@ function Robot({ src, position, faceBias, phase, oscAmp = 0.55, fit = 2.2, mouse
       // hedef yön: temel açı + fareye dönüş + ara sıra bakış + çok yavaş salınım
       const targetY =
         faceBias +
-        mouse.current.x * 0.35 +
+        mouse.current.x * 0.55 +
         glance.current.target +
         Math.sin(t * 0.25 + phase) * oscAmp * 0.35;
-      inner.current.rotation.y += (targetY - inner.current.rotation.y) * Math.min(1, delta * 1.6);
+      inner.current.rotation.y += (targetY - inner.current.rotation.y) * Math.min(1, delta * 2.2);
       // ağırlık aktarma: hafif yana eğilme + küçük yatay kayma (ayakta durma hissi)
-      inner.current.rotation.z = Math.sin(t * 0.45 + phase) * 0.018;
-      inner.current.position.x = Math.sin(t * 0.45 + phase) * 0.025;
+      inner.current.rotation.z = Math.sin(t * 0.45 + phase) * 0.035;
+      inner.current.position.x = Math.sin(t * 0.45 + phase) * 0.06;
       // nefes: çok küçük dikey hareket — asılı durmasın, yere basar gibi
-      inner.current.position.y = baseY.current + Math.sin(t * 1.1 + phase) * 0.012;
+      inner.current.position.y = baseY.current + Math.sin(t * 1.1 + phase) * 0.02;
     }
     if (outer.current) {
       // fareye doğru çok hafif yatma (parallax) + giriş ölçeği
