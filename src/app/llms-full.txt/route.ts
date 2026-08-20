@@ -8,7 +8,7 @@ import { guides } from "@/data/guides";
 import { cases } from "@/data/cases";
 import { sectors } from "@/data/sectors";
 import { PROCESS_STEPS } from "@/data/process";
-import { PACKAGES, PACKAGE_FAQ } from "@/data/packages";
+import { PACKAGE_CATEGORIES, PACKAGE_FAQ } from "@/data/packages";
 import type { GuideBlock } from "@/data/guides/types";
 import { PAGE_DATES } from "@/data/dates";
 
@@ -144,11 +144,14 @@ export function GET() {
   }
   parts.push("---", "");
 
-  // Paketler
-  parts.push("## Paketler (web sitesi) — başlangıç fiyatları, KDV hariç; net teklif keşif sonrası", "", `URL: ${SITE_URL}/paketler`, "");
-  for (const p of PACKAGES) {
-    parts.push(`### ${p.name} — ₺${p.setupFrom.toLocaleString("tr-TR")}'den başlayan kurulum${p.monthlyFrom ? ` + ₺${p.monthlyFrom.toLocaleString("tr-TR")}/ay bakım${p.monthlyOptional ? " (opsiyonel)" : ""}` : ""}`, "", `Kim için: ${p.audience}`, "", ...p.includes.map((i) => `- ${i}`), "", `Dahil olmayan: ${p.excludes.join(", ")}`, "");
-    if (p.guarantee) parts.push(`Taahhüt: ${p.guarantee.yes.join("; ")} — Verilmez: ${p.guarantee.no.join("; ")}`, "");
+  // Paketler (fiyat yazılmaz; teklif keşif sonrası yazılı)
+  parts.push("## Hizmet paketleri — kapsam çerçevesi; fiyat keşif sonrası yazılı teklifle", "", `URL: ${SITE_URL}/paketler`, "");
+  for (const cat of PACKAGE_CATEGORIES) {
+    parts.push(`### ${cat.name}`, "", cat.intro, "");
+    for (const t of cat.tiers) {
+      parts.push(`#### ${t.name} — ${t.tagline}`, "", `Kim için: ${t.audience}`, "", ...t.includes.map((i) => `- ${i}`), "", `Dahil olmayan: ${t.excludes.join(", ")}`, "");
+      if (t.guarantee) parts.push(`Taahhüt: ${t.guarantee.yes.join("; ")} — Verilmez: ${t.guarantee.no.join("; ")}`, "");
+    }
   }
   for (const f of PACKAGE_FAQ) parts.push(`**${f.q}**`, "", f.a, "");
   parts.push("---", "");

@@ -166,7 +166,7 @@ export const MOBIL_GUIDES: Guide[] = [
       {
         type: "callout",
         title: "KARNER mobilde nasıl çalışır?",
-        text: "KARNER mobilde Expo ile tek kod tabanından iOS ve Android üretir; web tarafında siteleri Next.js ve Astro ile kurar. Aynı ekip her iki yolu da bildiği için karar, teknolojiden değil ihtiyaçtan başlar. Kapsam için [mobil uygulama hizmeti](/hizmetler/mobil-uygulama) sayfasına bakabilirsiniz.",
+        text: "KARNER mobilde Expo ile tek kod tabanından iOS ve Android uygulaması geliştirmeyi tercih eder; web tarafında siteleri Next.js ve Astro ile kurar. Aynı ekip her iki yolu da bildiği için karar, teknolojiden değil ihtiyaçtan başlar. Kapsam için [mobil uygulama hizmeti](/hizmetler/mobil-uygulama) sayfasına bakabilirsiniz.",
       },
       { type: "h2", text: "İkisini birlikte kurmak mümkün mü?" },
       {
@@ -285,7 +285,7 @@ export const MOBIL_GUIDES: Guide[] = [
       { type: "h2", text: "Geliştirme hangi araçlarla yapılır?" },
       {
         type: "p",
-        text: "Cross-platform yaklaşımda Expo / React Native tek kod tabanından iOS ve Android üretir. Kamera, bildirim, konum gibi yetenekler hazır modüllerle gelir; derleme ve mağaza gönderimi Expo'nun bulut hizmetiyle yürütülür. Tek ekip iki platformu birlikte geliştirir ve bakar.",
+        text: "Cross-platform yaklaşımda Expo / React Native tek kod tabanından iOS ve Android uygulaması geliştirmeyi tercih eder. Kamera, bildirim, konum gibi yetenekler hazır modüllerle gelir; derleme ve mağaza gönderimi Expo'nun bulut hizmetiyle yürütülür. Tek ekip iki platformu birlikte geliştirir ve bakar.",
       },
       {
         type: "p",
@@ -369,7 +369,7 @@ export const MOBIL_GUIDES: Guide[] = [
       {
         type: "callout",
         title: "KARNER'de mobil süreç",
-        text: "KARNER mobilde Expo ile tek kod tabanından iOS ve Android üretir. Aynı ekip web tarafında Next.js ve Astro ile çalıştığı için yönetim paneli ve uygulama tek projede kurulur. Kapsam ve adımlar için [mobil uygulama hizmeti](/hizmetler/mobil-uygulama) sayfasına bakabilirsiniz.",
+        text: "KARNER mobilde Expo ile tek kod tabanından iOS ve Android uygulaması geliştirmeyi tercih eder. Aynı ekip web tarafında Next.js ve Astro ile çalıştığı için yönetim paneli ve uygulama tek projede kurulur. Kapsam ve adımlar için [mobil uygulama hizmeti](/hizmetler/mobil-uygulama) sayfasına bakabilirsiniz.",
       },
       { type: "h2", text: "Süreçte en sık nerede takılınır?" },
       {

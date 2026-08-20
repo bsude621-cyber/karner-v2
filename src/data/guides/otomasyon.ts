@@ -134,7 +134,7 @@ export const OTOMASYON_GUIDES: Guide[] = [
       {
         type: "callout",
         title: "KARNER bu alanda ne yapar?",
-        text: "KARNER n8n ve Claude API ile iş akışları ve Telegram botları kurar. Hizmet kapsamı için [Otomasyon Sistemleri](/hizmetler/otomasyon-sistemleri) sayfasına, somut senaryolar için [küçük işletme otomasyon örnekleri](/rehber/kucuk-isletme-icin-otomasyon-ornekleri) rehberine bakabilirsiniz.",
+        text: "KARNER n8n ve dil modeli API'leriyle (Groq, Gemini) iş akışları ve Telegram botları kurar. Hizmet kapsamı için [Otomasyon Sistemleri](/hizmetler/otomasyon-sistemleri) sayfasına, somut senaryolar için [küçük işletme otomasyon örnekleri](/rehber/kucuk-isletme-icin-otomasyon-ornekleri) rehberine bakabilirsiniz.",
       },
       {
         type: "p",
@@ -271,7 +271,7 @@ export const OTOMASYON_GUIDES: Guide[] = [
       {
         type: "callout",
         title: "KARNER bu alanda ne yapar?",
-        text: "KARNER n8n ve Claude API ile iş akışları ve Telegram botları kurar. Hizmet kapsamı [Otomasyon Sistemleri](/hizmetler/otomasyon-sistemleri) sayfasında; kanal seçimi için [WhatsApp ve Telegram bot rehberi](/rehber/whatsapp-telegram-bot-isletme) okunabilir.",
+        text: "KARNER n8n ve dil modeli API'leriyle (Groq, Gemini) iş akışları ve Telegram botları kurar. Hizmet kapsamı [Otomasyon Sistemleri](/hizmetler/otomasyon-sistemleri) sayfasında; kanal seçimi için [WhatsApp ve Telegram bot rehberi](/rehber/whatsapp-telegram-bot-isletme) okunabilir.",
       },
       {
         type: "p",
@@ -447,7 +447,7 @@ export const OTOMASYON_GUIDES: Guide[] = [
       {
         type: "callout",
         title: "KARNER bu alanda ne yapar?",
-        text: "KARNER n8n ve Claude API ile iş akışları ve Telegram botları kurar. Hizmet kapsamı için [Otomasyon Sistemleri](/hizmetler/otomasyon-sistemleri), somut bot senaryoları için [küçük işletme otomasyon örnekleri](/rehber/kucuk-isletme-icin-otomasyon-ornekleri) rehberine bakabilirsiniz.",
+        text: "KARNER n8n ve dil modeli API'leriyle (Groq, Gemini) iş akışları ve Telegram botları kurar. Hizmet kapsamı için [Otomasyon Sistemleri](/hizmetler/otomasyon-sistemleri), somut bot senaryoları için [küçük işletme otomasyon örnekleri](/rehber/kucuk-isletme-icin-otomasyon-ornekleri) rehberine bakabilirsiniz.",
       },
       {
         type: "p",

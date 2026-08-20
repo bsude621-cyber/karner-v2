@@ -12,7 +12,7 @@ export const HOME_FAQ: HomeFaq[] = [
   },
   {
     q: "Hangi şehirlere hizmet veriyorsunuz?",
-    a: "Ekibimiz Muğla ve Ankara merkezlidir; çalışma biçimimiz uzaktan yürütülebildiği için Türkiye'nin her ilinden işletmelerle çalışıyoruz. Keşif görüşmesi, tasarım onayı ve teslim süreci çevrim içi araçlarla ilerler.",
+    a: "Ekibimiz Muğla ve Ankara merkezlidir; çalışma biçimimiz uzaktan yürütülebildiği için Türkiye genelindeki işletmelerle çalışıyoruz. Keşif görüşmesi, tasarım onayı ve teslim süreci çevrim içi araçlarla ilerler.",
   },
   {
     q: "Web sitesiyle birlikte SEO da yapılıyor mu?",
@@ -28,7 +28,7 @@ export const HOME_FAQ: HomeFaq[] = [
   },
   {
     q: "Hangi teknolojilerle üretiyorsunuz?",
-    a: "Web'de Next.js ve Astro, 3D için Three.js / React Three Fiber, mobilde Expo (React Native), veri tarafında Supabase, otomasyonda n8n ve Claude API, medya üretiminde Veo, Kling ve Adobe Firefly gibi araçlarla çalışıyoruz. Teknoloji seçimi projenin ihtiyacına göre yapılır; araç değil sonuç önceliklidir.",
+    a: "Web'de Next.js ve Astro, 3D için Three.js / React Three Fiber, mobilde Expo (React Native) ve veri tarafında Supabase gibi araçlarla, otomasyonda n8n ve dil modeli API'leri (Groq, Gemini), medya üretiminde Veo, Kling ve Adobe Firefly gibi araçlarla çalışıyoruz. Teknoloji seçimi projenin ihtiyacına göre yapılır; araç değil sonuç önceliklidir.",
   },
   {
     q: "Bir proje nasıl başlar?",

@@ -146,7 +146,7 @@ export const cases: CaseStudy[] = [
         type: "ul",
         items: [
           "**Editoryal tasarım** — gerçek dükkân fotoğrafıyla açılan hero, hizmetleri ev kesiti illüstrasyonuyla anlatan özgün bir bölüm; stok görsel yok.",
-          "**Hizmet ve ürün sayfaları** — doğalgaz tesisatı, kombi, klima, ısı pompası, VRF ve yangın algılama için ayrı sayfalar; ürünlerde Product schema.",
+          "**Hizmet ve ürün sayfaları** — doğalgaz tesisatı, kombi, klima, ısı pompası ve VRF için ayrı sayfalar; ürünlerde Product schema.",
           "**36 soruluk SSS** — soru biçimli başlıklar, kısa doğrudan cevaplar, FAQPage schema ve Speakable işaretlemesi.",
           "**Yapısal veri grafiği** — LocalBusiness/Organization, Service, Product, FAQPage, BreadcrumbList ve lisans bilgili ImageObject düğümleri.",
           "**Yapay zekâ araması altyapısı** — AI botlarına açık robots.txt, llms.txt ve llms-full.txt içinde firmanın yetki bilgisi ve dağıtım şirketi kaynağı; IndexNow.",
@@ -156,7 +156,7 @@ export const cases: CaseStudy[] = [
       { type: "h2", text: "Ne gördük?" },
       {
         type: "p",
-        text: "**Ölçüm tarihinde ChatGPT'ye \"Polatlı doğalgaz firması\" sorulduğunda BNS ilk sırada önerildi ve site bağlantısıyla listelendi.** Aynı gün sabah yapılan ön testte firma hiç görünmüyordu; aradaki fark, yetki bilgisinin kaynak gösterilmesi ve llms.txt'in yeniden yazılmasıydı. Bu gözlem tarihlidir; yapay zekâ araçlarının cevapları değişebilir.",
+        text: "**Ölçüm tarihinde ChatGPT'ye \"Polatlı doğalgaz firması\" sorulduğunda BNS ilk sırada önerildi ve site bağlantısıyla listelendi.** Aynı gün sabah yapılan ön testte firma hiç görünmüyordu; aradaki dönemde yetki bilgisi kaynak gösterildi, llms.txt ve llms-full.txt yeniden yazıldı ve değişiklikler IndexNow ile bildirildi. Bu gözlem tarihlidir; yapay zekâ araçlarının cevapları değişebilir.",
       },
       { type: "h2", text: "Bu vakadan ne öğrendik?" },
       {
@@ -204,15 +204,15 @@ export const cases: CaseStudy[] = [
     services: ["web-sitesi-gelistirme", "seo-geo-aeo"],
     stack: ["Astro", "Cloudflare", "Offer / RealEstateListing schema", "IndexNow", "Google Business Profile"],
     facts: [
-      { label: "Başlangıç", value: "Sitesiz, Maps kaydı sahipsiz, portföy sosyal medyada dağınık" },
+      { label: "Başlangıç", value: "Erişilemeyen eski site, sahiplenilmemiş Haritalar kaydı, aranabilir ilan adresi yok" },
       { label: "Kurulan", value: "İlan sistemi + detay sayfaları + yapısal veri + EN alıcı rehberi" },
-      { label: "Sürdürülen", value: "İlan ekleme/kapama, GBP sahiplenme, dizin ve IndexNow bildirimi" },
+      { label: "Sürdürülen", value: "İlan ekleme/kapama, Haritalar kaydı sahiplenme süreci, IndexNow bildirimi" },
     ],
     blocks: [
       { type: "h2", text: "Sorun neydi?" },
       {
         type: "p",
-        text: "Çolakoğlu Emlak, Muğla Menteşe'de 1994'ten beri faaliyet gösteren bir emlak ofisi. Portföy sosyal medyada dağınıktı, ilanların aranabilir bir adresi yoktu ve Google Haritalar'daki kayıt sahiplenilmemişti. Alıcılar \"Muğla satılık daire\", \"Menteşe kiralık büro\" gibi niyetlerle arıyor; yabancı alıcılar İngilizce bilgi istiyor.",
+        text: "Çolakoğlu Emlak, Muğla Menteşe'de 1994'ten beri faaliyet gösteren bir emlak ofisi. Eski site erişilemez durumdaydı, ilanların aranabilir bir adresi yoktu ve Google Haritalar'daki kayıt sahiplenilmemişti. Alıcılar \"Muğla satılık daire\", \"Menteşe kiralık büro\" gibi niyetlerle arıyor; yabancı alıcılar İngilizce bilgi istiyor.",
       },
       { type: "h2", text: "Ne kurduk?" },
       {
@@ -223,7 +223,7 @@ export const cases: CaseStudy[] = [
           "**Kiralandı / satıldı akışı** — kapanan ilan listede sona düşer, fiyat ve teklif verisi kaldırılır, kartta durum rozeti görünür; mevcut olmayan teklife fiyat gösterilmez.",
           "**İngilizce alıcı rehberi** — Türkiye'de mülk alım sürecini anlatan ayrı sayfa; yabancı alıcı sorgularına cevap verir.",
           "**Yayın ve bildirim** — Cloudflare üzerinde statik yayın, içerik değişince IndexNow ile arama motorlarına anında bildirim.",
-          "**Site dışı kimlik** — mevcut Haritalar kaydının sahiplenilmesi ve işletme hesaplarının işletme adına açılması.",
+          "**Site dışı kimlik** — mevcut Haritalar kaydı için sahiplenme sürecinin başlatılması ve işletme hesaplarının işletme adına açılması.",
         ],
       },
       { type: "h2", text: "Nasıl ilerliyor?" },
@@ -289,7 +289,7 @@ export const cases: CaseStudy[] = [
         items: [
           "**Telegram botu** — ekip üyeleri bota yazıyor ya da sesli mesaj bırakıyor; yetkisiz kullanıcılar yalnızca kimlik komutunu görebiliyor.",
           "**Doğal dil anlama** — dil modeli mesajı tipine ayırıyor: tahsilat, usta ödemesi, müteahhit ödemesi, hatırlatma ya da rapor sorgusu; tutar, kişi, ödeme şekli ve notu alanlara çıkarıyor.",
-          "**Google Sheets kayıt** — altı sekmeli tek tablo: ödemeler, hatırlatmalar, ekip, işlem geçmişi, usta ve müteahhit ödemeleri.",
+          "**Google Sheets kayıt** — çok sekmeli tek tablo: ödemeler, hatırlatmalar, ekip, işlem geçmişi, usta ve müteahhit ödemeleri.",
           "**Komutlar** — /bugun, /haftalik, /liste, /borc, /ara, /aktivite ve doğal dilde \"bugün kim ne yaptı?\" gibi rapor soruları.",
           "**Hatırlatma akışı** — tarihli hatırlatmalar zamanında bildirilir, ertelenebilir; erteleme sayısı takip edilir.",
         ],

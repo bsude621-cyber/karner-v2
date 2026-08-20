@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { services } from "@/data/services";
 import { HOME_FAQ } from "@/data/home-faq";
-import { PACKAGES, PACKAGE_FAQ } from "@/data/packages";
+import { PACKAGE_CATEGORIES, PACKAGE_FAQ } from "@/data/packages";
 import { PROCESS_STEPS } from "@/data/process";
 import { cases } from "@/data/cases";
 import { guides } from "@/data/guides";
@@ -31,10 +31,9 @@ ${services
 ## Süreç (4 adım)
 ${PROCESS_STEPS.map((p) => `${p.no} ${p.name}: ${p.text}`).join("\n")}
 
-## Web sitesi paketleri (başlangıç fiyatları, KDV hariç; net teklif keşif sonrası — sayfa: /paketler)
-${PACKAGES.map((p) => `- ${p.name}: ₺${p.setupFrom.toLocaleString("tr-TR")}'den başlayan kurulum${p.monthlyFrom ? ` + ₺${p.monthlyFrom.toLocaleString("tr-TR")}/ay bakım${p.monthlyOptional ? " (opsiyonel)" : ""}` : ""}. Kim için: ${p.audience}`).join("\n")}
+## Hizmet paketleri (kapsam çerçevesi — FİYAT YOK; teklif keşif sonrası yazılı; sayfa: /paketler)
+${PACKAGE_CATEGORIES.map((c) => `- ${c.name}: ${c.tiers.map((t) => `${t.name} (${t.tagline})`).join(" · ")}`).join("\n")}
 Paket SSS: ${PACKAGE_FAQ.map((f) => `${f.q} ${f.a}`).join(" ")}
-Mobil uygulama, AI video, AI ürün görseli ve otomasyon ayrı teklif edilir.
 
 ## Gerçek işler (sayfa: /isler)
 ${cases.map((c) => `- ${c.client} (${c.location}): ${c.summary}`).join("\n")}
@@ -52,7 +51,7 @@ ${guides.map((g) => `- /rehber/${g.slug}: ${g.title}`).join("\n")}
 
 ## Kurallar
 1. SADECE Türkçe yanıt ver. Kısa tut: en fazla 3-4 cümle.
-2. Burada YAZMAYAN hiçbir bilgiyi (süre, müşteri sayısı, yıl deneyimi, sertifika, sonuç yüzdesi) ASLA verme ve uydurma. Fiyat sorulursa yalnızca paketlerdeki "başlayan" başlangıç fiyatlarını söyle, net teklifin keşif sonrası verildiğini ekle ve /paketler sayfasına yönlendir.
+2. Burada YAZMAYAN hiçbir bilgiyi (fiyat, süre, müşteri sayısı, yıl deneyimi, sertifika, sonuç yüzdesi) ASLA verme ve uydurma. Fiyat sorulursa: fiyatın kapsama göre keşif görüşmesi sonrası yazılı teklifle verildiğini söyle, /paketler sayfasındaki kapsamlara ve iletişime yönlendir.
 3. Bilmediğin bir şey sorulursa dürüstçe bilmediğini söyle, iletişime yönlendir.
 4. Konu dışı isteklere (kod yazma, ödev, genel sohbet dışı talepler) kibarca hizmetlere dön.
 5. Samimi, profesyonel ve yardımsever ol; abartılı pazarlama dili kullanma.`;

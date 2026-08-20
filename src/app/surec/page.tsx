@@ -34,11 +34,11 @@ const FAQ = [
   },
   {
     q: "İçeriği kim yazıyor?",
-    a: "Çerçeveyi ve taslağı biz hazırlarız; işletmeye özgü bilgiler (hizmet kapsamı, bölge, ekip, yetki belgeleri) sizden gelir ve sizin onayınızla yayınlanır. Doğrulanmamış sayı, sertifika veya müşteri yorumu yazmayız; bilgi yoksa sayfa o bilgiyi beklemeden yayına çıkmaz.",
+    a: "Çerçeveyi ve taslağı biz hazırlarız; işletmeye özgü bilgiler (hizmet kapsamı, bölge, ekip, yetki belgeleri) sizden gelir ve sizin onayınızla yayınlanır. Doğrulanmamış sayı, sertifika veya müşteri yorumu yazmayız; onaylanmamış bilgi yayınlanmaz.",
   },
   {
     q: "Teslimden sonra ne olur?",
-    a: "Yayın sonrası ölçüm başlar: arama kayıtları açılır, hedef sorgular klasik arama ve yapay zekâ araçlarında birlikte izlenir. Bakım kapsamı varsa içerik güncellemeleri ve aylık özet devam eder; yoksa site ve alan adı sizde kalır, istediğinizde tekrar başlanır.",
+    a: "Yayın sonrası ölçüm başlar: arama kayıtları açılır, hedef sorgular klasik arama ve yapay zekâ araçlarında birlikte izlenir. Bakım kapsamı varsa içerik güncellemeleri ve aylık özet devam eder; yoksa site ve alan adı erişimleri sizde kalır, istediğinizde tekrar başlanır.",
   },
   {
     q: "Mevcut sitemi koruyarak ilerleyebilir miyiz?",

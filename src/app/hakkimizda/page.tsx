@@ -194,7 +194,7 @@ export default function AboutPage() {
           <p className="leading-relaxed text-white/70">
             Modern ve kanıtlanmış bir teknoloji yığınıyla üretiyoruz: web'de
             Next.js ve Three.js, mobilde Expo, arka planda Supabase, otomasyonda
-            n8n ve Claude API, medya üretiminde Veo, Kling ve Adobe Firefly.
+            n8n ve dil modeli API'leri, medya üretiminde Veo, Kling ve Adobe Firefly.
             Tekrarlayan işleri otomasyona devrettiğimiz için zamanımız tasarıma,
             stratejiye ve kaliteye kalır. Her projede önce hedefi netleştirir,
             sonra ölçülebilir sonuca göre üretiriz.

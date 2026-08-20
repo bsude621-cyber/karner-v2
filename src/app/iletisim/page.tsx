@@ -29,15 +29,15 @@ const crumbs: Crumb[] = [
 const FAQ = [
   {
     q: "Ne kadar sürede dönüş alırım?",
-    a: "Form ve e-posta mesajlarına genellikle aynı iş günü içinde dönüyoruz; telefonla ulaşamazsanız kısa bir mesaj bırakın, arayalım. İlk görüşme kısa bir keşiftir: hedefi ve mevcut durumu anlarız, sonra yazılı kapsam göndeririz.",
+    a: "Form ve e-posta mesajlarına kısa sürede dönüyoruz; telefonla ulaşamazsanız kısa bir mesaj bırakın, arayalım. İlk görüşme kısa bir keşiftir: hedefi ve mevcut durumu anlarız, sonra yazılı kapsam göndeririz.",
   },
   {
     q: "Görüşme için ofise gelmem gerekir mi?",
-    a: "Gerekmez. Keşif, tasarım onayı ve teslim süreçlerini çevrim içi yürütüyoruz; Türkiye'nin her ilinden işletmelerle bu şekilde çalışıyoruz. İsterseniz Muğla veya Ankara'da yüz yüze de görüşebiliriz.",
+    a: "Gerekmez. Keşif, tasarım onayı ve teslim süreçlerini çevrim içi yürütüyoruz; Türkiye genelindeki işletmelerle bu şekilde çalışıyoruz. İstenirse yüz yüze görüşme de planlanabilir.",
   },
   {
     q: "Teklif almak ücretli mi?",
-    a: "Hayır. Keşif görüşmesi ve yazılı teklif ücretsizdir; teklifte kapsam, teslim edilecekler ve bedel açıkça yazar. Teklifte yazmayan bir kalem faturalandırılmaz.",
+    a: "Hayır. Keşif görüşmesi ve yazılı teklif ücretsizdir; teklifte kapsam, teslim edilecekler ve bedel açıkça yazar.",
   },
 ];
 

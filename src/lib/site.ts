@@ -115,26 +115,6 @@ export function organizationJsonLd() {
         areaServed: "TR",
       },
     ],
-    location: [
-      {
-        "@type": "Place",
-        name: "KARNER — Muğla",
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: "Muğla",
-          addressCountry: "TR",
-        },
-      },
-      {
-        "@type": "Place",
-        name: "KARNER — Ankara",
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: "Ankara",
-          addressCountry: "TR",
-        },
-      },
-    ],
     areaServed: [
       { "@type": "Country", name: "Türkiye" },
       { "@type": "City", name: "Muğla" },
