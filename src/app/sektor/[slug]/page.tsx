@@ -4,6 +4,10 @@ import { notFound } from "next/navigation";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { sectors, getSector } from "@/data/sectors";
 import { getService } from "@/data/services";
+import { getGuide } from "@/data/guides";
+import { PILLAR_3D } from "@/data/pillar-3d";
+import { PILLAR_AI_VIDEO } from "@/data/pillar-ai-video";
+import { PILLAR_GEO } from "@/data/pillar-geo";
 import Footer from "@/components/Footer";
 import SubpageHeader from "@/components/seo/SubpageHeader";
 import Breadcrumb from "@/components/seo/Breadcrumb";
@@ -11,6 +15,17 @@ import ArticleMeta from "@/components/seo/ArticleMeta";
 import GuideBlocks from "@/components/seo/GuideBlocks";
 import FaqList from "@/components/seo/FaqList";
 import { SITE_URL, breadcrumbJsonLd, type Crumb } from "@/lib/site";
+
+const PILLAR_TITLES: Record<string, string> = {
+  [`/${PILLAR_3D.slug}`]: PILLAR_3D.title,
+  [`/${PILLAR_AI_VIDEO.slug}`]: PILLAR_AI_VIDEO.title,
+  [`/${PILLAR_GEO.slug}`]: PILLAR_GEO.title,
+};
+function guideLabel(href: string): string {
+  const m = href.match(/^\/rehber\/(.+)$/);
+  if (m) return getGuide(m[1])?.title ?? m[1].replace(/-/g, " ");
+  return PILLAR_TITLES[href] ?? href.replace(/^\//, "").replace(/-/g, " ");
+}
 
 export function generateStaticParams() {
   return sectors.map((s) => ({ slug: s.slug }));
@@ -137,7 +152,7 @@ export default async function SectorPage({
               muted
               loop
               playsInline
-              autoPlay
+              controls
               preload="none"
               aria-label={`${s.demo.title} demo sitesi önizleme`}
             />
@@ -192,7 +207,7 @@ export default async function SectorPage({
                     href={href}
                     className="inline-block rounded-full border border-white/15 px-4 py-2 text-sm text-white/80 transition hover:border-accent/60 hover:text-white"
                   >
-                    {href.replace(/^\/rehber\//, "").replace(/^\//, "").replace(/-/g, " ")}
+                    {guideLabel(href)}
                   </Link>
                 </li>
               ))}

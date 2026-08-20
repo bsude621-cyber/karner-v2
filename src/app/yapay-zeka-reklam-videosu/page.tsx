@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { PILLAR_AI_VIDEO, PILLAR_AI_VIDEO_FAQ } from "@/data/pillar-ai-video";
 import { SITE_URL, breadcrumbJsonLd, type Crumb } from "@/lib/site";
 import { pageDates } from "@/data/dates";
+import { guidesByCluster } from "@/data/guides";
 import Breadcrumb from "@/components/seo/Breadcrumb";
 import ArticleMeta from "@/components/seo/ArticleMeta";
 
@@ -22,9 +23,10 @@ export const metadata: Metadata = {
 
 const pageUrl = `${SITE_URL}/${PILLAR_AI_VIDEO.slug}`;
 const dates = pageDates(`/${PILLAR_AI_VIDEO.slug}`);
+const spokes = guidesByCluster("video");
 const crumbs: Crumb[] = [
   { name: "Ana Sayfa", href: "/" },
-  { name: "Rehberler", href: "/hizmetler#rehberler" },
+  { name: "Rehberler", href: "/rehber" },
   { name: PILLAR_AI_VIDEO.title, href: `/${PILLAR_AI_VIDEO.slug}` },
 ];
 
@@ -354,6 +356,24 @@ export default function PillarAiVideoPage() {
         </section>
 
         {/* CTA */}
+        <section>
+          <h2 className="mb-2 text-2xl font-semibold text-white">Bu konudaki rehberler</h2>
+          <p className="mb-6 text-white/65">Ana rehberin açtığı soruları tek tek ele alan kısa rehberler.</p>
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {spokes.map((g) => (
+              <li key={g.slug}>
+                <Link
+                  href={`/rehber/${g.slug}`}
+                  className="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-accent/50 hover:bg-white/[0.06]"
+                >
+                  <span className="font-medium text-white">{g.title}</span>
+                  <span className="mt-2 text-sm leading-relaxed text-white/60">{g.seoDescription}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         <section className="rounded-2xl border border-accent/30 bg-accent/[0.07] px-6 py-10 text-center sm:px-10">
           <h2 className="text-2xl font-semibold text-white">
             Markanız için ilk AI reklam videosunu konuşalım

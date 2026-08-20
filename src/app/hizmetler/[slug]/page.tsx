@@ -7,6 +7,9 @@ import { services, getService } from "@/data/services";
 import { SITE_URL, breadcrumbJsonLd, type Crumb } from "@/lib/site";
 import { pageDates } from "@/data/dates";
 import Breadcrumb from "@/components/seo/Breadcrumb";
+import { guides } from "@/data/guides";
+import { cases } from "@/data/cases";
+import { sectors } from "@/data/sectors";
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -129,6 +132,9 @@ export default async function ServiceDetailPage({
   if (!service) notFound();
 
   const others = services.filter((s) => s.slug !== service.slug);
+  const relGuides = guides.filter((g) => g.serviceSlug === service.slug);
+  const relCases = cases.filter((c) => c.services.includes(service.slug));
+  const relSectors = sectors.filter((x) => x.services.includes(service.slug));
 
   return (
     <main className="relative min-h-screen bg-background">
@@ -286,6 +292,68 @@ export default async function ServiceDetailPage({
           </Link>
         </div>
       </section>
+
+      {/* İlgili rehberler / işler / sektörler — aynı veriden, elle bakım yok */}
+      {relGuides.length || relCases.length || relSectors.length ? (
+        <section className="mx-auto max-w-5xl px-6 pb-4">
+          {relGuides.length ? (
+            <div className="mb-10">
+              <h2 className="text-xl font-semibold text-white/80">Bu hizmetle ilgili rehberler</h2>
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                {relGuides.map((g) => (
+                  <li key={g.slug}>
+                    <Link
+                      href={`/rehber/${g.slug}`}
+                      className="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-accent/50 hover:bg-white/[0.06]"
+                    >
+                      <span className="font-medium text-white">{g.title}</span>
+                      <span className="mt-2 text-sm leading-relaxed text-white/60">{g.seoDescription}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+          {relCases.length ? (
+            <div className="mb-10">
+              <h2 className="text-xl font-semibold text-white/80">Bu hizmetle yaptığımız işler</h2>
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                {relCases.map((c) => (
+                  <li key={c.slug}>
+                    <Link
+                      href={`/isler/${c.slug}`}
+                      className="group flex items-center justify-between rounded-xl border border-accent/25 bg-accent/[0.06] px-5 py-4 text-sm text-white/90 transition hover:border-accent/60"
+                    >
+                      <span>
+                        <span className="block text-xs uppercase tracking-[0.2em] text-accent-light">{c.sector}</span>
+                        <span className="mt-1 block font-medium">{c.client}</span>
+                      </span>
+                      <ArrowRight className="h-4 w-4 text-white/40 transition group-hover:translate-x-1" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+          {relSectors.length ? (
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-white/80">Sektörlere göre</h2>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {relSectors.map((x) => (
+                  <li key={x.slug}>
+                    <Link
+                      href={`/sektor/${x.slug}`}
+                      className="inline-block rounded-full border border-white/15 px-4 py-2 text-sm text-white/80 transition hover:border-accent/60 hover:text-white"
+                    >
+                      {x.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </section>
+      ) : null}
 
       {/* Diğer hizmetler */}
       <section className="mx-auto max-w-5xl px-6 pb-24">

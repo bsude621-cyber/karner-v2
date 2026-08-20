@@ -214,7 +214,7 @@ export default function AboutPage() {
             <Link href="/#iletisim" className="btn btn-primary">
               İletişime Geç
             </Link>
-            <a href="tel:05442188645" className="btn btn-secondary">
+            <a href="tel:+905442188645" className="btn btn-secondary">
               0544 218 8645
             </a>
           </div>

@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
 import DeferredMount from "@/components/DeferredMount";
+import { Analytics } from "@vercel/analytics/next";
 import {
   ORG_DESCRIPTION,
   SITE_NAME,
@@ -95,6 +96,8 @@ export default function RootLayout({
           <CustomCursor />
         </DeferredMount>
         <SmoothScroll>{children}</SmoothScroll>
+        {/* Vercel Web Analytics — çerezsiz, anonim sayfa görüntüleme (gizlilik metninde beyan edildi) */}
+        <Analytics />
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Mail, Phone, MapPin, Share2, GitBranch, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, GitBranch } from "lucide-react";
 import {
   FooterBackgroundGradient,
   TextHoverEffect,
@@ -70,21 +70,12 @@ const contactInfo = [
   },
 ];
 
+// Gerçek hesaplar geldikçe eklenir (Instagram / LinkedIn) — yer tutucu bağlantı yok.
 const socialLinks = [
-  {
-    icon: <Share2 size={18} />,
-    label: "Sosyal",
-    href: "/#iletisim",
-  },
   {
     icon: <GitBranch size={18} />,
     label: "GitHub",
     href: "https://github.com/bsude621-cyber",
-  },
-  {
-    icon: <Globe size={18} />,
-    label: "Web",
-    href: "/",
   },
 ];
 

@@ -85,9 +85,10 @@ export default function PrivacyPage() {
           <li className="flex gap-3">
             <span className="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-accent/70" />
             <span>
-              <strong className="text-white">İletişim formu:</strong> ad soyad, e-posta, telefon ve
-              mesaj. Form, tarayıcınızdaki e-posta uygulamasını açarak mesajı bize iletir; veriler
-              sitenin sunucusunda saklanmaz, e-posta olarak bize ulaşır.
+              <strong className="text-white">İletişim formu:</strong> ad soyad, e-posta, telefon,
+              mesaj ve varsa seçtiğiniz paket. Form verisi, talebinize dönüş yapabilmemiz için
+              ekibimize anlık bildirim olarak iletilir ve kendi iş akışı sistemimizde (n8n) kayıt
+              altına alınır; üçüncü taraflarla paylaşılmaz.
             </span>
           </li>
           <li className="flex gap-3">
@@ -112,9 +113,11 @@ export default function PrivacyPage() {
 
         <H2>Çerezler ve izleme</H2>
         <P>
-          Bu site pazarlama veya davranış takibi amaçlı çerez kullanmaz; üçüncü taraf reklam ya da
-          analitik izleyici yüklenmez. Sitenin çalışması için gerekli teknik çerezler dışında çerez
-          bırakılmaz. Bu durum değişirse bu sayfa güncellenir ve gerekiyorsa onayınız istenir.
+          Bu site pazarlama veya davranış takibi amaçlı çerez kullanmaz; reklam izleyicisi yüklenmez.
+          Ziyaret sayılarını ölçmek için Vercel Web Analytics kullanılır: çerez bırakmaz, IP adresini
+          saklamaz, kişiyi tanımlamayan toplu sayfa görüntüleme verisi üretir. Sitenin çalışması için
+          gerekli teknik çerezler dışında çerez bırakılmaz. Bu durum değişirse bu sayfa güncellenir ve
+          gerekiyorsa onayınız istenir.
         </P>
 
         <H2>Verileri hangi amaçla kullanıyoruz?</H2>
