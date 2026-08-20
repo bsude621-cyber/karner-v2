@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Footer from "@/components/Footer";
 import { PILLAR_AI_VIDEO, PILLAR_AI_VIDEO_FAQ } from "@/data/pillar-ai-video";
 import { SITE_URL, breadcrumbJsonLd, type Crumb } from "@/lib/site";
@@ -140,26 +139,7 @@ export default function PillarAiVideoPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Üst bar */}
-      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/10 bg-background/70 px-6 py-4 backdrop-blur-md sm:px-10">
-        <Link href="/" className="flex items-center gap-3">
-          <Image
-            src="/logo-emblem.png"
-            alt="KARNER"
-            width={40}
-            height={40}
-            className="h-10 w-10 object-contain"
-          />
-          <span className="text-lg font-bold tracking-[0.2em]">KARNER</span>
-        </Link>
-        <Link
-          href="/"
-          className="group inline-flex items-center gap-2 text-sm text-white/60 transition hover:text-white"
-        >
-          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-          Ana Sayfa
-        </Link>
-      </header>
+      <div className="h-16" aria-hidden />
 
       {/* Başlık */}
       <section className="relative overflow-hidden">

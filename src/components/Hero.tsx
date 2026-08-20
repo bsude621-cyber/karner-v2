@@ -64,40 +64,7 @@ export default function Hero() {
       {/* gradient karartma — metin okunurluğu için (robotların üstünde ince bir kat) */}
       <div className="pointer-events-none absolute inset-0 z-[14] bg-gradient-to-b from-background/40 via-transparent to-background" />
 
-      {/* Üst navigasyon */}
-      <nav className="absolute top-0 z-30 flex w-full items-center justify-between px-6 py-6 sm:px-10">
-        <a href="#" className="flex items-center gap-4">
-          <Image
-            src="/logo-emblem.png"
-            alt="KARNER"
-            width={72}
-            height={72}
-            className="h-16 w-16 object-contain drop-shadow-lg"
-            priority
-          />
-          <span className="text-2xl font-bold tracking-[0.25em]">KARNER</span>
-        </a>
-        <div className="hidden gap-8 text-sm text-white/70 sm:flex">
-          {[
-            { label: "Hizmetler", href: "/hizmetler" },
-            { label: "İşlerimiz", href: "/isler" },
-            { label: "Rehberler", href: "/rehber" },
-            { label: "Paketler", href: "/paketler" },
-            { label: "İletişim", href: "/iletisim" },
-          ].map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="group relative px-1 transition-colors duration-300 hover:text-white"
-            >
-              <span className="relative z-10 transition-[text-shadow] duration-300 group-hover:[text-shadow:0_0_14px_rgba(123,63,228,0.95)]">
-                {item.label}
-              </span>
-              <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-to-r from-accent to-accent-2 transition-all duration-300 group-hover:w-full" />
-            </a>
-          ))}
-        </div>
-      </nav>
+      {/* Üst navigasyon: site geneli sabit SiteNav (layout) */}
 
       {/* Merkez içerik.
           Mobil: blok tüm yüksekliği kaplar, metin üstte (navigasyonun hemen
