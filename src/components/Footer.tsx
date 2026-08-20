@@ -34,6 +34,7 @@ const footerLinks = [
       { label: "SEO / GEO / AEO", href: "/hizmetler/seo-geo-aeo" },
       { label: "Otomasyon", href: "/hizmetler/otomasyon-sistemleri" },
       { label: "Marka & Tasarım", href: "/hizmetler/marka-grafik-tasarim" },
+      { label: "Sosyal Medya İçerik", href: "/hizmetler/sosyal-medya-icerik-yonetimi" },
     ],
   },
   {
@@ -98,8 +99,9 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm leading-relaxed text-white/55">
-              Yazılım ve medyayı bir araya getiren dijital stüdyo. 3D, WebGL ve
-              AI ile markalar için sıra dışı deneyimler tasarlıyoruz.
+              Yazılım ve medyayı bir araya getiren dijital stüdyo. Web, mobil,
+              AI video ve görsel, SEO/GEO/AEO, otomasyon, marka ve sosyal medya
+              içeriği — tek ekip, uçtan uca.
             </p>
           </div>
 

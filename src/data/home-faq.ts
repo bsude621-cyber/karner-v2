@@ -8,7 +8,7 @@ export type HomeFaq = { q: string; a: string };
 export const HOME_FAQ: HomeFaq[] = [
   {
     q: "KARNER ne iş yapar?",
-    a: "KARNER; yazılım ve medyayı aynı çatıda birleştiren bir dijital stüdyodur. Web sitesi geliştirme (3D ve animasyonlu dâhil), mobil uygulama, yapay zekâ destekli video ve ürün görseli, SEO/GEO/AEO görünürlük çalışması, iş akışı otomasyonu ve marka tasarımı olmak üzere yedi hizmet alanında çalışır.",
+    a: "KARNER; yazılım ve medyayı aynı çatıda birleştiren bir dijital stüdyodur. Web sitesi geliştirme (3D ve animasyonlu dâhil), mobil uygulama, yapay zekâ destekli video ve ürün görseli, SEO/GEO/AEO görünürlük çalışması, iş akışı otomasyonu, marka tasarımı ve sosyal medya içerik yönetimi olmak üzere sekiz hizmet alanında çalışır.",
   },
   {
     q: "Hangi şehirlere hizmet veriyorsunuz?",

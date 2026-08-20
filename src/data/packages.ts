@@ -290,6 +290,21 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         highlight: true,
       },
       {
+        slug: "haritalar-isletme-profili",
+        name: "Haritalar & İşletme Profili",
+        tagline: "Google Haritalar'da doğru, dolu ve yönetilen profil.",
+        audience: "Yerel müşteriye hizmet veren, Haritalar'da çıkmayan ya da profili sahipsiz/eksik olan işletme.",
+        includes: [
+          "Google İşletme Profili sahiplenme / doğrulama süreci yönetimi",
+          "Kategori, hizmet alanı, çalışma saatleri, açıklama ve ürün/hizmet listesi",
+          "Fotoğraf düzeni (gerçek mekân, ekip, iş) ve kapak/logo",
+          "Ad-adres-telefon tutarlılığı ve temel dizin kayıtları",
+          "Yorum toplama akışı önerisi ve yorum yanıt şablonları",
+          "Bing Places ve Apple Haritalar kaydı",
+        ],
+        excludes: ["Yorum yazdırma / sahte yorum (yapılmaz)", "Aylık yönetim (Sürekli Görünürlük paketinde)"],
+      },
+      {
         slug: "surekli-gorunurluk",
         name: "Sürekli Görünürlük",
         tagline: "Aylık ritim: içerik, ölçüm, düzeltme.",
@@ -418,6 +433,58 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       },
     ],
   },
+  {
+    slug: "sosyal-medya",
+    serviceSlug: "sosyal-medya-icerik-yonetimi",
+    name: "Sosyal medya içerik yönetimi",
+    intro:
+      "İçerik üretimi ve yayın takvimi: plan, post/reels üretimi, yayın, kısa rapor. DM/yorum yönetimi ve reklam bütçesi hiçbir pakette yoktur; içerik onayı işletmede kalır.",
+    tiers: [
+      {
+        slug: "baslangic",
+        name: "Başlangıç",
+        tagline: "Hesap sessiz kalmasın; düzenli, gerçek içerik.",
+        audience: "Sosyal medyayı yeni düzene sokan esnaf ve hizmet işletmesi.",
+        includes: [
+          "Aylık içerik planı (3 sütun) ve yayın takvimi",
+          "Ayda 8 gönderi (görsel/carousel) — metin + tasarım",
+          "Haftalık hikâye önerileri (işletme paylaşır)",
+          "Profil bilgilerinin siteyle uyumu (bio, bağlantı, iletişim)",
+          "Aylık kısa özet",
+        ],
+        excludes: ["Reels üretimi", "DM/yorum yönetimi", "Reklam bütçesi"],
+      },
+      {
+        slug: "duzenli",
+        name: "Düzenli",
+        tagline: "Post + reels ritmi: bilgi ve erişim birlikte.",
+        audience: "Takipçi kazanmak ve mesaj almak isteyen klinik, emlak, butik, hizmet işletmesi.",
+        includes: [
+          "Aylık içerik planı (4 sütun) ve yayın takvimi",
+          "Ayda 12 gönderi + 4 kısa video (reels, 15–30 sn, altyazılı)",
+          "Aylık çekim listesi ve yönlendirme; yapay zekâ destekli görsel/video üretimi",
+          "Onay tablosu ve planlı yayın",
+          "Aylık rapor: izlenme, kaydetme, gelen mesaj sayısı (işletme paylaşırsa)",
+        ],
+        excludes: ["DM/yorum yönetimi", "Reklam bütçesi", "Etkileyici (influencer) iş birlikleri"],
+        highlight: true,
+      },
+      {
+        slug: "tam-akis",
+        name: "Tam Akış",
+        tagline: "Her hafta video, her ay strateji.",
+        audience: "Sosyal medyayı ana müşteri kanalı yapan, kampanya dönemleri olan işletme.",
+        includes: [
+          "Düzenli kapsamının tamamı",
+          "Ayda 16 gönderi + 8 kısa video",
+          "Kampanya/sezon içerik setleri (afiş, hikâye, reels)",
+          "Aylık strateji görüşmesi ve rakip içerik taraması",
+          "Site içeriğiyle bağ: SSS ve rehber konularından sosyal içerik türetme",
+        ],
+        excludes: ["DM/yorum yönetimi", "Reklam bütçesi", "Canlı yayın yönetimi"],
+      },
+    ],
+  },
 ];
 
 export const PACKAGE_FAQ = [
@@ -435,7 +502,7 @@ export const PACKAGE_FAQ = [
   },
   {
     q: "Aylık bakım zorunlu mu?",
-    a: "Tek seferlik paketlerde (Vitrin, Tek Reel, Logo, Tanı Raporu vb.) zorunlu değil. Sonucu içerik ve takibe bağlı paketlerde (Bölgesel Lider, Sürekli Görünürlük, Aylık İçerik, Asistan) aylık çalışma paketin parçasıdır; bakımsız bırakılan site zamanla görünürlüğünü kaybeder.",
+    a: "Tek seferlik paketlerde (Vitrin, Tek Reel, Logo, Tanı Raporu, Haritalar & İşletme Profili vb.) zorunlu değil. Sonucu içerik ve takibe bağlı paketlerde (Bölgesel Lider, Sürekli Görünürlük, Aylık İçerik, sosyal medya paketleri, Asistan) aylık çalışma paketin parçasıdır; bakımsız bırakılan site zamanla görünürlüğünü kaybeder.",
   },
   {
     q: "Neden ulusal sıralama taahhüdü yok?",

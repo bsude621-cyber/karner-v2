@@ -15,7 +15,7 @@ const pageUrl = `${SITE_URL}${PATH}`;
 const dates = pageDates(PATH);
 const TITLE = "Hizmet Paketleri — Web, Mobil, AI Video, SEO/GEO/AEO, Otomasyon | KARNER";
 const DESCRIPTION =
-  "KARNER'ın yedi hizmet kategorisi için paket kapsamları: web sitesi, mobil uygulama, AI video, AI ürün görseli, SEO/GEO/AEO, otomasyon, marka tasarımı. Her pakette neyin dâhil, neyin hariç olduğu açık; teklif keşif sonrası yazılı.";
+  "KARNER'ın sekiz hizmet kategorisi için paket kapsamları: web sitesi, mobil uygulama, AI video, AI ürün görseli, SEO/GEO/AEO, otomasyon, marka tasarımı, sosyal medya içeriği. Her pakette neyin dâhil, neyin hariç olduğu açık; teklif keşif sonrası yazılı.";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -104,7 +104,7 @@ export default function PackagesPage() {
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
             <strong className="text-white">
-              Yedi kategori, her birinde üç paket: neyin dâhil, neyin hariç olduğu baştan yazılı.
+              Sekiz kategori, her birinde kapsam paketleri: neyin dâhil, neyin hariç olduğu baştan yazılı.
             </strong>{" "}
             Paketler kapsamı netleştirir; fiyat keşif görüşmesinden sonra yazılı teklifle verilir.
           </p>

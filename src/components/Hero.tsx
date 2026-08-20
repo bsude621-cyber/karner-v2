@@ -95,8 +95,9 @@ export default function Hero() {
         </h1>
 
         <p className="rise-in rise-in-3 mt-5 max-w-[19rem] text-sm leading-relaxed text-white/60 sm:mt-8 sm:max-w-xl sm:text-lg">
-          3D, WebGL ve modern yazılım teknolojileriyle markalar için sıra dışı
-          dijital deneyimler tasarlıyoruz.
+          Web sitesi ve mobil uygulamadan yapay zekâ video ve görsele, arama
+          görünürlüğünden otomasyon, marka ve sosyal medya içeriğine — işletmenizin
+          dijital tarafını tek ekip, uçtan uca kurar.
         </p>
 
         {/* Mobilde alta yapıştırmak yerine yüzdeyle konumlandırılıyor: robotların

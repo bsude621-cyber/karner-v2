@@ -367,6 +367,61 @@ export const services: Service[] = [
       },
     ],
   },
+  {
+    slug: "sosyal-medya-icerik-yonetimi",
+    no: "08",
+    tag: "Sosyal Medya",
+    title: "Sosyal Medya İçerik Yönetimi",
+    summary: "Aylık içerik planı, post ve reels üretimi, yayın takvimi — DM/yorum yönetimi hariç.",
+    imageSrc: "/services/sosyal-medya-icerik-yonetimi.jpg",
+    tags: ["Instagram", "Reels", "İçerik takvimi", "AI görsel & video"],
+    intro:
+      "İşletmenizin sosyal medyasını içerik tarafından yönetiyoruz: aylık plan, post ve reels üretimi, yayın takvimi ve kısa aylık rapor. Katalog değil güven kuran içerik; onay sizde, üretim bizde.",
+    features: [
+      {
+        title: "Aylık İçerik Planı",
+        desc: "3–4 içerik sütunu, haftalık ritim ve yayın takvimi; kampanya ve sezon tarihleri baştan işaretlenir.",
+      },
+      {
+        title: "Post & Reels Üretimi",
+        desc: "Gerçek çekim yönlendirmesi + yapay zekâ destekli görsel ve kısa video; marka şablonlarıyla tutarlı görünüm, altyazı dâhil.",
+      },
+      {
+        title: "Yayın ve Takvim Yönetimi",
+        desc: "Onaylanan içerikler planlanır ve yayınlanır; profil bilgileri siteyle tutarlı tutulur.",
+      },
+      {
+        title: "Aylık Kısa Rapor",
+        desc: "Hangi içerik izlendi, hangi sütun sessiz kaldı; sonraki ayın dağılımı buna göre güncellenir.",
+      },
+    ],
+    seoTitle: "Sosyal Medya İçerik Yönetimi — Post, Reels, Takvim | KARNER",
+    seoDescription:
+      "KOBİ'ler için sosyal medya içerik yönetimi: aylık içerik planı, post ve reels üretimi, yayın takvimi, kısa aylık rapor. DM/yorum yönetimi ve reklam bütçesi kapsam dışı; onay işletmede.",
+    guide: {
+      href: "/rehber/instagram-icerik-takvimi-nasil-kurulur",
+      label: "Rehber",
+      desc: "Instagram içerik takvimi nasıl kurulur? Sütunlar, ritim, üretim ve yayın akışı.",
+    },
+    faq: [
+      {
+        q: "Yorumlara ve mesajlara siz mi cevap veriyorsunuz?",
+        a: "Hayır. Kapsam içerik üretimi ve yayın takvimidir; DM ve yorum yönetimi işletmede kalır. Gelen mesajlar fiyat, randevu ve özel durum içerdiği için en doğru cevap işletmeden gelir; istenirse bu akış için ayrı bir otomasyon (karşılama botu) kurulabilir.",
+      },
+      {
+        q: "Fotoğraf ve videoyu kim çekiyor?",
+        a: "Planı ve çekim listesini biz hazırlarız; işletme telefonla çeker ya da belirlenen günde birlikte çekim yapılır. Ürün görselleri ve kısa sahneler için yapay zekâ destekli üretim kullanılır; gerçek mekân ve ekip görüntüsü her zaman omurgadır.",
+      },
+      {
+        q: "İçerikleri yayından önce görecek miyim?",
+        a: "Evet. Tüm içerikler tek tabloda onayınıza sunulur; fiyat, kampanya koşulu ve ürün bilgisi onaysız yayınlanmaz. Onay sonrası yayın takvimine göre paylaşılır.",
+      },
+      {
+        q: "Reklam (sponsorlu gönderi) yönetimi dâhil mi?",
+        a: "Dâhil değil. Organik içerik üretimi ve yayınıyla ilgileniriz; reklam bütçesi ve hedefleme yönetimi ayrı bir iştir ve kapsam dışında tutulur.",
+      },
+    ],
+  },
 ];
 
 export function getService(slug: string): Service | undefined {

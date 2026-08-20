@@ -48,7 +48,7 @@ export const sectors: Sector[] = [
       poster: "/demos/meridyen-poster.jpg",
       video: "/demos/meridyen.webm",
     },
-    services: ["web-sitesi-gelistirme", "seo-geo-aeo", "otomasyon-sistemleri"],
+    services: ["web-sitesi-gelistirme", "seo-geo-aeo", "otomasyon-sistemleri", "sosyal-medya-icerik-yonetimi"],
     guides: [
       "/yapay-zeka-aramasinda-gorunmek",
       "/rehber/google-ai-overview-nasil-cikilir",
@@ -164,7 +164,7 @@ export const sectors: Sector[] = [
       poster: "/demos/diyetisyen-poster.jpg",
       video: "/demos/diyetisyen.webm",
     },
-    services: ["web-sitesi-gelistirme", "otomasyon-sistemleri", "seo-geo-aeo"],
+    services: ["web-sitesi-gelistirme", "otomasyon-sistemleri", "seo-geo-aeo", "sosyal-medya-icerik-yonetimi"],
     guides: [
       "/yapay-zeka-aramasinda-gorunmek",
       "/rehber/google-ai-overview-nasil-cikilir",
@@ -723,7 +723,7 @@ export const sectors: Sector[] = [
       "ai-video-reklam",
       "web-sitesi-gelistirme",
       "otomasyon-sistemleri",
-    ],
+    "sosyal-medya-icerik-yonetimi"],
     guides: ["/yapay-zeka-reklam-videosu", "/yapay-zeka-aramasinda-gorunmek"],
     blocks: [
       { type: "h2", text: "Bu sektörde müşteri sizi nasıl arar?" },

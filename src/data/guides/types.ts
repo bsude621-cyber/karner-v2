@@ -15,7 +15,7 @@ export type GuideBlock =
   | { type: "table"; caption?: string; head: string[]; rows: string[][] }
   | { type: "callout"; title?: string; text: string };
 
-export type GuideCluster = "geo" | "web" | "otomasyon" | "video" | "mobil";
+export type GuideCluster = "geo" | "web" | "otomasyon" | "video" | "mobil" | "sosyal";
 
 export type Guide = {
   slug: string;
@@ -46,4 +46,5 @@ export const CLUSTER_LABEL: Record<GuideCluster, string> = {
   otomasyon: "Otomasyon",
   video: "AI video ve reklam",
   mobil: "Mobil uygulama",
+  sosyal: "Sosyal medya",
 };

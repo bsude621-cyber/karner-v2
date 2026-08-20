@@ -29,6 +29,7 @@ export const PAGE_DATES: Record<string, PageDates> = {
   "/hizmetler/seo-geo-aeo": { published: "2026-08-11", modified: "2026-08-20" },
   "/hizmetler/otomasyon-sistemleri": { published: "2026-08-11", modified: "2026-08-20" },
   "/hizmetler/marka-grafik-tasarim": { published: "2026-08-11", modified: "2026-08-20" },
+  "/hizmetler/sosyal-medya-icerik-yonetimi": { published: "2026-08-20", modified: "2026-08-20" },
 };
 
 export function pageDates(path: string): PageDates {

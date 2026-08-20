@@ -16,7 +16,7 @@ const dates = pageDates(PATH);
 
 const TITLE = "Hizmetler — Web, Mobil, AI Video, SEO/GEO/AEO, Otomasyon | KARNER";
 const DESCRIPTION =
-  "KARNER'ın yedi hizmet alanı tek sayfada: 3D web sitesi geliştirme, mobil uygulama, AI video ve reklam, AI ürün görseli, SEO/GEO/AEO, iş akışı otomasyonu, marka ve grafik tasarım.";
+  "KARNER'ın sekiz hizmet alanı tek sayfada: 3D web sitesi geliştirme, mobil uygulama, AI video ve reklam, AI ürün görseli, SEO/GEO/AEO, iş akışı otomasyonu, marka ve grafik tasarım, sosyal medya içerik yönetimi.";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -101,12 +101,12 @@ export default function ServicesHubPage() {
             Hizmetler
           </p>
           <h1 className="max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl">
-            Yazılım ve medyada yedi hizmet, tek ekip
+            Yazılım ve medyada sekiz hizmet, tek ekip
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
             <strong className="text-white">
-              KARNER; web, mobil, yapay zekâ destekli medya, arama görünürlüğü
-              ve otomasyonu aynı çatıda sunan bir yazılım ve medya ajansıdır.
+              KARNER; web, mobil, yapay zekâ destekli medya, arama görünürlüğü,
+              otomasyon ve sosyal medya içeriğini aynı çatıda sunan bir yazılım ve medya ajansıdır.
             </strong>{" "}
             Aşağıdaki her hizmetin kendi sayfasında kapsam, çalışma biçimi ve
             sık sorulan sorular ayrıntılı anlatılır.

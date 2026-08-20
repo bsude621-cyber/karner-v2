@@ -40,6 +40,7 @@ export const KNOWS_ABOUT = [
   "AEO (Cevap Motoru Optimizasyonu)",
   "İş akışı otomasyonu",
   "Marka ve grafik tasarım",
+  "Sosyal medya içerik yönetimi",
 ] as const;
 
 /**

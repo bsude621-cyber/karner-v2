@@ -4,6 +4,7 @@ import { WEB_GUIDES } from "./web";
 import { MOBIL_GUIDES } from "./mobil";
 import { OTOMASYON_GUIDES } from "./otomasyon";
 import { VIDEO_GUIDES } from "./video";
+import { SOSYAL_GUIDES } from "./sosyal";
 
 export const guides: Guide[] = [
   ...GEO_GUIDES,
@@ -11,6 +12,7 @@ export const guides: Guide[] = [
   ...OTOMASYON_GUIDES,
   ...VIDEO_GUIDES,
   ...MOBIL_GUIDES,
+  ...SOSYAL_GUIDES,
 ];
 
 export function getGuide(slug: string): Guide | undefined {
