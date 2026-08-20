@@ -38,7 +38,7 @@ const FAQ = [
   },
   {
     q: "Teslimden sonra ne olur?",
-    a: "Yayın sonrası ölçüm başlar: arama kayıtları açılır, hedef sorgular klasik arama ve yapay zekâ araçlarında birlikte izlenir. Bakım kapsamı varsa içerik güncellemeleri ve aylık özet devam eder; yoksa site ve alan adı erişimleri sizde kalır, istediğinizde tekrar başlanır.",
+    a: "Yayın sonrası ölçüm başlar: arama kayıtları açılır, hedef sorgular klasik arama ve yapay zekâ araçlarında birlikte izlenir. Bakım kapsamı varsa içerik güncellemeleri ve aylık özet devam eder; yoksa site ve alan adı sizde kalır, istediğinizde tekrar başlanır.",
   },
   {
     q: "Mevcut sitemi koruyarak ilerleyebilir miyiz?",

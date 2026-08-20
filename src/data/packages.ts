@@ -431,7 +431,7 @@ export const PACKAGE_FAQ = [
   },
   {
     q: "Domain ve hosting kimde kalır?",
-    a: "Sizde kalacak şekilde kurulur: domain talep hâlinde sizin adınıza alınır, barındırma ve alan adı erişimleri size devredilir. Çalışma biter ya da ajans değiştirirseniz site ve alan adı sizinle kalır.",
+    a: "Sizde. Domain sizin adınıza alınır, barındırma ve alan adı erişimleri size aittir. Çalışma biter ya da ajans değiştirirseniz site ve alan adı sizinle kalır.",
   },
   {
     q: "Aylık bakım zorunlu mu?",
