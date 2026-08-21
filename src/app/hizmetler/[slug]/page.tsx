@@ -10,6 +10,8 @@ import Breadcrumb from "@/components/seo/Breadcrumb";
 import { guides } from "@/data/guides";
 import { cases } from "@/data/cases";
 import { sectors } from "@/data/sectors";
+import { getPackageCategoryByService } from "@/data/packages";
+import ServicePackages from "@/components/seo/ServicePackages";
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -50,6 +52,7 @@ function serviceCrumbs(service: NonNullable<ReturnType<typeof getService>>): Cru
 function serviceJsonLd(service: NonNullable<ReturnType<typeof getService>>) {
   const pageUrl = `${SITE_URL}/hizmetler/${service.slug}`;
   const dates = pageDates(`/hizmetler/${service.slug}`);
+  const pkg = getPackageCategoryByService(service.slug);
   const graph: Record<string, unknown>[] = [
     {
       "@type": "WebPage",
@@ -95,14 +98,33 @@ function serviceJsonLd(service: NonNullable<ReturnType<typeof getService>>) {
         serviceUrl: `${SITE_URL}/#iletisim`,
         availableLanguage: "tr",
       },
-      hasOfferCatalog: {
-        "@type": "OfferCatalog",
-        name: `${service.title} kapsamı`,
-        itemListElement: service.features.map((f) => ({
-          "@type": "Offer",
-          itemOffered: { "@type": "Service", name: f.title, description: f.desc },
-        })),
-      },
+      hasOfferCatalog: [
+        {
+          "@type": "OfferCatalog",
+          name: `${service.title} kapsamı`,
+          itemListElement: service.features.map((f) => ({
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: f.title, description: f.desc },
+          })),
+        },
+        ...(pkg
+          ? [
+              {
+                "@type": "OfferCatalog",
+                "@id": `${pageUrl}#paketler`,
+                name: `${pkg.name} paketleri`,
+                url: `${SITE_URL}/paketler#${pkg.slug}`,
+                itemListElement: pkg.tiers.map((t) => ({
+                  "@type": "Offer",
+                  name: t.name,
+                  description: t.tagline,
+                  url: `${SITE_URL}/paketler#${pkg.slug}-${t.slug}`,
+                  itemOffered: { "@type": "Service", name: `${service.title} — ${t.name}` },
+                })),
+              },
+            ]
+          : []),
+      ],
     },
     breadcrumbJsonLd(pageUrl, serviceCrumbs(service)),
   ];
@@ -135,6 +157,7 @@ export default async function ServiceDetailPage({
   const relGuides = guides.filter((g) => g.serviceSlug === service.slug);
   const relCases = cases.filter((c) => c.services.includes(service.slug));
   const relSectors = sectors.filter((x) => x.services.includes(service.slug));
+  const pkg = getPackageCategoryByService(service.slug);
 
   return (
     <main className="relative min-h-screen bg-background">
@@ -256,16 +279,19 @@ export default async function ServiceDetailPage({
           </div>
         ) : null}
 
+        {/* Paketler — /paketler ile aynı veriden, kompakt özet */}
+        {pkg ? <ServicePackages category={pkg} /> : null}
+
         {/* CTA */}
         <div className="mt-14 flex flex-col items-start gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="text-xl font-semibold">Bu hizmet ilginizi çekti mi?</h3>
             <p className="mt-1 text-white/60">
-              Projenizi konuşalım — birkaç saat içinde dönüş yapıyoruz.
+              Projenizi konuşalım — kısa sürede dönüş yapıyoruz.
             </p>
           </div>
           <Link
-            href="/#iletisim"
+            href="/iletisim"
             className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-2 px-7 py-3.5 font-medium text-white transition hover:scale-[1.03] hover:shadow-[0_0_24px_rgba(123,63,228,0.6)]"
           >
             Teklif Al

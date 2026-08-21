@@ -513,3 +513,8 @@ export const PACKAGE_FAQ = [
     a: "Olur. Paketler başlangıç çerçevesidir; keşifte ihtiyacınız başka bir bileşim gerektiriyorsa kapsam size özel yazılır. Birden fazla kategoriyi birleştiren işlerde (site + otomasyon + video gibi) tek teklif hazırlanır.",
   },
 ];
+
+/** hizmetler/[slug] → o hizmetin paket kategorisi (yoksa undefined). */
+export function getPackageCategoryByService(serviceSlug: string) {
+  return PACKAGE_CATEGORIES.find((c) => c.serviceSlug === serviceSlug);
+}
