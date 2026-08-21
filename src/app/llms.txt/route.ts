@@ -49,7 +49,7 @@ export function GET() {
     "",
     `- [Hakkımızda](${SITE_URL}/hakkimizda): KARNER kimdir, ekip ve çalışma biçimi`,
     `- [Süreç](${SITE_URL}/surec): keşif, tasarım, kurulum, ölçüm — dört adım`,
-    `- [Paketler](${SITE_URL}/paketler): Vitrin, Bölgesel Lider, Dijital Tekel — başlangıç fiyatları ve kapsam`,
+    `- [Paketler](${SITE_URL}/paketler): her hizmette Başlangıç / Standart / Pro — kapsam dâhil/hariç listeleri, fiyat keşif sonrası yazılı teklifle`,
     `- [İletişim](${SITE_URL}/iletisim)`,
     `- [Gizlilik / KVKK](${SITE_URL}/gizlilik)`,
     "",

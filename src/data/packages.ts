@@ -35,8 +35,8 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       "Üç hedef, üç paket: internette görünür olmak, bölgesinde öne çıkmak, kategoriyi kapatmak. Hepsinde ortak: kendi domaininiz, hızlı açılış, yapısal veri ve yapay zekâ botlarına açık altyapı teslimin parçası.",
     tiers: [
       {
-        slug: "vitrin",
-        name: "Vitrin",
+        slug: "baslangic",
+        name: "Başlangıç",
         tagline: "Müşterin seni Google'da aradığında bulacağı profesyonel bir yüz.",
         audience: "Dükkânı olan ama internette görünmeyen esnaf: kuaför, butik, oto bakım, güzellik merkezi.",
         includes: [
@@ -51,8 +51,8 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         excludes: ["Blog", "Çok sayfalı yapı", "Sıralama taahhüdü", "Aylık içerik üretimi"],
       },
       {
-        slug: "bolgesel-lider",
-        name: "Bölgesel Lider",
+        slug: "standart",
+        name: "Standart",
         tagline: "Bölgende seni aramayan müşteri kalmasın.",
         audience: "İlçe/şehir ölçeğinde rakiplerini geçmek isteyen hizmet işletmesi: emlak, tesisat, klima, temizlik, klinik.",
         includes: [
@@ -70,12 +70,12 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         highlight: true,
       },
       {
-        slug: "dijital-tekel",
-        name: "Dijital Tekel",
+        slug: "pro",
+        name: "Pro",
         tagline: "Rakiplerin web sitesi yaptırırken sen dijital altyapı kur.",
         audience: "Bölgesinde kategoriyi kapatmak isteyen, otomasyonla büyüyecek işletme.",
         includes: [
-          "Bölgesel Lider paketinin tamamı",
+          "Standart paketin tamamı",
           "Yapay zekâ görünürlüğü (GEO/AEO): ChatGPT, Gemini ve Perplexity cevaplarında kaynak gösterilme mühendisliği + site dışı kimlik katmanı",
           "1 otomasyon akışı: WhatsApp/Telegram müşteri karşılama veya randevu/iş takip botu",
           "Premium açılış deneyimi: scroll-hero, 3D veya video",
@@ -94,9 +94,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       "Expo (React Native) ile tek kod tabanından iOS ve Android. Paketler uygulamanın büyüklüğüne göre değil, iş modeline göre ayrılır: fikri doğrulamak, kullanıcı büyütmek, operasyonu taşımak.",
     tiers: [
       {
-        slug: "mvp",
-        name: "MVP",
-        tagline: "Fikri mağazada gerçek kullanıcıyla doğrula.",
+        slug: "baslangic",
+        name: "Başlangıç",
+        tagline: "MVP: fikri mağazada gerçek kullanıcıyla doğrula.",
         audience: "İlk sürümünü çıkarmak isteyen girişim veya iç kullanım uygulaması isteyen işletme.",
         includes: [
           "Keşif ve ekran akışı: 5–8 ana ekran, tek kullanıcı rolü",
@@ -110,8 +110,8 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         excludes: ["Ödeme altyapısı", "Çok dilli yapı", "Çevrim dışı senkronizasyon", "Mağaza hesabı ücretleri (size aittir)"],
       },
       {
-        slug: "buyume",
-        name: "Büyüme",
+        slug: "standart",
+        name: "Standart",
         tagline: "Kullanıcıyı tut, ölç, geri getir.",
         audience: "MVP'si çalışan ve kullanıcı tabanını büyütmek isteyen ürün.",
         includes: [
@@ -128,8 +128,8 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         highlight: true,
       },
       {
-        slug: "kurumsal",
-        name: "Kurumsal",
+        slug: "pro",
+        name: "Pro",
         tagline: "Operasyonu uygulamaya taşı, sistemlerle konuştur.",
         audience: "Saha ekibi, bayi ağı veya çoklu şube yöneten işletme.",
         includes: [
@@ -153,9 +153,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       "Senaryo ve marka dili insan eliyle; görüntü Veo, Kling gibi modellerle. Paketler tek içerikten aylık üretim ritmine ve kampanya filmine kadar gider. Her pakette altyazı, dikey/yatay kesimler ve yayın formatına uygun çıktı teslim edilir.",
     tiers: [
       {
-        slug: "tek-reel",
-        name: "Tek Reel",
-        tagline: "Bir fikir, bir video, yayında.",
+        slug: "baslangic",
+        name: "Başlangıç",
+        tagline: "Tek reel: bir fikir, bir video, yayında.",
         audience: "Ürün lansmanı, kampanya duyurusu veya ilk deneme için tek içerik isteyen işletme.",
         includes: [
           "Kısa brief görüşmesi ve tek vaatli senaryo",
@@ -168,9 +168,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         excludes: ["Seslendirme (opsiyonel eklenir)", "Oyuncu/mekân çekimi", "Reklam yayını yönetimi"],
       },
       {
-        slug: "aylik-icerik",
-        name: "Aylık İçerik",
-        tagline: "Her hafta bir video, hesabın boş kalmasın.",
+        slug: "standart",
+        name: "Standart",
+        tagline: "Aylık içerik: her hafta bir video, hesabın boş kalmasın.",
         audience: "Sosyal medyada düzenli görünmek isteyen ama içerik üretmeye vakti olmayan işletme.",
         includes: [
           "Aylık içerik planı (tema, kanca, yayın sırası)",
@@ -183,9 +183,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         highlight: true,
       },
       {
-        slug: "kampanya",
-        name: "Kampanya Filmi",
-        tagline: "Bir hikâye, tüm mecralara kesimleri.",
+        slug: "pro",
+        name: "Pro",
+        tagline: "Kampanya filmi: bir hikâye, tüm mecralara kesimleri.",
         audience: "Ürün/hizmet lansmanı veya sezon kampanyası yapan marka.",
         includes: [
           "Kampanya brief'i, mesaj hiyerarşisi ve storyboard",
@@ -207,9 +207,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       "Ürün fotoğrafını sanal manken üzerinde veya stüdyo sahnesinde gösteren görseller. Paketler ürün adedine ve kullanım yerine göre ayrılır; her pakette e-ticaret/katalog ölçülerinde teslim ve tutarlı ışık-sahne dili vardır.",
     tiers: [
       {
-        slug: "numune-seti",
-        name: "Numune Seti",
-        tagline: "Önce gör, sonra karar ver.",
+        slug: "baslangic",
+        name: "Başlangıç",
+        tagline: "Numune seti: önce gör, sonra karar ver.",
         audience: "Sanal manken / AI görsel yaklaşımını kendi ürününde denemek isteyen butik veya üretici.",
         includes: [
           "5 ürüne kadar, ürün başına 2 görsel (manken üzerinde + sade zemin)",
@@ -220,9 +220,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         excludes: ["Video", "Çoklu manken/etnik çeşitlilik", "Arka plan değişimi"],
       },
       {
-        slug: "katalog",
-        name: "Katalog",
-        tagline: "Tüm koleksiyon, aynı stüdyo diliyle.",
+        slug: "standart",
+        name: "Standart",
+        tagline: "Katalog: tüm koleksiyon, aynı stüdyo diliyle.",
         audience: "Sezonluk koleksiyonunu tutarlı görsellerle yayınlamak isteyen butik / e-ticaret.",
         includes: [
           "30 ürüne kadar, ürün başına 3 görsel (manken, detay, sade zemin)",
@@ -235,9 +235,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         highlight: true,
       },
       {
-        slug: "sezon",
-        name: "Sezon Kampanyası",
-        tagline: "Katalog + kampanya görselleri + kısa videolar.",
+        slug: "pro",
+        name: "Pro",
+        tagline: "Sezon kampanyası: katalog + kampanya görselleri + kısa videolar.",
         audience: "Sezon lansmanı yapan, sosyal medya ve reklam görselini birlikte isteyen marka.",
         includes: [
           "Katalog kapsamının tamamı",
@@ -258,9 +258,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       "Klasik arama, yapay zekâ araması ve cevap motorları için görünürlük. Paketler tanıdan kuruluma, kurulumdan sürekli takibe gider; hepsinde ölçüm tarihli ve yazılı raporlanır.",
     tiers: [
       {
-        slug: "tani-raporu",
-        name: "Tanı Raporu",
-        tagline: "Neden görünmüyorsunuz — sayfa sayfa, sebep sebep.",
+        slug: "baslangic",
+        name: "Başlangıç",
+        tagline: "Tanı raporu: neden görünmüyorsunuz — sayfa sayfa, sebep sebep.",
         audience: "Mevcut sitesi olan, Google'da ve yapay zekâ araçlarında neden çıkmadığını öğrenmek isteyen işletme.",
         includes: [
           "Teknik tarama: hız (Core Web Vitals), dizinlenme, robots/sitemap, yapısal veri",
@@ -273,12 +273,12 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         excludes: ["Uygulama (düzeltmelerin yapılması)", "Rakip backlink analizi (araç gerektirir; talep edilirse ayrıca)"],
       },
       {
-        slug: "kurulum",
-        name: "Görünürlük Kurulumu",
-        tagline: "Sitenin okunur, anlaşılır ve önerilebilir hâle getirilmesi.",
+        slug: "standart",
+        name: "Standart",
+        tagline: "Görünürlük kurulumu: site okunur, anlaşılır ve önerilebilir hâle gelir.",
         audience: "Sitesi var, altyapısını arama ve yapay zekâ için düzgün kurdurmak isteyen işletme.",
         includes: [
-          "Tanı Raporu kapsamı",
+          "Başlangıç (tanı raporu) kapsamı",
           "Yapısal veri grafiği: Organization/LocalBusiness, Service, FAQPage, BreadcrumbList, ImageObject — @id ile bağlı",
           "robots.txt AI bot izinleri, llms.txt + llms-full.txt, site haritası, IndexNow",
           "Search Console + Bing Webmaster kurulumu ve ilk gönderimler",
@@ -286,28 +286,13 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
           "Hız düzeltmeleri: görsel formatları, font, render engelleri",
           "Google Business Profile optimizasyonu (yerel işletme ise)",
         ],
-        excludes: ["Yeni içerik üretimi (Sürekli Görünürlük paketinde)", "Site tasarımının yenilenmesi"],
+        excludes: ["Yeni içerik üretimi (Pro pakette)", "Site tasarımının yenilenmesi"],
         highlight: true,
       },
       {
-        slug: "haritalar-isletme-profili",
-        name: "Haritalar & İşletme Profili",
-        tagline: "Google Haritalar'da doğru, dolu ve yönetilen profil.",
-        audience: "Yerel müşteriye hizmet veren, Haritalar'da çıkmayan ya da profili sahipsiz/eksik olan işletme.",
-        includes: [
-          "Google İşletme Profili sahiplenme / doğrulama süreci yönetimi",
-          "Kategori, hizmet alanı, çalışma saatleri, açıklama ve ürün/hizmet listesi",
-          "Fotoğraf düzeni (gerçek mekân, ekip, iş) ve kapak/logo",
-          "Ad-adres-telefon tutarlılığı ve temel dizin kayıtları",
-          "Yorum toplama akışı önerisi ve yorum yanıt şablonları",
-          "Bing Places ve Apple Haritalar kaydı",
-        ],
-        excludes: ["Yorum yazdırma / sahte yorum (yapılmaz)", "Aylık yönetim (Sürekli Görünürlük paketinde)"],
-      },
-      {
-        slug: "surekli-gorunurluk",
-        name: "Sürekli Görünürlük",
-        tagline: "Aylık ritim: içerik, ölçüm, düzeltme.",
+        slug: "pro",
+        name: "Pro",
+        tagline: "Sürekli görünürlük — aylık ritim: içerik, ölçüm, düzeltme.",
         audience: "Kurulumu bitmiş, bölgesinde ve yapay zekâ aramasında kalıcı görünürlük isteyen işletme.",
         includes: [
           "Aylık 2 içerik (rehber/SSS/hizmet derinleştirme) — kaynaklı, alıntılanabilir",
@@ -323,6 +308,21 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
           no: ["Ulusal ve yüksek rekabetli tek kelimelik aramalar için taahhüt verilmez"],
         },
       },
+      {
+        slug: "haritalar-isletme-profili",
+        name: "Ek Paket: Haritalar & İşletme Profili",
+        tagline: "Google Haritalar'da doğru, dolu ve yönetilen profil.",
+        audience: "Yerel müşteriye hizmet veren, Haritalar'da çıkmayan ya da profili sahipsiz/eksik olan işletme.",
+        includes: [
+          "Google İşletme Profili sahiplenme / doğrulama süreci yönetimi",
+          "Kategori, hizmet alanı, çalışma saatleri, açıklama ve ürün/hizmet listesi",
+          "Fotoğraf düzeni (gerçek mekân, ekip, iş) ve kapak/logo",
+          "Ad-adres-telefon tutarlılığı ve temel dizin kayıtları",
+          "Yorum toplama akışı önerisi ve yorum yanıt şablonları",
+          "Bing Places ve Apple Haritalar kaydı",
+        ],
+        excludes: ["Yorum yazdırma / sahte yorum (yapılmaz)", "Aylık yönetim (Pro pakette)"],
+      },
     ],
   },
   {
@@ -333,9 +333,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       "n8n (kendi sunucusunda) + dil modelleri ile işletme akışları. Paketler tek akıştan sohbet asistanına ve çoklu akışlı operasyona gider. Her pakette veri sizin hesabınızda kalır; akış dokümante edilir.",
     tiers: [
       {
-        slug: "tek-akis",
-        name: "Tek Akış",
-        tagline: "Bir tekrar eden işi tamamen otomatiğe al.",
+        slug: "baslangic",
+        name: "Başlangıç",
+        tagline: "Tek akış: bir tekrar eden işi tamamen otomatiğe al.",
         audience: "Kayıt, hatırlatma veya bildirim gibi tek bir süreci elden çıkarmak isteyen işletme.",
         includes: [
           "1 n8n akışı (ör. Telegram'dan mesajla satış/gider kaydı → Google Sheets; form → e-posta + bildirim; günlük özet raporu)",
@@ -345,12 +345,12 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
           "Akış dokümanı + kısa kullanım eğitimi",
           "İlk ay izleme ve düzeltme",
         ],
-        excludes: ["WhatsApp Business API (Meta onayı gerektirir — Asistan paketinde)", "Özel yazılım geliştirme"],
+        excludes: ["WhatsApp Business API (Meta onayı gerektirir — Standart pakette)", "Özel yazılım geliştirme"],
       },
       {
-        slug: "asistan",
-        name: "Asistan",
-        tagline: "Müşteriyle konuşan bot: karşılama, randevu, kayıt.",
+        slug: "standart",
+        name: "Standart",
+        tagline: "Asistan: müşteriyle konuşan bot — karşılama, randevu, kayıt.",
         audience: "Gelen mesajları karşılamak, randevu/kayıt almak isteyen klinik, salon, hizmet işletmesi.",
         includes: [
           "Telegram veya WhatsApp (Cloud API) sohbet asistanı",
@@ -365,9 +365,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         highlight: true,
       },
       {
-        slug: "operasyon",
-        name: "Operasyon",
-        tagline: "Birden fazla akış, tek gösterge paneli.",
+        slug: "pro",
+        name: "Pro",
+        tagline: "Operasyon: birden fazla akış, tek gösterge paneli.",
         audience: "Satış, takip, raporlama ve bildirimlerini birlikte otomatize etmek isteyen işletme.",
         includes: [
           "3–5 birbirine bağlı akış (kayıt, hatırlatma, alacak takibi, rapor, bildirim)",
@@ -389,9 +389,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       "Logo, kurumsal kimlik ve sosyal medya için tutarlı görsel dil. Paketler logodan kimlik setine ve sürekli kullanılacak şablon kütüphanesine gider; her pakette kaynak dosyalar teslim edilir.",
     tiers: [
       {
-        slug: "logo",
-        name: "Logo & Temel Kimlik",
-        tagline: "Doğru logo, doğru renk, doğru yazı.",
+        slug: "baslangic",
+        name: "Başlangıç",
+        tagline: "Logo ve temel kimlik: doğru logo, doğru renk, doğru yazı.",
         audience: "Yeni kurulan veya logosunu yenilemek isteyen işletme.",
         includes: [
           "Marka brief'i ve rakip görsel taraması",
@@ -403,12 +403,12 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         excludes: ["Kartvizit/antetli tasarımı", "Sosyal medya şablonları"],
       },
       {
-        slug: "kurumsal-kimlik",
-        name: "Kurumsal Kimlik Seti",
-        tagline: "Her temas noktasında aynı marka.",
+        slug: "standart",
+        name: "Standart",
+        tagline: "Kurumsal kimlik seti: her temas noktasında aynı marka.",
         audience: "Basılı ve dijital tüm materyallerini tutarlı kılmak isteyen işletme.",
         includes: [
-          "Logo & Temel Kimlik kapsamı",
+          "Başlangıç (logo ve temel kimlik) kapsamı",
           "Kartvizit, antetli, e-posta imzası",
           "Sosyal medya profil ve kapak görselleri",
           "Araç giydirme / tabela / tanıtım dosyası için uygulama taslakları (ihtiyaca göre seçilir)",
@@ -418,9 +418,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         highlight: true,
       },
       {
-        slug: "sosyal-medya-sablon",
-        name: "Sosyal Medya Şablon Seti",
-        tagline: "Ekibiniz kendi gönderisini marka diliyle üretsin.",
+        slug: "pro",
+        name: "Pro",
+        tagline: "Sosyal medya şablon seti: ekibiniz kendi gönderisini marka diliyle üretsin.",
         audience: "Düzenli gönderi paylaşan, her seferinde tasarımcı beklemek istemeyen işletme.",
         includes: [
           "10 gönderi + 5 hikâye şablonu (Canva veya Figma)",
@@ -455,9 +455,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         excludes: ["Reels üretimi", "DM/yorum yönetimi", "Reklam bütçesi"],
       },
       {
-        slug: "duzenli",
-        name: "Düzenli",
-        tagline: "Post + reels ritmi: bilgi ve erişim birlikte.",
+        slug: "standart",
+        name: "Standart",
+        tagline: "Düzenli: post + reels ritmi, bilgi ve erişim birlikte.",
         audience: "Takipçi kazanmak ve mesaj almak isteyen klinik, emlak, butik, hizmet işletmesi.",
         includes: [
           "Aylık içerik planı (4 sütun) ve yayın takvimi",
@@ -470,9 +470,9 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
         highlight: true,
       },
       {
-        slug: "tam-akis",
-        name: "Tam Akış",
-        tagline: "Her hafta video, her ay strateji.",
+        slug: "pro",
+        name: "Pro",
+        tagline: "Tam akış: her hafta video, her ay strateji.",
         audience: "Sosyal medyayı ana müşteri kanalı yapan, kampanya dönemleri olan işletme.",
         includes: [
           "Düzenli kapsamının tamamı",
@@ -502,7 +502,7 @@ export const PACKAGE_FAQ = [
   },
   {
     q: "Aylık bakım zorunlu mu?",
-    a: "Tek seferlik paketlerde (Vitrin, Tek Reel, Logo, Tanı Raporu, Haritalar & İşletme Profili vb.) zorunlu değil. Sonucu içerik ve takibe bağlı paketlerde (Bölgesel Lider, Sürekli Görünürlük, Aylık İçerik, sosyal medya paketleri, Asistan) aylık çalışma paketin parçasıdır; bakımsız bırakılan site zamanla görünürlüğünü kaybeder.",
+    a: "Tek seferlik işlerde (Başlangıç paketlerinin çoğu: tek sayfa site, tek reel, logo, tanı raporu, Haritalar & İşletme Profili) zorunlu değil. Sonucu içerik ve takibe bağlı paketlerde (SEO Pro, video Standart, sosyal medya paketleri, otomasyon Standart asistan) aylık çalışma paketin parçasıdır; bakımsız bırakılan site zamanla görünürlüğünü kaybeder.",
   },
   {
     q: "Neden ulusal sıralama taahhüdü yok?",

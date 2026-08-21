@@ -11,7 +11,7 @@ const EMAIL = "karneryazilim@gmail.com";
 
 type Status = "idle" | "sending" | "ok" | "error";
 
-/** ?paket=web-sitesi-vitrin → "Web sitesi / Vitrin" */
+/** ?paket=web-sitesi-baslangic → "Web sitesi / Başlangıç" */
 function packageLabel(slug: string): string | null {
   for (const cat of PACKAGE_CATEGORIES) {
     for (const t of cat.tiers) {

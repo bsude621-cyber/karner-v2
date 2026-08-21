@@ -158,7 +158,7 @@ export default function PackagesPage() {
                 >
                   {t.highlight ? (
                     <span className="mb-4 inline-block self-start rounded-full bg-accent px-3 py-1 text-xs font-medium uppercase tracking-wider text-white">
-                      Önerdiğimiz başlangıç
+                      Önerimiz
                     </span>
                   ) : null}
                   <h3 className="text-2xl font-semibold text-white">{t.name}</h3>

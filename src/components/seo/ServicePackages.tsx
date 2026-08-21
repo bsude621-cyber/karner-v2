@@ -44,7 +44,7 @@ export default function ServicePackages({ category }: { category: PackageCategor
             >
               {t.highlight ? (
                 <span className="mb-3 inline-block self-start rounded-full bg-accent px-3 py-1 text-xs font-medium uppercase tracking-wider text-white">
-                  Önerdiğimiz başlangıç
+                  Önerimiz
                 </span>
               ) : null}
               <h3 className="text-xl font-semibold text-white">{t.name}</h3>
