@@ -132,7 +132,7 @@ export default function WorksSection() {
   }, []);
 
   return (
-    <section id="isler" className="night-section relative overflow-hidden bg-background py-24 sm:py-32"
+    <section id="isler" className="relative overflow-hidden bg-background py-24 sm:py-32"
     >
       {/* zeminde yumuşak mor parıltı — bölümü diğerlerinden ayırır */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(123,63,228,0.14),transparent_60%)]" />

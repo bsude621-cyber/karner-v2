@@ -131,9 +131,7 @@ export default function ServicesSection() {
   }, [reduceMotion, arm, deal]);
 
   return (
-    <section
-      id="hizmetler"
-      className="relative overflow-hidden bg-background py-24 sm:py-32"
+    <section id="hizmetler" className="night-section relative overflow-hidden bg-background py-24 sm:py-32"
     >
       {/* Galaxy / yıldız arka planı (marka moru) */}
       <SpaceBackground particleCount={520} className="z-0" />
