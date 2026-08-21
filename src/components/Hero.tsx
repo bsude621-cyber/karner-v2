@@ -62,7 +62,7 @@ export default function Hero() {
       </DeferredMount>
 
       {/* gradient karartma — metin okunurluğu için (robotların üstünde ince bir kat) */}
-      <div className="pointer-events-none absolute inset-0 z-[14] bg-gradient-to-b from-background/40 via-transparent to-background" />
+      <div className="hero-fade pointer-events-none absolute inset-0 z-[14] bg-gradient-to-b from-background/40 via-transparent to-background" />
 
       {/* Üst navigasyon: site geneli sabit SiteNav (layout) */}
 
