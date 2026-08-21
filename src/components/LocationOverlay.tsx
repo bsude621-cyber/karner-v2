@@ -83,7 +83,7 @@ export default function LocationOverlay({
               KARNER
             </motion.h2>
             <p
-              className="mt-6 text-base font-light uppercase tracking-[0.4em] text-white/85 sm:text-xl"
+              className="mt-6 text-base font-light uppercase tracking-[0.4em] text-paper/85 sm:text-xl"
               style={{ textShadow: "0 0 16px rgba(123,63,228,0.7)" }}
             >
               Senin Hayal Ettiğin Her Yerde
@@ -95,7 +95,7 @@ export default function LocationOverlay({
             <div className="mr-6 flex flex-col items-center gap-6 sm:mr-10">
               <button
                 onClick={onClose}
-                className="group flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-white/60 transition hover:text-white"
+                className="group flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-paper/60 transition hover:text-paper"
               >
                 <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
                 Anasayfaya dön
@@ -106,7 +106,7 @@ export default function LocationOverlay({
           </div>
 
           {/* sol altta küçük ipucu */}
-          <p className="absolute bottom-6 left-6 z-20 text-[11px] uppercase tracking-[0.3em] text-white/55">
+          <p className="absolute bottom-6 left-6 z-20 text-[11px] uppercase tracking-[0.3em] text-paper/55">
             esc ile kapat
           </p>
         </motion.div>

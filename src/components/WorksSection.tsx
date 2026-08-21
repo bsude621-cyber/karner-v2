@@ -268,12 +268,12 @@ function WorkCard({
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-background/25 to-transparent" />
 
           {/* sektör etiketi */}
-          <span className="absolute left-3 top-3 rounded-full border border-white/25 bg-black/45 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-white">
+          <span className="absolute left-3 top-3 rounded-full border border-paper/25 bg-black/45 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-paper">
             {work.sector}
           </span>
 
           {/* köşe oku */}
-          <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-white/25 bg-black/45 text-white transition-all duration-300 group-hover:border-accent group-hover:bg-accent">
+          <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-paper/25 bg-black/45 text-paper transition-all duration-300 group-hover:border-accent group-hover:bg-accent">
             <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
           </span>
         </div>

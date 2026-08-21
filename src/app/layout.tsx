@@ -66,8 +66,15 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#05060a",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#05060a" },
+  ],
 };
+
+/** Tema ilk boyamadan önce: localStorage tercihi yoksa sistem (telefon/PC) moduna uyar. */
+const THEME_SCRIPT =
+  "(function(){try{var k='karner-theme',s=localStorage.getItem(k),m=window.matchMedia('(prefers-color-scheme: light)'),t=(s==='light'||s==='dark')?s:(m.matches?'light':'dark');document.documentElement.dataset.theme=t;if(m.addEventListener){m.addEventListener('change',function(e){if(!localStorage.getItem(k)){document.documentElement.dataset.theme=e.matches?'light':'dark';}});}}catch(e){}})();";
 
 // Organization + WebSite düğümleri @id ile birbirine bağlı tek graph —
 // sayfa bazlı schema'lar (Service, AboutPage...) bu @id'lere referans verir.
@@ -84,9 +91,12 @@ export default function RootLayout({
   return (
     <html
       lang="tr"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable}`}
     >
       <body className="min-h-screen antialiased">
+        {/* Tema — ilk boyamadan önce çalışır (FOUC yok) */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(rootJsonLd) }}

@@ -11,9 +11,36 @@
   --accent-light: #a371ff;
   --silver: #a6a9ad;
   --gray: #5c5f66;
+  /* Tema tokenları (2026-08-21 — gece/gündüz modu):
+     --ink  : "white" yardımcı sınıflarının gerçek rengi (koyuda beyaz, açıkta koyu)
+     --paper: HER ZAMAN beyaz (görsel üstü etiket/yazı)
+     --night: HER ZAMAN koyu (görsel üstü karartma) */
+  --ink: #ffffff;
+  --paper: #ffffff;
+  --night: #05060a;
+  --card-top: rgba(18, 10, 28, 0.95);
+  --card-bottom: rgba(10, 6, 17, 0.95);
+  color-scheme: dark;
+}
+
+/* GÜNDÜZ MODU — beyaz ağırlıklı. data-theme'i <body> başındaki satır içi
+   script (sistem tercihi / localStorage) ve ThemeToggle yönetir. */
+html[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #0b0b12;
+  --ink: #0b0b12;
+  --accent-light: #5b21b6; /* beyaz zeminde okunur mor (7:1) */
+  --silver: #6b6e76;
+  --card-top: rgba(255, 255, 255, 0.94);
+  --card-bottom: rgba(246, 243, 252, 0.97);
+  color-scheme: light;
 }
 
 @theme inline {
+  /* text-white / bg-white/… / border-white/… → tema mürekkebi */
+  --color-white: var(--ink);
+  --color-paper: var(--paper);
+  --color-night: var(--night);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-silver: var(--silver);
@@ -64,10 +91,10 @@ html.lenis body {
 .bg-grid {
   background-image: linear-gradient(
       to right,
-      rgba(255, 255, 255, 0.04) 1px,
+      color-mix(in srgb, var(--ink) 4%, transparent) 1px,
       transparent 1px
     ),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px);
   background-size: 64px 64px;
 }
 
@@ -162,8 +189,8 @@ html.lenis body {
 .glass {
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.05),
-    rgba(255, 255, 255, 0.02)
+    color-mix(in srgb, var(--ink) 5%, transparent),
+    color-mix(in srgb, var(--ink) 2%, transparent)
   );
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(16px);
@@ -207,14 +234,14 @@ html.lenis body {
   box-shadow: 0 16px 40px -8px rgba(123, 63, 228, 0.6);
 }
 .btn-secondary {
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  color: color-mix(in srgb, var(--ink) 85%, transparent);
   padding: 0.85rem 2rem;
   background: transparent;
 }
 .btn-secondary:hover {
-  border-color: rgba(255, 255, 255, 0.5);
-  color: #fff;
+  border-color: color-mix(in srgb, var(--ink) 50%, transparent);
+  color: var(--ink);
   transform: translateY(-2px);
 }
 

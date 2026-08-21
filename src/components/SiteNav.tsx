@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import ThemeToggle from "@/components/ThemeToggle";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
@@ -64,6 +65,7 @@ export default function SiteNav() {
           <span className="text-lg font-bold tracking-[0.25em] text-white">KARNER</span>
         </Link>
 
+        <div className="flex items-center gap-3 md:gap-6">
         <nav aria-label="Site" className="hidden items-center gap-8 text-sm text-white/70 md:flex">
           {NAV.map((item) => {
             const active =
@@ -90,6 +92,7 @@ export default function SiteNav() {
           })}
         </nav>
 
+        <ThemeToggle />
         <button
           type="button"
           onClick={() => setOpen((o) => !o)}
@@ -100,6 +103,7 @@ export default function SiteNav() {
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
+        </div>
       </div>
 
       {open ? (

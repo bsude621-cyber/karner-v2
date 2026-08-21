@@ -179,28 +179,28 @@ export default async function ServiceDetailPage({
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-accent/85 to-accent-2/90 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-night via-night/70 to-night/30" />
         </div>
 
         <div className="relative z-10 mx-auto max-w-4xl px-6 py-24 sm:py-32">
-          <div className="mb-8 inline-block rounded-full bg-background/40 px-3 py-1.5 backdrop-blur-sm">
+          <div className="mb-8 inline-block rounded-full bg-night/40 px-3 py-1.5 backdrop-blur-sm [&_*]:text-paper/80">
             <Breadcrumb crumbs={serviceCrumbs(service)} />
           </div>
           <br />
-          <span className="inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1 text-xs font-medium uppercase tracking-[0.2em] text-white backdrop-blur-sm">
+          <span className="inline-block rounded-full border border-paper/30 bg-paper/10 px-4 py-1 text-xs font-medium uppercase tracking-[0.2em] text-paper backdrop-blur-sm">
             {service.no} — {service.tag}
           </span>
-          <h1 className="mt-6 text-4xl font-bold leading-tight text-white sm:text-6xl">
+          <h1 className="mt-6 text-4xl font-bold leading-tight text-paper sm:text-6xl">
             {service.title}
           </h1>
-          <p className="speakable-intro mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
+          <p className="speakable-intro mt-6 max-w-2xl text-lg leading-relaxed text-paper/85">
             {service.intro}
           </p>
           <div className="mt-7 flex flex-wrap gap-2">
             {service.tags.map((t) => (
               <span
                 key={t}
-                className="rounded-md border border-white/20 bg-white/10 px-3 py-1 text-sm text-white backdrop-blur-sm"
+                className="rounded-md border border-paper/20 bg-paper/10 px-3 py-1 text-sm text-paper backdrop-blur-sm"
               >
                 {t}
               </span>

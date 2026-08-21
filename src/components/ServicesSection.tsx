@@ -181,11 +181,11 @@ export default function ServicesSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
 
                 {/* sıra & etiket */}
-                <span className="absolute left-3 top-3 rounded-full border border-white/25 bg-black/30 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-white backdrop-blur-sm">
+                <span className="absolute left-3 top-3 rounded-full border border-paper/25 bg-black/30 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-paper backdrop-blur-sm">
                   {s.no} — {s.tag}
                 </span>
                 {/* köşe oku */}
-                <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-white/25 bg-black/30 text-white backdrop-blur-sm transition-all duration-300 group-hover:border-accent group-hover:bg-accent">
+                <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-paper/25 bg-black/30 text-paper backdrop-blur-sm transition-all duration-300 group-hover:border-accent group-hover:bg-accent">
                   <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
                 </span>
               </div>

@@ -50,7 +50,9 @@ export function DottedSurface({
 
       const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setClearColor(BRAND.bg, 1);
+      // Tema: zemin saydam (sayfa arka planı görünür), açık temada noktalar koyulaşır
+      const isLight = () => document.documentElement.dataset.theme === "light";
+      renderer.setClearColor(0x000000, 0);
       container.appendChild(renderer.domElement);
 
       const geometry = new THREE.BufferGeometry();
@@ -117,6 +119,16 @@ export function DottedSurface({
       const points = new THREE.Points(geometry, material);
       scene.add(points);
 
+      const applyTheme = () => {
+        // vertexColors × material.color: açıkta koyu-mor çarpan, koyuda nötr
+        if (isLight()) material.color.setRGB(0.42, 0.28, 0.7);
+        else material.color.setRGB(1, 1, 1);
+        scene.fog = isLight() ? null : new THREE.Fog(BRAND.fog, 1800, 9000);
+      };
+      applyTheme();
+      const themeObs = new MutationObserver(applyTheme);
+      themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
       let count = 0;
       let animationId = 0;
 
@@ -182,6 +194,7 @@ export function DottedSurface({
       visIo.observe(wrapper);
 
       cleanupScene = () => {
+        themeObs.disconnect();
         observer.disconnect();
         visIo.disconnect();
         cancelAnimationFrame(animationId);

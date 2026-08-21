@@ -130,7 +130,7 @@ function SignBoard({
           "group-hover:-translate-y-1 group-hover:from-accent/60 group-hover:via-accent/25 group-hover:shadow-[0_22px_60px_-16px_rgba(123,63,228,0.55)]"
         )}
       >
-        <div className="relative rounded-[15px] bg-gradient-to-b from-[#120a1c]/95 to-[#0a0611]/95 p-5 backdrop-blur-xl lg:p-6">
+        <div className="relative rounded-[15px] bg-gradient-to-b from-(--card-top) to-(--card-bottom) p-5 backdrop-blur-xl lg:p-6">
           {/* üst ışık çizgisi */}
           <div className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 

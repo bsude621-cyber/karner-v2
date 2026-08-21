@@ -152,7 +152,8 @@ const FRAG = `
     col += mix(vec3(0.016, 0.008, 0.043), vec3(0.055, 0.024, 0.118), vig);
     col *= 0.55 + 0.45 * vig;
 
-    gl_FragColor = vec4(col, 1.0);
+    // premultiplied: alfa = en parlak kanal → koyuda aynı görünüm, açıkta saydam zemin
+    gl_FragColor = vec4(col, max(max(col.r, col.g), col.b));
   }
 `;
 
@@ -169,7 +170,8 @@ export function KarnerLineFlow({
     if (!canvas) return;
 
     // Tam ekran quad — antialias edilecek geometri kenarı yok, MSAA saf maliyet.
-    const gl = canvas.getContext("webgl", { antialias: false, alpha: false });
+    // alpha:true — gündüz modunda beyaz zemin üstüne mor çizgiler (siyah kutu yok)
+    const gl = canvas.getContext("webgl", { antialias: false, alpha: true, premultipliedAlpha: true });
     if (!gl) {
       console.warn("WebGL not supported.");
       return;
@@ -323,7 +325,7 @@ export function KarnerLineFlow({
     <canvas
       ref={canvasRef}
       className={`absolute inset-0 h-full w-full ${className}`}
-      style={{ background: "#05020d" }}
+      style={{ background: "var(--background)" }}
     />
   );
 }

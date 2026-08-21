@@ -50,7 +50,10 @@ export function SpaceBackground({
       counter: 0,
     };
 
-    const palette = ["#7b3fe4", "#a371ff", "#4b1d96", "#c9b6ff", particleColor];
+    const isLight = () => document.documentElement.dataset.theme === "light";
+    const paletteDark = ["#7b3fe4", "#a371ff", "#4b1d96", "#c9b6ff", particleColor];
+    const paletteLight = ["#5b21b6", "#7b3fe4", "#4b1d96", "#8b5cf6", "#6d28d9"];
+    const palette = isLight() ? paletteLight : paletteDark;
 
     const setupCanvas = () => {
       const w = parent ? parent.clientWidth : window.innerWidth;

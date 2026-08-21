@@ -44,10 +44,10 @@ export default function HeroAssistant() {
       >
         {/* backdrop-blur yok: altındaki canvas her karede değiştiği için
             tarayıcı bulanıklığı her karede yeniden hesaplardı. */}
-        <div className="relative rounded-2xl border border-accent/40 bg-[#120a1c]/95 px-4 py-2.5 text-sm font-medium text-white shadow-xl shadow-accent/20">
+        <div className="relative rounded-2xl border border-accent/40 bg-(--card-top) px-4 py-2.5 text-sm font-medium text-white shadow-xl shadow-accent/20">
           Hoş geldiniz!
           {/* kuyruk — aşağı, robota doğru */}
-          <span className="absolute -bottom-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-b border-r border-accent/40 bg-[#120a1c]/90" />
+          <span className="absolute -bottom-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-b border-r border-accent/40 bg-(--card-top)" />
         </div>
       </motion.div>
 
@@ -63,7 +63,7 @@ export default function HeroAssistant() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.15 } }}
               transition={{ duration: 0.4, delay: 1.4 }}
-              className="pointer-events-auto group relative flex items-center gap-2 rounded-2xl rounded-br-sm border border-accent/40 bg-[#120a1c]/95 px-4 py-2.5 text-sm font-medium text-white shadow-xl shadow-accent/20 transition hover:border-accent hover:bg-accent/15"
+              className="pointer-events-auto group relative flex items-center gap-2 rounded-2xl rounded-br-sm border border-accent/40 bg-(--card-top) px-4 py-2.5 text-sm font-medium text-white shadow-xl shadow-accent/20 transition hover:border-accent hover:bg-accent/15"
             >
               <MessageCircle className="h-4 w-4 text-accent-light" />
               Sorunuz mu var? Bana sorun
@@ -72,7 +72,7 @@ export default function HeroAssistant() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
                 <span className="relative inline-flex h-3 w-3 rounded-full bg-accent" />
               </span>
-              <span className="absolute -bottom-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-b border-r border-accent/40 bg-[#120a1c]/90" />
+              <span className="absolute -bottom-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-b border-r border-accent/40 bg-(--card-top)" />
             </motion.button>
           )}
         </AnimatePresence>

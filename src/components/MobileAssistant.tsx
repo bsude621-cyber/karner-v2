@@ -102,7 +102,7 @@ export default function MobileAssistant() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="flex max-h-[70vh] w-[85vw] max-w-sm flex-col overflow-hidden rounded-2xl border border-accent/40 bg-[#120a1c]/95 shadow-2xl shadow-accent/25 backdrop-blur-xl"
+            className="flex max-h-[70vh] w-[85vw] max-w-sm flex-col overflow-hidden rounded-2xl border border-accent/40 bg-(--card-top) shadow-2xl shadow-accent/25 backdrop-blur-xl"
           >
             <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
               <div className="flex items-center gap-2">
@@ -217,7 +217,7 @@ export default function MobileAssistant() {
         {!open && (
           <span className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-2 opacity-75" />
-            <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-accent-2 ring-2 ring-[#120a1c]" />
+            <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-accent-2 ring-2 ring-(--card-top)" />
           </span>
         )}
       </button>
