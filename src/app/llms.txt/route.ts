@@ -35,7 +35,7 @@ export function GET() {
     `- [Tüm rehberler](${SITE_URL}/rehber)`,
     ...guides.map((g) => `- [${g.title}](${SITE_URL}/rehber/${g.slug}): ${g.seoDescription}`),
     "",
-    "## İşler (vakalar)",
+    "## İşler (projeler)",
     "",
     `- [İşlerimiz](${SITE_URL}/isler)`,
     ...cases.map((c) => `- [${c.client}](${SITE_URL}/isler/${c.slug}): ${c.sector}, ${c.location}`),

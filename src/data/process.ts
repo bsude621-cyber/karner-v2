@@ -47,7 +47,7 @@ export const PROCESS_STEPS: ProcessStep[] = [
   {
     no: "04",
     name: "Ölçüm",
-    text: "Yayına girince iş bitmez. Arama kayıtları açılır, görünürlük izlenir, sonuç raporla gösterilir. Vaka sayfalarındaki ekran kayıtları bu adımın çıktısıdır.",
+    text: "Yayına girince iş bitmez. Arama kayıtları açılır, görünürlük izlenir, sonuç raporla gösterilir. İş sayfalarındaki ekran kayıtları bu adımın çıktısıdır.",
     output: "görünürlük raporu",
     detail: [
       "Hedef sorgularda klasik arama + yapay zekâ araçları birlikte kontrol edilir.",

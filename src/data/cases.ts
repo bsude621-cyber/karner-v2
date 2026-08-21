@@ -1,7 +1,7 @@
 import type { GuideBlock } from "./guides/types";
 
 /**
- * Gerçek işler (vaka sayfaları) — /isler/[slug].
+ * Gerçek işler (proje sayfaları) — /isler/[slug].
  * Kural: yalnızca belgeli, kamuya açık ve doğrulanabilir gerçekler.
  * Müşteri sözü/yorumu, ciro/rakam iddiası, sertifika iddiası YOK.
  * Sıralama/öneri gözlemleri tarihli yazılır ("… tarihli aramada") — arama
@@ -38,7 +38,7 @@ export const cases: CaseStudy[] = [
     sector: "Endüstriyel baca ve kanal temizliği",
     location: "Marmaris / Muğla",
     title: "AYSA Endüstriyel Temizlik: yerel hizmet sitesi üç arama yüzeyinde",
-    seoTitle: "AYSA Endüstriyel Temizlik Web Sitesi ve AI Arama Vakası | KARNER",
+    seoTitle: "AYSA Endüstriyel Temizlik Web Sitesi ve AI Arama Sonucu | KARNER",
     seoDescription:
       "Marmaris merkezli endüstriyel baca temizliği firması için kurduğumuz site; 'muğla baca temizliği' aramasında ChatGPT, Google AI Bakışı ve organik sonuçlarda nasıl görünür oldu? Ne kurduk, nasıl ölçtük.",
     summary:
@@ -83,7 +83,7 @@ export const cases: CaseStudy[] = [
         type: "p",
         text: "Ölçümü aynı sorguyu üç yüzeyde sorarak yaptık: ChatGPT, Google AI Bakışı ve klasik organik sonuçlar. Ekran kaydı bu sayfada. **Ölçüm tarihindeki \"muğla baca temizliği\" aramasında ChatGPT firmayı önerdi, Google AI Bakışı tercih edilen firmalar arasında listeledi, organik sonuçlarda site ikinci sıradaydı.** Arama sonuçları zamanla değişir; bu nedenle sonuç tarihli bir gözlem olarak sunulur, kalıcı bir sıralama vaadi değildir.",
       },
-      { type: "h2", text: "Bu vakadan ne öğrendik?" },
+      { type: "h2", text: "Bu işten ne öğrendik?" },
       {
         type: "ul",
         items: [
@@ -101,7 +101,7 @@ export const cases: CaseStudy[] = [
     faq: [
       {
         q: "Bu sonuç her yerel firmada tekrarlanır mı?",
-        a: "Koşullar benzerse tekrarlanabilir: niş ve yerel bir hizmet, botlara açık hızlı site, tutarlı işletme kimliği ve alıntılanabilir içerik. Rekabeti yüksek ulusal aramalarda aynı çalışma tek başına yetmez; orada site dışı sinyaller de gerekir. Bu yüzden vaka sayfasında sonucu tarihli gözlem olarak veriyoruz.",
+        a: "Koşullar benzerse tekrarlanabilir: niş ve yerel bir hizmet, botlara açık hızlı site, tutarlı işletme kimliği ve alıntılanabilir içerik. Rekabeti yüksek ulusal aramalarda aynı çalışma tek başına yetmez; orada site dışı sinyaller de gerekir. Bu yüzden bu sayfada sonucu tarihli gözlem olarak veriyoruz.",
       },
       {
         q: "Site hangi teknolojiyle yapıldı?",
@@ -121,7 +121,7 @@ export const cases: CaseStudy[] = [
     sector: "Doğalgaz iç tesisat, kombi, klima, ısı pompası",
     location: "Polatlı / Ankara",
     title: "BNS Enerji & Doğalgaz: Polatlı'da doğalgaz firması araması için site",
-    seoTitle: "BNS Enerji & Doğalgaz Web Sitesi ve Yerel Arama Vakası | KARNER",
+    seoTitle: "BNS Enerji & Doğalgaz Web Sitesi ve Yerel Arama Sonucu | KARNER",
     seoDescription:
       "Polatlı'da doğalgaz tesisatı, kombi ve klima hizmeti veren BNS için kurduğumuz Astro site: 36 soruluk SSS, yapısal veri, AI bot erişimi ve 'Polatlı doğalgaz firması' aramasındaki ölçüm.",
     summary:
@@ -158,7 +158,7 @@ export const cases: CaseStudy[] = [
         type: "p",
         text: "**Ölçüm tarihinde ChatGPT'ye \"Polatlı doğalgaz firması\" sorulduğunda BNS ilk sırada önerildi ve site bağlantısıyla listelendi.** Aynı gün sabah yapılan ön testte firma hiç görünmüyordu; aradaki dönemde yetki bilgisi kaynak gösterildi, llms.txt ve llms-full.txt yeniden yazıldı ve değişiklikler IndexNow ile bildirildi. Bu gözlem tarihlidir; yapay zekâ araçlarının cevapları değişebilir.",
       },
-      { type: "h2", text: "Bu vakadan ne öğrendik?" },
+      { type: "h2", text: "Bu işten ne öğrendik?" },
       {
         type: "ul",
         items: [
@@ -256,7 +256,7 @@ export const cases: CaseStudy[] = [
     sector: "Yerel hizmet işletmesi — iş takibi",
     location: "Polatlı / Ankara",
     title: "Dükkân Takip: Telegram'dan sesli/yazılı mesajla iş takip botu",
-    seoTitle: "Dükkân Takip: Telegram + Google Sheets İş Takip Botu Vakası | KARNER",
+    seoTitle: "Dükkân Takip: Telegram + Google Sheets İş Takip Botu Projesi | KARNER",
     seoDescription:
       "Küçük bir hizmet işletmesinin tahsilat, usta ödemesi ve hatırlatmalarını Telegram mesajıyla kaydeden n8n botu: doğal dil anlama, Google Sheets kayıt, günlük/haftalık rapor komutları.",
     summary:
@@ -299,7 +299,7 @@ export const cases: CaseStudy[] = [
         type: "p",
         text: "n8n kendi sunucumuzda çalışıyor; veri işletmenin kendi Google hesabındaki tabloda kalıyor, aylık kullanıcı başına lisans yok. Telegram botu kurulum için onay süreci gerektirmiyor ve sesli mesaj desteği hazır. **Sonuç: ekip sahadan mesaj atıyor, tablo kendi kendine doluyor, rapor tek komutla geliyor.**",
       },
-      { type: "h2", text: "Bu vakadan ne öğrendik?" },
+      { type: "h2", text: "Bu işten ne öğrendik?" },
       {
         type: "ul",
         items: [

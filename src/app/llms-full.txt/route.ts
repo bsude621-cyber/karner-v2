@@ -119,7 +119,7 @@ export function GET() {
     parts.push("---", "");
   }
 
-  // İşler (vakalar)
+  // İşler (projeler)
   for (const c of cases) {
     parts.push(`## İş: ${c.client} — ${c.sector} (${c.location})`, "", `URL: ${SITE_URL}/isler/${c.slug}`, c.url ? `Site: ${c.url}` : "", `Güncelleme: ${c.modified}`, "", c.summary, "");
     parts.push(...c.facts.map((f) => `- ${f.label}: ${f.value}`), "");

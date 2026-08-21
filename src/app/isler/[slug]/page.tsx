@@ -73,7 +73,7 @@ export default async function CasePage({
       publisher: { "@id": `${SITE_URL}/#organization` },
       image: { "@id": `${pageUrl}#image` },
       about: { "@id": `${pageUrl}#project` },
-      genre: "Case study",
+      genre: "Proje",
     },
     {
       "@type": "CreativeWork",
@@ -151,7 +151,7 @@ export default async function CasePage({
         <div className="relative mx-auto max-w-3xl px-6 pb-8 pt-16 sm:pt-24">
           <Breadcrumb crumbs={crumbs} />
           <p className="mb-4 mt-8 text-sm uppercase tracking-[0.35em] text-accent-light">
-            Vaka · {c.sector}
+            Proje · {c.sector}
           </p>
           <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">{c.title}</h1>
           <ArticleMeta dates={{ published: c.published, modified: c.modified }} />

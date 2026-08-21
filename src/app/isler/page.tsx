@@ -12,7 +12,7 @@ import { SITE_URL, breadcrumbJsonLd, type Crumb } from "@/lib/site";
 const PATH = "/isler";
 const pageUrl = `${SITE_URL}${PATH}`;
 const dates = pageDates(PATH);
-const TITLE = "İşlerimiz — Gerçek Müşteri Siteleri ve Otomasyon Vakaları | KARNER";
+const TITLE = "İşlerimiz — Gerçek Müşteri Siteleri ve Otomasyon Projeleri | KARNER";
 const DESCRIPTION =
   "KARNER'ın yayında olan gerçek işleri: AYSA Endüstriyel Temizlik, BNS Enerji & Doğalgaz, Çolakoğlu Emlak siteleri ve Dükkân Takip Telegram botu. Ne kurduk, nasıl ölçtük, ne gördük — tarihli gözlemlerle.";
 
@@ -78,7 +78,7 @@ export default function CasesHubPage() {
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
             <strong className="text-white">
-              Burada vitrin değil vaka var: her iş için sorun, kurulan yapı ve ölçtüğümüz sonuç.
+              Burada vitrin değil iş var: her projede sorun, kurulan yapı ve ölçtüğümüz sonuç.
             </strong>{" "}
             Arama sonuçları değişir; bu yüzden gözlemleri tarihiyle yazıyor, kalıcı vaat gibi
             sunmuyoruz. Sektörel demo sitelerimiz ana sayfadaki &ldquo;demo&rdquo; vitrininde ayrı durur.
