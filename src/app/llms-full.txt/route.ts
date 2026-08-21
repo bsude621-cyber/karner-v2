@@ -59,7 +59,7 @@ export function GET() {
     "",
     "## Ekip",
     "",
-    "KARNER iki kurucu ortak tarafından yürütülür; ekip isim bazında değil, sorumluluk alanı bazında anlatılır:",
+    "Ekip sorumluluk alanlarına göre çalışır:",
     ...TEAM_ROLES.map((r) => `- ${r.role}: ${r.description}`),
     "",
     "## Sık sorulan sorular (genel)",

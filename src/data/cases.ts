@@ -183,8 +183,6 @@ export const cases: CaseStudy[] = [
         a: "Arama tabanlı yapay zekâ araçları cevap üretirken güncel web sonuçlarını ve sitenin llms.txt gibi makine-okunur dosyalarını çeker. Yetki kaynağının ve işletme kimliğinin netleştirilmesi aracın firmayı doğrulamasını kolaylaştırdı. Yine de bu tek bir tarihli gözlemdir; kalıcı sıralama anlamına gelmez.",
       },
     ],
-    disclosure:
-      "Şeffaflık notu: BNS Enerji & Doğalgaz, KARNER kurucu ortağının ailesine ait işletmedir; sitemizdeki ilk saha uygulamalarımız burada geliştirildi.",
     published: "2026-08-20",
     modified: "2026-08-20",
   },
@@ -324,8 +322,6 @@ export const cases: CaseStudy[] = [
         a: "Evet. Akış şablon olarak duruyor; sekme yapısı, komutlar ve yetkili kişi listesi işletmeye göre düzenleniyor. WhatsApp istenirse kanal değişir, mantık aynı kalır; WhatsApp tarafında Meta onay süreci ayrıca gerekir.",
       },
     ],
-    disclosure:
-      "Şeffaflık notu: Bu bot, KARNER kurucu ortağının ailesine ait işletmede günlük kullanımda olan iç projemizdir.",
     published: "2026-08-20",
     modified: "2026-08-20",
   },

@@ -124,9 +124,8 @@ export default function AboutPage() {
         <section>
           <h2 className="mb-4 text-2xl font-semibold text-white">Ekip</h2>
           <p className="mb-6 leading-relaxed text-white/70">
-            KARNER iki kurucu ortak tarafından yürütülür; işler kişiye göre
-            değil, sorumluluk alanına göre bölünür. Her projede aşağıdaki üç
-            alan birlikte çalışır:
+            İşler kişiye göre değil, sorumluluk alanına göre yürütülür; her
+            projede aşağıdaki üç alan birlikte çalışır:
           </p>
           <ul className="grid gap-3 sm:grid-cols-3">
             {TEAM_ROLES.map((r) => (
