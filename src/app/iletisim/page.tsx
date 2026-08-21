@@ -11,7 +11,7 @@ const pageUrl = `${SITE_URL}${PATH}`;
 const dates = pageDates(PATH);
 const TITLE = "İletişim — Teklif ve Keşif Görüşmesi | KARNER";
 const DESCRIPTION =
-  "KARNER ile iletişime geçin: telefon, e-posta veya form. Muğla ve Ankara merkezli, Türkiye genelinde çalışan yazılım ve medya ajansı. Kısa keşif görüşmesi, yazılı kapsam, net teklif.";
+  "KARNER ile iletişime geçin: telefon, e-posta veya form. Türkiye genelinde çalışan yazılım ve medya ajansı. Kısa keşif görüşmesi, yazılı kapsam, net teklif.";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },

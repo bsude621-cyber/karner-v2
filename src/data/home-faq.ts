@@ -12,7 +12,7 @@ export const HOME_FAQ: HomeFaq[] = [
   },
   {
     q: "Hangi şehirlere hizmet veriyorsunuz?",
-    a: "Ekibimiz Muğla ve Ankara merkezlidir; çalışma biçimimiz uzaktan yürütülebildiği için Türkiye genelindeki işletmelerle çalışıyoruz. Keşif görüşmesi, tasarım onayı ve teslim süreci çevrim içi araçlarla ilerler.",
+    a: "Türkiye genelindeki işletmelerle çalışıyoruz; çalışma biçimimiz uzaktan yürütülebilir. Keşif görüşmesi, tasarım onayı ve teslim süreci çevrim içi araçlarla ilerler.",
   },
   {
     q: "Web sitesiyle birlikte SEO da yapılıyor mu?",

@@ -16,7 +16,7 @@ export const SITE_NAME = "KARNER";
 
 /** Tek cümlelik marka tanımı — entity disambiguation (görünür metin + schema aynı cümle). */
 export const BRAND_SENTENCE =
-  "KARNER; Muğla ve Ankara merkezli, Türkiye genelinde hizmet veren bir yazılım ve medya ajansıdır.";
+  "KARNER; Türkiye genelinde hizmet veren bir yazılım ve medya ajansıdır.";
 
 export const CONTACT = {
   email: "karneryazilim@gmail.com",
@@ -106,11 +106,7 @@ export function organizationJsonLd() {
         areaServed: "TR",
       },
     ],
-    areaServed: [
-      { "@type": "Country", name: "Türkiye" },
-      { "@type": "City", name: "Muğla" },
-      { "@type": "City", name: "Ankara" },
-    ],
+    areaServed: [{ "@type": "Country", name: "Türkiye" }],
     knowsAbout: [...KNOWS_ABOUT],
     knowsLanguage: ["tr"],
     sameAs: [...SAME_AS],

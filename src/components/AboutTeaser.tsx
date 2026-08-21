@@ -23,7 +23,7 @@ export default function AboutTeaser() {
                 stüdyo
               </p>
               <p className="mx-auto mb-8 mt-3 max-w-md text-sm leading-relaxed text-white/55">
-                Muğla ve Ankara merkezli, Türkiye genelinde hizmet veren
+                Türkiye genelinde hizmet veren
                 yazılım ve medya ajansı: web, mobil, yapay zekâ destekli medya,
                 SEO/GEO/AEO ve otomasyon.
               </p>

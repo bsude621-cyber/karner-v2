@@ -26,7 +26,7 @@ const signs = [
     title: "Kimlik",
     lines: [
       "Yazılım + Medya şirketi",
-      "Muğla & Ankara",
+      "Türkiye genelinde hizmet",
       "Yerel işletmelere dijital çözüm",
     ],
     className: "lg:left-[6%] lg:top-[14%] lg:rotate-[-4deg]",

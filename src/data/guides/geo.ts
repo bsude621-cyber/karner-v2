@@ -526,7 +526,7 @@ export const GEO_GUIDES: Guide[] = [
       },
       {
         type: "p",
-        text: "Bir insan sayfaya bakınca “bu bir klima servisi firması, Ankara'da, şu hizmetleri veriyor” sonucunu çıkarır. Makine için aynı sayfa, birbirinden bağımsız metin parçalarıdır. Yapısal veri, bu çıkarımı makineye hazır verir: şu metin bir kuruluş adı, şu metin bir hizmet, şu liste bir soru-cevap.",
+        text: "Bir insan sayfaya bakınca “bu bir klima servisi firması, şu şehirde, şu hizmetleri veriyor” sonucunu çıkarır. Makine için aynı sayfa, birbirinden bağımsız metin parçalarıdır. Yapısal veri, bu çıkarımı makineye hazır verir: şu metin bir kuruluş adı, şu metin bir hizmet, şu liste bir soru-cevap.",
       },
       {
         type: "p",

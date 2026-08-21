@@ -11,7 +11,7 @@ import Breadcrumb from "@/components/seo/Breadcrumb";
 export const metadata: Metadata = {
   title: { absolute: "Hakkımızda — KARNER Yazılım ve Medya" },
   description:
-    "KARNER; Muğla ve Ankara'dan Türkiye'nin tamamına hizmet veren bir yazılım ve medya şirketidir. Web sitesi, mobil uygulama, AI video, SEO/GEO/AEO, otomasyon ve marka tasarımı.",
+    "KARNER; Türkiye'nin tamamına hizmet veren bir yazılım ve medya şirketidir. Web sitesi, mobil uygulama, AI video, SEO/GEO/AEO, otomasyon ve marka tasarımı.",
   alternates: { canonical: "/hakkimizda" },
 };
 
@@ -95,8 +95,8 @@ export default function AboutPage() {
           </h1>
           <p className="speakable-summary mt-6 text-lg leading-relaxed text-white/70">
             <strong className="text-white">
-              KARNER; Muğla ve Ankara&apos;dan Türkiye&apos;nin tamamına hizmet
-              veren bir yazılım ve medya şirketidir.
+              KARNER; Türkiye&apos;nin tamamına hizmet veren bir yazılım ve
+              medya şirketidir.
             </strong>{" "}
             Web sitesi, mobil uygulama, yapay zekâ destekli video ve görsel
             üretimi, arama görünürlüğü (SEO/GEO/AEO), iş akışı otomasyonu,

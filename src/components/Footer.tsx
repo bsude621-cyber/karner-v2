@@ -66,7 +66,7 @@ const contactInfo = [
   },
   {
     icon: <MapPin size={18} className="text-accent" />,
-    text: "Muğla & Ankara",
+    text: "Türkiye geneli",
     href: "/#iletisim",
   },
 ];
