@@ -63,10 +63,6 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
           "Aylık: 2 içerik güncellemesi + görünürlük raporu + GBP yönetimi",
         ],
         excludes: ["Ulusal head-term sıralama taahhüdü", "Reklam bütçesi yönetimi"],
-        guarantee: {
-          yes: ["Yerel ve uzun kuyruklu aramalarda 90 günde 1. sayfa hedefi — ölçülür, raporlanır"],
-          no: ["Ulusal ve yüksek rekabetli tek kelimelik aramalar için taahhüt verilmez"],
-        },
         highlight: true,
       },
       {
@@ -303,10 +299,6 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
           "Gerekirse sayfa/başlık düzeltmeleri",
         ],
         excludes: ["Ücretli bağlantı satın alma (yapılmaz)", "Ulusal head-term taahhüdü"],
-        guarantee: {
-          yes: ["Yerel ve uzun kuyruklu aramalarda 90 günde 1. sayfa hedefi — ölçülür, raporlanır"],
-          no: ["Ulusal ve yüksek rekabetli tek kelimelik aramalar için taahhüt verilmez"],
-        },
       },
       {
         slug: "haritalar-isletme-profili",
@@ -505,8 +497,8 @@ export const PACKAGE_FAQ = [
     a: "Tek seferlik işlerde (Başlangıç paketlerinin çoğu: tek sayfa site, tek reel, logo, tanı raporu, Haritalar & İşletme Profili) zorunlu değil. Sonucu içerik ve takibe bağlı paketlerde (SEO Pro, video Standart, sosyal medya paketleri, otomasyon Standart asistan) aylık çalışma paketin parçasıdır; bakımsız bırakılan site zamanla görünürlüğünü kaybeder.",
   },
   {
-    q: "Neden ulusal sıralama taahhüdü yok?",
-    a: "Ulusal ve tek kelimelik aramalarda sıralama, sitenin kendisi kadar site dışı sinyallere (bağlantılar, marka bilinirliği, yaş) bağlıdır; bunlar tek başına mühendislikle garanti edilemez. Yerel ve uzun kuyruklu aramalarda ise sonuç ölçülebilir ve hedeflenebilir — taahhüdü orada veriyoruz.",
+    q: "Sıralama garantisi veriyor musunuz?",
+    a: "Hayır. Sıralama, sitenin kendisi kadar site dışı sinyallere (bağlantılar, marka bilinirliği, yaş) ve arama motorlarının kendi kararlarına bağlıdır; hiçbir ajans bunu dürüstçe garanti edemez. Yaptığımız şey: hedef sorguları birlikte belirlemek, altyapıyı eksiksiz kurmak ve sonucu tarihli, ekran görüntülü raporla ölçmek."
   },
   {
     q: "Paketlerin dışında bir ihtiyacım var; olur mu?",
