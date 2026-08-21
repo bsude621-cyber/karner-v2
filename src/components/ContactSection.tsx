@@ -16,8 +16,12 @@ const PHONE = "0544 218 8645";
 const PHONE_E164 = "+905442188645";
 const EMAIL = "karneryazilim@gmail.com";
 
-/** Ana sayfa iletişim bölümü — form TeklifForm bileşeninde (iletişim sayfasıyla ortak). */
-export default function ContactSection() {
+/**
+ * İletişim bölümü — ana sayfada (#iletisim) ve /iletisim sayfasında BİREBİR aynı
+ * (Sude 2026-08-21: "iletişim sayfasını ana sayfadakiyle aynı yap").
+ * /iletisim'de başlık h1 olur (headingAs).
+ */
+export default function ContactSection({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
   const [overlayOpen, setOverlayOpen] = useState(false);
 
   return (
@@ -29,6 +33,7 @@ export default function ContactSection() {
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <SectionHeading
+          as={headingAs}
           eyebrow="İletişim"
           title="Birlikte çalışalım"
           highlight="çalışalım"

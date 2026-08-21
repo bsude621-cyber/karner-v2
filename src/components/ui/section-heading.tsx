@@ -7,6 +7,8 @@ type SectionHeadingProps = {
   highlight?: string;
   subtitle?: string;
   className?: string;
+  /** Sayfa başlığı olarak kullanılıyorsa h1 (iletişim sayfası). */
+  as?: "h1" | "h2";
 };
 
 /**
@@ -20,6 +22,7 @@ export default function SectionHeading({
   highlight,
   subtitle,
   className,
+  as: Tag = "h2",
 }: SectionHeadingProps) {
   const words = title.split(" ");
 
@@ -29,7 +32,7 @@ export default function SectionHeading({
         {eyebrow}
       </p>
 
-      <h2
+      <Tag
         aria-label={title}
         className="reveal mt-4 flex flex-wrap justify-center gap-x-3 text-4xl font-semibold sm:text-5xl"
       >
@@ -49,7 +52,7 @@ export default function SectionHeading({
             </span>
           );
         })}
-      </h2>
+      </Tag>
 
       {subtitle ? (
         <p className="reveal mx-auto mt-5 max-w-2xl text-lg text-white/60">
