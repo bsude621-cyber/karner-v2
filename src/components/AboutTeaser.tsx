@@ -10,8 +10,9 @@ import { TextHoverEffect } from "@/components/ui/hover-footer";
 export default function AboutTeaser() {
   return (
     <section id="hakkimizda" className="relative">
-      <DottedSurface className="min-h-[60vh] w-full">
-        <div className="relative z-10 flex min-h-[60vh] flex-col items-center justify-center px-4 py-24 sm:px-6">
+      {/* Mobilde bölüm daha uzun ve içerik üstte: yıldız alanı kartın altında görünür kalsın */}
+      <DottedSurface className="min-h-[92vh] w-full sm:min-h-[60vh]">
+        <div className="relative z-10 flex min-h-[92vh] flex-col items-center justify-start px-4 pb-24 pt-10 sm:min-h-[60vh] sm:justify-center sm:py-24 sm:px-6">
           {/* Yıldızların üstünde büyük KARNER yazısı (eski tam bölümden geri alındı — Sude 2026-08-21) */}
           <div className="reveal relative z-30 mb-8 flex h-28 w-full max-w-3xl items-center justify-center sm:h-36">
             <div

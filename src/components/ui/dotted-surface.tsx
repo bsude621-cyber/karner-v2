@@ -88,12 +88,30 @@ export function DottedSurface({
         new THREE.Float32BufferAttribute(colors, 3)
       );
 
+      // Yuvarlak nokta dokusu: büyük boyutlarda (mobil) kare piksel yerine
+      // yumuşak disk görünsün.
+      const dotCanvas = document.createElement("canvas");
+      dotCanvas.width = dotCanvas.height = 32;
+      const dctx = dotCanvas.getContext("2d");
+      if (dctx) {
+        const grd = dctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+        grd.addColorStop(0, "rgba(255,255,255,1)");
+        grd.addColorStop(0.55, "rgba(255,255,255,0.9)");
+        grd.addColorStop(1, "rgba(255,255,255,0)");
+        dctx.fillStyle = grd;
+        dctx.fillRect(0, 0, 32, 32);
+      }
+      const dotTexture = new THREE.CanvasTexture(dotCanvas);
+
       const material = new THREE.PointsMaterial({
         size: 7,
         vertexColors: true,
         transparent: true,
         opacity: 0.75,
         sizeAttenuation: true,
+        map: dotTexture,
+        alphaMap: dotTexture,
+        depthWrite: false,
       });
 
       const points = new THREE.Points(geometry, material);
@@ -102,19 +120,33 @@ export function DottedSurface({
       let count = 0;
       let animationId = 0;
 
+      // Mobilde (dar ekran) noktalar daha büyük/parlak ve kamera daha yakın —
+      // dar görüş açısında alan uzakta kalıyor, yıldızlar silikleşiyordu
+      // (Sude 2026-08-21: "mobilde yıldızlar çok görünmüyor").
       const resize = () => {
         const { width, height } = wrapper.getBoundingClientRect();
         if (width === 0 || height === 0) return;
+        const narrow = width < 640;
         camera.aspect = width / height;
+        camera.position.set(0, narrow ? 330 : 355, narrow ? 760 : 1220);
         camera.updateProjectionMatrix();
+        material.size = narrow ? 11 : 8;
+        material.opacity = narrow ? 0.95 : 0.8;
+        material.needsUpdate = true;
         renderer.setSize(width, height);
       };
 
       let visible = true;
 
+      // Kare tavanı: mobil 30 fps, masaüstü 60 fps (yüksek Hz ekranlarda boşa yük)
+      const minFrameMs = window.matchMedia("(max-width: 639px)").matches ? 1000 / 30 : 1000 / 60;
+      let lastFrame = 0;
       const animate = () => {
         animationId = requestAnimationFrame(animate);
         if (!visible) return; // ekran dışındayken çizme (performans)
+        const nowMs = performance.now();
+        if (nowMs - lastFrame < minFrameMs - 1) return;
+        lastFrame = nowMs;
 
         const positionAttribute = geometry.attributes.position;
         const pos = positionAttribute.array as Float32Array;
