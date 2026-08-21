@@ -55,10 +55,25 @@ export default function MobileAssistant() {
     setInput("");
     setBusy(true);
     try {
+      // Oturum kimliği (sekme bazlı) — Telegram bildiriminde aynı ziyaretçinin
+      // mesajları bir arada okunsun diye. Kişisel veri içermez.
+      let sessionId = "";
+      try {
+        sessionId = sessionStorage.getItem("karner-chat-sid") || "";
+        if (!sessionId) {
+          sessionId = Math.random().toString(36).slice(2, 8);
+          sessionStorage.setItem("karner-chat-sid", sessionId);
+        }
+      } catch {}
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next.slice(1) }),
+        body: JSON.stringify({
+          messages: next.slice(1),
+          sessionId,
+          page: window.location.pathname,
+          turn: next.slice(1).filter((m) => m.role === "user").length,
+        }),
       });
       const data = await res.json();
       setMsgs((m) => [

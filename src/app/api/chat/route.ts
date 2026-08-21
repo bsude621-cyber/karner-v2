@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { services } from "@/data/services";
 import { HOME_FAQ } from "@/data/home-faq";
 import { PACKAGE_CATEGORIES, PACKAGE_FAQ } from "@/data/packages";
@@ -68,10 +68,16 @@ export async function POST(req: NextRequest) {
   }
 
   let messages: ChatMessage[];
+  let meta: { sessionId: string; page: string; turn: number } = { sessionId: "", page: "", turn: 0 };
   try {
     const body = await req.json();
     messages = body.messages;
     if (!Array.isArray(messages) || messages.length === 0) throw new Error();
+    meta = {
+      sessionId: typeof body.sessionId === "string" ? body.sessionId.slice(0, 40) : "",
+      page: typeof body.page === "string" ? body.page.slice(0, 300) : "",
+      turn: Number.isFinite(Number(body.turn)) ? Number(body.turn) : 0,
+    };
   } catch {
     return NextResponse.json({ error: "Geçersiz istek." }, { status: 400 });
   }
@@ -113,6 +119,31 @@ export async function POST(req: NextRequest) {
   const reply: string =
     data.choices?.[0]?.message?.content?.trim() ??
     "Üzgünüm, şu anda yanıt veremiyorum.";
+
+  // Ziyaretçi mesajı + asistan cevabı ekibe düşsün (KARNER n8n → Telegram + tablo).
+  // Yanıt gönderildikten SONRA çalışır; webhook yoksa/hata verirse sohbeti etkilemez.
+  const hook = process.env.CHAT_WEBHOOK_URL;
+  const lastUser = [...trimmed].reverse().find((m) => m.role === "user")?.content ?? "";
+  if (hook && lastUser) {
+    after(async () => {
+      try {
+        await fetch(hook, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sessionId: meta.sessionId,
+            page: meta.page,
+            turn: meta.turn,
+            message: lastUser,
+            reply,
+          }),
+          signal: AbortSignal.timeout(8000),
+        });
+      } catch {
+        /* bildirim başarısız olsa da sohbet devam eder */
+      }
+    });
+  }
 
   return NextResponse.json({ reply });
 }
