@@ -110,9 +110,31 @@ html[data-theme="light"] .logo-emblem {
   filter: brightness(0.72) contrast(1.3) saturate(1.25) drop-shadow(0 1px 2px rgba(43, 37, 64, 0.3));
 }
 
-/* gündüz modunda bölüm ritmi: lavanta zemin → daha açık bant */
+/* UZAY HİSSİ (Sude 2026-08-21): gündüz zemini bembeyaz değil — sabit (fixed) nebula
+   geçişi: lila, pembe, buz mavisi bulutlar + iki kat minik yıldız noktası. Açık
+   bölümlerin düz zemini saydamlaştırılır ki gövdedeki geçiş görünsün. */
+html[data-theme="light"] body {
+  /* ULTRAVİYOLE #645394 (Sude 2026-08-21): açık tonları arasında uzay hissi veren
+     sabit nebula geçişi + iki kat minik yıldız noktası. */
+  background-color: #ddd7ee;
+  background-image:
+    radial-gradient(circle, rgba(100, 83, 148, 0.35) 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(100, 83, 148, 0.22) 1px, transparent 1.4px),
+    radial-gradient(60% 45% at 10% 6%, rgba(100, 83, 148, 0.42) 0%, transparent 62%),
+    radial-gradient(55% 42% at 92% 16%, rgba(138, 123, 184, 0.45) 0%, transparent 62%),
+    radial-gradient(60% 45% at 50% 58%, rgba(100, 83, 148, 0.28) 0%, transparent 66%),
+    radial-gradient(50% 42% at 8% 92%, rgba(100, 83, 148, 0.4) 0%, transparent 62%),
+    radial-gradient(55% 42% at 90% 88%, rgba(158, 146, 200, 0.45) 0%, transparent 62%),
+    linear-gradient(180deg, #e8e3f4 0%, #d6cfe9 35%, #cbc2e4 60%, #e3ddf2 100%);
+  background-size: 170px 170px, 270px 270px, auto, auto, auto, auto, auto, auto;
+  background-position: 20px 30px, 95px 125px, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+  background-attachment: fixed;
+}
+html[data-theme="light"] section[class*="bg-background"]:not(.night-section),
+html[data-theme="light"] main[class*="bg-background"],
 html[data-theme="light"] .tint-section {
-  background: linear-gradient(180deg, #f4f1fb 0%, #faf8ff 50%, #f4f1fb 100%);
+  background-color: transparent;
+  background-image: none;
 }
 /* Buzlu beyaz kartlar (referans görseldeki gibi): koyu temadaki %3-6 beyaz cam yüzeyler
    gündüzde yarı saydam beyaz + hafif mor gölge olur. Sınıf adına göre eşleşir. */

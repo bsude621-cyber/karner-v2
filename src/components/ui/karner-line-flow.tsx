@@ -330,7 +330,7 @@ export function KarnerLineFlow({
     <canvas
       ref={canvasRef}
       className={`absolute inset-0 h-full w-full ${className}`}
-      style={{ background: "var(--background)" }}
+      style={{ background: "transparent" }}
     />
   );
 }
