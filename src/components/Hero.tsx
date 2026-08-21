@@ -73,7 +73,7 @@ export default function Hero() {
           mümkün değildi — araya eklenen her boşluk bloğu yeniden ortalayıp
           kazanımı geri alıyordu.
           Masaüstü: eskisi gibi dikeyde ortalanmış, yer bol. */}
-      <div className="relative z-20 flex w-full flex-1 flex-col items-center px-6 pb-8 pt-28 text-center sm:w-auto sm:flex-none sm:pb-0 sm:pt-0">
+      <div className="relative z-20 flex w-full flex-1 flex-col items-center px-6 pb-8 pt-24 text-center sm:w-auto sm:flex-none sm:pb-0 sm:pt-0">
         {/* initial'da opacity YOK — metin sunucudan görünür gelsin. JavaScript
             çalışmasa da okunur kalır (arama motorları ve AI botları ham HTML'i
             okuyor). Giriş efekti kaydırmayla korunuyor. */}
@@ -94,7 +94,12 @@ export default function Hero() {
           </span>
         </h1>
 
-        <p className="rise-in rise-in-3 mt-5 max-w-[19rem] text-sm leading-relaxed text-white/60 sm:mt-8 sm:max-w-xl sm:text-lg">
+        {/* Mobilde kısa sürüm: uzun paragraf robotların kafasına iniyordu. */}
+        <p className="rise-in rise-in-3 mt-4 max-w-[19rem] text-sm leading-relaxed text-white/60 sm:hidden">
+          Web, mobil, yapay zekâ içerik, arama görünürlüğü ve otomasyon —
+          işletmenizin dijital tarafını tek ekip kurar.
+        </p>
+        <p className="rise-in rise-in-3 mt-8 hidden max-w-xl text-lg leading-relaxed text-white/60 sm:block">
           Web sitesi ve mobil uygulamadan yapay zekâ video ve görsele, arama
           görünürlüğünden otomasyon, marka ve sosyal medya içeriğine — işletmenizin
           dijital tarafını tek ekip, uçtan uca kurar.

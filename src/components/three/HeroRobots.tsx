@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   Environment,
   Lightformer,
@@ -157,9 +157,17 @@ function Rig({
   // görünür yarı yükseklik tan(19°)*8.2 ≈ 2.82 birim. 812 px'lik bir ekranda
   // bu 406 px demek, yani 1 birim ≈ 144 px. -0.7 değeri robotları paragrafın
   // altına indiriyor (eskiden -0.35'ti ve kafaları paragrafla çakışıyordu).
-  const x = mobile ? 1.15 : 2.7;
-  const y = mobile ? -0.7 : -0.15;
-  const fit = mobile ? 1.7 : 2.1;
+  // Mobilde robotlar küçülür (1.45) ama AYAK hizası sabit kalır (-1.55 birim,
+  // hero'nun ~%78'i) — butonlar (top-%83) ve gölge buna göre ayarlı. Kafalar
+  // böylece hero'nun ~%54'üne iner; metin üstte biter, çakışma olmaz.
+  // x, görünür genişliğe göre: dar telefonda robotlar kenardan taşmasın.
+  const { size } = useThree();
+  const aspect = size.width / Math.max(1, size.height);
+  const halfW = 2.824 * aspect; // z=0 düzleminde görünür yarı genişlik (fov 38°, z 8.2)
+  const fit = mobile ? 1.45 : 2.1;
+  const feet = mobile ? -1.55 : -1.2;
+  const y = mobile ? feet + fit / 2 : -0.15;
+  const x = mobile ? Math.min(1.15, Math.max(0.7, halfW - 0.5)) : 2.7;
   // Gölge robotların ayak hizasında dursun. Model kendi merkezine hizalandığı
   // için ayak seviyesi y - fit/2; 0.08 birim altına konuyor ki gölge ayakların
   // altından taşsın. Masaüstünde bu -1.28 veriyor (eski sabit değerin aynısı).
