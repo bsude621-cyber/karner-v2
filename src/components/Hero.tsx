@@ -105,12 +105,10 @@ export default function Hero() {
           dijital tarafını tek ekip, uçtan uca kurar.
         </p>
 
-        {/* Mobilde alta yapıştırmak yerine yüzdeyle konumlandırılıyor: robotların
-            ayakları hero yüksekliğinin ~%77.5'ine denk geliyor (kamera fov 38°,
-            z=8.2, ayak seviyesi -1.55 birim). %83 onların hemen altında kalıyor
-            ve boşluk ekran yüksekliğiyle orantılı büyüyüp küçülüyor — alta
-            yapışıkken bu mesafe uzun telefonlarda açılıyordu. */}
-        <div className="rise-in rise-in-4 absolute inset-x-0 top-[83%] flex flex-wrap items-center justify-center gap-4 sm:static sm:mt-12">
+        {/* Mobil: butonlar robotların ayağının 26 px altında. Robot kafası 392 px'te,
+            boyu clamp(140px, 100dvh − 541px, 230px) (HeroRobots.tsx ile aynı formül) →
+            ayak = 392 + boy, buton = ayak + 26 = 418 + boy. */}
+        <div className="rise-in rise-in-4 absolute inset-x-0 top-[calc(418px_+_clamp(140px,100dvh_-_541px,230px))] flex flex-wrap items-center justify-center gap-4 sm:static sm:mt-12">
           <a href="#hizmetler" className="btn btn-primary">
             Keşfet
           </a>

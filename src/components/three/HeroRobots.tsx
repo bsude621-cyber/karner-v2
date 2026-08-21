@@ -161,13 +161,25 @@ function Rig({
   // hero'nun ~%78'i) — butonlar (top-%83) ve gölge buna göre ayarlı. Kafalar
   // böylece hero'nun ~%54'üne iner; metin üstte biter, çakışma olmaz.
   // x, görünür genişliğe göre: dar telefonda robotlar kenardan taşmasın.
+  // MOBİL YERLEŞİM PİKSEL TABANLI (Sude 2026-08-21: "tam yazının altına al"):
+  // Hero metni px cinsinden sabit biter (~348 px; max-w 19rem, px fontlar).
+  // Robot kafası 392 px'te başlar, boyu clamp(140, 100dvh − 541, 230) px — kısa
+  // ekranlarda küçülür ki altındaki butonlar sohbet düğmesiyle çakışmasın.
+  // Hero.tsx'teki buton konumu (top: calc(418px + clamp(140px, 100dvh − 541px, 230px)))
+  // bu formülle eşleşir: ayak + 26 px. Birim↔px: görünür yükseklik 5.648 birim
+  // (fov 38°, z 8.2), kamera y 0.15 → üst kenar 0.15 + 2.824 birim.
   const { size } = useThree();
-  const aspect = size.width / Math.max(1, size.height);
-  const halfW = 2.824 * aspect; // z=0 düzleminde görünür yarı genişlik (fov 38°, z 8.2)
-  const fit = mobile ? 1.45 : 2.1;
-  const feet = mobile ? -1.55 : -1.2;
-  const y = mobile ? feet + fit / 2 : -0.15;
-  const x = mobile ? Math.min(1.15, Math.max(0.7, halfW - 0.5)) : 2.7;
+  const H = Math.max(1, size.height);
+  const aspect = size.width / H;
+  const halfW = 2.824 * aspect; // z=0 düzleminde görünür yarı genişlik
+  const upp = 5.648 / H; // birim / px
+  // Ölçüm: fit birimi modelin en büyük boyutu; görünen boy ≈ fit × 1.087.
+  // Yığın kısıtı: 392 (kafa) + R + 26 + 43 (buton) + 80 (sohbet düğmesi) ≤ H.
+  const robotPx = Math.max(140, Math.min(230, H - 541));
+  const fit = mobile ? (robotPx * upp) / 1.087 : 2.1;
+  const headTopUnits = 0.15 + 2.824 - 392 * upp;
+  const y = mobile ? headTopUnits - fit / 2 : -0.15;
+  const x = mobile ? Math.min(1.15, Math.max(0.62, halfW - 0.45)) : 2.7;
   // Gölge robotların ayak hizasında dursun. Model kendi merkezine hizalandığı
   // için ayak seviyesi y - fit/2; 0.08 birim altına konuyor ki gölge ayakların
   // altından taşsın. Masaüstünde bu -1.28 veriyor (eski sabit değerin aynısı).
