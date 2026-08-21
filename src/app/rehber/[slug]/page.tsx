@@ -52,7 +52,7 @@ export default async function GuidePage({
   const pageUrl = `${SITE_URL}/rehber/${g.slug}`;
   const crumbs: Crumb[] = [
     { name: "Ana Sayfa", href: "/" },
-    { name: "Rehberler", href: "/rehber" },
+    { name: "Rehber", href: "/rehber" },
     { name: g.title, href: `/rehber/${g.slug}` },
   ];
   const service = getService(g.serviceSlug);
@@ -119,7 +119,7 @@ export default async function GuidePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <SubpageHeader backHref="/rehber" backLabel="Rehberler" />
+      <SubpageHeader backHref="/rehber" backLabel="Rehber" />
 
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute left-1/2 top-0 h-[28rem] w-[48rem] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(123,63,228,0.18),transparent_65%)] blur-2xl" />

@@ -25,7 +25,7 @@ const dates = pageDates(`/${PILLAR_GEO.slug}`);
 const spokes = guidesByCluster("geo");
 const crumbs: Crumb[] = [
   { name: "Ana Sayfa", href: "/" },
-  { name: "Rehberler", href: "/rehber" },
+  { name: "Rehber", href: "/rehber" },
   { name: PILLAR_GEO.title, href: `/${PILLAR_GEO.slug}` },
 ];
 

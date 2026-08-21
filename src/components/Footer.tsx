@@ -38,7 +38,7 @@ const footerLinks = [
     ],
   },
   {
-    title: "Rehberler",
+    title: "Rehber",
     links: [
       { label: "Tüm rehberler", href: "/rehber" },
       { label: "3D Web Sitesi", href: "/3d-web-sitesi" },

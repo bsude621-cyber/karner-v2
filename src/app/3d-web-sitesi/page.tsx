@@ -25,7 +25,7 @@ const dates = pageDates(`/${PILLAR_3D.slug}`);
 const spokes = guidesByCluster("web");
 const crumbs: Crumb[] = [
   { name: "Ana Sayfa", href: "/" },
-  { name: "Rehberler", href: "/rehber" },
+  { name: "Rehber", href: "/rehber" },
   { name: PILLAR_3D.title, href: `/${PILLAR_3D.slug}` },
 ];
 

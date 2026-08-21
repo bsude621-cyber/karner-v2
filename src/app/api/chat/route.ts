@@ -41,7 +41,7 @@ ${cases.map((c) => `- ${c.client} (${c.location}): ${c.summary}`).join("\n")}
 ## Genel SSS
 ${HOME_FAQ.map((f) => `- ${f.q} ${f.a}`).join("\n")}
 
-## Rehberler (konu sorulursa ilgili sayfaya yönlendir)
+## Rehber (konu sorulursa ilgili sayfaya yönlendir)
 ${guides.map((g) => `- /rehber/${g.slug}: ${g.title}`).join("\n")}
 
 ## İletişim

@@ -25,7 +25,7 @@ const dates = pageDates(`/${PILLAR_AI_VIDEO.slug}`);
 const spokes = guidesByCluster("video");
 const crumbs: Crumb[] = [
   { name: "Ana Sayfa", href: "/" },
-  { name: "Rehberler", href: "/rehber" },
+  { name: "Rehber", href: "/rehber" },
   { name: PILLAR_AI_VIDEO.title, href: `/${PILLAR_AI_VIDEO.slug}` },
 ];
 

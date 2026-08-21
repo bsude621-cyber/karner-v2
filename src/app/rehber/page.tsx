@@ -15,7 +15,7 @@ import { SITE_URL, breadcrumbJsonLd, type Crumb } from "@/lib/site";
 const PATH = "/rehber";
 const pageUrl = `${SITE_URL}${PATH}`;
 const dates = pageDates(PATH);
-const TITLE = "Rehberler — Web, SEO, Yapay Zekâ Araması, Otomasyon | KARNER";
+const TITLE = "Rehber — Web, SEO, Yapay Zekâ Araması, Otomasyon | KARNER";
 const DESCRIPTION =
   "KARNER teknik rehberleri: 3D web sitesi, yapay zekâ aramasında görünmek, llms.txt, schema.org, Core Web Vitals, n8n otomasyon, AI reklam videosu, mobil uygulama ve sosyal medya içerik takvimi. Her konunun nasıl çalıştığının sade açıklaması.";
 
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
 const crumbs: Crumb[] = [
   { name: "Ana Sayfa", href: "/" },
-  { name: "Rehberler", href: PATH },
+  { name: "Rehber", href: PATH },
 ];
 
 const pillars = [
@@ -92,7 +92,7 @@ export default function GuidesHubPage() {
         <div className="pointer-events-none absolute left-1/2 top-0 h-[28rem] w-[48rem] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(123,63,228,0.18),transparent_65%)] blur-2xl" />
         <div className="relative mx-auto max-w-5xl px-6 pb-8 pt-16 sm:pt-24">
           <Breadcrumb crumbs={crumbs} />
-          <p className="mb-4 mt-8 text-sm uppercase tracking-[0.35em] text-accent-light">Rehberler</p>
+          <p className="mb-4 mt-8 text-sm uppercase tracking-[0.35em] text-accent-light">Rehber</p>
           <h1 className="max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl">
             Karar vermeden önce konuyu anlamak isteyenler için
           </h1>
