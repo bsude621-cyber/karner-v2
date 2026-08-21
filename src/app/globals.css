@@ -31,19 +31,18 @@
 /* GÜNDÜZ MODU — beyaz ağırlıklı. data-theme'i <body> başındaki satır içi
    script (sistem tercihi / localStorage) ve ThemeToggle yönetir. */
 html[data-theme="light"] {
-  /* Referans (Sude 2026-08-21 görsel): yumuşak lavanta zemin, buzlu beyaz kartlar,
-     pastel lila→pembe geçişler, koyu erik-gri metin. Bembeyaz değil, "lavanta-beyaz". */
-  --background: #f4f1fb;
+  /* "LAVENDER FUTURE" (Sude referans pin, 2026-08-21): tüm sayfa lavanta-lila degrade,
+     buzlu beyaz cam kartlar, koyu erik-gri metin, mor vurgu; siyah bölüm yok. */
+  --background: #e9e3f6;
   --foreground: #2b2540;
   --ink: #2b2540;
-  --accent-light: #7c5ce6; /* lavanta zeminde okunur mor (4.6:1) */
+  --accent-light: #6d4fc9;
   --silver: #6f6a82;
-  --card-top: rgba(255, 255, 255, 0.9);
-  --card-bottom: rgba(247, 243, 255, 0.94);
-  --wordmark: #7b3fe4; /* koyu moddaki marka moru (Sude 2026-08-21) */
-  --footer-bg: radial-gradient(120% 90% at 10% 0%, rgba(255, 255, 255, 0.28) 0%, transparent 55%),
-    radial-gradient(80% 70% at 100% 100%, rgba(251, 207, 232, 0.35) 0%, transparent 55%),
-    linear-gradient(135deg, #7b3fe4 0%, #5f2bc0 55%, #4b1d96 100%);
+  --card-top: rgba(255, 255, 255, 0.46);
+  --card-bottom: rgba(255, 255, 255, 0.3);
+  --wordmark: #3b2a78;
+  --footer-bg: radial-gradient(120% 90% at 10% 0%, rgba(255, 255, 255, 0.22) 0%, transparent 55%),
+    linear-gradient(135deg, #6d4fc9 0%, #5a3bb8 55%, #4b2fa8 100%);
   --footer-surface: transparent;
   --footer-accent: #ffffff;
   color-scheme: light;
@@ -52,13 +51,12 @@ html[data-theme="light"] {
 /* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
    bazı kutular mor, tasarımlı dursun") — koyu tema bu kurallardan etkilenmez. */
 html[data-theme="light"] .brand-band {
-  /* pastel lila: sol-üst beyaz ışık + sağ-alt pembe iz + lila taban (referans görsel) */
-  background: radial-gradient(120% 90% at 12% 0%, rgba(255, 255, 255, 0.35) 0%, transparent 55%),
-    radial-gradient(80% 70% at 100% 100%, rgba(251, 207, 232, 0.45) 0%, transparent 55%),
-    linear-gradient(135deg, #7b3fe4 0%, #5f2bc0 55%, #4b1d96 100%);
-  border-color: transparent;
+  /* derin menekşe cam blok — referanstaki koyu proje kartları gibi */
+  background: radial-gradient(120% 90% at 12% 0%, rgba(255, 255, 255, 0.22) 0%, transparent 55%),
+    linear-gradient(135deg, #6d4fc9 0%, #5a3bb8 55%, #4b2fa8 100%);
+  border-color: rgba(255, 255, 255, 0.28);
   color: #fff;
-  box-shadow: 0 22px 50px -24px rgba(75, 29, 150, 0.55);
+  box-shadow: 0 22px 50px -24px rgba(75, 47, 168, 0.55);
 }
 html[data-theme="light"] .brand-band :is(h2, h3, strong) {
   color: #fff;
@@ -76,8 +74,8 @@ html[data-theme="light"] .brand-band .btn-secondary:hover {
 html[data-theme="light"] .brand-band .btn-primary,
 html[data-theme="light"] .brand-band .band-cta {
   background: #fff;
-  color: #4b1d96;
-  box-shadow: 0 10px 30px -10px rgba(75, 29, 150, 0.3);
+  color: #4b2fa8;
+  box-shadow: 0 10px 30px -10px rgba(75, 47, 168, 0.3);
 }
 /* Gündüz modunda dekoratif mor hâle/gölge YOK (Sude 2026-08-21: "Demo sitelerimiz'deki
    mor gölge gibi şeyler istemiyorum"): sayfa başlıkları, bölüm zeminleri, hero hâleleri,
@@ -124,34 +122,17 @@ html[data-theme="light"] .logo-emblem {
    geçişi: lila, pembe, buz mavisi bulutlar + iki kat minik yıldız noktası. Açık
    bölümlerin düz zemini saydamlaştırılır ki gövdedeki geçiş görünsün. */
 html[data-theme="light"] body {
-  /* ULTRAVİYOLE #645394 (Sude 2026-08-21): açık tonları arasında uzay hissi veren
-     sabit nebula geçişi + iki kat minik yıldız noktası. */
-  background-color: #ddd7ee;
+  /* lavanta → lila degrade + yumuşak ışık lekeleri (sabit) */
+  background-color: #ddd3f1;
   background-image:
-    radial-gradient(circle, rgba(100, 83, 148, 0.35) 1px, transparent 1.6px),
-    radial-gradient(circle, rgba(100, 83, 148, 0.22) 1px, transparent 1.4px),
-    radial-gradient(60% 45% at 10% 6%, rgba(100, 83, 148, 0.42) 0%, transparent 62%),
-    radial-gradient(55% 42% at 92% 16%, rgba(138, 123, 184, 0.45) 0%, transparent 62%),
-    radial-gradient(60% 45% at 50% 58%, rgba(100, 83, 148, 0.28) 0%, transparent 66%),
-    radial-gradient(50% 42% at 8% 92%, rgba(100, 83, 148, 0.4) 0%, transparent 62%),
-    radial-gradient(55% 42% at 90% 88%, rgba(158, 146, 200, 0.45) 0%, transparent 62%),
-    linear-gradient(180deg, #e8e3f4 0%, #d6cfe9 35%, #cbc2e4 60%, #e3ddf2 100%);
-  background-size: 170px 170px, 270px 270px, auto, auto, auto, auto, auto, auto;
-  background-position: 20px 30px, 95px 125px, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+    radial-gradient(55% 40% at 18% 8%, rgba(255, 255, 255, 0.55) 0%, transparent 60%),
+    radial-gradient(50% 40% at 85% 28%, rgba(170, 140, 235, 0.35) 0%, transparent 62%),
+    radial-gradient(60% 45% at 50% 62%, rgba(255, 255, 255, 0.22) 0%, transparent 65%),
+    radial-gradient(50% 40% at 10% 88%, rgba(160, 130, 230, 0.32) 0%, transparent 62%),
+    linear-gradient(180deg, #efe9fa 0%, #e3daf5 30%, #d8cbf0 62%, #cdbeeb 100%);
   background-attachment: fixed;
 }
-/* Koyu bölüm içindeki düz zeminli sarmalayıcılar (DottedSurface vb.) bölümün
-   geçişli zeminini kapatmasın */
-html[data-theme="light"] .night-section [class*="bg-background"],
-html[data-theme="light"] .night-section [class*="bg-[#05060a]"] {
-  background-color: transparent;
-}
-/* Hero alt karartması gündüzde zemine değil saydama erisin (koyu bölüme geçiş pürüzsüz) */
-html[data-theme="light"] .hero-fade {
-  background-image: linear-gradient(to bottom, rgba(244, 241, 251, 0.35), transparent 45%);
-}
-html[data-theme="light"] section[class*="bg-background"]:not(.night-section),
-html[data-theme="light"] main[class*="bg-background"],
+html[data-theme="light"] :is(section, main, div)[class*="bg-background"]:not(header *):not(.night-section),
 html[data-theme="light"] .tint-section {
   background-color: transparent;
   background-image: none;
@@ -162,15 +143,16 @@ html[data-theme="light"] [class*="bg-white/[0.03]"]:not(.night-section *),
 html[data-theme="light"] [class*="bg-white/[0.05]"]:not(.night-section *),
 html[data-theme="light"] [class*="bg-white/[0.06]"]:not(.night-section *),
 html[data-theme="light"] [class*="bg-white/5"]:not(.night-section *) {
-  background-color: rgba(255, 255, 255, 0.72);
-  box-shadow: 0 12px 34px -22px rgba(124, 92, 230, 0.45);
+  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 14px 40px -24px rgba(75, 47, 168, 0.35);
 }
 html[data-theme="light"] [class*="border-white/10"]:not(.night-section *) {
-  border-color: rgba(124, 92, 230, 0.14);
+  border-color: rgba(255, 255, 255, 0.65);
 }
 /* Form alanları */
 html[data-theme="light"] :is(input, textarea, select)[class*="bg-white"] {
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.8);
 }
 
 @theme inline {

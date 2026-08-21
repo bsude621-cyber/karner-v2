@@ -9,7 +9,7 @@ import { TextHoverEffect } from "@/components/ui/hover-footer";
  *  Arka plan tasarımı (DottedSurface) tam bölümdeki gibi korunur. */
 export default function AboutTeaser() {
   return (
-    <section id="hakkimizda" className="night-section relative">
+    <section id="hakkimizda" className="relative">
       {/* Mobilde bölüm daha uzun ve içerik üstte: yıldız alanı kartın altında görünür kalsın */}
       <DottedSurface className="min-h-[92vh] w-full sm:min-h-[60vh]">
         <div className="relative z-10 flex min-h-[92vh] flex-col items-center justify-start px-4 pb-24 pt-10 sm:min-h-[60vh] sm:justify-center sm:py-24 sm:px-6">
