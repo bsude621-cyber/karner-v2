@@ -227,12 +227,17 @@ export function KarnerLineFlow({
     // Piksel ölçeği: buffer'ı CSS boyutundan küçük tutup tarayıcıya büyüttürüyoruz.
     // Fragment maliyeti piksel sayısıyla doğrusal — 0.70 ölçek ~%50 piksel demek.
     // Arka plan yumuşak geçişli olduğu için ölçekleme gözle fark edilmiyor.
+    // Performans (2026-08-21): mobilde daha düşük iç çözünürlük ve 30 fps,
+    // masaüstünde 60 fps tavanı (120-144 Hz ekranlarda GPU yükü 2× artıyordu).
+    const isMobile = window.matchMedia("(max-width: 639px)").matches;
+    const minFrameMs = isMobile ? 1000 / 30 : 1000 / 60;
+    let lastFrame = 0;
     let pxScale = 1;
     const resize = () => {
       const parent = canvas.parentElement;
       const w = parent ? parent.clientWidth : window.innerWidth;
       const h = parent ? parent.clientHeight : window.innerHeight;
-      pxScale = Math.min(window.devicePixelRatio || 1, 1.5) * RENDER_SCALE;
+      pxScale = Math.min(window.devicePixelRatio || 1, 1.5) * (isMobile ? 0.5 : RENDER_SCALE);
       canvas.width = Math.max(1, Math.floor(w * pxScale));
       canvas.height = Math.max(1, Math.floor(h * pxScale));
       gl.viewport(0, 0, canvas.width, canvas.height);
@@ -277,6 +282,9 @@ export function KarnerLineFlow({
     const render = () => {
       frameId = requestAnimationFrame(render);
       if (!visible) return;
+      const nowMs = performance.now();
+      if (nowMs - lastFrame < minFrameMs - 1) return;
+      lastFrame = nowMs;
 
       // imleci yumuşat — sert sıçrama olmasın
       mouse[0] += (target[0] - mouse[0]) * 0.07;

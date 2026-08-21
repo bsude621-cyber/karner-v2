@@ -47,7 +47,7 @@ export default function SiteNav() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
         solid
-          ? "border-b border-white/10 bg-background/75 backdrop-blur-md"
+          ? "border-b border-white/10 bg-background/90 md:bg-background/75 md:backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
       }`}
     >
@@ -106,7 +106,7 @@ export default function SiteNav() {
         <nav
           id="mobil-menu"
           aria-label="Site (mobil)"
-          className="border-t border-white/10 bg-background/95 px-6 py-4 backdrop-blur-md md:hidden"
+          className="border-t border-white/10 bg-background/95 px-6 py-4 md:hidden"
         >
           <ul className="flex flex-col">
             {NAV.map((item) => (

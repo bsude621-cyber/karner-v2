@@ -76,7 +76,11 @@ export function SpaceBackground({
         random: Math.random() * 7,
       });
     };
-    for (let i = 0; i < particleCount; i++) createParticle();
+    // Mobilde parçacık sayısı %40'a iner — dar ekranda fark edilmez, CPU rahatlar.
+    const effectiveCount = window.matchMedia("(max-width: 639px)").matches
+      ? Math.round(particleCount * 0.4)
+      : particleCount;
+    for (let i = 0; i < effectiveCount; i++) createParticle();
 
     const moveParticle = (p: Particle) => {
       p.ring = Math.max(p.ring - 1, state.r);
@@ -103,9 +107,16 @@ export function SpaceBackground({
     };
 
     let visible = true;
+    // Performans (2026-08-21): mobilde 30 fps, masaüstünde 60 fps tavanı.
+    const isMobileFps = window.matchMedia("(max-width: 639px)").matches;
+    const minFrameMs = isMobileFps ? 1000 / 30 : 1000 / 60;
+    let lastFrame = 0;
     const loop = () => {
       animationRef.current = requestAnimationFrame(loop);
       if (!visible) return; // ekran dışındayken çizme (performans)
+      const nowMs = performance.now();
+      if (nowMs - lastFrame < minFrameMs - 1) return;
+      lastFrame = nowMs;
       // Dönüşüm merkezi ortaya aldığı için görünür alan -w/2 … w/2 arası.
       // Burası eskiden -w … w temizliyordu, yani her karede gereğinin dört
       // katı piksel siliniyordu.

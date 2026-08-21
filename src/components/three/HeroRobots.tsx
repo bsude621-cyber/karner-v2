@@ -145,6 +145,21 @@ function Robot({ src, position, faceBias, phase, oscAmp = 0.55, fit = 2.2, mouse
   );
 }
 
+/**
+ * Kare sınırlayıcı: Canvas "demand" modunda çalışır, burası belirli aralıkla
+ * invalidate eder. Mobil 30 fps, masaüstü 60 fps — 120-144 Hz ekranlarda
+ * robot sahnesi gereksiz yere 2× GPU yakıyordu; idle hareket 30-60'ta aynı.
+ */
+function FrameLimiter({ fps, active }: { fps: number; active: boolean }) {
+  const invalidate = useThree((st) => st.invalidate);
+  useEffect(() => {
+    if (!active) return;
+    const id = window.setInterval(() => invalidate(), 1000 / fps);
+    return () => window.clearInterval(id);
+  }, [fps, active, invalidate]);
+  return null;
+}
+
 function Rig({
   mouse,
   mobile,
@@ -201,7 +216,7 @@ function Rig({
           soğuk buz-camgöbeği kicker → gövdede mor→beyaz→camgöbeği geçişleri.
           Mat yüzeyler (saç, kumaş) ortamı çok az yansıttığı için renkleri
           BOYANMAZ — daha önce geri alınan renkli ışık sorunu yaşanmaz. */}
-      <Environment resolution={256}>
+      <Environment resolution={128}>
         <Lightformer form="rect" intensity={4} position={[0, 3.2, 3]} scale={[10, 3.5, 1]} color="#ffffff" />
         <Lightformer form="rect" intensity={3.2} position={[-6, 1, 2]} scale={[3, 7, 1]} color="#8B5CF6" />
         <Lightformer form="rect" intensity={2.8} position={[6, 0.5, 1.5]} scale={[3, 7, 1]} color="#D8B4FE" />
@@ -220,6 +235,7 @@ function Rig({
         opacity={0.8}
         color="#1a0a33"
         resolution={256}
+        frames={120}
       />
       {/* ayakların altında hafif mor zemin halkası — robotlar bir yüzeyde durur */}
       {[-x, x].map((px) => (
@@ -290,15 +306,16 @@ export default function HeroRobots({ className = "" }: { className?: string }) {
     <div ref={wrapRef} className={`pointer-events-none absolute inset-0 ${className}`}>
       <Canvas
         key={mobile ? "m" : "d"}
-        frameloop={visible ? "always" : "never"}
+        frameloop={visible ? "demand" : "never"}
         camera={{ position: [0, 0.15, mobile ? 8.2 : 6.2], fov: 38 }}
-        dpr={[1, 1.75]}
+        dpr={mobile ? [1, 1.25] : [1, 1.5]}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         onCreated={({ gl }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.2;
         }}
       >
+        <FrameLimiter fps={mobile ? 30 : 60} active={visible} />
         <Rig mouse={mouse} mobile={mobile} />
       </Canvas>
     </div>
