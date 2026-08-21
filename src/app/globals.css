@@ -20,6 +20,11 @@
   --night: #05060a;
   --card-top: rgba(18, 10, 28, 0.95);
   --card-bottom: rgba(10, 6, 17, 0.95);
+  /* logo yanı yazı, footer, marka bantları */
+  --wordmark: #ffffff;
+  --footer-bg: radial-gradient(125% 125% at 50% 10%, rgba(5, 6, 10, 0.85) 45%, rgba(123, 63, 228, 0.22) 100%);
+  --footer-surface: rgba(5, 6, 10, 0.4);
+  --footer-accent: var(--accent);
   color-scheme: dark;
 }
 
@@ -33,7 +38,48 @@ html[data-theme="light"] {
   --silver: #6b6e76;
   --card-top: rgba(255, 255, 255, 0.94);
   --card-bottom: rgba(246, 243, 252, 0.97);
+  --wordmark: #4c1d95;
+  --footer-bg: linear-gradient(135deg, #4c1d95 0%, #2e1065 100%);
+  --footer-surface: transparent;
+  --footer-accent: #ffffff;
   color-scheme: light;
+}
+
+/* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
+   bazı kutular mor, tasarımlı dursun") — koyu tema bu kurallardan etkilenmez. */
+html[data-theme="light"] .brand-band {
+  /* koyu, derin mor (Sude: "daha koyu güzel bir mor") */
+  background: linear-gradient(135deg, #4c1d95 0%, #2e1065 100%);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 22px 50px -24px rgba(75, 29, 150, 0.55);
+}
+html[data-theme="light"] .brand-band :is(h2, h3, strong) {
+  color: #fff;
+}
+html[data-theme="light"] .brand-band :is(p, span, li) {
+  color: rgba(255, 255, 255, 0.84);
+}
+html[data-theme="light"] .brand-band .btn-secondary {
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #fff;
+}
+html[data-theme="light"] .brand-band .btn-secondary:hover {
+  border-color: #fff;
+}
+html[data-theme="light"] .brand-band .btn-primary,
+html[data-theme="light"] .brand-band .band-cta {
+  background: #fff;
+  color: #2e1065;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25);
+}
+/* hero: gündüz modunda arka plan temiz beyaz — mor hâleler kısılır */
+html[data-theme="light"] .hero-halo {
+  opacity: 0.28;
+}
+/* gündüz modunda sayfa zeminine hafif doku: bölümler arası çok hafif lavanta */
+html[data-theme="light"] .tint-section {
+  background: linear-gradient(180deg, #ffffff 0%, #f6f2fc 50%, #ffffff 100%);
 }
 
 @theme inline {

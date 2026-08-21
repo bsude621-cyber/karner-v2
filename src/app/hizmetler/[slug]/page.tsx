@@ -283,7 +283,7 @@ export default async function ServiceDetailPage({
         {pkg ? <ServicePackages category={pkg} /> : null}
 
         {/* CTA */}
-        <div className="mt-14 flex flex-col items-start gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:flex-row sm:items-center sm:justify-between">
+        <div className="brand-band mt-14 flex flex-col items-start gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="text-xl font-semibold">Bu hizmet ilginizi çekti mi?</h3>
             <p className="mt-1 text-white/60">
@@ -292,7 +292,7 @@ export default async function ServiceDetailPage({
           </div>
           <Link
             href="/iletisim"
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-2 px-7 py-3.5 font-medium text-white transition hover:scale-[1.03] hover:shadow-[0_0_24px_rgba(123,63,228,0.6)]"
+            className="band-cta inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-2 px-7 py-3.5 font-medium text-white transition hover:scale-[1.03] hover:shadow-[0_0_24px_rgba(123,63,228,0.6)]"
           >
             Teklif Al
             <ArrowRight className="h-4 w-4" />

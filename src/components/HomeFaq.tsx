@@ -8,7 +8,7 @@ import SectionHeading from "@/components/ui/section-heading";
  */
 export default function HomeFaq() {
   return (
-    <section id="sss" className="relative bg-background py-24 sm:py-32">
+    <section id="sss" className="tint-section relative bg-background py-24 sm:py-32">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(123,63,228,0.10),transparent_60%)]" />
       <div className="relative z-10 mx-auto max-w-3xl px-6">
         <SectionHeading

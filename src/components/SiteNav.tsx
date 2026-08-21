@@ -62,7 +62,7 @@ export default function SiteNav() {
             className="h-10 w-10 object-contain drop-shadow-lg"
             priority
           />
-          <span className="text-lg font-bold tracking-[0.25em] text-white">KARNER</span>
+          <span className="text-lg font-bold tracking-[0.25em] text-(--wordmark)">KARNER</span>
         </Link>
 
         <div className="flex items-center gap-3 md:gap-6">

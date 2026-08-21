@@ -41,7 +41,7 @@ export default function Hero() {
       {/* robotların arkasında yumuşak mor hâle (atmosfer) */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-[8]"
+        className="hero-halo pointer-events-none absolute inset-0 z-[8]"
       >
         {/* blur filtresi yok: radial-gradient zaten yumuşak geçişli, üstüne
             blur eklemek scroll sırasında boşuna repaint maliyeti çıkarıyordu. */}

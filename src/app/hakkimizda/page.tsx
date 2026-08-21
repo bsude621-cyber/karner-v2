@@ -233,7 +233,7 @@ export default function AboutPage() {
         </section>
 
         {/* İletişim CTA */}
-        <section className="rounded-2xl border border-accent/30 bg-accent/[0.07] px-6 py-10 text-center sm:px-10">
+        <section className="brand-band rounded-2xl border border-accent/30 bg-accent/[0.07] px-6 py-10 text-center sm:px-10">
           <h2 className="text-2xl font-semibold text-white">Birlikte çalışalım</h2>
           <p className="mx-auto mt-3 max-w-md text-white/70">
             Projenizi konuşmak için bize ulaşın — telefon, e-posta veya site

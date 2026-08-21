@@ -46,6 +46,7 @@ const FRAG = `
   uniform float uAngle;     // radyan
   uniform float uIntensity;
   uniform float uInteract;  // 0.0 / 1.0
+  uniform float uBase;      // 1.0 koyu tema (mor zemin/vinyet), 0.0 açık tema (temiz beyaz)
 
   const int LINE_COUNT = 14;
 
@@ -149,8 +150,8 @@ const FRAG = `
 
     // zemin: derin mor çekirdek, kenarlara doğru siyaha düşen vignette
     float vig = 1.0 - smoothstep(0.35, 1.15, length(uv * vec2(0.85, 1.0)));
-    col += mix(vec3(0.016, 0.008, 0.043), vec3(0.055, 0.024, 0.118), vig);
-    col *= 0.55 + 0.45 * vig;
+    col += mix(vec3(0.016, 0.008, 0.043), vec3(0.055, 0.024, 0.118), vig) * uBase;
+    col *= mix(1.0, 0.55 + 0.45 * vig, uBase);
 
     // premultiplied: alfa = en parlak kanal → koyuda aynı görünüm, açıkta saydam zemin
     gl_FragColor = vec4(col, max(max(col.r, col.g), col.b));
@@ -219,6 +220,7 @@ export function KarnerLineFlow({
     const uAngle = gl.getUniformLocation(program, "uAngle");
     const uIntensity = gl.getUniformLocation(program, "uIntensity");
     const uInteract = gl.getUniformLocation(program, "uInteract");
+    const uBase = gl.getUniformLocation(program, "uBase");
 
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
@@ -299,8 +301,11 @@ export function KarnerLineFlow({
       gl.uniform1f(uTime, time);
       gl.uniform2f(uMouse, mouse[0], mouse[1]);
       gl.uniform1f(uAngle, angle);
-      gl.uniform1f(uIntensity, intensity);
+      // Gündüz modu: çizgiler daha hafif, zemin/vinyet kapalı → temiz beyaz hero
+      const lightTheme = document.documentElement.dataset.theme === "light";
+      gl.uniform1f(uIntensity, intensity * (lightTheme ? 0.55 : 1.0));
       gl.uniform1f(uInteract, interactOn);
+      gl.uniform1f(uBase, lightTheme ? 0.0 : 1.0);
 
       gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
       gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);

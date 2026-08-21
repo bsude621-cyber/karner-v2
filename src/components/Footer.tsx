@@ -55,17 +55,17 @@ const footerLinks = [
 
 const contactInfo = [
   {
-    icon: <Mail size={18} className="text-accent" />,
+    icon: <Mail size={18} className="text-(--footer-accent)" />,
     text: EMAIL,
     href: `mailto:${EMAIL}`,
   },
   {
-    icon: <Phone size={18} className="text-accent" />,
+    icon: <Phone size={18} className="text-(--footer-accent)" />,
     text: PHONE,
     href: `tel:${PHONE.replace(/\s/g, "")}`,
   },
   {
-    icon: <MapPin size={18} className="text-accent" />,
+    icon: <MapPin size={18} className="text-(--footer-accent)" />,
     text: "Türkiye geneli",
     href: "/#iletisim",
   },
@@ -82,7 +82,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative m-4 overflow-hidden rounded-3xl bg-background/40 sm:m-6">
+    <footer className="relative m-4 overflow-hidden rounded-3xl bg-(--footer-surface) sm:m-6">
       <div className="relative z-40 mx-auto max-w-7xl px-6 py-8 sm:px-10 sm:py-10">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-6 lg:grid-cols-5 lg:gap-10">
           <div className="flex flex-col gap-3">
@@ -94,11 +94,11 @@ export default function Footer() {
                 height={44}
                 className="h-11 w-11 object-contain"
               />
-              <span className="text-xl font-bold tracking-[0.2em] text-white">
+              <span className="text-xl font-bold tracking-[0.2em] text-paper">
                 KARNER
               </span>
             </div>
-            <p className="text-sm leading-relaxed text-white/55">
+            <p className="text-sm leading-relaxed text-paper/55">
               Yazılım ve medyayı bir araya getiren dijital stüdyo. Web, mobil,
               AI video ve görsel, SEO/GEO/AEO, otomasyon, marka ve sosyal medya
               içeriği — tek ekip, uçtan uca.
@@ -107,15 +107,15 @@ export default function Footer() {
 
           {footerLinks.map((section) => (
             <div key={section.title}>
-              <h4 className="mb-4 text-base font-semibold text-white">
+              <h4 className="mb-4 text-base font-semibold text-paper">
                 {section.title}
               </h4>
-              <ul className="space-y-2 text-sm text-white/55">
+              <ul className="space-y-2 text-sm text-paper/55">
                 {section.links.map((link) => (
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="transition-colors hover:text-accent"
+                      className="transition-colors hover:text-(--footer-accent)"
                     >
                       {link.label}
                     </a>
@@ -126,14 +126,14 @@ export default function Footer() {
           ))}
 
           <div>
-            <h4 className="mb-4 text-base font-semibold text-white">İletişim</h4>
-            <ul className="space-y-3 text-sm text-white/55">
+            <h4 className="mb-4 text-base font-semibold text-paper">İletişim</h4>
+            <ul className="space-y-3 text-sm text-paper/55">
               {contactInfo.map((item) => (
                 <li key={item.text} className="flex items-center gap-3">
                   {item.icon}
                   <a
                     href={item.href}
-                    className="transition-colors hover:text-accent"
+                    className="transition-colors hover:text-(--footer-accent)"
                   >
                     {item.text}
                   </a>
@@ -143,18 +143,18 @@ export default function Footer() {
           </div>
         </div>
 
-        <hr className="my-6 border-white/10" />
+        <hr className="my-6 border-paper/10" />
 
         {/* Alt şerit + KARNER dekoru */}
         <div className="relative">
-          <div className="relative z-30 flex flex-col items-center justify-between gap-3 text-sm text-white/60 md:flex-row">
+          <div className="relative z-30 flex flex-col items-center justify-between gap-3 text-sm text-paper/60 md:flex-row">
             <div className="flex gap-5">
               {socialLinks.map(({ icon, label, href }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="transition-colors hover:text-accent"
+                  className="transition-colors hover:text-(--footer-accent)"
                   target={href.startsWith("http") ? "_blank" : undefined}
                   rel={href.startsWith("http") ? "noreferrer" : undefined}
                 >
