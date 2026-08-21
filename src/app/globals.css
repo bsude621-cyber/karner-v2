@@ -43,7 +43,7 @@ html[data-theme="light"] {
   --wordmark: #7c5ce6;
   --footer-bg: radial-gradient(120% 90% at 10% 0%, rgba(255, 255, 255, 0.28) 0%, transparent 55%),
     radial-gradient(80% 70% at 100% 100%, rgba(251, 207, 232, 0.35) 0%, transparent 55%),
-    linear-gradient(135deg, #8b6cf0 0%, #ae93f6 55%, #c9b6fa 100%);
+    linear-gradient(135deg, #7f5fe8 0%, #9a7cf2 55%, #ad93f5 100%);
   --footer-surface: transparent;
   --footer-accent: #ffffff;
   color-scheme: light;
