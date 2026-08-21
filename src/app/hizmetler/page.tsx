@@ -163,8 +163,8 @@ export default function ServicesHubPage() {
           Hizmetleri anlatan rehberler
         </h2>
         <p className="mt-2 max-w-2xl text-white/65">
-          Karar vermeden önce konuyu anlamak isteyenler için teknik rehberler —
-          satış metni değil, nasıl çalıştığının açıklaması.
+          Karar vermeden önce konuyu anlamak isteyenler için teknik rehberler:
+          her konunun nasıl çalıştığının sade açıklaması.
         </p>
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
           {guides.map(({ meta, label }) => (

@@ -25,7 +25,7 @@ export const PROCESS_STEPS: ProcessStep[] = [
   {
     no: "02",
     name: "Tasarım",
-    text: "Hazır şablon kullanmayız. Renk, yazı ve düzen markanıza göre sıfırdan kurulur; favicon'a kadar her detay elden geçer. Amaç güzel durmak değil — sizin müşterinize doğru konuşmak.",
+    text: "Hazır şablon kullanmayız. Renk, yazı ve düzen markanıza göre sıfırdan kurulur; favicon'a kadar her detay elden geçer. Amaç yalnızca güzel durmak değil, sizin müşterinize doğru konuşmaktır.",
     output: "size özel tasarım",
     detail: [
       "Önce tek bir açılış ekranı (hero) gösterilir, yön birlikte kilitlenir.",

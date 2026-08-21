@@ -15,7 +15,7 @@ export default function HomeFaq() {
           eyebrow="Sık Sorulanlar"
           title="Merak edilenler, kısa cevaplar"
           highlight="kısa"
-          subtitle="Görüşmeden önce en sık gelen sorular — satış metni değil, çalışma biçimimizin özeti."
+          subtitle="Görüşmeden önce en sık gelen sorular ve çalışma biçimimizin özeti."
         />
         <div className="mt-12 space-y-3">
           {HOME_FAQ.map((f) => (

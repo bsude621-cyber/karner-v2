@@ -78,7 +78,7 @@ export default function CasesHubPage() {
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
             <strong className="text-white">
-              Burada vitrin değil iş var: her projede sorun, kurulan yapı ve ölçtüğümüz sonuç.
+              Her projede üç şey yazılıdır: çözülen sorun, kurulan yapı ve ölçülen sonuç.
             </strong>{" "}
             Arama sonuçları değişir; bu yüzden gözlemleri tarihiyle yazıyor, kalıcı vaat gibi
             sunmuyoruz. Sektörel demo sitelerimiz ana sayfadaki &ldquo;demo&rdquo; vitrininde ayrı durur.

@@ -37,7 +37,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "baslangic",
         name: "Başlangıç",
-        tagline: "Müşterin seni Google'da aradığında bulacağı profesyonel bir yüz.",
+        tagline: "Müşterilerinizin sizi Google'da aradığında bulacağı profesyonel bir site.",
         audience: "Dükkânı olan ama internette görünmeyen esnaf: kuaför, butik, oto bakım, güzellik merkezi.",
         includes: [
           "Tek sayfa premium site — mobil öncelikli, hız odaklı",
@@ -53,8 +53,8 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "standart",
         name: "Standart",
-        tagline: "Bölgende seni aramayan müşteri kalmasın.",
-        audience: "İlçe/şehir ölçeğinde rakiplerini geçmek isteyen hizmet işletmesi: emlak, tesisat, klima, temizlik, klinik.",
+        tagline: "Bölgenizde sizi arayan müşterinin size ulaştığı çok sayfalı yapı.",
+        audience: "İlçe/şehir ölçeğinde öne çıkmak isteyen hizmet işletmesi: emlak, tesisat, klima, temizlik, klinik.",
         includes: [
           "5–8 sayfalık premium site: hizmet + bölge sayfaları (kapı sayfası değil, gerçek içerik)",
           "Sıralanma altyapısının tamamı: anahtar kelime araştırması, schema.org graph, yapay zekâ botlarına izin, llms.txt, IndexNow, Search Console + Bing, soru biçimli başlıklar ve özet kutuları, güncelleme tarihleri, HSTS preload",
@@ -68,7 +68,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "pro",
         name: "Pro",
-        tagline: "Rakiplerin web sitesi yaptırırken sen dijital altyapı kur.",
+        tagline: "Web sitesinin ötesinde: yapay zekâ görünürlüğü ve otomasyonla bütünleşik dijital altyapı.",
         audience: "Bölgesinde kategoriyi kapatmak isteyen, otomasyonla büyüyecek işletme.",
         includes: [
           "Standart paketin tamamı",
@@ -92,7 +92,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "baslangic",
         name: "Başlangıç",
-        tagline: "MVP: fikri mağazada gerçek kullanıcıyla doğrula.",
+        tagline: "MVP: fikrin mağazada gerçek kullanıcıyla doğrulandığı ilk sürüm.",
         audience: "İlk sürümünü çıkarmak isteyen girişim veya iç kullanım uygulaması isteyen işletme.",
         includes: [
           "Keşif ve ekran akışı: 5–8 ana ekran, tek kullanıcı rolü",
@@ -108,7 +108,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "standart",
         name: "Standart",
-        tagline: "Kullanıcıyı tut, ölç, geri getir.",
+        tagline: "Kullanıcıyı elde tutan, ölçen ve geri getiren sürüm.",
         audience: "MVP'si çalışan ve kullanıcı tabanını büyütmek isteyen ürün.",
         includes: [
           "MVP kapsamının tamamı",
@@ -126,7 +126,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "pro",
         name: "Pro",
-        tagline: "Operasyonu uygulamaya taşı, sistemlerle konuştur.",
+        tagline: "Operasyonun uygulamaya taşındığı, mevcut sistemlerle konuşan kurumsal sürüm.",
         audience: "Saha ekibi, bayi ağı veya çoklu şube yöneten işletme.",
         includes: [
           "Büyüme kapsamının tamamı",
@@ -166,7 +166,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "standart",
         name: "Standart",
-        tagline: "Aylık içerik: her hafta bir video, hesabın boş kalmasın.",
+        tagline: "Aylık içerik: her hafta bir video, düzenli beslenen bir hesap.",
         audience: "Sosyal medyada düzenli görünmek isteyen ama içerik üretmeye vakti olmayan işletme.",
         includes: [
           "Aylık içerik planı (tema, kanca, yayın sırası)",
@@ -181,7 +181,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "pro",
         name: "Pro",
-        tagline: "Kampanya filmi: bir hikâye, tüm mecralara kesimleri.",
+        tagline: "Kampanya filmi: bir hikâye ve tüm mecralara uygun kesimleri.",
         audience: "Ürün/hizmet lansmanı veya sezon kampanyası yapan marka.",
         includes: [
           "Kampanya brief'i, mesaj hiyerarşisi ve storyboard",
@@ -205,7 +205,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "baslangic",
         name: "Başlangıç",
-        tagline: "Numune seti: önce gör, sonra karar ver.",
+        tagline: "Numune seti: karar vermeden önce sonucu görme imkânı.",
         audience: "Sanal manken / AI görsel yaklaşımını kendi ürününde denemek isteyen butik veya üretici.",
         includes: [
           "5 ürüne kadar, ürün başına 2 görsel (manken üzerinde + sade zemin)",
@@ -233,7 +233,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "pro",
         name: "Pro",
-        tagline: "Sezon kampanyası: katalog + kampanya görselleri + kısa videolar.",
+        tagline: "Sezon kampanyası: katalog, kampanya görselleri ve kısa videolar.",
         audience: "Sezon lansmanı yapan, sosyal medya ve reklam görselini birlikte isteyen marka.",
         includes: [
           "Katalog kapsamının tamamı",
@@ -256,7 +256,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "baslangic",
         name: "Başlangıç",
-        tagline: "Tanı raporu: neden görünmüyorsunuz — sayfa sayfa, sebep sebep.",
+        tagline: "Tanı raporu: görünürlük eksiğinin sayfa sayfa, sebepleriyle tespiti.",
         audience: "Mevcut sitesi olan, Google'da ve yapay zekâ araçlarında neden çıkmadığını öğrenmek isteyen işletme.",
         includes: [
           "Teknik tarama: hız (Core Web Vitals), dizinlenme, robots/sitemap, yapısal veri",
@@ -271,7 +271,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "standart",
         name: "Standart",
-        tagline: "Görünürlük kurulumu: site okunur, anlaşılır ve önerilebilir hâle gelir.",
+        tagline: "Görünürlük kurulumu: sitenin okunur, anlaşılır ve önerilebilir hâle getirilmesi.",
         audience: "Sitesi var, altyapısını arama ve yapay zekâ için düzgün kurdurmak isteyen işletme.",
         includes: [
           "Başlangıç (tanı raporu) kapsamı",
@@ -303,7 +303,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "haritalar-isletme-profili",
         name: "Ek Paket: Haritalar & İşletme Profili",
-        tagline: "Google Haritalar'da doğru, dolu ve yönetilen profil.",
+        tagline: "Google Haritalar'da doğru, eksiksiz ve yönetilen işletme profili.",
         audience: "Yerel müşteriye hizmet veren, Haritalar'da çıkmayan ya da profili sahipsiz/eksik olan işletme.",
         includes: [
           "Google İşletme Profili sahiplenme / doğrulama süreci yönetimi",
@@ -327,7 +327,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "baslangic",
         name: "Başlangıç",
-        tagline: "Tek akış: bir tekrar eden işi tamamen otomatiğe al.",
+        tagline: "Tek akış: tekrar eden bir işin baştan sona otomatikleştirilmesi.",
         audience: "Kayıt, hatırlatma veya bildirim gibi tek bir süreci elden çıkarmak isteyen işletme.",
         includes: [
           "1 n8n akışı (ör. Telegram'dan mesajla satış/gider kaydı → Google Sheets; form → e-posta + bildirim; günlük özet raporu)",
@@ -412,7 +412,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "pro",
         name: "Pro",
-        tagline: "Sosyal medya şablon seti: ekibiniz kendi gönderisini marka diliyle üretsin.",
+        tagline: "Sosyal medya şablon seti: ekibinizin kendi gönderisini marka diliyle üretebilmesi.",
         audience: "Düzenli gönderi paylaşan, her seferinde tasarımcı beklemek istemeyen işletme.",
         includes: [
           "10 gönderi + 5 hikâye şablonu (Canva veya Figma)",
@@ -435,7 +435,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "baslangic",
         name: "Başlangıç",
-        tagline: "Hesap sessiz kalmasın; düzenli, gerçek içerik.",
+        tagline: "Düzenli ve gerçek içerikle canlı tutulan bir hesap.",
         audience: "Sosyal medyayı yeni düzene sokan esnaf ve hizmet işletmesi.",
         includes: [
           "Aylık içerik planı (3 sütun) ve yayın takvimi",
@@ -449,7 +449,7 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       {
         slug: "standart",
         name: "Standart",
-        tagline: "Düzenli: post + reels ritmi, bilgi ve erişim birlikte.",
+        tagline: "Düzenli: post ve reels ritmi — bilgi ve erişim birlikte.",
         audience: "Takipçi kazanmak ve mesaj almak isteyen klinik, emlak, butik, hizmet işletmesi.",
         includes: [
           "Aylık içerik planı (4 sütun) ve yayın takvimi",

@@ -17,7 +17,7 @@ const pageUrl = `${SITE_URL}${PATH}`;
 const dates = pageDates(PATH);
 const TITLE = "Rehberler — Web, SEO, Yapay Zekâ Araması, Otomasyon | KARNER";
 const DESCRIPTION =
-  "KARNER teknik rehberleri: 3D web sitesi, yapay zekâ aramasında görünmek, llms.txt, schema.org, Core Web Vitals, n8n otomasyon, AI reklam videosu, mobil uygulama ve sosyal medya içerik takvimi. Satış metni değil, nasıl çalıştığının açıklaması.";
+  "KARNER teknik rehberleri: 3D web sitesi, yapay zekâ aramasında görünmek, llms.txt, schema.org, Core Web Vitals, n8n otomasyon, AI reklam videosu, mobil uygulama ve sosyal medya içerik takvimi. Her konunun nasıl çalıştığının sade açıklaması.";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
