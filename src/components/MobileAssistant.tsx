@@ -10,6 +10,24 @@ import {
 
 type Msg = { role: "user" | "assistant"; content: string };
 
+/** Asistan metnindeki site yollarını (/paketler, /hizmetler/x) tıklanır bağlantıya çevirir. */
+function renderAssistant(text: string) {
+  const parts = text.split(/(\/(?:hizmetler|paketler|isler|rehber|sektor|surec|iletisim|hakkimizda|gizlilik|3d-web-sitesi|yapay-zeka-aramasinda-gorunmek|yapay-zeka-reklam-videosu)(?:[\/#][\w\-#]*)?)/g);
+  return parts.map((part, idx) =>
+    idx % 2 === 1 ? (
+      <a
+        key={idx}
+        href={part}
+        className="font-medium text-accent-light underline underline-offset-4 hover:text-white"
+      >
+        {part}
+      </a>
+    ) : (
+      <span key={idx}>{part}</span>
+    ),
+  );
+}
+
 const GREETING: Msg = {
   role: "assistant",
   content: "Merhaba! Ben KARNER Asistan. Size nasıl yardımcı olabilirim?",
@@ -147,9 +165,9 @@ export default function MobileAssistant() {
                 m.role === "assistant" ? (
                   <div
                     key={i}
-                    className="max-w-[85%] self-start rounded-2xl rounded-bl-sm border border-white/10 bg-white/[0.05] px-3 py-2 text-sm text-white/90"
+                    className="max-w-[85%] self-start whitespace-pre-wrap rounded-2xl rounded-bl-sm border border-white/10 bg-white/[0.05] px-3 py-2 text-sm leading-relaxed text-white/90"
                   >
-                    {m.content}
+                    {renderAssistant(m.content)}
                   </div>
                 ) : (
                   <div
