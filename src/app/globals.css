@@ -31,15 +31,19 @@
 /* GÜNDÜZ MODU — beyaz ağırlıklı. data-theme'i <body> başındaki satır içi
    script (sistem tercihi / localStorage) ve ThemeToggle yönetir. */
 html[data-theme="light"] {
-  --background: #ffffff;
-  --foreground: #0b0b12;
-  --ink: #0b0b12;
-  --accent-light: #5b21b6; /* beyaz zeminde okunur mor (7:1) */
-  --silver: #6b6e76;
-  --card-top: rgba(255, 255, 255, 0.94);
-  --card-bottom: rgba(246, 243, 252, 0.97);
-  --wordmark: #47178e;
-  --footer-bg: radial-gradient(120% 80% at 12% 0%, rgba(168, 85, 247, 0.42) 0%, transparent 55%), radial-gradient(80% 70% at 100% 100%, rgba(236, 72, 153, 0.16) 0%, transparent 55%), linear-gradient(135deg, #2a0b5e 0%, #47178e 52%, #5f2ac0 100%);
+  /* Referans (Sude 2026-08-21 görsel): yumuşak lavanta zemin, buzlu beyaz kartlar,
+     pastel lila→pembe geçişler, koyu erik-gri metin. Bembeyaz değil, "lavanta-beyaz". */
+  --background: #f4f1fb;
+  --foreground: #2b2540;
+  --ink: #2b2540;
+  --accent-light: #7c5ce6; /* lavanta zeminde okunur mor (4.6:1) */
+  --silver: #6f6a82;
+  --card-top: rgba(255, 255, 255, 0.9);
+  --card-bottom: rgba(247, 243, 255, 0.94);
+  --wordmark: #7c5ce6;
+  --footer-bg: radial-gradient(120% 90% at 10% 0%, rgba(255, 255, 255, 0.28) 0%, transparent 55%),
+    radial-gradient(80% 70% at 100% 100%, rgba(251, 207, 232, 0.35) 0%, transparent 55%),
+    linear-gradient(135deg, #8b6cf0 0%, #ae93f6 55%, #c9b6fa 100%);
   --footer-surface: transparent;
   --footer-accent: #ffffff;
   color-scheme: light;
@@ -48,12 +52,13 @@ html[data-theme="light"] {
 /* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
    bazı kutular mor, tasarımlı dursun") — koyu tema bu kurallardan etkilenmez. */
 html[data-theme="light"] .brand-band {
-  /* zengin kraliyet moru: derin taban + sol-üst lila ışık + sağ-alt sıcak pembe iz
-     (Sude 2026-08-21: "daha zengin, havalı, kaliteli ton") */
-  background: radial-gradient(120% 80% at 12% 0%, rgba(168, 85, 247, 0.42) 0%, transparent 55%), radial-gradient(80% 70% at 100% 100%, rgba(236, 72, 153, 0.16) 0%, transparent 55%), linear-gradient(135deg, #2a0b5e 0%, #47178e 52%, #5f2ac0 100%);
+  /* pastel lila: sol-üst beyaz ışık + sağ-alt pembe iz + lila taban (referans görsel) */
+  background: radial-gradient(120% 90% at 12% 0%, rgba(255, 255, 255, 0.35) 0%, transparent 55%),
+    radial-gradient(80% 70% at 100% 100%, rgba(251, 207, 232, 0.45) 0%, transparent 55%),
+    linear-gradient(135deg, #8b6cf0 0%, #a98bf4 55%, #c1abf8 100%);
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 22px 50px -24px rgba(75, 29, 150, 0.55);
+  box-shadow: 0 22px 50px -24px rgba(124, 92, 230, 0.55);
 }
 html[data-theme="light"] .brand-band :is(h2, h3, strong) {
   color: #fff;
@@ -71,8 +76,8 @@ html[data-theme="light"] .brand-band .btn-secondary:hover {
 html[data-theme="light"] .brand-band .btn-primary,
 html[data-theme="light"] .brand-band .band-cta {
   background: #fff;
-  color: #3b1278;
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25);
+  color: #6d4fd6;
+  box-shadow: 0 10px 30px -10px rgba(124, 92, 230, 0.35);
 }
 /* Gündüz modunda dekoratif mor hâle/gölge YOK (Sude 2026-08-21: "Demo sitelerimiz'deki
    mor gölge gibi şeyler istemiyorum"): sayfa başlıkları, bölüm zeminleri, hero hâleleri,
@@ -83,9 +88,25 @@ html[data-theme="light"] .hero-halo,
 html[data-theme="light"] [class*="bg-accent/30"][class*="blur-2xl"] {
   display: none;
 }
-/* gündüz modunda sayfa zeminine hafif doku: bölümler arası çok hafif lavanta */
+/* gündüz modunda bölüm ritmi: lavanta zemin → daha açık bant */
 html[data-theme="light"] .tint-section {
-  background: linear-gradient(180deg, #ffffff 0%, #f6f2fc 50%, #ffffff 100%);
+  background: linear-gradient(180deg, #f4f1fb 0%, #faf8ff 50%, #f4f1fb 100%);
+}
+/* Buzlu beyaz kartlar (referans görseldeki gibi): koyu temadaki %3-6 beyaz cam yüzeyler
+   gündüzde yarı saydam beyaz + hafif mor gölge olur. Sınıf adına göre eşleşir. */
+html[data-theme="light"] [class*="bg-white/[0.03]"],
+html[data-theme="light"] [class*="bg-white/[0.05]"],
+html[data-theme="light"] [class*="bg-white/[0.06]"],
+html[data-theme="light"] [class*="bg-white/5"] {
+  background-color: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 12px 34px -22px rgba(124, 92, 230, 0.45);
+}
+html[data-theme="light"] [class*="border-white/10"] {
+  border-color: rgba(124, 92, 230, 0.14);
+}
+/* Form alanları */
+html[data-theme="light"] :is(input, textarea, select)[class*="bg-white"] {
+  background-color: rgba(255, 255, 255, 0.85);
 }
 
 @theme inline {
