@@ -74,7 +74,7 @@ function Robot({ src, position, faceBias, phase, oscAmp = 0.55, fit = 2.2, mouse
         if (!("metalness" in std)) continue;
         // Dokular (renk / metalik-pürüz haritası) olduğu gibi kalır: saç mat,
         // gövde krom — model ne diyorsa o. Sadece ortam yansıması biraz güçlenir.
-        std.envMapIntensity = 1.25;
+        std.envMapIntensity = 1.7;
         std.needsUpdate = true;
       }
     });
@@ -192,15 +192,21 @@ function Rig({
       <directionalLight position={[-4, 2, 3]} intensity={1.1} color="#ffffff" />
 
       {/* arkadan hafif mor kenar ışığı — silüeti ayırır, renkleri boyamaz */}
-      <pointLight position={[-2.8, 0.9, -1.5]} intensity={7} distance={7} decay={2} color="#7B3FE4" />
-      <pointLight position={[2.8, 0.9, -1.5]} intensity={7} distance={7} decay={2} color="#8B5CF6" />
+      <pointLight position={[-2.8, 0.9, -1.5]} intensity={10} distance={7} decay={2} color="#7B3FE4" />
+      <pointLight position={[2.8, 0.9, -1.5]} intensity={10} distance={7} decay={2} color="#A78BFA" />
 
-      {/* ortam: nötr stüdyo paneller — krom canlı, mat yüzeyler mat kalır */}
+      {/* ortam: RENKLİ stüdyo (2026-08-21, "daha canlı dursun") — krom yansıttığı
+          kadar renklidir; beyaz paneller gri robot veriyordu. Üstte beyaz anahtar
+          panel (parlak vurgular), solda marka moru, sağda sıcak eflatun, altta
+          soğuk buz-camgöbeği kicker → gövdede mor→beyaz→camgöbeği geçişleri.
+          Mat yüzeyler (saç, kumaş) ortamı çok az yansıttığı için renkleri
+          BOYANMAZ — daha önce geri alınan renkli ışık sorunu yaşanmaz. */}
       <Environment resolution={256}>
-        <Lightformer form="rect" intensity={3.5} position={[0, 3, 3]} scale={[10, 4, 1]} color="#ffffff" />
-        <Lightformer form="rect" intensity={2.2} position={[-6, 1, 2]} scale={[3, 6, 1]} color="#ffffff" />
-        <Lightformer form="rect" intensity={1.8} position={[6, 0, 1]} scale={[3, 6, 1]} color="#ede9fe" />
-        <Lightformer form="rect" intensity={1.2} position={[0, -3, 2]} scale={[8, 2, 1]} color="#ffffff" />
+        <Lightformer form="rect" intensity={4} position={[0, 3.2, 3]} scale={[10, 3.5, 1]} color="#ffffff" />
+        <Lightformer form="rect" intensity={3.2} position={[-6, 1, 2]} scale={[3, 7, 1]} color="#8B5CF6" />
+        <Lightformer form="rect" intensity={2.8} position={[6, 0.5, 1.5]} scale={[3, 7, 1]} color="#D8B4FE" />
+        <Lightformer form="rect" intensity={2.2} position={[0, -3, 2]} scale={[8, 2, 1]} color="#67E8F9" />
+        <Lightformer form="ring" intensity={1.6} position={[0, 1, -5]} scale={[6, 6, 1]} color="#C084FC" />
       </Environment>
 
       {/* robotları yere oturtan yumuşak gölge (mor tonlu) */}
@@ -290,7 +296,7 @@ export default function HeroRobots({ className = "" }: { className?: string }) {
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         onCreated={({ gl }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
-          gl.toneMappingExposure = 1.1;
+          gl.toneMappingExposure = 1.2;
         }}
       >
         <Rig mouse={mouse} mobile={mobile} />
