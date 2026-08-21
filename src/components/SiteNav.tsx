@@ -59,7 +59,7 @@ export default function SiteNav() {
             alt="KARNER"
             width={44}
             height={44}
-            className="h-10 w-10 object-contain drop-shadow-lg"
+            className="logo-emblem h-10 w-10 object-contain drop-shadow-lg"
             priority
           />
           <span className="text-lg font-bold tracking-[0.25em] text-(--wordmark)">KARNER</span>

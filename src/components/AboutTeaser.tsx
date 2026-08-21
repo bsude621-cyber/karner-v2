@@ -9,7 +9,7 @@ import { TextHoverEffect } from "@/components/ui/hover-footer";
  *  Arka plan tasarımı (DottedSurface) tam bölümdeki gibi korunur. */
 export default function AboutTeaser() {
   return (
-    <section id="hakkimizda" className="relative">
+    <section id="hakkimizda" className="night-section relative">
       {/* Mobilde bölüm daha uzun ve içerik üstte: yıldız alanı kartın altında görünür kalsın */}
       <DottedSurface className="min-h-[92vh] w-full sm:min-h-[60vh]">
         <div className="relative z-10 flex min-h-[92vh] flex-col items-center justify-start px-4 pb-24 pt-10 sm:min-h-[60vh] sm:justify-center sm:py-24 sm:px-6">
@@ -22,7 +22,7 @@ export default function AboutTeaser() {
             <TextHoverEffect text="KARNER" className="relative z-10 h-full w-full" />
           </div>
           <div className="reveal w-full max-w-2xl overflow-hidden rounded-2xl bg-gradient-to-b from-white/25 via-white/10 to-white/5 p-[1px] shadow-[0_16px_50px_-16px_rgba(0,0,0,0.85)]">
-            <div className="brand-band relative rounded-[15px] bg-gradient-to-b from-(--card-top) to-(--card-bottom) px-6 py-10 text-center backdrop-blur-xl sm:px-10">
+            <div className="relative rounded-[15px] bg-gradient-to-b from-(--card-top) to-(--card-bottom) px-6 py-10 text-center backdrop-blur-xl sm:px-10">
               <div className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
               <p className="mb-3 text-sm uppercase tracking-[0.35em] text-accent-light">

@@ -40,10 +40,10 @@ html[data-theme="light"] {
   --silver: #6f6a82;
   --card-top: rgba(255, 255, 255, 0.9);
   --card-bottom: rgba(247, 243, 255, 0.94);
-  --wordmark: #880085; /* Mardi Gras (Sude 2026-08-21) */
+  --wordmark: #7b3fe4; /* koyu moddaki marka moru (Sude 2026-08-21) */
   --footer-bg: radial-gradient(120% 90% at 10% 0%, rgba(255, 255, 255, 0.28) 0%, transparent 55%),
     radial-gradient(80% 70% at 100% 100%, rgba(251, 207, 232, 0.35) 0%, transparent 55%),
-    linear-gradient(135deg, #6f006d 0%, #880085 50%, #a4169f 100%);
+    linear-gradient(135deg, #7b3fe4 0%, #5f2bc0 55%, #4b1d96 100%);
   --footer-surface: transparent;
   --footer-accent: #ffffff;
   color-scheme: light;
@@ -55,10 +55,10 @@ html[data-theme="light"] .brand-band {
   /* pastel lila: sol-üst beyaz ışık + sağ-alt pembe iz + lila taban (referans görsel) */
   background: radial-gradient(120% 90% at 12% 0%, rgba(255, 255, 255, 0.35) 0%, transparent 55%),
     radial-gradient(80% 70% at 100% 100%, rgba(251, 207, 232, 0.45) 0%, transparent 55%),
-    linear-gradient(135deg, #6f006d 0%, #880085 50%, #a4169f 100%);
+    linear-gradient(135deg, #7b3fe4 0%, #5f2bc0 55%, #4b1d96 100%);
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 22px 50px -24px rgba(136, 0, 133, 0.5);
+  box-shadow: 0 22px 50px -24px rgba(75, 29, 150, 0.55);
 }
 html[data-theme="light"] .brand-band :is(h2, h3, strong) {
   color: #fff;
@@ -76,32 +76,54 @@ html[data-theme="light"] .brand-band .btn-secondary:hover {
 html[data-theme="light"] .brand-band .btn-primary,
 html[data-theme="light"] .brand-band .band-cta {
   background: #fff;
-  color: #880085;
-  box-shadow: 0 10px 30px -10px rgba(136, 0, 133, 0.3);
+  color: #4b1d96;
+  box-shadow: 0 10px 30px -10px rgba(75, 29, 150, 0.3);
 }
 /* Gündüz modunda dekoratif mor hâle/gölge YOK (Sude 2026-08-21: "Demo sitelerimiz'deki
    mor gölge gibi şeyler istemiyorum"): sayfa başlıkları, bölüm zeminleri, hero hâleleri,
    KARNER yazısı arkası — hepsi rgba(123,63,228) radial-gradient yardımcı sınıflı,
    pointer-events-none süs katmanları. Koyu temada aynen kalır. */
-html[data-theme="light"] [class*="radial-gradient"],
+html[data-theme="light"] [class*="radial-gradient"]:not(.night-section *),
 html[data-theme="light"] .hero-halo,
-html[data-theme="light"] [class*="bg-accent/30"][class*="blur-2xl"] {
+html[data-theme="light"] [class*="bg-accent/30"][class*="blur-2xl"]:not(.night-section *) {
   display: none;
 }
+/* KOYU BÖLÜMLER (Sude 2026-08-21: "bazı yerler koyu bazı yerler açık"): gündüz modunda
+   .night-section içinde tüm tema değişkenleri koyu moda döner — Tailwind sınıfları
+   (@theme inline sayesinde) var(--ink)/var(--background) okuduğu için bölüm birebir
+   koyu moddaki gibi görünür. Ana sayfa: Demo siteleri + Hakkımızda. */
+html[data-theme="light"] .night-section {
+  --background: #05060a;
+  --foreground: #f2f3f7;
+  --ink: #ffffff;
+  --accent-light: #a371ff;
+  --silver: #a6a9ad;
+  --card-top: rgba(18, 10, 28, 0.95);
+  --card-bottom: rgba(10, 6, 17, 0.95);
+  background: var(--background);
+  color: var(--foreground);
+  color-scheme: dark;
+}
+
+/* Logo amblemi: gümüş K açık zeminde soluk kalıyordu → gündüzde koyulaştır, doygunluk ver */
+html[data-theme="light"] .logo-emblem {
+  filter: brightness(0.72) contrast(1.3) saturate(1.25) drop-shadow(0 1px 2px rgba(43, 37, 64, 0.3));
+}
+
 /* gündüz modunda bölüm ritmi: lavanta zemin → daha açık bant */
 html[data-theme="light"] .tint-section {
   background: linear-gradient(180deg, #f4f1fb 0%, #faf8ff 50%, #f4f1fb 100%);
 }
 /* Buzlu beyaz kartlar (referans görseldeki gibi): koyu temadaki %3-6 beyaz cam yüzeyler
    gündüzde yarı saydam beyaz + hafif mor gölge olur. Sınıf adına göre eşleşir. */
-html[data-theme="light"] [class*="bg-white/[0.03]"],
-html[data-theme="light"] [class*="bg-white/[0.05]"],
-html[data-theme="light"] [class*="bg-white/[0.06]"],
-html[data-theme="light"] [class*="bg-white/5"] {
+html[data-theme="light"] [class*="bg-white/[0.03]"]:not(.night-section *),
+html[data-theme="light"] [class*="bg-white/[0.05]"]:not(.night-section *),
+html[data-theme="light"] [class*="bg-white/[0.06]"]:not(.night-section *),
+html[data-theme="light"] [class*="bg-white/5"]:not(.night-section *) {
   background-color: rgba(255, 255, 255, 0.72);
   box-shadow: 0 12px 34px -22px rgba(124, 92, 230, 0.45);
 }
-html[data-theme="light"] [class*="border-white/10"] {
+html[data-theme="light"] [class*="border-white/10"]:not(.night-section *) {
   border-color: rgba(124, 92, 230, 0.14);
 }
 /* Form alanları */

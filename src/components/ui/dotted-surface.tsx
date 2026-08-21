@@ -51,7 +51,8 @@ export function DottedSurface({
       const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       // Tema: zemin saydam (sayfa arka planı görünür), açık temada noktalar koyulaşır
-      const isLight = () => document.documentElement.dataset.theme === "light";
+      const isLight = () =>
+        document.documentElement.dataset.theme === "light" && !wrapper.closest(".night-section");
       renderer.setClearColor(0x000000, 0);
       container.appendChild(renderer.domElement);
 
