@@ -38,8 +38,8 @@ html[data-theme="light"] {
   --silver: #6b6e76;
   --card-top: rgba(255, 255, 255, 0.94);
   --card-bottom: rgba(246, 243, 252, 0.97);
-  --wordmark: #4c1d95;
-  --footer-bg: linear-gradient(135deg, #4c1d95 0%, #2e1065 100%);
+  --wordmark: #47178e;
+  --footer-bg: radial-gradient(120% 80% at 12% 0%, rgba(168, 85, 247, 0.42) 0%, transparent 55%), radial-gradient(80% 70% at 100% 100%, rgba(236, 72, 153, 0.16) 0%, transparent 55%), linear-gradient(135deg, #2a0b5e 0%, #47178e 52%, #5f2ac0 100%);
   --footer-surface: transparent;
   --footer-accent: #ffffff;
   color-scheme: light;
@@ -48,8 +48,9 @@ html[data-theme="light"] {
 /* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
    bazı kutular mor, tasarımlı dursun") — koyu tema bu kurallardan etkilenmez. */
 html[data-theme="light"] .brand-band {
-  /* koyu, derin mor (Sude: "daha koyu güzel bir mor") */
-  background: linear-gradient(135deg, #4c1d95 0%, #2e1065 100%);
+  /* zengin kraliyet moru: derin taban + sol-üst lila ışık + sağ-alt sıcak pembe iz
+     (Sude 2026-08-21: "daha zengin, havalı, kaliteli ton") */
+  background: radial-gradient(120% 80% at 12% 0%, rgba(168, 85, 247, 0.42) 0%, transparent 55%), radial-gradient(80% 70% at 100% 100%, rgba(236, 72, 153, 0.16) 0%, transparent 55%), linear-gradient(135deg, #2a0b5e 0%, #47178e 52%, #5f2ac0 100%);
   border-color: transparent;
   color: #fff;
   box-shadow: 0 22px 50px -24px rgba(75, 29, 150, 0.55);
@@ -70,7 +71,7 @@ html[data-theme="light"] .brand-band .btn-secondary:hover {
 html[data-theme="light"] .brand-band .btn-primary,
 html[data-theme="light"] .brand-band .band-cta {
   background: #fff;
-  color: #2e1065;
+  color: #3b1278;
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25);
 }
 /* hero: gündüz modunda arka plan temiz beyaz — mor hâleler kısılır */
