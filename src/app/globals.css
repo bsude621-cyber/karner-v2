@@ -40,10 +40,10 @@ html[data-theme="light"] {
   --silver: #6f6a82;
   --card-top: rgba(255, 255, 255, 0.9);
   --card-bottom: rgba(247, 243, 255, 0.94);
-  --wordmark: #7c5ce6;
+  --wordmark: #880085; /* Mardi Gras (Sude 2026-08-21) */
   --footer-bg: radial-gradient(120% 90% at 10% 0%, rgba(255, 255, 255, 0.28) 0%, transparent 55%),
     radial-gradient(80% 70% at 100% 100%, rgba(251, 207, 232, 0.35) 0%, transparent 55%),
-    linear-gradient(135deg, #7f5fe8 0%, #9a7cf2 55%, #ad93f5 100%);
+    linear-gradient(135deg, #6f006d 0%, #880085 50%, #a4169f 100%);
   --footer-surface: transparent;
   --footer-accent: #ffffff;
   color-scheme: light;
@@ -55,10 +55,10 @@ html[data-theme="light"] .brand-band {
   /* pastel lila: sol-üst beyaz ışık + sağ-alt pembe iz + lila taban (referans görsel) */
   background: radial-gradient(120% 90% at 12% 0%, rgba(255, 255, 255, 0.35) 0%, transparent 55%),
     radial-gradient(80% 70% at 100% 100%, rgba(251, 207, 232, 0.45) 0%, transparent 55%),
-    linear-gradient(135deg, #8b6cf0 0%, #a98bf4 55%, #c1abf8 100%);
+    linear-gradient(135deg, #6f006d 0%, #880085 50%, #a4169f 100%);
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 22px 50px -24px rgba(124, 92, 230, 0.55);
+  box-shadow: 0 22px 50px -24px rgba(136, 0, 133, 0.5);
 }
 html[data-theme="light"] .brand-band :is(h2, h3, strong) {
   color: #fff;
@@ -76,8 +76,8 @@ html[data-theme="light"] .brand-band .btn-secondary:hover {
 html[data-theme="light"] .brand-band .btn-primary,
 html[data-theme="light"] .brand-band .band-cta {
   background: #fff;
-  color: #6d4fd6;
-  box-shadow: 0 10px 30px -10px rgba(124, 92, 230, 0.35);
+  color: #880085;
+  box-shadow: 0 10px 30px -10px rgba(136, 0, 133, 0.3);
 }
 /* Gündüz modunda dekoratif mor hâle/gölge YOK (Sude 2026-08-21: "Demo sitelerimiz'deki
    mor gölge gibi şeyler istemiyorum"): sayfa başlıkları, bölüm zeminleri, hero hâleleri,
