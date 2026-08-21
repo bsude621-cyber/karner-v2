@@ -74,9 +74,14 @@ html[data-theme="light"] .brand-band .band-cta {
   color: #3b1278;
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25);
 }
-/* hero: gündüz modunda arka plan temiz beyaz — mor hâleler kısılır */
-html[data-theme="light"] .hero-halo {
-  opacity: 0.28;
+/* Gündüz modunda dekoratif mor hâle/gölge YOK (Sude 2026-08-21: "Demo sitelerimiz'deki
+   mor gölge gibi şeyler istemiyorum"): sayfa başlıkları, bölüm zeminleri, hero hâleleri,
+   KARNER yazısı arkası — hepsi rgba(123,63,228) radial-gradient yardımcı sınıflı,
+   pointer-events-none süs katmanları. Koyu temada aynen kalır. */
+html[data-theme="light"] [class*="radial-gradient"],
+html[data-theme="light"] .hero-halo,
+html[data-theme="light"] [class*="bg-accent/30"][class*="blur-2xl"] {
+  display: none;
 }
 /* gündüz modunda sayfa zeminine hafif doku: bölümler arası çok hafif lavanta */
 html[data-theme="light"] .tint-section {
