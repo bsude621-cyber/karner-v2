@@ -50,39 +50,29 @@ export const KNOWS_ABOUT = [
  */
 export const SAME_AS = ["https://github.com/bsude621-cyber"] as const;
 
-/** Kurucu ekip — Person düğümleri (E-E-A-T: kim yazıyor, kim üretiyor). */
-export const PEOPLE = [
+/**
+ * Ekip — İSİMSİZ (Sude 2026-08-21: "kişi kişi isim vermeyelim").
+ * Person düğümü / kurucu adı yayınlanmaz; roller kurumsal olarak anlatılır.
+ */
+export const TEAM_ROLES = [
   {
-    id: "sude",
-    name: "Sude",
-    jobTitle: "Kurucu Ortak — Strateji, İçerik ve Medya",
+    id: "strateji-medya",
+    role: "Strateji, içerik ve medya",
     description:
-      "KARNER'ın kurucu ortağı; strateji, içerik, müşteri ilişkileri ve yapay zekâ destekli medya üretiminden sorumlu.",
+      "Hedef ve mesajın netleştirilmesi, içerik ve yapay zekâ destekli video/görsel üretimi, müşteri ilişkileri.",
   },
   {
-    id: "beyza",
-    name: "Beyza",
-    jobTitle: "Kurucu Ortak — Geliştirme ve Mimari",
+    id: "gelistirme-mimari",
+    role: "Geliştirme ve teknik mimari",
     description:
-      "KARNER'ın kurucu ortağı; web ve mobil geliştirme ile teknik mimariden sorumlu.",
+      "Web ve mobil geliştirme, performans, yapısal veri ve otomasyon altyapısı.",
+  },
+  {
+    id: "teknik-danismanlik",
+    role: "Teknik danışmanlık",
+    description: "Mimari kararlar ve güvenlik konularında ihtiyaç hâlinde destek.",
   },
 ] as const;
-
-export function personId(id: string) {
-  return `${SITE_URL}/hakkimizda#${id}`;
-}
-
-export function peopleJsonLd() {
-  return PEOPLE.map((p) => ({
-    "@type": "Person",
-    "@id": personId(p.id),
-    name: p.name,
-    jobTitle: p.jobTitle,
-    description: p.description,
-    worksFor: { "@id": `${SITE_URL}/#organization` },
-    url: `${SITE_URL}/hakkimizda`,
-  }));
-}
 
 /** Organization düğümü — @id ile diğer schema'lardan referans alınır. */
 export function organizationJsonLd() {
@@ -123,7 +113,6 @@ export function organizationJsonLd() {
     ],
     knowsAbout: [...KNOWS_ABOUT],
     knowsLanguage: ["tr"],
-    founder: PEOPLE.map((p) => ({ "@id": personId(p.id) })),
     sameAs: [...SAME_AS],
   };
 }

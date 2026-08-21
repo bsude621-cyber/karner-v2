@@ -2,14 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { services } from "@/data/services";
+import { PROCESS_STEPS } from "@/data/process";
 import Footer from "@/components/Footer";
-import {
-  PEOPLE,
-  SITE_URL,
-  breadcrumbJsonLd,
-  personId,
-  type Crumb,
-} from "@/lib/site";
+import { SITE_URL, TEAM_ROLES, breadcrumbJsonLd, type Crumb } from "@/lib/site";
 import { pageDates } from "@/data/dates";
 import Breadcrumb from "@/components/seo/Breadcrumb";
 
@@ -29,9 +24,9 @@ const crumbs: Crumb[] = [
 ];
 
 /**
- * SEO: AboutPage + BreadcrumbList. Organization ve kurucu Person düğümleri
- * layout'taki kök graph'ta tanımlı; burada @id ile referans verilir
- * (çift tanım = çelişki riski).
+ * SEO: AboutPage + BreadcrumbList. Organization düğümü layout'taki kök
+ * graph'ta tanımlı; burada @id ile referans verilir. Kişi (Person) düğümü
+ * bilinçli olarak YOK — ekip isimsiz anlatılır (2026-08-21).
  */
 const jsonLd = {
   "@context": "https://schema.org",
@@ -52,15 +47,29 @@ const jsonLd = {
         "@type": "SpeakableSpecification",
         cssSelector: ["h1", ".speakable-summary"],
       },
-      mentions: PEOPLE.map((p) => ({ "@id": personId(p.id) })),
     },
     breadcrumbJsonLd(pageUrl, crumbs),
   ],
 };
 
-const team = [
-  ...PEOPLE.map((p) => ({ id: p.id, name: p.name, role: p.jobTitle })),
-  { id: "ahmet", name: "Ahmet", role: "Teknik Danışman" },
+/** Çalışma ilkeleri — hepsi site genelindeki gerçek uygulamalara dayanır. */
+const PRINCIPLES = [
+  {
+    title: "Kapsam yazılı, fiyat yazılı",
+    text: "Her işte neyin dâhil, neyin hariç olduğu baştan yazılır; fiyat keşif görüşmesinden sonra yazılı teklifle verilir.",
+  },
+  {
+    title: "Varlıklar sizin adınıza",
+    text: "Domain, hosting ve hesaplar talep hâlinde sizin adınıza açılır; erişimler teslimde devredilir.",
+  },
+  {
+    title: "Sonuç tarihli ve ölçülür",
+    text: "Görünürlük gözlemleri tarihiyle ve ekran görüntüsüyle raporlanır; sıralama garantisi verilmez.",
+  },
+  {
+    title: "Gerçek görsel, gerçek içerik",
+    text: "Stok fotoğraf ve şablon metin yerine işletmenin kendi görseli ve kendi dili kullanılır.",
+  },
 ];
 
 export default function AboutPage() {
@@ -90,10 +99,10 @@ export default function AboutPage() {
               veren bir yazılım ve medya şirketidir.
             </strong>{" "}
             Web sitesi, mobil uygulama, yapay zekâ destekli video ve görsel
-            üretimi, SEO/GEO/AEO, iş akışı otomasyonu ve marka tasarımını tek
-            çatı altında sunuyoruz. Amacımız; işletmeleri yalnızca Google'da
-            değil, ChatGPT ve Gemini gibi yapay zekâ aramalarında da görünür
-            kılmak.
+            üretimi, arama görünürlüğü (SEO/GEO/AEO), iş akışı otomasyonu,
+            marka tasarımı ve sosyal medya içeriğini tek çatı altında sunar.
+            Amacımız, işletmeleri yalnızca Google&apos;da değil, ChatGPT ve
+            Gemini gibi yapay zekâ aramalarında da görünür kılmaktır.
           </p>
         </div>
       </section>
@@ -101,9 +110,7 @@ export default function AboutPage() {
       {/* İçerik */}
       <div className="mx-auto max-w-3xl space-y-16 px-6 py-12">
         <section>
-          <h2 className="mb-4 text-2xl font-semibold text-white">
-            KARNER kimdir?
-          </h2>
+          <h2 className="mb-4 text-2xl font-semibold text-white">KARNER kimdir?</h2>
           <p className="leading-relaxed text-white/70">
             KARNER, yazılım mühendisliği ile medya üretimini aynı ekipte
             toplayan bir dijital stüdyodur. Kod yazan tarafımız modern web ve
@@ -112,24 +119,33 @@ export default function AboutPage() {
             disiplini ayrı ajanslara bölmek yerine tek çatıda birleştirdiğimiz
             için strateji, üretim ve yayın aynı elden, tutarlı ilerler.
           </p>
-          <ul className="mt-6 space-y-3">
-            {team.map((m) => (
-              <li key={m.name} id={m.id} className="flex items-baseline gap-3">
-                <span className="h-1.5 w-1.5 shrink-0 translate-y-[-2px] rounded-full bg-accent/70" />
-                <span className="text-white">{m.name}</span>
-                <span className="text-white/50">— {m.role}</span>
+        </section>
+
+        <section>
+          <h2 className="mb-4 text-2xl font-semibold text-white">Ekip</h2>
+          <p className="mb-6 leading-relaxed text-white/70">
+            KARNER iki kurucu ortak tarafından yürütülür; işler kişiye göre
+            değil, sorumluluk alanına göre bölünür. Her projede aşağıdaki üç
+            alan birlikte çalışır:
+          </p>
+          <ul className="grid gap-3 sm:grid-cols-3">
+            {TEAM_ROLES.map((r) => (
+              <li
+                key={r.id}
+                className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+              >
+                <p className="font-medium text-white">{r.role}</p>
+                <p className="mt-2 text-sm leading-relaxed text-white/60">{r.description}</p>
               </li>
             ))}
           </ul>
         </section>
 
         <section>
-          <h2 className="mb-4 text-2xl font-semibold text-white">
-            Ne yapıyoruz?
-          </h2>
+          <h2 className="mb-4 text-2xl font-semibold text-white">Ne yapıyoruz?</h2>
           <p className="mb-6 leading-relaxed text-white/70">
             Yerel işletmelerden dijital ürün fikirlerine kadar farklı
-            ölçeklerde çalışıyoruz. Hizmetlerimiz:
+            ölçeklerde çalışıyoruz. Sekiz hizmet alanımız:
           </p>
           <ul className="grid gap-3 sm:grid-cols-2">
             {services.map((s) => (
@@ -147,51 +163,85 @@ export default function AboutPage() {
         </section>
 
         <section>
-          <h2 className="mb-4 text-2xl font-semibold text-white">
-            Bizi farklı kılan ne?
-          </h2>
+          <h2 className="mb-4 text-2xl font-semibold text-white">Nasıl çalışıyoruz?</h2>
           <p className="leading-relaxed text-white/70">
-            Klasik ajanslar siteyi teslim edip çekilir; biz sitenin{" "}
-            <strong className="text-white">bulunmasını</strong> işin merkezine
-            koyarız. Yapay zekâ aramalarının klasik aramanın yanına
-            yerleştiği bir dönemde; içerik, yapısal veri ve teknik SEO'yu üç
-            arama yüzeyi için birden kurarız — Google, cevap motorları ve
-            ChatGPT/Gemini gibi üretken arama araçları.
+            Her proje aynı dört adımdan geçer; her adımın çıktısı yazılıdır.
           </p>
-          <p className="mt-4 leading-relaxed text-white/70">
-            Bu yaklaşımın kanıtı sahada: AYSA Endüstriyel Temizlik için
-            &ldquo;muğla baca temizliği&rdquo; aramasında üç yüzeyde birden
-            görünürlük sağladık — ChatGPT firmayı öneriyor, Google AI Bakışı
-            tercih edilen firmalar arasında gösteriyor ve organik sonuçlarda
-            2. sıradayız.
+          <ol className="mt-6 grid gap-3 sm:grid-cols-2">
+            {PROCESS_STEPS.map((st) => (
+              <li
+                key={st.no}
+                className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+              >
+                <p className="text-xs uppercase tracking-[0.25em] text-accent-light">
+                  {st.no}
+                </p>
+                <p className="mt-1 font-medium text-white">{st.name}</p>
+                <p className="mt-2 text-sm leading-relaxed text-white/60">
+                  Çıktı: {st.output}
+                </p>
+              </li>
+            ))}
+          </ol>
+          <Link
+            href="/surec"
+            className="group mt-5 inline-flex items-center gap-2 text-sm text-accent-light transition hover:text-white"
+          >
+            Sürecin tamamı
+            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+          </Link>
+          <p className="mt-8 leading-relaxed text-white/70">
+            Modern ve kanıtlanmış bir teknoloji yığınıyla üretiyoruz: web&apos;de
+            Next.js ve Three.js, mobilde Expo, arka planda Supabase, otomasyonda
+            n8n ve dil modeli API&apos;leri, medya üretiminde Veo, Kling ve
+            Adobe Firefly. Tekrarlayan işleri otomasyona devrettiğimiz için
+            zamanımız tasarıma, stratejiye ve kaliteye kalır.
           </p>
         </section>
 
         <section>
-          <h2 className="mb-4 text-2xl font-semibold text-white">
-            Nasıl çalışıyoruz?
-          </h2>
+          <h2 className="mb-4 text-2xl font-semibold text-white">Çalışma ilkelerimiz</h2>
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {PRINCIPLES.map((p) => (
+              <li
+                key={p.title}
+                className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+              >
+                <p className="font-medium text-white">{p.title}</p>
+                <p className="mt-2 text-sm leading-relaxed text-white/60">{p.text}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="mb-4 text-2xl font-semibold text-white">Bizi farklı kılan ne?</h2>
           <p className="leading-relaxed text-white/70">
-            Modern ve kanıtlanmış bir teknoloji yığınıyla üretiyoruz: web'de
-            Next.js ve Three.js, mobilde Expo, arka planda Supabase, otomasyonda
-            n8n ve dil modeli API'leri, medya üretiminde Veo, Kling ve Adobe Firefly.
-            Tekrarlayan işleri otomasyona devrettiğimiz için zamanımız tasarıma,
-            stratejiye ve kaliteye kalır. Her projede önce hedefi netleştirir,
-            sonra ölçülebilir sonuca göre üretiriz.
+            Sitenin <strong className="text-white">bulunmasını</strong> işin
+            merkezine koyarız. Yapay zekâ aramalarının klasik aramanın yanına
+            yerleştiği bir dönemde; içerik, yapısal veri ve teknik SEO&apos;yu üç
+            arama yüzeyi için birden kurarız — Google, cevap motorları ve
+            ChatGPT/Gemini gibi üretken arama araçları.
+          </p>
+          <p className="mt-4 leading-relaxed text-white/70">
+            Bu yaklaşımın saha uygulamaları tarihli gözlemlerle{" "}
+            <Link href="/isler" className="text-accent-light underline-offset-4 hover:underline">
+              İşlerimiz
+            </Link>{" "}
+            sayfasında; arama sonuçları değiştiği için gözlemler vaat olarak
+            değil, ölçüm olarak sunulur.
           </p>
         </section>
 
         {/* İletişim CTA */}
         <section className="rounded-2xl border border-accent/30 bg-accent/[0.07] px-6 py-10 text-center sm:px-10">
-          <h2 className="text-2xl font-semibold text-white">
-            Birlikte çalışalım
-          </h2>
+          <h2 className="text-2xl font-semibold text-white">Birlikte çalışalım</h2>
           <p className="mx-auto mt-3 max-w-md text-white/70">
             Projenizi konuşmak için bize ulaşın — telefon, e-posta veya site
             üzerinden.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link href="/#iletisim" className="btn btn-primary">
+            <Link href="/iletisim" className="btn btn-primary">
               İletişime Geç
             </Link>
             <a href="tel:+905442188645" className="btn btn-secondary">

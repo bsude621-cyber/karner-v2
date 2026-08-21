@@ -2,7 +2,7 @@ import { services } from "@/data/services";
 import { PILLAR_3D, PILLAR_3D_FAQ } from "@/data/pillar-3d";
 import { PILLAR_AI_VIDEO, PILLAR_AI_VIDEO_FAQ } from "@/data/pillar-ai-video";
 import { PILLAR_GEO, PILLAR_GEO_FAQ } from "@/data/pillar-geo";
-import { BRAND_SENTENCE, CONTACT, ORG_DESCRIPTION, PEOPLE, SITE_NAME, SITE_URL } from "@/lib/site";
+import { BRAND_SENTENCE, CONTACT, ORG_DESCRIPTION, SITE_NAME, SITE_URL, TEAM_ROLES } from "@/lib/site";
 import { HOME_FAQ } from "@/data/home-faq";
 import { guides } from "@/data/guides";
 import { cases } from "@/data/cases";
@@ -59,7 +59,8 @@ export function GET() {
     "",
     "## Ekip",
     "",
-    ...PEOPLE.map((p) => `- ${p.name} — ${p.jobTitle}. ${p.description}`),
+    "KARNER iki kurucu ortak tarafından yürütülür; ekip isim bazında değil, sorumluluk alanı bazında anlatılır:",
+    ...TEAM_ROLES.map((r) => `- ${r.role}: ${r.description}`),
     "",
     "## Sık sorulan sorular (genel)",
     "",

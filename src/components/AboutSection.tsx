@@ -36,9 +36,9 @@ const signs = [
     icon: Users,
     title: "Ekip",
     lines: [
-      "Sude — Strateji & Medya",
-      "Beyza — Geliştirme & Mimari",
-      "Ahmet — Teknik danışman",
+      "Strateji, içerik & medya",
+      "Geliştirme & teknik mimari",
+      "Teknik danışmanlık",
     ],
     className: "lg:right-[7%] lg:top-[12%] lg:rotate-[3deg]",
   },
