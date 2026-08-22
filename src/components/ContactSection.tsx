@@ -47,8 +47,8 @@ export default function ContactSection({ headingAs = "h2" }: { headingAs?: "h1" 
               href={`tel:${PHONE_E164}`}
               className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-accent/50 hover:bg-white/[0.06]"
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-accent to-accent-2">
-                <Phone className="h-5 w-5 text-white" />
+              <span className="accent-tile flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-accent to-accent-2">
+                <Phone className="h-5 w-5 text-paper" />
               </span>
               <span>
                 <span className="block text-xs uppercase tracking-wider text-white/60">Telefon</span>
@@ -60,8 +60,8 @@ export default function ContactSection({ headingAs = "h2" }: { headingAs?: "h1" 
               href={`mailto:${EMAIL}`}
               className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-accent/50 hover:bg-white/[0.06]"
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-accent to-accent-2">
-                <Mail className="h-5 w-5 text-white" />
+              <span className="accent-tile flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-accent to-accent-2">
+                <Mail className="h-5 w-5 text-paper" />
               </span>
               <span>
                 <span className="block text-xs uppercase tracking-wider text-white/60">E-posta</span>
@@ -72,10 +72,10 @@ export default function ContactSection({ headingAs = "h2" }: { headingAs?: "h1" 
             {/* Lokasyonu gör — spiral overlay açar */}
             <button
               onClick={() => setOverlayOpen(true)}
-              className="brand-band group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-accent/40 bg-gradient-to-br from-accent/15 to-accent-2/10 p-5 text-left transition hover:border-accent"
+              className="group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-accent/40 bg-gradient-to-br from-accent/15 to-accent-2/10 p-5 text-left transition hover:border-accent"
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-accent to-accent-2">
-                <MapPin className="h-5 w-5 text-white" />
+              <span className="accent-tile flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-accent to-accent-2">
+                <MapPin className="h-5 w-5 text-paper" />
               </span>
               <span>
                 <span className="block text-xs uppercase tracking-wider text-white/50">Lokasyon</span>

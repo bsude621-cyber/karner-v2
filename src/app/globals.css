@@ -66,6 +66,19 @@ html[data-theme="light"] .brand-band {
   color: #fff;
   box-shadow: 0 22px 50px -24px rgba(34, 20, 63, 0.55);
 }
+/* Gündüzde vurgu kutuları/CTA (iletişim ikon kareleri, Gönder) = footer ailesiyle aynı
+   koyu menekşe (Sude 2026-08-22: parlak mor kareler lavanta kartlarla "kopuk"). */
+html[data-theme="light"] .accent-tile {
+  background: linear-gradient(135deg, #2a1650 0%, #0b0816 100%);
+  box-shadow: 0 10px 24px -12px rgba(34, 20, 63, 0.6);
+}
+html[data-theme="light"] .accent-cta {
+  background: linear-gradient(135deg, #2a1650 0%, #0b0816 100%);
+  color: #fff;
+}
+html[data-theme="light"] .accent-cta:hover {
+  box-shadow: 0 0 24px rgba(34, 20, 63, 0.45);
+}
 html[data-theme="light"] .brand-band :is(h2, h3, strong) {
   color: #fff;
 }

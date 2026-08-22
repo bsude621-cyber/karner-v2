@@ -223,7 +223,7 @@ export default function TeklifForm({ className = "" }: { className?: string }) {
         <button
           type="submit"
           disabled={status === "sending"}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-2 px-8 py-3.5 font-medium text-white transition hover:scale-[1.02] hover:shadow-[0_0_24px_rgba(123,63,228,0.6)] disabled:cursor-wait disabled:opacity-70"
+          className="accent-cta inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-2 px-8 py-3.5 font-medium text-paper transition hover:scale-[1.02] hover:shadow-[0_0_24px_rgba(123,63,228,0.6)] disabled:cursor-wait disabled:opacity-70"
         >
           <Send className="h-4 w-4" />
           {status === "sending" ? "Gönderiliyor…" : "Gönder"}
