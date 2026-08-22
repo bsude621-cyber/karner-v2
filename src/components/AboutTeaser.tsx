@@ -119,7 +119,7 @@ export default function AboutTeaser() {
                 <span className="about-sub">Video, görsel, marka, sosyal içerik</span>
               </div>
               <span className="about-tag absolute right-[3%] top-[3%] rounded-sm border border-(--ink)/40 bg-(--background)/80 px-2 py-1 text-[10px] uppercase tracking-[0.22em] text-(--ink)">
-                Teknik çizim · Maskot A
+                Teknik çizim · KARNER robotu
               </span>
             </div>
           </div>
