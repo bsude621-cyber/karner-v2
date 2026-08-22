@@ -529,6 +529,50 @@ html[data-theme="light"] #sss details p {
   color: rgba(26, 20, 48, 0.78);
 }
 
+/* ---- Sahadan kareler (Showreel) — her iki tema ---- */
+.showreel-track {
+  animation: showreel-run 58s linear infinite;
+  will-change: transform;
+}
+.showreel-strip:hover .showreel-track,
+.showreel-strip:focus-within .showreel-track {
+  animation-play-state: paused;
+}
+@keyframes showreel-run {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .showreel-track { animation: none; }
+}
+.showreel-perf {
+  background: repeating-linear-gradient(to right, transparent 0 14px, rgba(123, 63, 228, 0.35) 14px 22px);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+  opacity: 0.6;
+}
+html[data-theme="light"] .showreel-perf {
+  background: repeating-linear-gradient(to right, transparent 0 14px, rgba(26, 20, 48, 0.35) 14px 22px);
+}
+.showreel-frame {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.showreel-frame:hover {
+  transform: translateY(-6px) rotate(-0.6deg);
+  border-color: rgba(123, 63, 228, 0.6);
+  box-shadow: 0 24px 50px -24px rgba(123, 63, 228, 0.55);
+}
+html[data-theme="light"] .showreel-frame {
+  border-color: rgba(26, 20, 48, 0.18);
+  box-shadow: 0 1px 0 rgba(26, 20, 48, 0.05), 0 16px 34px -24px rgba(26, 20, 48, 0.35);
+}
+html[data-theme="light"] .showreel-frame:hover {
+  border-color: rgba(26, 20, 48, 0.6);
+  box-shadow: 0 26px 50px -24px rgba(26, 20, 48, 0.45);
+  outline: 1px solid rgba(26, 20, 48, 0.35);
+  outline-offset: 4px;
+}
+
 /* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
    bazı kutular mor, tasarımlı dursun") — koyu tema bu kurallardan etkilenmez. */
 html[data-theme="light"] .brand-band {

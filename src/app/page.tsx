@@ -6,6 +6,7 @@ import AboutTeaser from "@/components/AboutTeaser";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import SectionDivider from "@/components/ui/section-divider";
+import Showreel from "@/components/Showreel";
 import DeferredAssistant from "@/components/DeferredAssistant";
 import HomeFaq from "@/components/HomeFaq";
 import { HOME_FAQ } from "@/data/home-faq";
@@ -84,6 +85,9 @@ export default function Home() {
 
       <SectionDivider />
       <WorksSection />
+
+      <SectionDivider />
+      <Showreel />
 
       <SectionDivider />
       <AboutTeaser />
