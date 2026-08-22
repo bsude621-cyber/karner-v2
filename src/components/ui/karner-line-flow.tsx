@@ -303,7 +303,7 @@ export function KarnerLineFlow({
       gl.uniform1f(uAngle, angle);
       // Gündüz modu: çizgiler daha hafif, zemin/vinyet kapalı → temiz beyaz hero
       const lightTheme = document.documentElement.dataset.theme === "light";
-      gl.uniform1f(uIntensity, intensity * (lightTheme ? 0.55 : 1.0));
+      gl.uniform1f(uIntensity, intensity * (lightTheme ? 0.28 : 1.0)); // v7.1: gündüzde ızgara öne, akış arkada
       gl.uniform1f(uInteract, interactOn);
       gl.uniform1f(uBase, lightTheme ? 0.0 : 1.0);
 

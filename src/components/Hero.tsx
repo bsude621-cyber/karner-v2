@@ -28,7 +28,7 @@ export default function Hero() {
   // arkasında kalan alanı da sayar. Butonlar en alta yapıştığı için 100vh ile
   // Safari'nin çubuğunun altında kalıp görünmez oluyorlardı.
   return (
-    <section className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-background">
+    <section className="hero-root relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-background">
       {/* En arkada: çapraz akan KARNER filament shader arka planı.
           DeferredMount: shader + robotlar kritik render yolundan çıkarıldı —
           metin ve gradient anında boyanır (LCP), sahneler ardından gelir. */}

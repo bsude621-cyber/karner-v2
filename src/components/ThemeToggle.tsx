@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { Moon, Sun } from "lucide-react";
 
 const KEY = "karner-theme";
@@ -22,15 +22,35 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
     return () => mo.disconnect();
   }, []);
 
-  const toggle = () => {
+  const toggle = (e: ReactMouseEvent<HTMLButtonElement>) => {
     const next: Theme = theme === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    try {
-      localStorage.setItem(KEY, next);
-    } catch {
-      /* gizli mod vb. — tema yine de bu oturumda değişir */
+    const apply = () => {
+      document.documentElement.dataset.theme = next;
+      try {
+        localStorage.setItem(KEY, next);
+      } catch {
+        /* gizli mod vb. — tema yine de bu oturumda değişir */
+      }
+      setTheme(next);
+    };
+    // Dairesel "mürekkep/kâğıt" dalgası: düğmenin merkezinden yayılır (View Transitions).
+    const doc = document as Document & {
+      startViewTransition?: (cb: () => void) => { finished: Promise<void> };
+    };
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!doc.startViewTransition || reduce) {
+      apply();
+      return;
     }
-    setTheme(next);
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = r.left + r.width / 2;
+    const y = r.top + r.height / 2;
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    const root = document.documentElement;
+    root.style.setProperty("--wash-x", `${x}px`);
+    root.style.setProperty("--wash-y", `${y}px`);
+    root.style.setProperty("--wash-r", `${radius}px`);
+    doc.startViewTransition(apply);
   };
 
   const label = theme === "dark" ? "Gündüz moduna geç" : "Gece moduna geç";
