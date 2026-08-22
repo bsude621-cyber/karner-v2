@@ -173,7 +173,11 @@ export default function AboutWireframe({ className = "" }: { className?: string 
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const read = () => setLight(document.documentElement.dataset.theme === "light");
+    const read = () =>
+      setLight(
+        document.documentElement.dataset.theme === "light" &&
+          window.matchMedia("(min-width: 1024px)").matches
+      );
     read();
     const mo = new MutationObserver(read);
     mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });

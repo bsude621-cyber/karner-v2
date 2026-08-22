@@ -15,6 +15,8 @@ export default function SmoothScroll({
     let rafId: number | undefined;
 
     const start = () => {
+      // Dokunmatik cihazlarda doğal kaydırma: Lenis'in kare döngüsü boşuna çalışıyordu
+      if (window.matchMedia("(pointer: coarse)").matches) return;
       lenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

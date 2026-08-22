@@ -62,8 +62,10 @@ export function SpaceBackground({
       // Buffer'ı CSS boyutundan küçük tutup tarayıcıya büyüttürüyoruz.
       // Parçacıklar yumuşak noktalar olduğu için ölçekleme gözle fark edilmiyor,
       // boyama maliyeti ise piksel sayısıyla doğrusal düşüyor.
-      canvas.width = Math.max(1, Math.round(w * RENDER_SCALE));
-      canvas.height = Math.max(1, Math.round(h * RENDER_SCALE));
+      // Mobilde iç çözünürlük daha düşük (yumuşak noktalar, fark edilmez)
+      const scale = window.innerWidth < 640 ? 0.5 : RENDER_SCALE;
+      canvas.width = Math.max(1, Math.round(w * scale));
+      canvas.height = Math.max(1, Math.round(h * scale));
       state.r = Math.max(80, Math.min(canvas.width, canvas.height) / 4);
       ctx.setTransform(1, 0, 0, -1, canvas.width / 2, canvas.height / 2);
     };

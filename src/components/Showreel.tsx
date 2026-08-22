@@ -27,6 +27,8 @@ function Frame({ clip, index }: { clip: Clip; index: number }) {
   useEffect(() => {
     const v = ref.current;
     if (!v) return;
+    // Mobil/dokunmatik: video indirilmez, poster kalır (6 eşzamanlı video mobilde kasıyordu)
+    if (window.matchMedia("(pointer: coarse), (max-width: 767px)").matches) return;
     const io = new IntersectionObserver(
       ([e]) => {
         if (e.isIntersecting) {

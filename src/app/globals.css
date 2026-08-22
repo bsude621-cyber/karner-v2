@@ -573,6 +573,22 @@ html[data-theme="light"] .showreel-frame:hover {
   outline-offset: 4px;
 }
 
+/* ---- MOBİL DİYET (2026-08-22, Sude: "mobilde çok kasıyor") — dokunmatik/dar ekranda
+   pahalı katmanlar kapalı: sabit grain (mix-blend), backdrop-filter, teknik çizim paneli,
+   kart görsel filtreleri. Tasarım dili korunur, GPU yükü düşer. ---- */
+@media (pointer: coarse), (max-width: 767px) {
+  html[data-theme="light"] body::before { display: none; }
+  html[data-theme="light"] .hero-root { animation: none; }
+  /* backdrop-blur'lar (nav, kartlar, balonlar) düz yarı saydam zemine döner */
+  [class*="backdrop-blur"] { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  html[data-theme="light"] #hizmetler a[class*="hover:shadow-[0_24px_60px"] img { filter: none; }
+  .showreel-track { animation-duration: 80s; }
+}
+@media (max-width: 1023px) {
+  /* teknik çizim paneli yalnızca masaüstü (3. WebGL sahnesi mobilde kurulmaz) */
+  html[data-theme="light"] .about-draw { display: none; }
+}
+
 /* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
    bazı kutular mor, tasarımlı dursun") — koyu tema bu kurallardan etkilenmez. */
 html[data-theme="light"] .brand-band {

@@ -38,9 +38,11 @@ export function DottedSurface({
       const THREE: typeof ThreeNS = await import("three");
       if (cancelled) return;
 
-      const SEPARATION = 150;
-      const AMOUNTX = 40;
-      const AMOUNTY = 60;
+      // Dar ekranda (mobil) nokta sayısı yarıya iner: 2400 → 864 (GPU/CPU tasarrufu)
+      const narrowStart = window.innerWidth < 640;
+      const SEPARATION = narrowStart ? 200 : 150;
+      const AMOUNTX = narrowStart ? 24 : 40;
+      const AMOUNTY = narrowStart ? 36 : 60;
 
       const scene = new THREE.Scene();
       scene.fog = new THREE.Fog(BRAND.fog, 1800, 9000);
@@ -49,7 +51,7 @@ export function DottedSurface({
       camera.position.set(0, 355, 1220);
 
       const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, narrowStart ? 1.25 : 2));
       // Tema: zemin saydam (sayfa arka planı görünür), açık temada noktalar koyulaşır
       const isLight = () =>
         document.documentElement.dataset.theme === "light" && !wrapper.closest(".night-section");
