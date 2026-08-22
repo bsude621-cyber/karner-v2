@@ -3,6 +3,7 @@
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import DeferredMount from "@/components/DeferredMount";
+import HeroDrafting from "@/components/HeroDrafting";
 
 // Shader sadece tarayıcıda yüklensin (SSR kapalı)
 const KarnerLineFlow = dynamic(
@@ -48,6 +49,9 @@ export default function Hero() {
         <div className="absolute left-[14%] top-1/2 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(123,63,228,0.28),transparent_70%)]" />
         <div className="absolute right-[14%] top-1/2 h-[34rem] w-[34rem] translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.26),transparent_70%)]" />
       </div>
+
+      {/* Gündüz: teknik çizim işaretleri + antet (koyu modda CSS ile gizli) */}
+      <HeroDrafting />
 
       {/* 3B robot maskotlar — shader'ın üstünde, metnin altında (mobilde de görünür) */}
       <div className="absolute inset-0 z-[12]">

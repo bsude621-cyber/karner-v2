@@ -158,6 +158,125 @@ html[data-theme="light"] .btn-primary:hover {
   }
 }
 
+/* ---- v7.2 "MÜHENDİS KÂĞIDI" animasyon katmanı (2026-08-22, Sude: "görselle
+   zenginleştir, farklı animasyonlar, dikkat çeken site olsun") — koyu tema etkilenmez. */
+
+/* Teknik çizim işaretleri yalnızca gündüz; yüklenince kendini çizer. */
+html:not([data-theme="light"]) .drafting {
+  display: none;
+}
+.draft-line line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draft-draw 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.draft-d1 line { animation-delay: 0.5s; }
+.draft-d2 line { animation-delay: 0.9s; }
+.draft-d3 line { animation-delay: 1.2s; }
+@keyframes draft-draw {
+  to { stroke-dashoffset: 0; }
+}
+/* Antet: ince mürekkep çerçeve + satır çizgileri; çerçeve soldan sağa "çizilir" */
+.draft-block {
+  border: 1px solid rgba(26, 20, 48, 0.45);
+  background: rgba(246, 243, 238, 0.7);
+  clip-path: inset(0 100% 0 0);
+  animation: draft-wipe 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.4s forwards;
+}
+.draft-row + .draft-row {
+  border-top: 1px solid rgba(26, 20, 48, 0.28);
+}
+@keyframes draft-wipe {
+  to { clip-path: inset(0 0 0 0); }
+}
+
+/* Hero'daki ızgara yumuşak doğar (sert yanıp sönme yok) */
+html[data-theme="light"] .hero-root {
+  animation: grid-in 1.1s ease-out both;
+}
+@keyframes grid-in {
+  from { background-position: 0 0, -1px 24px, 24px -1px, -1px 24px, 24px -1px; opacity: 0.6; }
+  to   { background-position: 0 0, -1px -1px, -1px -1px, -1px -1px, -1px -1px; opacity: 1; }
+}
+
+/* Vurgu kelimeler: gündüzde gradient yerine mürekkep + altına kalemle çekilmiş çizgi.
+   Hero'da yüklenince çizilir; bölüm başlıklarında kaydırmayla (scroll-driven). */
+html[data-theme="light"] :is(h1, h2, h3) span[class*="bg-clip-text"] {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: var(--accent);
+  position: relative;
+  display: inline-block;
+}
+html[data-theme="light"] :is(h1, h2, h3) span[class*="bg-clip-text"]::after {
+  content: "";
+  position: absolute;
+  left: 0.02em;
+  right: 0.02em;
+  bottom: 0.04em;
+  height: 0.07em;
+  background: var(--accent);
+  border-radius: 999px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  /* elle çekilmiş his: 1.2° eğim */
+  rotate: -1.2deg;
+  opacity: 0.9;
+}
+html[data-theme="light"] .hero-root h1 span[class*="bg-clip-text"]::after {
+  animation: ink-underline 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1.1s forwards;
+}
+@keyframes ink-underline {
+  to { transform: scaleX(1); }
+}
+@supports (animation-timeline: view()) {
+  html[data-theme="light"] :is(h2, h3).reveal span[class*="bg-clip-text"]::after {
+    animation: ink-underline 1ms linear both;
+    animation-timeline: view();
+    animation-range: entry 25% entry 70%;
+  }
+}
+@supports not (animation-timeline: view()) {
+  html[data-theme="light"] :is(h2, h3).reveal span[class*="bg-clip-text"]::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Bölüm ayraçları: gündüzde cetvel — ince mürekkep çizgi + tik işaretleri, ortada kare nokta */
+html[data-theme="light"] .section-divider {
+  height: 7px;
+  background:
+    linear-gradient(to right, transparent, rgba(26, 20, 48, 0.35) 15%, rgba(26, 20, 48, 0.35) 85%, transparent) center / 100% 1px no-repeat,
+    repeating-linear-gradient(to right, transparent 0 23px, rgba(26, 20, 48, 0.22) 23px 24px) center / 100% 7px no-repeat;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+html[data-theme="light"] .section-divider + span {
+  border-radius: 1px;
+  background: var(--ink);
+  box-shadow: none;
+  rotate: 45deg;
+}
+
+/* Hizmet/demo kartları: gündüzde mor parıltı yerine mürekkep gölge; hover'da hafif
+   kalkış + "çizilmiş" ikinci çerçeve (elle kaydırılmış, ±3px asimetri). */
+html[data-theme="light"] a[class*="hover:shadow-[0_24px_60px"] {
+  --tw-shadow: 0 1px 0 rgba(26, 20, 48, 0.04), 0 14px 34px -24px rgba(26, 20, 48, 0.28);
+  box-shadow: var(--tw-shadow);
+}
+html[data-theme="light"] a[class*="hover:shadow-[0_24px_60px"]:hover {
+  --tw-shadow: 0 22px 44px -22px rgba(26, 20, 48, 0.38);
+  box-shadow: var(--tw-shadow);
+  outline: 1px solid rgba(26, 20, 48, 0.35);
+  outline-offset: 4px;
+}
+
+/* Konuşma balonları ve küçük beyaz kartlar gündüzde kâğıt kartı: hafif kalem gölgesi */
+html[data-theme="light"] .btn,
+html[data-theme="light"] .draft-block {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
 /* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
    bazı kutular mor, tasarımlı dursun") — koyu tema bu kurallardan etkilenmez. */
 html[data-theme="light"] .brand-band {
