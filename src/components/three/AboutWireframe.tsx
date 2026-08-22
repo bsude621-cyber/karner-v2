@@ -61,14 +61,14 @@ function WireRobot({ mouse, progress }: Props) {
       if (!m.isMesh || !m.geometry) return;
       const a = new THREE.Mesh(m.geometry, fill);
       const e = new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry, 24), edge);
-      const w = new THREE.Mesh(m.geometry, ghost);
-      for (const x of [a, e, w]) {
+      const lite = window.matchMedia("(max-width: 767px), (pointer: coarse)").matches;
+      const parts: THREE.Object3D[] = lite ? [a, e] : [a, new THREE.Mesh(m.geometry, ghost), e];
+      for (const x of parts) {
         x.matrixAutoUpdate = false;
         x.matrix.copy(m.matrixWorld);
+        root.add(x);
       }
       e.renderOrder = 2;
-      w.renderOrder = 1;
-      root.add(a, w, e);
     });
     return root;
   }, [scene]);
@@ -173,11 +173,7 @@ export default function AboutWireframe({ className = "" }: { className?: string 
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const read = () =>
-      setLight(
-        document.documentElement.dataset.theme === "light" &&
-          window.matchMedia("(min-width: 1024px)").matches
-      );
+    const read = () => setLight(document.documentElement.dataset.theme === "light");
     read();
     const mo = new MutationObserver(read);
     mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
@@ -224,7 +220,7 @@ export default function AboutWireframe({ className = "" }: { className?: string 
         <Canvas
           frameloop="always"
           camera={{ position: [0, 0.05, 5.4], fov: 34 }}
-          dpr={[1, 1.5]}
+          dpr={window.matchMedia("(max-width: 767px), (pointer: coarse)").matches ? [1, 1] : [1, 1.5]}
           gl={{ antialias: true, alpha: true, powerPreference: "low-power" }}
         >
           <WireRobot mouse={mouse} progress={progress} />

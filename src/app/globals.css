@@ -584,9 +584,11 @@ html[data-theme="light"] .showreel-frame:hover {
   html[data-theme="light"] #hizmetler a[class*="hover:shadow-[0_24px_60px"] img { filter: none; }
   .showreel-track { animation-duration: 80s; }
 }
-@media (max-width: 1023px) {
-  /* teknik çizim paneli yalnızca masaüstü (3. WebGL sahnesi mobilde kurulmaz) */
-  html[data-theme="light"] .about-draw { display: none; }
+@media (max-width: 639px) {
+  /* Dar ekranda teknik çizim kalır (Sude: "mobilde teknik çizim niye yok") ama
+     açıklama etiketleri çizimin üstüne bindiği için gizli; ölçüler + etiket kalır */
+  html[data-theme="light"] .about-call { display: none; }
+  html[data-theme="light"] .about-draw { height: 19rem; }
 }
 
 /* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
