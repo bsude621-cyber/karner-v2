@@ -33,7 +33,7 @@ export default function AboutTeaser() {
 
           {/* Gündüzde iki sütun (kart + teknik çizim), koyuda tek sütun kart */}
           <div className="about-grid relative w-full max-w-5xl">
-            <div className="about-sheet reveal w-full max-w-2xl overflow-hidden rounded-2xl bg-gradient-to-b from-white/25 via-white/10 to-white/5 p-[1px] shadow-[0_16px_50px_-16px_rgba(0,0,0,0.85)]">
+            <div className="about-sheet reveal mx-auto w-full max-w-2xl overflow-hidden rounded-2xl bg-gradient-to-b from-white/25 via-white/10 to-white/5 p-[1px] shadow-[0_16px_50px_-16px_rgba(0,0,0,0.85)]">
               <div className="relative rounded-[15px] bg-gradient-to-b from-(--card-top) to-(--card-bottom) px-6 py-10 text-center backdrop-blur-xl sm:px-10">
                 <div className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
