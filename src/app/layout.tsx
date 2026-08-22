@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Orbitron } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
+import ScrollRuler from "@/components/ScrollRuler";
 import DeferredMount from "@/components/DeferredMount";
 import SiteNav from "@/components/SiteNav";
 import { Analytics } from "@vercel/analytics/next";
@@ -104,6 +105,7 @@ export default function RootLayout({
         {/* Saf süsleme — kritik yol dışında, idle/etkileşim sonrası gelir */}
         <DeferredMount>
           <CustomCursor />
+          <ScrollRuler />
         </DeferredMount>
         <SiteNav />
         <SmoothScroll>{children}</SmoothScroll>

@@ -429,6 +429,106 @@ html[data-theme="light"] .about-draw::before {
   pointer-events: none;
 }
 
+/* ---- v7.6 SİTE GENELİ ŞOV KATMANI (gündüz) — 2026-08-22 ---- */
+
+/* A) Sağ kenar cetveli (ScrollRuler) */
+.scroll-ruler-bar { background: rgba(26, 20, 48, 0.35); }
+.scroll-ruler-ticks {
+  background: repeating-linear-gradient(to bottom, transparent 0 11px, rgba(26, 20, 48, 0.3) 11px 12px);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000);
+  mask-image: linear-gradient(to right, transparent, #000);
+}
+.scroll-ruler-mark { color: var(--ink); transform: translateY(-50%); }
+.scroll-ruler-dash { background: rgba(26, 20, 48, 0.6); }
+.scroll-ruler-label {
+  background: rgba(246, 243, 238, 0.9);
+  padding: 2px 6px;
+  border: 1px solid rgba(26, 20, 48, 0.25);
+  white-space: nowrap;
+}
+.scroll-ruler-cursor {
+  background: var(--accent);
+  rotate: 45deg;
+  box-shadow: 0 0 0 3px rgba(246, 243, 238, 0.9);
+}
+.scroll-ruler-pct {
+  rotate: -45deg;
+  color: var(--accent);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  background: rgba(246, 243, 238, 0.85);
+  padding: 0 3px;
+}
+
+/* B) Bölüm numaraları: eyebrow'ların önüne "§ 01 ·" (ana sayfa bölümleri, yalnızca gündüz) */
+html[data-theme="light"] main { counter-reset: sec; }
+html[data-theme="light"] main section[id] { counter-increment: sec; }
+html[data-theme="light"] main section[id] p.reveal.uppercase::before {
+  content: "§ " counter(sec, decimal-leading-zero) "  ·  ";
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  letter-spacing: 0.2em;
+  opacity: 0.75;
+}
+
+/* C) Hizmet kartları: gündüzde görsel mürekkep-duotone; hover'da renk geri gelir
+   ("çizimden gerçeğe") + etiket çipleri mürekkep */
+html[data-theme="light"] #hizmetler a[class*="hover:shadow-[0_24px_60px"] img {
+  filter: grayscale(1) contrast(1.08) brightness(1.02) sepia(0.18) hue-rotate(225deg) saturate(1.4);
+  transition: filter 0.6s ease, transform 0.5s ease-out;
+}
+html[data-theme="light"] #hizmetler a[class*="hover:shadow-[0_24px_60px"]:hover img {
+  filter: none;
+}
+html[data-theme="light"] #hizmetler a[class*="hover:shadow-[0_24px_60px"] span[class*="bg-black/30"] {
+  background: rgba(246, 243, 238, 0.92);
+  border-color: rgba(26, 20, 48, 0.35);
+  color: var(--ink-solid, #1a1430);
+  --paper: #1a1430; /* çipteki text-paper → mürekkep */
+}
+html[data-theme="light"] #hizmetler a[class*="hover:shadow-[0_24px_60px"]:hover span[class*="bg-black/30"] {
+  background: #1a1430;
+  --paper: #ffffff;
+  border-color: #1a1430;
+}
+
+/* D) Demo kartları (video): gündüzde ince mürekkep çerçeve + iki köşe kesim işareti */
+html[data-theme="light"] #isler article,
+html[data-theme="light"] #isler [class*="rounded-2xl"][class*="border"] {
+  border-color: rgba(26, 20, 48, 0.14);
+}
+html[data-theme="light"] #isler [class*="aspect-video"] {
+  position: relative;
+}
+html[data-theme="light"] #isler [class*="aspect-video"]::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(246, 243, 238, 0.35);
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0) border-box;
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  clip-path: polygon(0 0, 18px 0, 18px 1px, 1px 1px, 1px 18px, 0 18px, 0 0);
+  opacity: 0;
+}
+
+/* E) SSS: numaralı sorular (01., 02.…) + açık durumda mürekkep sol şerit */
+html[data-theme="light"] #sss details { counter-increment: faq; }
+html[data-theme="light"] #sss { counter-reset: faq; }
+html[data-theme="light"] #sss summary h3::before {
+  content: counter(faq, decimal-leading-zero) ". ";
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.8em;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-right: 0.5rem;
+}
+html[data-theme="light"] #sss details[open] {
+  box-shadow: inset 3px 0 0 var(--accent), 0 1px 0 rgba(26, 20, 48, 0.04), 0 14px 34px -24px rgba(26, 20, 48, 0.28);
+}
+html[data-theme="light"] #sss details p {
+  color: rgba(26, 20, 48, 0.78);
+}
+
 /* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
    bazı kutular mor, tasarımlı dursun") — koyu tema bu kurallardan etkilenmez. */
 html[data-theme="light"] .brand-band {
