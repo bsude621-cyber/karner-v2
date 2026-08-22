@@ -41,11 +41,18 @@ html[data-theme="light"] {
   --card-top: rgba(255, 255, 255, 0.46);
   --card-bottom: rgba(255, 255, 255, 0.3);
   --wordmark: #3b2a78;
-  --footer-bg: radial-gradient(120% 90% at 10% 0%, rgba(255, 255, 255, 0.22) 0%, transparent 55%),
-    linear-gradient(135deg, #6d4fc9 0%, #5a3bb8 55%, #4b2fa8 100%);
-  --footer-surface: transparent;
-  --footer-accent: #ffffff;
+  /* Footer = koyu moddaki tonun aynısı (Sude 2026-08-22: "KARNER yazısının olduğu
+     yerdeki mor tonu istiyorum"): gece zemini + alt kenara doğru koyu menekşe hâle.
+     Gündüz zemini saydam olmadığından opak eşdeğeri yazıldı. */
+  --footer-bg: radial-gradient(125% 125% at 50% 10%, #07060d 45%, #22143f 100%);
+  --footer-surface: #07060d;
+  --footer-accent: var(--accent);
   color-scheme: light;
+}
+/* Footer gündüzde de koyu: içindeki "white" yardımcıları (KARNER kontur, çizgiler)
+   beyaza dönsün. */
+html[data-theme="light"] footer {
+  --ink: #ffffff;
 }
 
 /* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
