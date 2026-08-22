@@ -122,7 +122,7 @@ export function DottedSurface({
 
       const applyTheme = () => {
         // vertexColors × material.color: açıkta koyu-mor çarpan, koyuda nötr
-        if (isLight()) material.color.setRGB(0.42, 0.28, 0.7);
+        if (isLight()) material.color.setRGB(0.23, 0.12, 0.48); // v7 mürekkep menekşe
         else material.color.setRGB(1, 1, 1);
         scene.fog = isLight() ? null : new THREE.Fog(BRAND.fog, 1800, 9000);
       };

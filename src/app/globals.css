@@ -31,28 +31,36 @@
 /* GÜNDÜZ MODU — beyaz ağırlıklı. data-theme'i <body> başındaki satır içi
    script (sistem tercihi / localStorage) ve ThemeToggle yönetir. */
 html[data-theme="light"] {
-  /* "LAVENDER FUTURE" (Sude referans pin, 2026-08-21): tüm sayfa lavanta-lila degrade,
-     buzlu beyaz cam kartlar, koyu erik-gri metin, mor vurgu; siyah bölüm yok. */
-  --background: #e9e3f6;
-  --foreground: #2b2540;
-  --ink: #2b2540;
-  --accent-light: #6d4fc9;
-  --silver: #6f6a82;
-  --card-top: rgba(255, 255, 255, 0.46);
-  --card-bottom: rgba(255, 255, 255, 0.3);
-  --wordmark: #3b2a78;
+  /* v7 "KÂĞIT + MÜREKKEP" (2026-08-22, Sude "başla"): zemin düz sıcak kırık beyaz
+     (degrade yok — AI klişesi yok), mürekkep = koyu menekşe (tüm bloklar, butonlar,
+     vurgu kelimeler, nav aktif), parlak mor yalnızca robotların kendi rengi.
+     İki renk, bir kural. Önceki v6 "Lavender Future" geçildi. */
+  --background: #f6f3ee;
+  --foreground: #1a1430;
+  --ink: #1a1430;
+  /* Tailwind accent yardımcıları (btn-primary, border-accent/…, from-accent…) gündüzde
+     mürekkep menekşeye döner; parlak #7b3fe4 yalnızca koyu modda ve robot dokusunda. */
+  --accent: #3b1f7a;
+  --accent-2: #22143f;
+  --accent-light: #47178e;
+  --silver: #6b6578;
+  --card-top: #ffffff;
+  --card-bottom: #fbfaf7;
+  --wordmark: #1a1430;
   /* Footer = koyu moddaki tonun aynısı (Sude 2026-08-22: "KARNER yazısının olduğu
      yerdeki mor tonu istiyorum"): gece zemini + alt kenara doğru koyu menekşe hâle.
      Gündüz zemini saydam olmadığından opak eşdeğeri yazıldı. */
-  --footer-bg: radial-gradient(125% 125% at 50% 10%, #07060d 45%, #22143f 100%);
-  --footer-surface: #07060d;
-  --footer-accent: var(--accent);
+  --footer-bg: radial-gradient(125% 125% at 50% 10%, #0b0816 45%, #22143f 100%);
+  --footer-surface: #0b0816;
+  --footer-accent: #a371ff;
   color-scheme: light;
 }
 /* Footer gündüzde de koyu: içindeki "white" yardımcıları (KARNER kontur, çizgiler)
    beyaza dönsün. */
 html[data-theme="light"] footer {
   --ink: #ffffff;
+  --accent: #7b3fe4;
+  --accent-light: #a371ff;
 }
 
 /* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
@@ -61,6 +69,7 @@ html[data-theme="light"] .brand-band {
   /* Footer ile aynı ton (Sude 2026-08-22: "diğer butonlardaki ton da bu olsun"):
      gece zemini + kenara doğru koyu menekşe hâle. İçindeki "white" yardımcıları beyaz. */
   --ink: #ffffff;
+  --accent-light: #a371ff;
   background: var(--footer-bg);
   border-color: rgba(255, 255, 255, 0.12);
   color: #fff;
@@ -112,9 +121,11 @@ html[data-theme="light"] [class*="bg-accent/30"][class*="blur-2xl"]:not(.night-s
    (@theme inline sayesinde) var(--ink)/var(--background) okuduğu için bölüm birebir
    koyu moddaki gibi görünür. Ana sayfa: Demo siteleri + Hakkımızda. */
 html[data-theme="light"] .night-section {
-  --background: #07060d;
+  --background: #0b0816;
   --foreground: #f2f3f7;
   --ink: #ffffff;
+  --accent: #7b3fe4;
+  --accent-2: #4b1d96;
   --accent-light: #a371ff;
   --silver: #a6a9ad;
   --card-top: rgba(18, 10, 28, 0.95);
@@ -144,15 +155,9 @@ html[data-theme="light"] .logo-emblem {
    geçişi: lila, pembe, buz mavisi bulutlar + iki kat minik yıldız noktası. Açık
    bölümlerin düz zemini saydamlaştırılır ki gövdedeki geçiş görünsün. */
 html[data-theme="light"] body {
-  /* lavanta → lila degrade + yumuşak ışık lekeleri (sabit) */
-  background-color: #ddd3f1;
-  background-image:
-    radial-gradient(55% 40% at 18% 8%, rgba(255, 255, 255, 0.55) 0%, transparent 60%),
-    radial-gradient(50% 40% at 85% 28%, rgba(170, 140, 235, 0.35) 0%, transparent 62%),
-    radial-gradient(60% 45% at 50% 62%, rgba(255, 255, 255, 0.22) 0%, transparent 65%),
-    radial-gradient(50% 40% at 10% 88%, rgba(160, 130, 230, 0.32) 0%, transparent 62%),
-    linear-gradient(180deg, #efe9fa 0%, #e3daf5 30%, #d8cbf0 62%, #cdbeeb 100%);
-  background-attachment: fixed;
+  /* v7: düz kâğıt — degrade/nebula/ışık lekesi YOK */
+  background-color: var(--background);
+  background-image: none;
 }
 html[data-theme="light"] :is(section, main, div)[class*="bg-background"]:not(header *):not(.night-section),
 html[data-theme="light"] .tint-section {
@@ -161,20 +166,20 @@ html[data-theme="light"] .tint-section {
 }
 /* Buzlu beyaz kartlar (referans görseldeki gibi): koyu temadaki %3-6 beyaz cam yüzeyler
    gündüzde yarı saydam beyaz + hafif mor gölge olur. Sınıf adına göre eşleşir. */
-html[data-theme="light"] [class*="bg-white/[0.03]"]:not(.night-section *),
-html[data-theme="light"] [class*="bg-white/[0.05]"]:not(.night-section *),
-html[data-theme="light"] [class*="bg-white/[0.06]"]:not(.night-section *),
-html[data-theme="light"] [class*="bg-white/5"]:not(.night-section *) {
-  background-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 14px 40px -24px rgba(75, 47, 168, 0.35);
+html[data-theme="light"] [class*="bg-white/[0.03]"]:not(.night-section *):not(.brand-band *),
+html[data-theme="light"] [class*="bg-white/[0.05]"]:not(.night-section *):not(.brand-band *),
+html[data-theme="light"] [class*="bg-white/[0.06]"]:not(.night-section *):not(.brand-band *),
+html[data-theme="light"] [class*="bg-white/5"]:not(.night-section *):not(.brand-band *) {
+  background-color: #ffffff;
+  box-shadow: 0 1px 0 rgba(26, 20, 48, 0.04), 0 14px 34px -24px rgba(26, 20, 48, 0.28);
 }
-html[data-theme="light"] [class*="border-white/10"]:not(.night-section *) {
-  border-color: rgba(255, 255, 255, 0.65);
+html[data-theme="light"] [class*="border-white/10"]:not(.night-section *):not(.brand-band *):not(footer *) {
+  border-color: rgba(26, 20, 48, 0.12);
 }
 /* Form alanları */
 html[data-theme="light"] :is(input, textarea, select)[class*="bg-white"] {
-  background-color: rgba(255, 255, 255, 0.6);
-  border-color: rgba(255, 255, 255, 0.8);
+  background-color: #ffffff;
+  border-color: rgba(26, 20, 48, 0.16);
 }
 
 @theme inline {
