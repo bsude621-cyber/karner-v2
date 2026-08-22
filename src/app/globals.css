@@ -106,18 +106,18 @@ html[data-theme="light"] .night-section {
   --silver: #a6a9ad;
   --card-top: rgba(18, 10, 28, 0.95);
   --card-bottom: rgba(10, 6, 17, 0.95);
-  /* Gölgeleme = footer/marka bandı tonu (gece zemini + koyu menekşe hâle), üst ve alt
-     ~260 px'te lavanta zeminden eriyerek girer/çıkar; sert kenar yok. Ana sayfada
-     Hakkımızda (yıldız alanı) bölümü — Sude 2026-08-22: "yıldızlar belli olsun". */
+  /* Gölgeleme = footer/marka bandı tonu (gece zemini + koyu menekşe hâle); ağırlık
+     ALTTA (Sude 2026-08-22: "gölge ortada değil altta olsun"): üstten uzun erimeyle
+     koyulaşır, en altta kısa erimeyle lavantaya döner. Ana sayfada Hakkımızda bölümü. */
   background:
-    radial-gradient(70% 55% at 50% 50%, rgba(123, 63, 228, 0.14) 0%, transparent 70%),
+    radial-gradient(70% 55% at 50% 70%, rgba(123, 63, 228, 0.14) 0%, transparent 70%),
     linear-gradient(
       180deg,
       rgba(34, 20, 63, 0) 0%,
-      rgba(34, 20, 63, 0.55) 120px,
-      #0b0816 260px,
-      #0b0816 calc(100% - 260px),
-      rgba(34, 20, 63, 0.55) calc(100% - 120px),
+      rgba(34, 20, 63, 0.35) 30%,
+      #0b0816 58%,
+      #0b0816 calc(100% - 120px),
+      rgba(34, 20, 63, 0.5) calc(100% - 50px),
       rgba(34, 20, 63, 0) 100%
     );
   color: var(--foreground);
