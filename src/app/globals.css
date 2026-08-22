@@ -142,7 +142,7 @@ html[data-theme="light"] .btn-primary:hover {
 }
 ::view-transition-new(root) {
   z-index: 2;
-  animation: theme-wash 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: theme-wash var(--wash-dur, 0.7s) cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 @keyframes theme-wash {
   from {
@@ -152,11 +152,7 @@ html[data-theme="light"] .btn-primary:hover {
     clip-path: circle(var(--wash-r, 150vmax) at var(--wash-x, 50%) var(--wash-y, 0%));
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-new(root) {
-    animation: none;
-  }
-}
+/* Hareketi azalt: dalga kalır ama kısa (JS --wash-dur'u 0.35s yapar) */
 
 /* ---- v7.2 "MÜHENDİS KÂĞIDI" animasyon katmanı (2026-08-22, Sude: "görselle
    zenginleştir, farklı animasyonlar, dikkat çeken site olsun") — koyu tema etkilenmez. */

@@ -33,15 +33,15 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
       }
       setTheme(next);
     };
-    // Dairesel "mürekkep/kâğıt" dalgası: düğmenin merkezinden yayılır (View Transitions).
+    // Dairesel "mürekkep/kâğıt" dalgası: düğmenin merkezinden yayılır.
+    // 1) Tarayıcı View Transitions destekliyorsa (Chrome/Edge/Safari 18+) onunla,
+    // 2) desteklemiyorsa (eski iOS vb.) aynı efekt fixed bir katmanla (WAAPI) — mobilde
+    //    de görünsün (Sude 2026-08-23: "mod değişim hareketi mobilde yok").
+    // "Hareketi azalt" açıkken daha kısa (0.35 s) ama yine var.
     const doc = document as Document & {
       startViewTransition?: (cb: () => void) => { finished: Promise<void> };
     };
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!doc.startViewTransition || reduce) {
-      apply();
-      return;
-    }
     const r = e.currentTarget.getBoundingClientRect();
     const x = r.left + r.width / 2;
     const y = r.top + r.height / 2;
@@ -50,7 +50,33 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
     root.style.setProperty("--wash-x", `${x}px`);
     root.style.setProperty("--wash-y", `${y}px`);
     root.style.setProperty("--wash-r", `${radius}px`);
-    doc.startViewTransition(apply);
+    root.style.setProperty("--wash-dur", reduce ? "0.35s" : "0.7s");
+    if (doc.startViewTransition) {
+      doc.startViewTransition(apply);
+      return;
+    }
+    // Yedek: hedef tema renginde daire büyür, tepe noktasında tema değişir, katman silinir
+    const overlay = document.createElement("div");
+    overlay.setAttribute("aria-hidden", "true");
+    Object.assign(overlay.style, {
+      position: "fixed",
+      inset: "0",
+      zIndex: "2147483646",
+      pointerEvents: "none",
+      background: next === "light" ? "#f6f3ee" : "#05060a",
+      clipPath: `circle(0px at ${x}px ${y}px)`,
+    } as CSSStyleDeclaration);
+    document.body.appendChild(overlay);
+    const dur = reduce ? 350 : 650;
+    const grow = overlay.animate(
+      [{ clipPath: `circle(0px at ${x}px ${y}px)` }, { clipPath: `circle(${radius}px at ${x}px ${y}px)` }],
+      { duration: dur, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "forwards" }
+    );
+    grow.onfinish = () => {
+      apply();
+      const fade = overlay.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, fill: "forwards" });
+      fade.onfinish = () => overlay.remove();
+    };
   };
 
   const label = theme === "dark" ? "Gündüz moduna geç" : "Gece moduna geç";
