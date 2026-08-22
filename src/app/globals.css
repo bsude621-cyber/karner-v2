@@ -58,12 +58,13 @@ html[data-theme="light"] footer {
 /* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
    bazı kutular mor, tasarımlı dursun") — koyu tema bu kurallardan etkilenmez. */
 html[data-theme="light"] .brand-band {
-  /* derin menekşe cam blok — referanstaki koyu proje kartları gibi */
-  background: radial-gradient(120% 90% at 12% 0%, rgba(255, 255, 255, 0.22) 0%, transparent 55%),
-    linear-gradient(135deg, #6d4fc9 0%, #5a3bb8 55%, #4b2fa8 100%);
-  border-color: rgba(255, 255, 255, 0.28);
+  /* Footer ile aynı ton (Sude 2026-08-22: "diğer butonlardaki ton da bu olsun"):
+     gece zemini + kenara doğru koyu menekşe hâle. İçindeki "white" yardımcıları beyaz. */
+  --ink: #ffffff;
+  background: var(--footer-bg);
+  border-color: rgba(255, 255, 255, 0.12);
   color: #fff;
-  box-shadow: 0 22px 50px -24px rgba(75, 47, 168, 0.55);
+  box-shadow: 0 22px 50px -24px rgba(34, 20, 63, 0.55);
 }
 html[data-theme="light"] .brand-band :is(h2, h3, strong) {
   color: #fff;
@@ -81,8 +82,8 @@ html[data-theme="light"] .brand-band .btn-secondary:hover {
 html[data-theme="light"] .brand-band .btn-primary,
 html[data-theme="light"] .brand-band .band-cta {
   background: #fff;
-  color: #4b2fa8;
-  box-shadow: 0 10px 30px -10px rgba(75, 47, 168, 0.3);
+  color: #22143f;
+  box-shadow: 0 10px 30px -10px rgba(34, 20, 63, 0.35);
 }
 /* Gündüz modunda dekoratif mor hâle/gölge YOK (Sude 2026-08-21: "Demo sitelerimiz'deki
    mor gölge gibi şeyler istemiyorum"): sayfa başlıkları, bölüm zeminleri, hero hâleleri,
