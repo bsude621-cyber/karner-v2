@@ -17,6 +17,7 @@ const benefits: Record<string, string> = {
   "seo-geo-aeo": "Google + ChatGPT'de aynı anda görünür",
   "otomasyon-sistemleri": "Tekrarlayan işlere son, zaman kazanın",
   "marka-grafik-tasarim": "Her yüzeyde tutarlı marka",
+  "sosyal-medya-icerik-yonetimi": "Takvimli, düzenli, markaya uygun içerik",
 };
 
 export default function ServicesSection() {
