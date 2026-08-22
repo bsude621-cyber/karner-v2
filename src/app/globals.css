@@ -585,10 +585,34 @@ html[data-theme="light"] .showreel-frame:hover {
   .showreel-track { animation-duration: 80s; }
 }
 @media (max-width: 639px) {
-  /* Dar ekranda teknik çizim kalır (Sude: "mobilde teknik çizim niye yok") ama
-     açıklama etiketleri çizimin üstüne bindiği için gizli; ölçüler + etiket kalır */
-  html[data-theme="light"] .about-call { display: none; }
-  html[data-theme="light"] .about-draw { height: 19rem; }
+  /* Dar ekranda teknik çizim kalır; açıklama etiketleri çizimin ALTINDA üç sütun
+     (Sude: "yazılar yok ama"), ok çizgileri/noktalar mobilde gizli, ölçüler kalır */
+  html[data-theme="light"] .about-draw { height: 25rem; }
+  html[data-theme="light"] .about-draw > div[class*="inset-0"],
+  html[data-theme="light"] .about-draw > svg.about-dims { bottom: 5.5rem; height: auto; }
+  html[data-theme="light"] .about-dims .about-l1,
+  html[data-theme="light"] .about-dims .about-l2,
+  html[data-theme="light"] .about-dims .about-l3 { display: none; }
+  html[data-theme="light"] .about-call {
+    top: auto !important;
+    bottom: 0;
+    right: auto;
+    max-width: none;
+    width: 31%;
+    font-size: 10px;
+    gap: 0.1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(26, 20, 48, 0.25);
+    animation: none;
+    opacity: 1;
+    translate: 0 0;
+  }
+  html[data-theme="light"] .about-call .about-title { font-size: 11px; }
+  html[data-theme="light"] .about-call .about-sub { font-size: 9.5px; line-height: 1.3; }
+  html[data-theme="light"] .about-call.about-l1 { left: 0; }
+  html[data-theme="light"] .about-call.about-l2 { left: 34.5%; }
+  html[data-theme="light"] .about-call.about-l3 { left: 69%; }
+  html[data-theme="light"] .about-tag { top: 0; right: 0; }
 }
 
 /* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
