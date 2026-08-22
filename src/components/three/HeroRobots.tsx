@@ -207,8 +207,14 @@ function Rig({
       <directionalLight position={[-4, 2, 3]} intensity={1.1} color="#ffffff" />
 
       {/* arkadan hafif mor kenar ışığı — silüeti ayırır, renkleri boyamaz */}
-      <pointLight position={[-2.8, 0.9, -1.5]} intensity={10} distance={7} decay={2} color="#7B3FE4" />
-      <pointLight position={[2.8, 0.9, -1.5]} intensity={10} distance={7} decay={2} color="#A78BFA" />
+      {/* MOBİL HAFİFLETME (2026-08-23): nokta ışıklar yok, ortam haritası 64px ve 3 panel,
+          temas gölgesi tek kare (statik) 128px, dpr 1, 24 fps. Görünüm korunur, yük düşer. */}
+      {!mobile && (
+        <>
+          <pointLight position={[-2.8, 0.9, -1.5]} intensity={10} distance={7} decay={2} color="#7B3FE4" />
+          <pointLight position={[2.8, 0.9, -1.5]} intensity={10} distance={7} decay={2} color="#A78BFA" />
+        </>
+      )}
 
       {/* ortam: RENKLİ stüdyo (2026-08-21, "daha canlı dursun") — krom yansıttığı
           kadar renklidir; beyaz paneller gri robot veriyordu. Üstte beyaz anahtar
@@ -216,12 +222,16 @@ function Rig({
           soğuk buz-camgöbeği kicker → gövdede mor→beyaz→camgöbeği geçişleri.
           Mat yüzeyler (saç, kumaş) ortamı çok az yansıttığı için renkleri
           BOYANMAZ — daha önce geri alınan renkli ışık sorunu yaşanmaz. */}
-      <Environment resolution={128}>
+      <Environment resolution={mobile ? 64 : 128}>
         <Lightformer form="rect" intensity={4} position={[0, 3.2, 3]} scale={[10, 3.5, 1]} color="#ffffff" />
         <Lightformer form="rect" intensity={3.2} position={[-6, 1, 2]} scale={[3, 7, 1]} color="#8B5CF6" />
         <Lightformer form="rect" intensity={2.8} position={[6, 0.5, 1.5]} scale={[3, 7, 1]} color="#D8B4FE" />
-        <Lightformer form="rect" intensity={2.2} position={[0, -3, 2]} scale={[8, 2, 1]} color="#67E8F9" />
-        <Lightformer form="ring" intensity={1.6} position={[0, 1, -5]} scale={[6, 6, 1]} color="#C084FC" />
+        {!mobile && (
+          <>
+            <Lightformer form="rect" intensity={2.2} position={[0, -3, 2]} scale={[8, 2, 1]} color="#67E8F9" />
+            <Lightformer form="ring" intensity={1.6} position={[0, 1, -5]} scale={[6, 6, 1]} color="#C084FC" />
+          </>
+        )}
       </Environment>
 
       {/* robotları yere oturtan yumuşak gölge (mor tonlu) */}
@@ -234,8 +244,8 @@ function Rig({
         blur={2.2}
         opacity={0.8}
         color="#1a0a33"
-        resolution={256}
-        frames={120}
+        resolution={mobile ? 128 : 256}
+        frames={mobile ? 1 : 120}
       />
       {/* ayakların altında hafif mor zemin halkası — robotlar bir yüzeyde durur */}
       {[-x, x].map((px) => (
@@ -308,14 +318,14 @@ export default function HeroRobots({ className = "" }: { className?: string }) {
         key={mobile ? "m" : "d"}
         frameloop={visible ? "demand" : "never"}
         camera={{ position: [0, 0.15, mobile ? 8.2 : 6.2], fov: 38 }}
-        dpr={mobile ? [1, 1.25] : [1, 1.5]}
+        dpr={mobile ? [1, 1] : [1, 1.5]}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         onCreated={({ gl }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.2;
         }}
       >
-        <FrameLimiter fps={mobile ? 30 : 60} active={visible} />
+        <FrameLimiter fps={mobile ? 24 : 60} active={visible} />
         <Rig mouse={mouse} mobile={mobile} />
       </Canvas>
     </div>
