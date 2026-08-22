@@ -19,6 +19,8 @@ export type CaseStudy = {
   url?: string;
   image: { src: string; alt: string; width: number; height: number };
   video?: { src: string; poster: string; name: string; description: string; uploadDate: string; duration: string };
+  /** Çoklu film galerisi (dikey reklam filmleri vb.) — her biri ayrı VideoObject */
+  videos?: { src: string; poster: string; name: string; description: string; uploadDate: string; duration: string }[];
   services: string[];
   stack: string[];
   /** Kısa "sorun → yapılan → sonuç" şeridi */
@@ -185,6 +187,114 @@ export const cases: CaseStudy[] = [
     ],
     published: "2026-08-20",
     modified: "2026-08-20",
+  },
+  {
+    slug: "bns-enerji-klima-reklam-filmleri",
+    client: "BNS Enerji & Doğalgaz",
+    sector: "Klima satışı — yapay zekâ reklam filmleri",
+    location: "Polatlı / Ankara",
+    title: "BNS Enerji: klima sezonu için dört dikey yapay zekâ reklam filmi",
+    seoTitle: "BNS Enerji Klima Reklam Filmleri — Yapay Zekâ ile Üretilen Dikey Reels | KARNER",
+    seoDescription:
+      "Polatlı'da Bosch klima satan BNS Enerji için Instagram Reels ve WhatsApp Durumu'na göre üretilen dört dikey reklam filmi: gerçek ürün görseli, yapay zekâ ile üretilen sahneler, FFmpeg montaj ve marka kapanış kartı.",
+    summary:
+      "BNS Enerji'nin klima sezonu için, stüdyo çekimi olmadan dört dikey reklam filmi ürettik: yapay zekâ ile üretilen sahneler, BNS'in sattığı Bosch klimanın gerçek ürün görseli, yazı ve müzikle kurulan anlatım, her filmde aynı marka kapanış kartı. Filmler Instagram Reels ve WhatsApp Durumu için 9:16 hazırlandı.",
+    url: "https://bnsenerjidogalgaz.com",
+    image: { src: "/isler/is-bns-reklam.webp", alt: "BNS Enerji için üretilen dört dikey reklam filminden kareler", width: 1280, height: 800 },
+    videos: [
+      {
+        src: "/isler/bns-reklam/uyku.mp4",
+        poster: "/isler/bns-reklam/uyku-poster.jpg",
+        name: "Sıcak uyutmuyor — bölünmüş ekran reklam filmi",
+        description: "Sıcakta uyuyamayan ve klimalı odada uyuyan aynı kişi; hareketli yazıyla 'Serin uykunun adresi belli: BNS Enerji' kapanışı.",
+        uploadDate: "2026-07-18",
+        duration: "PT17S",
+      },
+      {
+        src: "/isler/bns-reklam/krem.mp4",
+        poster: "/isler/bns-reklam/krem-poster.jpg",
+        name: "Klima almanın tam zamanı — ürün vurgulu film",
+        description: "Servis yoğunluğu başlamadan ve fiyatlar güncellenmeden önce klima almayı anlatan film; BNS'in sattığı Bosch klimanın gerçek görseli krem duvarda yeniden sahnelendi.",
+        uploadDate: "2026-06-06",
+        duration: "PT19S",
+      },
+      {
+        src: "/isler/bns-reklam/amber.mp4",
+        poster: "/isler/bns-reklam/amber-poster.jpg",
+        name: "Bu sıcağa katlanmayın — sorun-çözüm filmi",
+        description: "Sıcak odada bunalan, BNS'i arayan ve klimasına kavuşan kişi; ürün sahnesi odanın sıcak tonuyla eşleştirildi.",
+        uploadDate: "2026-06-06",
+        duration: "PT21S",
+      },
+      {
+        src: "/isler/bns-reklam/buz.mp4",
+        poster: "/isler/bns-reklam/buz-poster.jpg",
+        name: "Klima sezonu başladı — buz kırılma teaser'ı",
+        description: "Buzun içinden çıkan Bosch klima ve 'BNS Enerji hazır, sen yaza hazır mısın?' yazıları; koyu mavi kapanış kartı.",
+        uploadDate: "2026-06-06",
+        duration: "PT12S",
+      },
+    ],
+    services: ["ai-video-reklam", "sosyal-medya-icerik-yonetimi"],
+    stack: ["Veo 3 (Flow)", "Kling (görüntüden video)", "Flux Kontext (ürün sahneleme)", "Adobe Firefly", "FFmpeg montaj", "Telifsiz müzik (Mixkit)"],
+    facts: [
+      { label: "Başlangıç", value: "Klima sezonu için sosyal medyaya video gerekiyordu; çekim ekibi ve stüdyo yoktu" },
+      { label: "Kurulan", value: "4 dikey reklam filmi (12-21 sn) — yapay zekâ sahneleri + gerçek ürün görseli + ortak kapanış kartı" },
+      { label: "Kullanım", value: "Instagram Reels ve WhatsApp Durumu için 9:16; her film tek başına yayınlanabilir" },
+    ],
+    blocks: [
+      { type: "h2", text: "İhtiyaç neydi?" },
+      {
+        type: "p",
+        text: "BNS Enerji Polatlı'da Bosch klima satıyor; sezon başında sosyal medyada ürünü ve doğru zamanlamayı anlatan kısa videolar gerekiyordu. Gerçek çekim yapacak ekip, oyuncu ve stüdyo yoktu. Hedef: telefonda izlenen, ilk saniyede tutan, ürünü doğru gösteren dikey filmler.",
+      },
+      { type: "h2", text: "Ne ürettik?" },
+      {
+        type: "ul",
+        items: [
+          "**Dört ayrı film, dört ayrı açı** — bölünmüş ekran (sıcak/serin uyku), ürün vurgusu (\"Klima almanın tam zamanı\"), sorun-çözüm hikâyesi (bunalan kişi BNS'i arıyor) ve buz kırılma teaser'ı.",
+          "**Gerçek ürün, yapay zekâ sahne** — BNS'in sattığı Bosch klimanın gerçek fotoğrafı korunarak yapay zekâ ile yeniden sahnelendi (krem ve sıcak tonlu duvar), sonra görüntüden videoya dönüştürüldü; logo ve ürün formu bozulmadı.",
+          "**İnsanlı sahnelerde tutarlılık** — her filmde tek karakter ve tek mekân; farklı filmlerdeki kişiler karıştırılmadı.",
+          "**Yazı ve müzikle anlatım** — seslendirme yok; kısa, düz reklam cümleleri (\"Servis yoğunluğu başlamadan\", \"Bu sıcağa katlanmayın\") ve telifsiz müzik.",
+          "**Ortak kapanış kartı** — BNS logosu, telefon ve site adresiyle her filmde aynı marka kapanışı; abartılı iddia ve fiyat yok.",
+          "**Montaj** — geçişler, yazı animasyonları, ses miksajı ve 9:16 teslim FFmpeg ile; yapay zekâ araçlarının filigranları temizlendi, BNS logosu bindirildi.",
+        ],
+      },
+      { type: "h2", text: "Neye dikkat ettik?" },
+      {
+        type: "ul",
+        items: [
+          "Yapay zekâ görüntülerinde en çok göze batan hatalar (eriyen el, uçuşan perde, bozulan logo) için her klip tek tek elendi; zayıf klipler filme girmedi.",
+          "Reklam dili sakin tutuldu: \"hemen al, fırsat kaçırma\" yerine gerçek gerekçe — servis sırası ve fiyat güncellemesi.",
+          "Yetki ve sertifika ifadeleri doğrulanmadan yazılmadı; kapanış kartında yalnızca marka, telefon ve site var.",
+        ],
+      },
+      {
+        type: "callout",
+        title: "İlgili iş ve hizmet",
+        text: "BNS için kurduğumuz web sitesi ve yapay zekâ aramasındaki gözlem için [BNS Enerji & Doğalgaz web sitesi](/isler/bns-enerji-dogalgaz) sayfasına, hizmetin kapsamı için [Yapay Zekâ Video & Reklam](/hizmetler/ai-video-reklam) sayfasına bakabilirsiniz.",
+      },
+    ],
+    faq: [
+      {
+        q: "Videolardaki insanlar ve mekânlar gerçek mi?",
+        a: "Hayır; insanlı sahneler ve odalar yapay zekâ ile üretildi. Ürün ise gerçek: BNS'in sattığı Bosch klimanın fotoğrafı korunarak sahnelendi. İzleyiciyi yanıltmamak için filmlerde abartılı iddia ve fiyat yazılmadı.",
+      },
+      {
+        q: "Neden dikey (9:16) ve bu kadar kısa?",
+        a: "Filmler Instagram Reels ve WhatsApp Durumu için hazırlandı; telefonda dikey izlenir ve ilk saniyelerde tutmazsa geçilir. Her film 12-21 saniye aralığında, tek fikir anlatıyor.",
+      },
+      {
+        q: "Seslendirme neden yok?",
+        a: "Sosyal medyada videolar çoğunlukla sessiz izlendiği için anlatım yazıyla kuruldu; müzik ve ortam sesi destekliyor. İstenirse Türkçe seslendirme eklenebilir.",
+      },
+      {
+        q: "Benzer filmler başka sektörler için de üretilebilir mi?",
+        a: "Evet. Aynı akış — gerçek ürün/mekân görseli + yapay zekâ sahne + yazı ve müzik + marka kapanışı — yerel hizmet, ürün satışı ve kampanya duyuruları için uygulanabilir. Kapsam için Yapay Zekâ Video & Reklam hizmet sayfasına bakın.",
+      },
+    ],
+    published: "2026-08-22",
+    modified: "2026-08-22",
   },
   {
     slug: "colakoglu-emlak",

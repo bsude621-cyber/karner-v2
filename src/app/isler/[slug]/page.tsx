@@ -136,6 +136,21 @@ export default async function CasePage({
       publisher: { "@id": `${SITE_URL}/#organization` },
     });
   }
+  // Çoklu video galerisi (ör. reklam filmleri): her film ayrı VideoObject
+  for (const [i, v] of (c.videos ?? []).entries()) {
+    graph.push({
+      "@type": "VideoObject",
+      "@id": `${pageUrl}#video-${i + 1}`,
+      name: v.name,
+      description: v.description,
+      thumbnailUrl: `${SITE_URL}${v.poster}`,
+      contentUrl: `${SITE_URL}${v.src}`,
+      uploadDate: v.uploadDate,
+      duration: v.duration,
+      inLanguage: "tr",
+      publisher: { "@id": `${SITE_URL}/#organization` },
+    });
+  }
   const jsonLd = { "@context": "https://schema.org", "@graph": graph };
 
   return (
@@ -194,6 +209,8 @@ export default async function CasePage({
           </div>
         </dl>
 
+        {/* Galeri varsa kapak görseli tekrar etmesin (posterler zaten aynı kareler) */}
+        {c.videos && c.videos.length > 0 ? null : (
         <figure className="mt-6 overflow-hidden rounded-2xl border border-white/10">
           {c.video ? (
             <video
@@ -217,6 +234,27 @@ export default async function CasePage({
             {c.video ? c.video.description : c.image.alt}
           </figcaption>
         </figure>
+        )}
+
+        {c.videos && c.videos.length > 0 ? (
+          <section aria-label="Filmler" className="mt-8">
+            <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+              {c.videos.map((v) => (
+                <li key={v.src} className="overflow-hidden rounded-2xl border border-white/10 bg-black">
+                  <video
+                    className="aspect-[9/16] w-full bg-black object-cover"
+                    controls
+                    preload="none"
+                    poster={v.poster}
+                    src={v.src}
+                    playsInline
+                  />
+                  <p className="px-3 py-2 text-xs leading-relaxed text-paper/60 sm:text-sm">{v.name}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
         <ol className="mt-8 grid gap-3 sm:grid-cols-3">
           {c.facts.map((f) => (
