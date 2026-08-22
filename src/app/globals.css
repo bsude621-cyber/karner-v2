@@ -323,6 +323,112 @@ html[data-theme="light"] .about-root svg text.draw-stroke {
   stroke: var(--accent);
 }
 
+/* v7.4 Hakkımızda teknik çizim paneli: yalnızca gündüz görünür; masaüstünde kart +
+   çizim yan yana, mobilde çizim kartın ÜSTÜNDE. Ölçü çizgileri kaydırmayla çizilir. */
+html[data-theme="light"] .about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+html[data-theme="light"] .about-draw {
+  display: block;
+  order: -1;
+}
+@media (min-width: 1024px) {
+  html[data-theme="light"] .about-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 3rem;
+  }
+  html[data-theme="light"] .about-draw {
+    order: 0;
+  }
+  html[data-theme="light"] .about-sheet {
+    max-width: none;
+  }
+}
+.about-dim-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+@supports (animation-timeline: view()) {
+  html[data-theme="light"] .about-dim-line {
+    animation: draft-draw 1ms linear both;
+    animation-timeline: view();
+    animation-range: entry 20% entry 75%;
+  }
+}
+@supports not (animation-timeline: view()) {
+  html[data-theme="light"] .about-dim-line {
+    stroke-dashoffset: 0;
+  }
+}
+/* Kart künyesi yalnızca gündüz; satırlar ince mürekkep çizgiyle ayrılır */
+html[data-theme="light"] .about-spec {
+  display: grid;
+  border-top: 1px solid rgba(26, 20, 48, 0.18);
+  border-bottom: 1px solid rgba(26, 20, 48, 0.18);
+  padding: 0.75rem 0;
+}
+html[data-theme="light"] .about-spec dd {
+  color: rgba(26, 20, 48, 0.78);
+}
+/* Açıklama etiketleri: numara + başlık + alt satır; kaydırmayla sırayla belirir */
+.about-call {
+  display: none;
+}
+html[data-theme="light"] .about-call {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+.about-call .about-num {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+}
+.about-call .about-title {
+  font-weight: 600;
+  font-size: 12px;
+}
+.about-call .about-sub {
+  color: rgba(26, 20, 48, 0.62);
+  line-height: 1.35;
+}
+.about-dot { opacity: 0; }
+@supports (animation-timeline: view()) {
+  html[data-theme="light"] .about-call,
+  html[data-theme="light"] .about-dot {
+    animation: about-fade 1ms linear both;
+    animation-timeline: view();
+  }
+  html[data-theme="light"] .about-l1 { animation-range: entry 35% entry 70%; }
+  html[data-theme="light"] .about-l2 { animation-range: entry 45% entry 80%; }
+  html[data-theme="light"] .about-l3 { animation-range: entry 55% entry 90%; }
+  html[data-theme="light"] .about-l4 { animation-range: entry 20% entry 60%; }
+}
+@supports not (animation-timeline: view()) {
+  html[data-theme="light"] .about-call,
+  html[data-theme="light"] .about-dot { opacity: 1; }
+}
+@keyframes about-fade {
+  from { opacity: 0; translate: 0 6px; }
+  to   { opacity: 1; translate: 0 0; }
+}
+/* tel kafes canvas'ının arkasında hafif kâğıt hâlesi — çizgiler noktalardan ayrılsın */
+html[data-theme="light"] .about-draw::before {
+  content: "";
+  position: absolute;
+  inset: 8% 12%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(246, 243, 238, 0.95), rgba(246, 243, 238, 0));
+  pointer-events: none;
+}
+
 /* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
    bazı kutular mor, tasarımlı dursun") — koyu tema bu kurallardan etkilenmez. */
 html[data-theme="light"] .brand-band {
