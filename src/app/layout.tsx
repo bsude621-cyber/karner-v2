@@ -3,7 +3,6 @@ import { Geist, Geist_Mono, Orbitron } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
-import ScrollRuler from "@/components/ScrollRuler";
 import DeferredMount from "@/components/DeferredMount";
 import SiteNav from "@/components/SiteNav";
 import { Analytics } from "@vercel/analytics/next";
@@ -68,7 +67,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f6f3ee" },
+    { media: "(prefers-color-scheme: light)", color: "#e9ebef" },
     { media: "(prefers-color-scheme: dark)", color: "#05060a" },
   ],
 };
@@ -105,7 +104,6 @@ export default function RootLayout({
         {/* Saf süsleme — kritik yol dışında, idle/etkileşim sonrası gelir */}
         <DeferredMount>
           <CustomCursor />
-          <ScrollRuler />
         </DeferredMount>
         <SiteNav />
         <SmoothScroll>{children}</SmoothScroll>

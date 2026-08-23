@@ -53,8 +53,7 @@ export function DottedSurface({
       const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, narrowStart ? 1.25 : 2));
       // Tema: zemin saydam (sayfa arka planı görünür), açık temada noktalar koyulaşır
-      const isLight = () =>
-        document.documentElement.dataset.theme === "light" && !wrapper.closest(".night-section");
+      const isLight = () => document.documentElement.dataset.theme === "light";
       renderer.setClearColor(0x000000, 0);
       container.appendChild(renderer.domElement);
 
@@ -123,10 +122,14 @@ export function DottedSurface({
       scene.add(points);
 
       const applyTheme = () => {
-        // vertexColors × material.color: açıkta koyu-mor çarpan, koyuda nötr
-        if (isLight()) material.color.setRGB(0.23, 0.12, 0.48); // v7 mürekkep menekşe
+        // Aynı nokta alanı, iki palet. vertexColors × material.color çarpanı:
+        // karanlıkta nötr (mor renkler olduğu gibi geçer), aydınlıkta soğuk gri
+        // çarpan — noktalar uzay grisine döner, açık zeminde okunur kalır.
+        if (isLight()) material.color.setRGB(0.3, 0.33, 0.38);
         else material.color.setRGB(1, 1, 1);
-        scene.fog = isLight() ? null : new THREE.Fog(BRAND.fog, 1800, 9000);
+        // Sis iki modda da var; aydınlıkta zeminin kendi grisi, ki uzak
+        // noktalar karanlıktaki gibi derinliğe erisin.
+        scene.fog = new THREE.Fog(isLight() ? 0xe9ebef : BRAND.fog, 1800, 9000);
       };
       applyTheme();
       const themeObs = new MutationObserver(applyTheme);

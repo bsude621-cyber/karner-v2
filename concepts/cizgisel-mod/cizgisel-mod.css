@@ -1,0 +1,735 @@
+/* ============================================================================
+   ÇİZGİSEL MOD — "Mühendis Kâğıdı" konsept katmanı
+   ----------------------------------------------------------------------------
+   KARNER sitesinin 2026-08 aydınlık modunun tam CSS'i. Teknik çizim dili:
+   krem kâğıt zemin, mürekkep menekşe çizgi, ölçü çizgileri, cetvel, antet,
+   §01 bölüm numaraları, duotone→renk hover.
+
+   Bu dosya ARŞİVDİR — build'e dahil değil. Kurulum için ../README.md.
+   Kaynak: src/app/globals.css, git tag konsept/cizgisel-mod (372500c)
+
+   Seçiciler html[data-theme="light"] ile yazılmıştır. Başka bir projede
+   kullanırken bu ön eki kendi tema seçicinle değiştir.
+   ============================================================================ */
+
+
+/* GÜNDÜZ MODU — beyaz ağırlıklı. data-theme'i <body> başındaki satır içi
+   script (sistem tercihi / localStorage) ve ThemeToggle yönetir. */
+html[data-theme="light"] {
+  /* v7 "KÂĞIT + MÜREKKEP" (2026-08-22, Sude "başla"): zemin düz sıcak kırık beyaz
+     (degrade yok — AI klişesi yok), mürekkep = koyu menekşe (tüm bloklar, butonlar,
+     vurgu kelimeler, nav aktif), parlak mor yalnızca robotların kendi rengi.
+     İki renk, bir kural. Önceki v6 "Lavender Future" geçildi. */
+  --background: #f6f3ee;
+  --foreground: #1a1430;
+  --ink: #1a1430;
+  /* Tailwind accent yardımcıları (btn-primary, border-accent/…, from-accent…) gündüzde
+     mürekkep menekşeye döner; parlak #7b3fe4 yalnızca koyu modda ve robot dokusunda. */
+  --accent: #3b1f7a;
+  --accent-2: #22143f;
+  --accent-light: #47178e;
+  --silver: #6b6578;
+  --card-top: #ffffff;
+  --card-bottom: #fbfaf7;
+  --wordmark: #1a1430;
+  /* Footer = koyu moddaki tonun aynısı (Sude 2026-08-22: "KARNER yazısının olduğu
+     yerdeki mor tonu istiyorum"): gece zemini + alt kenara doğru koyu menekşe hâle.
+     Gündüz zemini saydam olmadığından opak eşdeğeri yazıldı. */
+  --footer-bg: radial-gradient(125% 125% at 50% 10%, #0b0816 45%, #22143f 100%);
+  --footer-surface: #0b0816;
+  --footer-accent: #a371ff;
+  color-scheme: light;
+}
+/* Footer gündüzde de koyu: içindeki "white" yardımcıları (KARNER kontur, çizgiler)
+   beyaza dönsün. */
+html[data-theme="light"] footer {
+  --ink: #ffffff;
+  --accent: #7b3fe4;
+  --accent-light: #a371ff;
+}
+
+/* ---- v7.1 "MÜHENDİS KÂĞIDI" katmanı (2026-08-22, Sude: "tasarımı sana bırakıyorum,
+   etkilensin ama özgün olsun") — koyu tema etkilenmez. ---- */
+
+/* 1) Kâğıt dokusu: çok hafif grain (SVG turbulence), sabit, çarpan karışım.
+   Düz krem "ekran" değil "kâğıt" hissi verir; gerçek dünya malzemesi. */
+html[data-theme="light"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000; /* her şeyin üstünde ama tıklanmaz */
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.08  0 0 0 0 0.19  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 160px 160px;
+}
+
+/* 2) Hero = mühendis kâğıdı: ince mürekkep ızgara (32px) + ana çizgiler (160px),
+   kenarlara doğru erir. "Geleceği mühendislikle inşa ediyoruz" cümlesinin
+   zemini — teknik çizim kâğıdı. Parlak çapraz akış gündüzde sönük tutulur. */
+html[data-theme="light"] .hero-root {
+  background-image:
+    radial-gradient(ellipse 70% 60% at 50% 45%, rgba(246, 243, 238, 0) 0%, rgba(246, 243, 238, 0) 55%, var(--background) 100%),
+    linear-gradient(to right, rgba(26, 20, 48, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(26, 20, 48, 0.12) 1px, transparent 1px),
+    linear-gradient(to right, rgba(26, 20, 48, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(26, 20, 48, 0.055) 1px, transparent 1px);
+  background-size: 100% 100%, 160px 160px, 160px 160px, 32px 32px, 32px 32px;
+  background-position: 0 0, -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+}
+/* ızgaranın üstünde kalan ince karartma (hero-fade) gündüzde kâğıda erir */
+html[data-theme="light"] .hero-root .hero-fade {
+  background: linear-gradient(to bottom, rgba(246, 243, 238, 0.35), transparent 30%, transparent 70%, var(--background));
+}
+
+/* 3) Mürekkep dolgu: ikincil butonlar hover'da alttan mürekkeple dolar (gündüz). */
+html[data-theme="light"] .btn-secondary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: rgba(26, 20, 48, 0.28);
+  color: var(--ink);
+}
+html[data-theme="light"] .btn-secondary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html[data-theme="light"] .btn-secondary:hover {
+  color: #fff;
+  border-color: var(--accent);
+}
+html[data-theme="light"] .btn-secondary:hover::after {
+  transform: translateY(0);
+}
+html[data-theme="light"] .btn-primary {
+  box-shadow: 0 12px 28px -12px rgba(26, 20, 48, 0.45);
+}
+html[data-theme="light"] .btn-primary:hover {
+  background: #2a1650;
+  box-shadow: 0 16px 34px -12px rgba(26, 20, 48, 0.5);
+}
+
+/* 4) Gece ↔ gündüz geçişi: tema değişimi düğmeden yayılan dairesel "mürekkep/kâğıt"
+   dalgasıyla (View Transitions API; desteklemeyen tarayıcıda anında değişir). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
+  animation: theme-wash var(--wash-dur, 0.7s) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes theme-wash {
+  from {
+    clip-path: circle(0px at var(--wash-x, 50%) var(--wash-y, 0%));
+  }
+  to {
+    clip-path: circle(var(--wash-r, 150vmax) at var(--wash-x, 50%) var(--wash-y, 0%));
+  }
+}
+/* Hareketi azalt: dalga kalır ama kısa (JS --wash-dur'u 0.35s yapar) */
+
+/* ---- v7.2 "MÜHENDİS KÂĞIDI" animasyon katmanı (2026-08-22, Sude: "görselle
+   zenginleştir, farklı animasyonlar, dikkat çeken site olsun") — koyu tema etkilenmez. */
+
+/* Teknik çizim işaretleri yalnızca gündüz; yüklenince kendini çizer. */
+html:not([data-theme="light"]) .drafting {
+  display: none;
+}
+.draft-line line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draft-draw 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.draft-d1 line { animation-delay: 0.5s; }
+.draft-d2 line { animation-delay: 0.9s; }
+.draft-d3 line { animation-delay: 1.2s; }
+@keyframes draft-draw {
+  to { stroke-dashoffset: 0; }
+}
+/* Antet: ince mürekkep çerçeve + satır çizgileri; çerçeve soldan sağa "çizilir" */
+.draft-block {
+  border: 1px solid rgba(26, 20, 48, 0.45);
+  background: rgba(246, 243, 238, 0.7);
+  clip-path: inset(0 100% 0 0);
+  animation: draft-wipe 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.4s forwards;
+}
+.draft-row + .draft-row {
+  border-top: 1px solid rgba(26, 20, 48, 0.28);
+}
+@keyframes draft-wipe {
+  to { clip-path: inset(0 0 0 0); }
+}
+
+/* Hero'daki ızgara yumuşak doğar (sert yanıp sönme yok) */
+html[data-theme="light"] .hero-root {
+  animation: grid-in 1.1s ease-out both;
+}
+@keyframes grid-in {
+  from { background-position: 0 0, -1px 24px, 24px -1px, -1px 24px, 24px -1px; opacity: 0.6; }
+  to   { background-position: 0 0, -1px -1px, -1px -1px, -1px -1px, -1px -1px; opacity: 1; }
+}
+
+/* Vurgu kelimeler: gündüzde gradient yerine mürekkep + altına kalemle çekilmiş çizgi.
+   Hero'da yüklenince çizilir; bölüm başlıklarında kaydırmayla (scroll-driven). */
+html[data-theme="light"] :is(h1, h2, h3) span[class*="bg-clip-text"] {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: var(--accent);
+  position: relative;
+  display: inline-block;
+}
+html[data-theme="light"] :is(h1, h2, h3) span[class*="bg-clip-text"]::after {
+  content: "";
+  position: absolute;
+  left: 0.02em;
+  right: 0.02em;
+  bottom: 0.04em;
+  height: 0.07em;
+  background: var(--accent);
+  border-radius: 999px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  /* elle çekilmiş his: 1.2° eğim */
+  rotate: -1.2deg;
+  opacity: 0.9;
+}
+html[data-theme="light"] .hero-root h1 span[class*="bg-clip-text"]::after {
+  animation: ink-underline 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1.1s forwards;
+}
+@keyframes ink-underline {
+  to { transform: scaleX(1); }
+}
+@supports (animation-timeline: view()) {
+  html[data-theme="light"] :is(h2, h3).reveal span[class*="bg-clip-text"]::after {
+    animation: ink-underline 1ms linear both;
+    animation-timeline: view();
+    animation-range: entry 25% entry 70%;
+  }
+}
+@supports not (animation-timeline: view()) {
+  html[data-theme="light"] :is(h2, h3).reveal span[class*="bg-clip-text"]::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Bölüm ayraçları: gündüzde cetvel — ince mürekkep çizgi + tik işaretleri, ortada kare nokta */
+html[data-theme="light"] .section-divider {
+  height: 7px;
+  background:
+    linear-gradient(to right, transparent, rgba(26, 20, 48, 0.35) 15%, rgba(26, 20, 48, 0.35) 85%, transparent) center / 100% 1px no-repeat,
+    repeating-linear-gradient(to right, transparent 0 23px, rgba(26, 20, 48, 0.22) 23px 24px) center / 100% 7px no-repeat;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+html[data-theme="light"] .section-divider + span {
+  border-radius: 1px;
+  background: var(--ink);
+  box-shadow: none;
+  rotate: 45deg;
+}
+
+/* Hizmet/demo kartları: gündüzde mor parıltı yerine mürekkep gölge; hover'da hafif
+   kalkış + "çizilmiş" ikinci çerçeve (elle kaydırılmış, ±3px asimetri). */
+html[data-theme="light"] a[class*="hover:shadow-[0_24px_60px"] {
+  --tw-shadow: 0 1px 0 rgba(26, 20, 48, 0.04), 0 14px 34px -24px rgba(26, 20, 48, 0.28);
+  box-shadow: var(--tw-shadow);
+}
+html[data-theme="light"] a[class*="hover:shadow-[0_24px_60px"]:hover {
+  --tw-shadow: 0 22px 44px -22px rgba(26, 20, 48, 0.38);
+  box-shadow: var(--tw-shadow);
+  outline: 1px solid rgba(26, 20, 48, 0.35);
+  outline-offset: 4px;
+}
+
+/* Konuşma balonları ve küçük beyaz kartlar gündüzde kâğıt kartı: hafif kalem gölgesi */
+html[data-theme="light"] .btn,
+html[data-theme="light"] .draft-block {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+/* v7.3 Hakkımızda (ana sayfa) gündüzde kâğıt pafta: koyu blok yok, nokta alanı mürekkep,
+   kart beyaz + ince mürekkep çerçeve + iki köşede kesim işareti (elle çizilmiş asimetri). */
+html[data-theme="light"] .about-root {
+  background: transparent;
+}
+html[data-theme="light"] .about-sheet {
+  background: rgba(26, 20, 48, 0.14);
+  box-shadow: 0 1px 0 rgba(26, 20, 48, 0.04), 0 24px 48px -28px rgba(26, 20, 48, 0.35);
+  overflow: visible;
+  position: relative;
+}
+html[data-theme="light"] .about-sheet > div {
+  background: #ffffff;
+}
+html[data-theme="light"] .about-sheet > div > div:first-child {
+  /* üstteki parlak saç teli → mürekkep */
+  background: linear-gradient(to right, transparent, rgba(26, 20, 48, 0.35), transparent);
+}
+html[data-theme="light"] .about-sheet::before,
+html[data-theme="light"] .about-sheet::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(26, 20, 48, 0.55);
+  border-style: solid;
+  pointer-events: none;
+}
+html[data-theme="light"] .about-sheet::before {
+  left: -14px;
+  top: -14px;
+  border-width: 1px 0 0 1px;
+}
+html[data-theme="light"] .about-sheet::after {
+  right: -12px;
+  bottom: -16px;
+  border-width: 0 1px 1px 0;
+}
+/* Büyük KARNER konturu gündüzde mürekkep (gradient kontur yerine tek renk, daha okunur) */
+html[data-theme="light"] .about-root svg text {
+  stroke: rgba(26, 20, 48, 0.45);
+}
+html[data-theme="light"] .about-root svg text.draw-stroke {
+  stroke: var(--accent);
+}
+
+/* v7.4 Hakkımızda teknik çizim paneli: yalnızca gündüz görünür; masaüstünde kart +
+   çizim yan yana, mobilde çizim kartın ÜSTÜNDE. Ölçü çizgileri kaydırmayla çizilir. */
+html[data-theme="light"] .about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+html[data-theme="light"] .about-draw {
+  display: block;
+  order: -1;
+}
+@media (min-width: 1024px) {
+  html[data-theme="light"] .about-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 3rem;
+  }
+  html[data-theme="light"] .about-draw {
+    order: 0;
+  }
+  html[data-theme="light"] .about-sheet {
+    max-width: none;
+  }
+}
+.about-dim-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+@supports (animation-timeline: view()) {
+  html[data-theme="light"] .about-dim-line {
+    animation: draft-draw 1ms linear both;
+    animation-timeline: view();
+    animation-range: entry 20% entry 75%;
+  }
+}
+@supports not (animation-timeline: view()) {
+  html[data-theme="light"] .about-dim-line {
+    stroke-dashoffset: 0;
+  }
+}
+/* Kart künyesi yalnızca gündüz; satırlar ince mürekkep çizgiyle ayrılır */
+html[data-theme="light"] .about-spec {
+  display: grid;
+  border-top: 1px solid rgba(26, 20, 48, 0.18);
+  border-bottom: 1px solid rgba(26, 20, 48, 0.18);
+  padding: 0.75rem 0;
+}
+html[data-theme="light"] .about-spec dd {
+  color: rgba(26, 20, 48, 0.78);
+}
+/* Açıklama etiketleri: numara + başlık + alt satır; kaydırmayla sırayla belirir */
+.about-call {
+  display: none;
+}
+html[data-theme="light"] .about-call {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+.about-call .about-num {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+}
+.about-call .about-title {
+  font-weight: 600;
+  font-size: 12px;
+}
+.about-call .about-sub {
+  color: rgba(26, 20, 48, 0.62);
+  line-height: 1.35;
+}
+.about-dot { opacity: 0; }
+@supports (animation-timeline: view()) {
+  html[data-theme="light"] .about-call,
+  html[data-theme="light"] .about-dot {
+    animation: about-fade 1ms linear both;
+    animation-timeline: view();
+  }
+  html[data-theme="light"] .about-l1 { animation-range: entry 35% entry 70%; }
+  html[data-theme="light"] .about-l2 { animation-range: entry 45% entry 80%; }
+  html[data-theme="light"] .about-l3 { animation-range: entry 55% entry 90%; }
+  html[data-theme="light"] .about-l4 { animation-range: entry 20% entry 60%; }
+}
+@supports not (animation-timeline: view()) {
+  html[data-theme="light"] .about-call,
+  html[data-theme="light"] .about-dot { opacity: 1; }
+}
+@keyframes about-fade {
+  from { opacity: 0; translate: 0 6px; }
+  to   { opacity: 1; translate: 0 0; }
+}
+/* tel kafes canvas'ının arkasında hafif kâğıt hâlesi — çizgiler noktalardan ayrılsın */
+html[data-theme="light"] .about-draw::before {
+  content: "";
+  position: absolute;
+  inset: 8% 12%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(246, 243, 238, 0.95), rgba(246, 243, 238, 0));
+  pointer-events: none;
+}
+
+/* ---- v7.6 SİTE GENELİ ŞOV KATMANI (gündüz) — 2026-08-22 ---- */
+
+/* A) Sağ kenar cetveli (ScrollRuler) */
+.scroll-ruler-bar { background: rgba(26, 20, 48, 0.35); }
+.scroll-ruler-ticks {
+  background: repeating-linear-gradient(to bottom, transparent 0 11px, rgba(26, 20, 48, 0.3) 11px 12px);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000);
+  mask-image: linear-gradient(to right, transparent, #000);
+}
+.scroll-ruler-mark { color: var(--ink); transform: translateY(-50%); }
+.scroll-ruler-dash { background: rgba(26, 20, 48, 0.6); }
+.scroll-ruler-label {
+  background: rgba(246, 243, 238, 0.9);
+  padding: 2px 6px;
+  border: 1px solid rgba(26, 20, 48, 0.25);
+  white-space: nowrap;
+}
+.scroll-ruler-cursor {
+  background: var(--accent);
+  rotate: 45deg;
+  box-shadow: 0 0 0 3px rgba(246, 243, 238, 0.9);
+}
+.scroll-ruler-pct {
+  rotate: -45deg;
+  color: var(--accent);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  background: rgba(246, 243, 238, 0.85);
+  padding: 0 3px;
+}
+
+/* B) Bölüm numaraları: eyebrow'ların önüne "§ 01 ·" (ana sayfa bölümleri, yalnızca gündüz) */
+html[data-theme="light"] main { counter-reset: sec; }
+html[data-theme="light"] main section[id] { counter-increment: sec; }
+html[data-theme="light"] main section[id] p.reveal.uppercase::before {
+  content: "§ " counter(sec, decimal-leading-zero) "  ·  ";
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  letter-spacing: 0.2em;
+  opacity: 0.75;
+}
+
+/* C) Hizmet kartları: gündüzde görsel mürekkep-duotone; hover'da renk geri gelir
+   ("çizimden gerçeğe") + etiket çipleri mürekkep */
+html[data-theme="light"] #hizmetler a[class*="hover:shadow-[0_24px_60px"] img {
+  filter: grayscale(1) contrast(1.08) brightness(1.02) sepia(0.18) hue-rotate(225deg) saturate(1.4);
+  transition: filter 0.6s ease, transform 0.5s ease-out;
+}
+html[data-theme="light"] #hizmetler a[class*="hover:shadow-[0_24px_60px"]:hover img {
+  filter: none;
+}
+html[data-theme="light"] #hizmetler a[class*="hover:shadow-[0_24px_60px"] span[class*="bg-black/30"] {
+  background: rgba(246, 243, 238, 0.92);
+  border-color: rgba(26, 20, 48, 0.35);
+  color: var(--ink-solid, #1a1430);
+  --paper: #1a1430; /* çipteki text-paper → mürekkep */
+}
+html[data-theme="light"] #hizmetler a[class*="hover:shadow-[0_24px_60px"]:hover span[class*="bg-black/30"] {
+  background: #1a1430;
+  --paper: #ffffff;
+  border-color: #1a1430;
+}
+
+/* D) Demo kartları (video): gündüzde ince mürekkep çerçeve + iki köşe kesim işareti */
+html[data-theme="light"] #isler article,
+html[data-theme="light"] #isler [class*="rounded-2xl"][class*="border"] {
+  border-color: rgba(26, 20, 48, 0.14);
+}
+html[data-theme="light"] #isler [class*="aspect-video"] {
+  position: relative;
+}
+html[data-theme="light"] #isler [class*="aspect-video"]::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(246, 243, 238, 0.35);
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0) border-box;
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  clip-path: polygon(0 0, 18px 0, 18px 1px, 1px 1px, 1px 18px, 0 18px, 0 0);
+  opacity: 0;
+}
+
+/* E) SSS: numaralı sorular (01., 02.…) + açık durumda mürekkep sol şerit */
+html[data-theme="light"] #sss details { counter-increment: faq; }
+html[data-theme="light"] #sss { counter-reset: faq; }
+html[data-theme="light"] #sss summary h3::before {
+  content: counter(faq, decimal-leading-zero) ". ";
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.8em;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-right: 0.5rem;
+}
+html[data-theme="light"] #sss details[open] {
+  box-shadow: inset 3px 0 0 var(--accent), 0 1px 0 rgba(26, 20, 48, 0.04), 0 14px 34px -24px rgba(26, 20, 48, 0.28);
+}
+html[data-theme="light"] #sss details p {
+  color: rgba(26, 20, 48, 0.78);
+}
+
+/* ---- Sahadan kareler (Showreel) — her iki tema ---- */
+.showreel-track {
+  animation: showreel-run 58s linear infinite;
+  will-change: transform;
+}
+.showreel-strip:hover .showreel-track,
+.showreel-strip:focus-within .showreel-track {
+  animation-play-state: paused;
+}
+@keyframes showreel-run {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .showreel-track { animation: none; }
+}
+.showreel-perf {
+  background: repeating-linear-gradient(to right, transparent 0 14px, rgba(123, 63, 228, 0.35) 14px 22px);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+  opacity: 0.6;
+}
+html[data-theme="light"] .showreel-perf {
+  background: repeating-linear-gradient(to right, transparent 0 14px, rgba(26, 20, 48, 0.35) 14px 22px);
+}
+.showreel-frame {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.showreel-frame:hover {
+  transform: translateY(-6px) rotate(-0.6deg);
+  border-color: rgba(123, 63, 228, 0.6);
+  box-shadow: 0 24px 50px -24px rgba(123, 63, 228, 0.55);
+}
+html[data-theme="light"] .showreel-frame {
+  border-color: rgba(26, 20, 48, 0.18);
+  box-shadow: 0 1px 0 rgba(26, 20, 48, 0.05), 0 16px 34px -24px rgba(26, 20, 48, 0.35);
+}
+html[data-theme="light"] .showreel-frame:hover {
+  border-color: rgba(26, 20, 48, 0.6);
+  box-shadow: 0 26px 50px -24px rgba(26, 20, 48, 0.45);
+  outline: 1px solid rgba(26, 20, 48, 0.35);
+  outline-offset: 4px;
+}
+
+/* ---- MOBİL DİYET (2026-08-22, Sude: "mobilde çok kasıyor") — dokunmatik/dar ekranda
+   pahalı katmanlar kapalı: sabit grain (mix-blend), backdrop-filter, teknik çizim paneli,
+   kart görsel filtreleri. Tasarım dili korunur, GPU yükü düşer. ---- */
+@media (pointer: coarse), (max-width: 767px) {
+  html[data-theme="light"] body::before { display: none; }
+  html[data-theme="light"] .hero-root { animation: none; }
+  /* backdrop-blur'lar (nav, kartlar, balonlar) düz yarı saydam zemine döner */
+  [class*="backdrop-blur"] { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  html[data-theme="light"] #hizmetler a[class*="hover:shadow-[0_24px_60px"] img { filter: none; }
+  .showreel-track { animation-duration: 80s; }
+}
+@media (max-width: 639px) {
+  /* Dar ekranda teknik çizim kalır; açıklama etiketleri çizimin ALTINDA üç sütun
+     (Sude: "yazılar yok ama"), ok çizgileri/noktalar mobilde gizli, ölçüler kalır */
+  html[data-theme="light"] .about-draw { height: 25rem; }
+  html[data-theme="light"] .about-draw > div[class*="inset-0"],
+  html[data-theme="light"] .about-draw > svg.about-dims { bottom: 5.5rem; height: auto; }
+  html[data-theme="light"] .about-dims .about-l1,
+  html[data-theme="light"] .about-dims .about-l2,
+  html[data-theme="light"] .about-dims .about-l3 { display: none; }
+  html[data-theme="light"] .about-call {
+    top: auto !important;
+    bottom: 0;
+    right: auto;
+    max-width: none;
+    width: 31%;
+    font-size: 10px;
+    gap: 0.1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(26, 20, 48, 0.25);
+    animation: none;
+    opacity: 1;
+    translate: 0 0;
+  }
+  html[data-theme="light"] .about-call .about-title { font-size: 11px; }
+  html[data-theme="light"] .about-call .about-sub { font-size: 9.5px; line-height: 1.3; }
+  html[data-theme="light"] .about-call.about-l1 { left: 0; }
+  html[data-theme="light"] .about-call.about-l2 { left: 34.5%; }
+  html[data-theme="light"] .about-call.about-l3 { left: 69%; }
+  html[data-theme="light"] .about-tag { top: 0; right: 0; }
+}
+
+/* ---- Gündüz modu tasarım katmanı (Sude 2026-08-21: "her yer bembeyaz olmasın,
+   bazı kutular mor, tasarımlı dursun") — koyu tema bu kurallardan etkilenmez. */
+html[data-theme="light"] .brand-band {
+  /* Footer ile aynı ton (Sude 2026-08-22: "diğer butonlardaki ton da bu olsun"):
+     gece zemini + kenara doğru koyu menekşe hâle. İçindeki "white" yardımcıları beyaz. */
+  --ink: #ffffff;
+  --accent-light: #a371ff;
+  background: var(--footer-bg);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  box-shadow: 0 22px 50px -24px rgba(34, 20, 63, 0.55);
+}
+/* Gündüzde vurgu kutuları/CTA (iletişim ikon kareleri, Gönder) = footer ailesiyle aynı
+   koyu menekşe (Sude 2026-08-22: parlak mor kareler lavanta kartlarla "kopuk"). */
+html[data-theme="light"] .accent-tile {
+  background: linear-gradient(135deg, #2a1650 0%, #0b0816 100%);
+  box-shadow: 0 10px 24px -12px rgba(34, 20, 63, 0.6);
+}
+html[data-theme="light"] .accent-cta {
+  background: linear-gradient(135deg, #2a1650 0%, #0b0816 100%);
+  color: #fff;
+}
+html[data-theme="light"] .accent-cta:hover {
+  box-shadow: 0 0 24px rgba(34, 20, 63, 0.45);
+}
+html[data-theme="light"] .brand-band :is(h2, h3, strong) {
+  color: #fff;
+}
+html[data-theme="light"] .brand-band :is(p, span, li) {
+  color: rgba(255, 255, 255, 0.84);
+}
+html[data-theme="light"] .brand-band .btn-secondary {
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #fff;
+}
+html[data-theme="light"] .brand-band .btn-secondary:hover {
+  border-color: #fff;
+}
+html[data-theme="light"] .brand-band .btn-primary,
+html[data-theme="light"] .brand-band .band-cta {
+  background: #fff;
+  color: #22143f;
+  box-shadow: 0 10px 30px -10px rgba(34, 20, 63, 0.35);
+}
+/* Gündüz modunda dekoratif mor hâle/gölge YOK (Sude 2026-08-21: "Demo sitelerimiz'deki
+   mor gölge gibi şeyler istemiyorum"): sayfa başlıkları, bölüm zeminleri, hero hâleleri,
+   KARNER yazısı arkası — hepsi rgba(123,63,228) radial-gradient yardımcı sınıflı,
+   pointer-events-none süs katmanları. Koyu temada aynen kalır. */
+html[data-theme="light"] [class*="radial-gradient"]:not(.night-section *),
+html[data-theme="light"] .hero-halo,
+html[data-theme="light"] [class*="bg-accent/30"][class*="blur-2xl"]:not(.night-section *) {
+  display: none;
+}
+/* KOYU BÖLÜMLER (Sude 2026-08-21: "bazı yerler koyu bazı yerler açık"): gündüz modunda
+   .night-section içinde tüm tema değişkenleri koyu moda döner — Tailwind sınıfları
+   (@theme inline sayesinde) var(--ink)/var(--background) okuduğu için bölüm birebir
+   koyu moddaki gibi görünür. Ana sayfa: Demo siteleri + Hakkımızda. */
+html[data-theme="light"] .night-section {
+  --background: #0b0816;
+  --foreground: #f2f3f7;
+  --ink: #ffffff;
+  --accent: #7b3fe4;
+  --accent-2: #4b1d96;
+  --accent-light: #a371ff;
+  --silver: #a6a9ad;
+  --card-top: rgba(18, 10, 28, 0.95);
+  --card-bottom: rgba(10, 6, 17, 0.95);
+  /* Gölgeleme = footer/marka bandı tonu (gece zemini + koyu menekşe hâle); bölümün
+     TAMAMI koyu (Sude 2026-08-22: "tamamını gölgeli yap"), kenarlarda 70px kısa erime.
+     Ana sayfada Hakkımızda bölümü. */
+  background:
+    radial-gradient(70% 55% at 50% 60%, rgba(123, 63, 228, 0.14) 0%, transparent 70%),
+    linear-gradient(
+      180deg,
+      rgba(34, 20, 63, 0.55) 0%,
+      #0b0816 70px,
+      #0b0816 calc(100% - 70px),
+      rgba(34, 20, 63, 0.55) 100%
+    );
+  color: var(--foreground);
+  color-scheme: dark;
+}
+
+/* Logo amblemi: gümüş K açık zeminde soluk kalıyordu → gündüzde koyulaştır, doygunluk ver */
+html[data-theme="light"] .logo-emblem {
+  filter: brightness(0.72) contrast(1.3) saturate(1.25) drop-shadow(0 1px 2px rgba(43, 37, 64, 0.3));
+}
+
+/* UZAY HİSSİ (Sude 2026-08-21): gündüz zemini bembeyaz değil — sabit (fixed) nebula
+   geçişi: lila, pembe, buz mavisi bulutlar + iki kat minik yıldız noktası. Açık
+   bölümlerin düz zemini saydamlaştırılır ki gövdedeki geçiş görünsün. */
+html[data-theme="light"] body {
+  /* v7: düz kâğıt — degrade/nebula/ışık lekesi YOK */
+  background-color: var(--background);
+  background-image: none;
+}
+html[data-theme="light"] :is(section, main, div)[class*="bg-background"]:not(header *):not(.night-section):not(.hero-root),
+html[data-theme="light"] .tint-section {
+  background-color: transparent;
+  background-image: none;
+}
+/* Buzlu beyaz kartlar (referans görseldeki gibi): koyu temadaki %3-6 beyaz cam yüzeyler
+   gündüzde yarı saydam beyaz + hafif mor gölge olur. Sınıf adına göre eşleşir. */
+html[data-theme="light"] [class*="bg-white/[0.03]"]:not(.night-section *):not(.brand-band *),
+html[data-theme="light"] [class*="bg-white/[0.05]"]:not(.night-section *):not(.brand-band *),
+html[data-theme="light"] [class*="bg-white/[0.06]"]:not(.night-section *):not(.brand-band *),
+html[data-theme="light"] [class*="bg-white/5"]:not(.night-section *):not(.brand-band *) {
+  background-color: #ffffff;
+  box-shadow: 0 1px 0 rgba(26, 20, 48, 0.04), 0 14px 34px -24px rgba(26, 20, 48, 0.28);
+}
+html[data-theme="light"] [class*="border-white/10"]:not(.night-section *):not(.brand-band *):not(footer *) {
+  border-color: rgba(26, 20, 48, 0.12);
+}
+/* Form alanları */
+html[data-theme="light"] :is(input, textarea, select)[class*="bg-white"] {
+  background-color: #ffffff;
+  border-color: rgba(26, 20, 48, 0.16);
+}
+
+@theme inline {
+  /* text-white / bg-white/… / border-white/… → tema mürekkebi */
+  --color-white: var(--ink);
+  --color-paper: var(--paper);
+  --color-night: var(--night);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-silver: var(--silver);
+  --color-gray: var(--gray);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-light: var(--accent-light);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;

@@ -301,9 +301,16 @@ export function KarnerLineFlow({
       gl.uniform1f(uTime, time);
       gl.uniform2f(uMouse, mouse[0], mouse[1]);
       gl.uniform1f(uAngle, angle);
-      // Gündüz modu: çizgiler daha hafif, zemin/vinyet kapalı → temiz beyaz hero
+      // Akış iki modda da AYNI: aynı çizgiler, aynı hareket. İki fark var, ikisi
+      // de renk kaynaklı:
+      //   uIntensity 0.75 — aynı sayısal parlaklık açık zeminde daha güçlü
+      //     okunuyor; göze eşit gelmesi için kısılıyor.
+      //   uBase 0.0 — uBase shader'ın kendi KOYU mor zeminini + vinyetini ekler.
+      //     Aydınlıkta zemini sayfa veriyor (uzay grisi), üstüne koyu bir kat
+      //     eklemek hero'yu karartırdı. Çekirdek parlaması iki modda da CSS
+      //     .hero-halo katmanından geliyor.
       const lightTheme = document.documentElement.dataset.theme === "light";
-      gl.uniform1f(uIntensity, intensity * (lightTheme ? 0.14 : 1.0)); // v7.2: gündüzde ızgara tek doku, akış çok sönük
+      gl.uniform1f(uIntensity, intensity * (lightTheme ? 0.75 : 1.0));
       gl.uniform1f(uInteract, interactOn);
       gl.uniform1f(uBase, lightTheme ? 0.0 : 1.0);
 

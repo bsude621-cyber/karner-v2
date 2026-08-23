@@ -63,7 +63,7 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
       inset: "0",
       zIndex: "2147483646",
       pointerEvents: "none",
-      background: next === "light" ? "#f6f3ee" : "#05060a",
+      background: next === "light" ? "#e9ebef" : "#05060a",
       clipPath: `circle(0px at ${x}px ${y}px)`,
     } as CSSStyleDeclaration);
     document.body.appendChild(overlay);
