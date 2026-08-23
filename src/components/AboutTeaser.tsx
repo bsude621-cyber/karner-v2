@@ -3,15 +3,20 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { TextHoverEffect } from "@/components/ui/hover-footer";
+import { DottedSurface } from "@/components/ui/dotted-surface";
+import { useIsLight } from "@/lib/use-theme";
 
 /** Ana sayfadaki kısa Hakkımızda kutusu — detay /hakkimizda sayfasında.
- *  Yıldız alanı artık bölüme özel değil: site geneli SiteBackground katmanı
- *  bu bölümün de arkasından geçiyor (tek WebGL bağlamı). */
+ *  Karanlık mod: bölümün kendi yıldız alanı (DottedSurface) — eski görünüm.
+ *  Aydınlık mod: site geneli SiteBackground katmanı bu bölümün de arkasından
+ *  geçtiği için burada ikinci bir sahne kurulmaz. */
 export default function AboutTeaser() {
+  const light = useIsLight();
+  const Surface = light ? "div" : DottedSurface;
   return (
     <section id="hakkimizda" className="relative">
       {/* Mobilde bölüm daha uzun ve içerik üstte: yıldız alanı kartın altında görünür kalsın */}
-      <div className="min-h-[92vh] w-full sm:min-h-[60vh]">
+      <Surface className="min-h-[92vh] w-full sm:min-h-[60vh]">
         <div className="relative z-10 flex min-h-[92vh] flex-col items-center justify-start px-4 pb-24 pt-10 sm:min-h-[60vh] sm:justify-center sm:py-24 sm:px-6">
           {/* Yıldızların üstünde büyük KARNER yazısı (eski tam bölümden geri alındı — Sude 2026-08-21) */}
           <div className="reveal relative z-30 mb-8 flex h-28 w-full max-w-3xl items-center justify-center sm:h-36">
@@ -47,7 +52,7 @@ export default function AboutTeaser() {
             </div>
           </div>
         </div>
-      </div>
+      </Surface>
     </section>
   );
 }

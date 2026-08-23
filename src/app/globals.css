@@ -122,7 +122,7 @@ html[data-theme="light"] .logo-emblem {
 }
 /* Hareketi azalt: dalga kalır ama kısa (JS --wash-dur'u 0.35s yapar) */
 
-/* ---- Site geneli yıldız alanı (SiteBackground → Galaxy) ---- */
+/* ---- Aydınlık mod sabit yıldız alanı (SiteBackground → Galaxy) ---- */
 
 .galaxy-layer {
   position: absolute;
@@ -136,9 +136,10 @@ html[data-theme="light"] .logo-emblem {
   height: 100% !important;
 }
 
-/* Sabit arka planın görünmesi için bölümlerin opak zemini kalkar. Hero ve
-   footer hariç: ikisinin kendi zemini var (hero shader'ı, footer koyu levha). */
-:is(section, div)[class*="bg-background"]:not(.hero-root):not(header *):not(footer *) {
+/* Sabit arka planın görünmesi için bölümlerin opak zemini kalkar. Yalnızca
+   AYDINLIK modda: karanlıkta sabit katman kurulmuyor, bölümler kendi
+   sahnelerini taşıyor. Hero ve footer hariç — ikisinin kendi zemini var. */
+html[data-theme="light"] :is(section, div)[class*="bg-background"]:not(.hero-root):not(header *):not(footer *) {
   background-color: transparent;
 }
 
