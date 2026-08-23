@@ -153,8 +153,10 @@ export default function WorksSection() {
             density={1}
             glowIntensity={0.42}
             twinkleIntensity={0.45}
-            saturation={0.85}
-            hueShift={265}
+            // Yıldızlar orijinal bileşendeki gibi: saturation 0 = gri tonlama,
+            // yani beyaz/gümüş yıldızlar. Renklendirilmiyor — bölümün moru
+            // zaten alttaki radial parıltıdan geliyor.
+            saturation={0}
             rotationSpeed={0.05}
             starSpeed={0.3}
             speed={0.7}
