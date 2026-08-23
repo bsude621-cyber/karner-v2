@@ -31,17 +31,15 @@ export default function SiteBackground() {
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
       <Galaxy
         inkMode
-        // Gri-menekşe: marka morunun uzay grisine çekilmiş hâli. Saf mor
-        // (#7b3fe4) açık zeminde beyazımsı-lila okunuyordu; bu ton morluk
-        // ölçüsünü 9.3'ten 6.5'e indiriyor (saf gri referansı 6.1).
-        inkColor={[0.42, 0.396, 0.502]}
-        // Gri-menekşe mordan daha sönük olduğu için alfa .28 → .34 ile
-        // yoğunluk sabit tutuldu: görünürlük %33.5, sayfa ortalaması 230.4
-        // (önceki 31.1 / 230.8). Metin kontrastı bozulmuyor.
+        // Marka moru, tam canlılıkta. Zemin artık uzay grisi (#d6dae1) olduğu
+        // için mor beyazımsı-lilaya kaçmıyor, doğrudan mor okunuyor.
+        inkColor={[0.482, 0.247, 0.894]}
         alphaScale={0.34}
         density={1.25}
-        glowIntensity={0.18}
-        twinkleIntensity={0.12}
+        glowIntensity={0.22}
+        // "Canlı" olan kısım bu: taneler nefes alıyor (önceki .12 neredeyse
+        // sabitti). Uzay hissi hareketten geliyor.
+        twinkleIntensity={0.45}
         saturation={0}
         rotationSpeed={0.04}
         starSpeed={0.28}

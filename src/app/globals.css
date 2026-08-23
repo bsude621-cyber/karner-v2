@@ -44,10 +44,11 @@
    yazıldı. Önceki "Mühendis Kâğıdı" konsepti: concepts/cizgisel-mod/
    ============================================================================ */
 html[data-theme="light"] {
-  /* Zemin: soğuk açık uzay grisi. Karanlıktaki #05060a'nın aynası —
-     aynı mavi-gri eksende, ters uçta. Düz renk; degrade gövdede değil,
-     galaksi katmanlarında yaşar (karanlık modda da öyle). */
-  --background: #e9ebef;
+  /* Zemin: UZAY GRİSİ — beyaz değil. Parlaklık 70/100 (beyaz 100, önceki
+     kırık beyaz 83). Yıldız katmanının üstünde durabilmesi için zeminin
+     beyazdan uzaklaşması gerekiyordu; mor taneler bu gride belirgin okunuyor.
+     Metin kontrastı korunuyor: mürekkep #14161c bu zeminde 12.9:1. */
+  --background: #d6dae1;
   --foreground: #14161c;
 
   /* Marka moru DEĞİŞMEZ — iki modda da aynı #7b3fe4. */

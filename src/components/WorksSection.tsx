@@ -1,9 +1,17 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import SectionHeading from "@/components/ui/section-heading";
+import { useIsLight } from "@/lib/use-theme";
 import { cn } from "@/lib/utils";
+
+// Bölüm arkası yıldız alanı — yalnızca tarayıcıda, kritik yolun dışında.
+const Galaxy = dynamic(
+  () => import("@/components/ui/galaxy").then((m) => ({ default: m.Galaxy })),
+  { ssr: false }
+);
 
 type Work = {
   id: string;
@@ -103,6 +111,7 @@ const works: Work[] = [
 ];
 
 export default function WorksSection() {
+  const light = useIsLight();
   // Aynı anda yalnızca tek video oynasın — altı videoyu birlikte oynatmak
   // hero'da düzelttiğimiz kare düşmesini geri getirir.
   const activeRef = useRef<HTMLVideoElement | null>(null);
@@ -134,6 +143,27 @@ export default function WorksSection() {
   return (
     <section id="isler" className="relative overflow-hidden bg-background py-24 sm:py-32"
     >
+      {/* Yıldız alanı — bölümü diğerlerinden ayıran uzay zemini.
+          Karanlıkta yıldızlar kendi renkleriyle ışır (mora kaydırılmış).
+          Aydınlıkta kurulmaz: site geneli SiteBackground katmanı bu bölümün
+          de arkasından geçiyor, ikinci bir sahne üst üste binerdi. */}
+      {!light ? (
+        <div className="pointer-events-none absolute inset-0 z-0">
+          <Galaxy
+            density={1}
+            glowIntensity={0.42}
+            twinkleIntensity={0.45}
+            saturation={0.85}
+            hueShift={265}
+            rotationSpeed={0.05}
+            starSpeed={0.3}
+            speed={0.7}
+            mouseRepulsion={false}
+            mouseInteraction
+          />
+        </div>
+      ) : null}
+
       {/* zeminde yumuşak mor parıltı — bölümü diğerlerinden ayırır */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(123,63,228,0.14),transparent_60%)]" />
 
