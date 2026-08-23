@@ -2,7 +2,6 @@
 
 import type { ComponentType } from "react";
 import { motion } from "framer-motion";
-import { DottedSurface } from "@/components/ui/dotted-surface";
 import { TextHoverEffect } from "@/components/ui/hover-footer";
 import { cn } from "@/lib/utils";
 import {
@@ -166,7 +165,7 @@ function SignBoard({
 export default function AboutSection() {
   return (
     <section id="hakkimizda" className="relative">
-      <DottedSurface className="min-h-screen w-full">
+      <div className="min-h-screen w-full">
         <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 py-24 sm:px-6">
           <motion.p
             initial={{ y: 16 }}
@@ -222,7 +221,7 @@ export default function AboutSection() {
             ))}
           </div>
         </div>
-      </DottedSurface>
+      </div>
     </section>
   );
 }

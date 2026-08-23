@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Orbitron } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
+import SiteBackground from "@/components/SiteBackground";
 import CustomCursor from "@/components/CustomCursor";
 import DeferredMount from "@/components/DeferredMount";
 import SiteNav from "@/components/SiteNav";
@@ -101,6 +102,8 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(rootJsonLd) }}
         />
+        {/* Site geneli sabit yıldız alanı — tüm sayfa bunun üzerinde kayar */}
+        <SiteBackground />
         {/* Saf süsleme — kritik yol dışında, idle/etkileşim sonrası gelir */}
         <DeferredMount>
           <CustomCursor />

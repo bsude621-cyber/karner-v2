@@ -122,6 +122,26 @@ html[data-theme="light"] .logo-emblem {
 }
 /* Hareketi azalt: dalga kalır ama kısa (JS --wash-dur'u 0.35s yapar) */
 
+/* ---- Site geneli yıldız alanı (SiteBackground → Galaxy) ---- */
+
+.galaxy-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.galaxy-layer canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Sabit arka planın görünmesi için bölümlerin opak zemini kalkar. Hero ve
+   footer hariç: ikisinin kendi zemini var (hero shader'ı, footer koyu levha). */
+:is(section, div)[class*="bg-background"]:not(.hero-root):not(header *):not(footer *) {
+  background-color: transparent;
+}
+
 /* ---- Sahadan kareler (Showreel) — tema-nötr ---- */
 .showreel-track {
   animation: showreel-run 58s linear infinite;
