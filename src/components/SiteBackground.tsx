@@ -47,18 +47,18 @@ export default function SiteBackground() {
         // Aydınlık: taneler sabit grafit renkte, alfa yoğunluğu taşır.
         // Karanlık: yıldızlar kendi renkleriyle ışır (marka moruna kaydırılmış).
         inkMode={light}
-        inkColor={[0.1, 0.11, 0.14]}
-        // Bu iki sayı ölçülerek seçildi. Aydınlıkta hedef, karanlık modun
-        // inceliğini eşlemek: koyu modda pikselin ~%14'ü zeminden ayrışıyor.
-        // glow .18 + alfa .2 aydınlıkta ~%32 doku verirken sayfanın ortalama
-        // parlaklığını 234.9'dan yalnızca 230.7'ye indiriyor — metin kontrastı
-        // bozulmadan yüzey dokusu okunuyor. Alfayı .3'e çıkarmak dokuyu %53'e
-        // fırlatıp sayfayı gri bir perdenin altına sokuyor.
-        alphaScale={light ? 0.2 : 1}
+        // Marka moru. Grafit yerine mor seçilince aynı alfada doku zayıflıyor
+        // (mor daha açık), bu yüzden alfa .2 → .28: ölçümde görünürlük %31.1 ile
+        // grafitin %32.5'ine, sayfa ortalaması 230.8 ile 230.7'ye oturuyor —
+        // yoğunluk aynı, renk mor.
+        inkColor={[0.482, 0.247, 0.894]}
+        // Yoğunluk ölçülerek seçildi: sayfa ortalaması 234.9'dan 230.8'e iner,
+        // metin kontrastı bozulmadan yüzey dokusu okunur.
+        alphaScale={light ? 0.28 : 1}
         density={light ? 1.25 : 1}
         glowIntensity={light ? 0.18 : 0.3}
         twinkleIntensity={light ? 0.12 : 0.35}
-        saturation={light ? 0 : 0.35}
+        saturation={light ? 0 : 0.75}
         hueShift={265}
         rotationSpeed={0.04}
         starSpeed={0.28}

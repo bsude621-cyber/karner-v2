@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, Sparkles } from "lucide-react";
+import { SpaceBackground } from "@/components/ui/space-background";
 import SectionHeading from "@/components/ui/section-heading";
 import { services as serviceData } from "@/data/services";
 
@@ -133,6 +134,11 @@ export default function ServicesSection() {
   return (
     <section id="hizmetler" className="relative overflow-hidden bg-background py-24 sm:py-32"
     >
+      {/* Dönen mor halka: parçacıklar p.ring yarıçapında yörüngede döner ve
+          içeri daralır — eşmerkezli halka hissi buradan gelir. Site geneli
+          galaksi katmanı tüm alanı döndürür ama bu halka yapısını üretmez,
+          o yüzden bu bölüme özel kalıyor. */}
+      <SpaceBackground particleCount={520} className="z-0" />
       {/* merkez mor parıltı */}
       <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(123,63,228,0.16),transparent_65%)]" />
 

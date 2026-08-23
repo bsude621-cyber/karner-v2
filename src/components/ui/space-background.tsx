@@ -51,10 +51,10 @@ export function SpaceBackground({
     };
 
     const isLight = () => document.documentElement.dataset.theme === "light";
-    // Aynı galaksi, iki palet: karanlıkta mor, aydınlıkta uzay grisi.
-    // Griler soğuk (mavi-menekşe eğilimli) — beton değil uzay grisi okunsun.
+    // Aynı dönen halka, iki palet. İkisi de mor; aydınlıktakiler açık zeminde
+    // okunabilsin diye koyu uçtan seçilmiş.
     const paletteDark = ["#7b3fe4", "#a371ff", "#4b1d96", "#c9b6ff", particleColor];
-    const paletteLight = ["#5b6270", "#7c8493", "#3f4652", "#99a2b1", "#6a7280"];
+    const paletteLight = ["#7b3fe4", "#5a2ec4", "#4b1d96", "#8b5cf6", "#6d28d9"];
     const palette = isLight() ? paletteLight : paletteDark;
 
     const setupCanvas = () => {
