@@ -7,8 +7,10 @@ import type { NextConfig } from "next";
  *   için şart (hstspreload.org — domain bağlandıktan 24 saat sonra submit).
  * - nosniff / referrer / permissions: Lighthouse Best Practices + tarayıcı
  *   güvenlik sinyalleri; içeriği etkilemez.
- * - Statik medya (demo videoları, 3D modeller, hizmet görselleri) bir yıl
- *   immutable — dosya adı değişmeden içerik değişmez.
+ * - Statik medya (demo videoları, 3D modeller, hizmet görselleri, iş
+ *   posterleri, arka plan görselleri) bir yıl immutable — dosya adı
+ *   değişmeden içerik değişmez. public/ altına YENİ bir medya klasörü
+ *   eklersen buraya da ekle, yoksa her istekte yeniden doğrulanır.
  */
 const securityHeaders = [
   {
@@ -59,7 +61,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/(.*)", headers: securityHeaders },
       {
-        source: "/:dir(demos|models|services)/:path*",
+        source: "/:dir(demos|models|services|backgrounds|isler)/:path*",
         headers: [
           {
             key: "Cache-Control",
