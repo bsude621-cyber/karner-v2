@@ -32,11 +32,10 @@
    AYDINLIK MOD — karanlık modun AÇIK UZAY GRİSİ ikizi (2026-08-23)
    ----------------------------------------------------------------------------
    Kural: yapı, bileşen ve efektler iki modda BİREBİR aynıdır. Yalnızca palet
-   değişir. Karanlık moddaki galaksi konsepti aydınlıkta da aynen çalışır —
-   uzay siyahı yerine uzay grisi zemin, galaksi parçacıkları gri tonlarda.
+   değişir. Karanlıktaki her sahne aydınlıkta da aynen çalışır — yıldız alanı,
+   dönen halka, hero shader'ı, hepsi aynı; sadece renkleri zemine göre döner.
 
-   KARNER'ın mor marka rengi (#7b3fe4) iki modda da korunur; grileşen yalnızca
-   arka plandaki galaksi/parçacık katmanıdır.
+   KARNER'ın mor marka rengi (#7b3fe4) iki modda da korunur.
 
    Buraya bölüme özel kural EKLEME. Aydınlıkta bir şey bozuk görünüyorsa
    sebebi paletteki bir token'dır — token'ı düzelt. Tek tek seçici eklemek
@@ -44,10 +43,9 @@
    yazıldı. Önceki "Mühendis Kâğıdı" konsepti: concepts/cizgisel-mod/
    ============================================================================ */
 html[data-theme="light"] {
-  /* Zemin: UZAY GRİSİ — beyaz değil. Parlaklık 70/100 (beyaz 100, önceki
-     kırık beyaz 83). Yıldız katmanının üstünde durabilmesi için zeminin
-     beyazdan uzaklaşması gerekiyordu; mor taneler bu gride belirgin okunuyor.
-     Metin kontrastı korunuyor: mürekkep #14161c bu zeminde 12.9:1. */
+  /* Zemin: UZAY GRİSİ — beyaz değil. Parlaklık 70/100 (beyaz 100).
+     Karanlıktaki #05060a'nın aynası; mor parçacıklar bu gride belirgin
+     okunuyor. Metin kontrastı: mürekkep #14161c bu zeminde 12.9:1. */
   --background: #d6dae1;
   --foreground: #14161c;
 
@@ -55,7 +53,7 @@ html[data-theme="light"] {
   --accent: #7b3fe4;
   --accent-2: #4b1d96;
   /* --accent-light karanlıkta açılır (#a371ff), aydınlıkta koyulaşır: her iki
-     modda da "zemine göre okunabilir mor" demektir. #e9ebef üzerinde 6.7:1. */
+     modda da "zemine göre okunabilir mor" demektir. */
   --accent-light: #5a2ec4;
 
   /* İkincil metin: karanlıktaki #a6a9ad / #5c5f66 çiftinin aynası. */
@@ -122,27 +120,6 @@ html[data-theme="light"] .logo-emblem {
   }
 }
 /* Hareketi azalt: dalga kalır ama kısa (JS --wash-dur'u 0.35s yapar) */
-
-/* ---- Aydınlık mod sabit yıldız alanı (SiteBackground → Galaxy) ---- */
-
-.galaxy-layer {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-.galaxy-layer canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-/* Sabit arka planın görünmesi için bölümlerin opak zemini kalkar. Yalnızca
-   AYDINLIK modda: karanlıkta sabit katman kurulmuyor, bölümler kendi
-   sahnelerini taşıyor. Hero ve footer hariç — ikisinin kendi zemini var. */
-html[data-theme="light"] :is(section, div)[class*="bg-background"]:not(.hero-root):not(header *):not(footer *) {
-  background-color: transparent;
-}
 
 /* ---- Sahadan kareler (Showreel) — tema-nötr ---- */
 .showreel-track {

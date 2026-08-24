@@ -2,9 +2,8 @@
 
 import type { ComponentType } from "react";
 import { motion } from "framer-motion";
-import { TextHoverEffect } from "@/components/ui/hover-footer";
 import { DottedSurface } from "@/components/ui/dotted-surface";
-import { useIsLight } from "@/lib/use-theme";
+import { TextHoverEffect } from "@/components/ui/hover-footer";
 import { cn } from "@/lib/utils";
 import {
   Users,
@@ -165,14 +164,9 @@ function SignBoard({
 }
 
 export default function AboutSection() {
-  // Karanlık mod: bölümün kendi yıldız alanı (eski görünüm). Aydınlık mod:
-  // site geneli SiteBackground katmanı bu bölümün de arkasından geçiyor,
-  // burada ikinci bir sahne kurulmaz.
-  const light = useIsLight();
-  const Surface = light ? "div" : DottedSurface;
   return (
     <section id="hakkimizda" className="relative">
-      <Surface className="min-h-screen w-full">
+      <DottedSurface className="min-h-screen w-full">
         <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 py-24 sm:px-6">
           <motion.p
             initial={{ y: 16 }}
@@ -228,7 +222,7 @@ export default function AboutSection() {
             ))}
           </div>
         </div>
-      </Surface>
+      </DottedSurface>
     </section>
   );
 }

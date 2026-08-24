@@ -123,13 +123,13 @@ export function DottedSurface({
 
       const applyTheme = () => {
         // Aynı nokta alanı, iki palet. vertexColors × material.color çarpanı:
-        // karanlıkta nötr (mor renkler olduğu gibi geçer), aydınlıkta soğuk gri
-        // çarpan — noktalar uzay grisine döner, açık zeminde okunur kalır.
-        if (isLight()) material.color.setRGB(0.3, 0.33, 0.38);
+        // karanlıkta nötr (marka morları olduğu gibi geçer), aydınlıkta koyu
+        // mor çarpan — aynı mor aile, açık zeminde okunacak kadar koyu.
+        if (isLight()) material.color.setRGB(0.35, 0.2, 0.62);
         else material.color.setRGB(1, 1, 1);
         // Sis iki modda da var; aydınlıkta zeminin kendi grisi, ki uzak
         // noktalar karanlıktaki gibi derinliğe erisin.
-        scene.fog = new THREE.Fog(isLight() ? 0xe9ebef : BRAND.fog, 1800, 9000);
+        scene.fog = new THREE.Fog(isLight() ? 0xd6dae1 : BRAND.fog, 1800, 9000);
       };
       applyTheme();
       const themeObs = new MutationObserver(applyTheme);
