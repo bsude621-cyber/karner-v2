@@ -53,8 +53,9 @@ html[data-theme="light"] {
   --accent: #7b3fe4;
   --accent-2: #4b1d96;
   /* --accent-light karanlıkta açılır (#a371ff), aydınlıkta koyulaşır: her iki
-     modda da "zemine göre okunabilir mor" demektir. */
-  --accent-light: #5a2ec4;
+     modda da "zemine göre okunabilir mor" demektir. Nebula zemini geldikten
+     sonra #5a2ec4 en koyu bölgede 3.80'e düşüyordu; bu ton 4.70 veriyor. */
+  --accent-light: #4d1fae;
 
   /* İkincil metin: karanlıktaki #a6a9ad / #5c5f66 çiftinin aynası. */
   --silver: #5b6270;
@@ -120,6 +121,99 @@ html[data-theme="light"] .logo-emblem {
   }
 }
 /* Hareketi azalt: dalga kalır ama kısa (JS --wash-dur'u 0.35s yapar) */
+
+/* ============================================================================
+   AYDINLIK MOD — UZAY ZEMİNİ
+   ----------------------------------------------------------------------------
+   Sabit nebula görseli; sayfa onun üzerinde kayar. Mor halka (SpaceBackground)
+   ve nokta dalgası (DottedSurface) saydam canvas'lara çizildiği için bu
+   görselin ÜSTÜNDE oynamaya devam eder — sıralama:
+     uzay-zemin → mor halka / nokta dalgası → kartlar, yazılar
+
+   Karanlık mod bu bloktan hiç etkilenmez: tüm kurallar html[data-theme="light"]
+   ile sınırlı, .uzay-zemin varsayılan olarak display:none.
+   ============================================================================ */
+
+.uzay-zemin {
+  display: none;
+}
+
+html[data-theme="light"] .uzay-zemin {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Görsel katmanı. Opaklık ÖLÇÜLEREK seçildi (sRGB'de birleştirilip her
+   pikselin parlaklığı hesaplanarak): görselin en koyu bölgeleri parlaklık
+   20'de: tam opaklıkta mürekkep kontrastı 4.34'e, AA altına düşüyordu.
+   0.50 + aşağıdaki %18 perde ile en koyu bölge 45'e çıkıyor — mürekkep 8.59,
+   soluk metin 4.86, mor vurgu 4.70. Üçü de AA üstünde.
+   inset -3%: aşağıdaki süzülme hareketinde kenar boşluğu görünmesin. */
+html[data-theme="light"] .uzay-zemin::before {
+  content: "";
+  position: absolute;
+  inset: -3%;
+  background-image: url("/backgrounds/uzay-aydinlik.webp");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  will-change: transform;
+  animation: uzay-suzul 96s ease-in-out infinite alternate;
+}
+
+/* Okunurluk perdesi. TEKDÜZE taban şart: içerik tüm genişliğe yayıldığı için
+   yalnızca merkeze konan bir hâle kenarlarda metni açıkta bırakıyordu
+   (ölçüm: kenarda soluk metin 3.75, mor vurgu 2.93 — ikisi de AA altı).
+   %18 taban + merkezde %14 ek → ortada ~%30. Ek kat aynı zamanda ışık kaynağı
+   hissi veriyor: nebulanın ortası aydınlanıyor. */
+html[data-theme="light"] .uzay-zemin::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 95% 75% at 50% 45%,
+      rgba(255, 255, 255, 0.14),
+      transparent 72%
+    ),
+    rgba(255, 255, 255, 0.18);
+}
+
+/* Çok yavaş süzülme: nebula duruyormuş gibi değil, uzayda salınıyormuş gibi
+   dursun. Yalnızca transform animasyonu — tek bileşik katman, GPU'da neredeyse
+   bedava. Dokunmatikte ve hareketi-azalt tercihinde kapalı. */
+@keyframes uzay-suzul {
+  from { transform: scale(1.04) translate3d(-1.2%, -0.8%, 0); }
+  to   { transform: scale(1.09) translate3d(1.2%, 0.8%, 0); }
+}
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  html[data-theme="light"] .uzay-zemin::before {
+    animation: none;
+    transform: scale(1.04);
+    background-image: url("/backgrounds/uzay-aydinlik-mobil.webp");
+  }
+}
+
+/* Uzay zemininin görünmesi için bölümlerin opak zemini kalkar — YALNIZCA
+   aydınlıkta. Footer hariç: o iki modda da koyu levha, kendi zemini var. */
+html[data-theme="light"] :is(section, div)[class*="bg-background"]:not(header *):not(footer *) {
+  background-color: transparent;
+}
+
+/* Soluk metinler (text-white/50…/65 → mürekkebin %50-65 alfası) hareketli
+   zemin üstünde eriyordu: görselin en koyu bölgesinde kontrast 3.13'e iniyor.
+   Aydınlıkta bu yardımcılar sabit, okunur bir mürekkep tonuna sabitlenir —
+   en koyu bölgede 4.71, açık bölgede daha yüksek. Ana mürekkepten (#14161c)
+   hâlâ belirgin şekilde açık, yani başlık/gövde hiyerarşisi korunuyor.
+   Koyu levhalar (footer, marka bandı) muaf: oralarda zemin zaten koyu. */
+html[data-theme="light"]
+  :is([class*="text-white/5"], [class*="text-white/6"]):not(footer *):not(.brand-band *):not(.night-section *) {
+  color: #3d414a;
+}
 
 /* ---- Sahadan kareler (Showreel) — tema-nötr ---- */
 .showreel-track {

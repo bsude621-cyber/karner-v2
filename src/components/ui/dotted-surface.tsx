@@ -127,9 +127,10 @@ export function DottedSurface({
         // mor çarpan — aynı mor aile, açık zeminde okunacak kadar koyu.
         if (isLight()) material.color.setRGB(0.35, 0.2, 0.62);
         else material.color.setRGB(1, 1, 1);
-        // Sis iki modda da var; aydınlıkta zeminin kendi grisi, ki uzak
-        // noktalar karanlıktaki gibi derinliğe erisin.
-        scene.fog = new THREE.Fog(isLight() ? 0xd6dae1 : BRAND.fog, 1800, 9000);
+        // Sis iki modda da var: uzak noktalar zemine erisin. Aydınlıkta zemin
+        // artık düz gri değil, nebula görseli — sis rengi o görselin ortalama
+        // rengine (#c0abe0) eşitlendi, yoksa erime gri bir pus gibi duruyordu.
+        scene.fog = new THREE.Fog(isLight() ? 0xc0abe0 : BRAND.fog, 1800, 9000);
       };
       applyTheme();
       const themeObs = new MutationObserver(applyTheme);

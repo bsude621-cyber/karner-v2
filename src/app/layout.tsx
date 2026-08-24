@@ -101,6 +101,10 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(rootJsonLd) }}
         />
+        {/* Aydınlık mod uzay zemini — sabit nebula. JS yok: karanlıkta CSS
+            gizliyor (.uzay-zemin), tema satır içi script'le boyamadan önce
+            ayarlandığı için titreme olmuyor. */}
+        <div aria-hidden className="uzay-zemin" />
         {/* Saf süsleme — kritik yol dışında, idle/etkileşim sonrası gelir */}
         <DeferredMount>
           <CustomCursor />
