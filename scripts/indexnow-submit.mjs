@@ -1,7 +1,7 @@
 // IndexNow submit — deploy SONRASI çalıştır: npm run indexnow
 // Bing + Yandex + Naver anında indeksler; ChatGPT Search Bing'den beslenir.
 // HOST'u NEXT_PUBLIC_SITE_URL'den alır; domain bağlanmadan (vercel.app) çalıştırma.
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "").trim().replace(/\/+$/, "");
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://karneryazilim.com").trim().replace(/\/+$/, "");
 if (!SITE || SITE.includes("vercel.app") || SITE.includes("karner.example")) {
   console.error("NEXT_PUBLIC_SITE_URL gerçek domain olmalı (örn. https://karneryazilim.com). Çıkılıyor.");
   process.exit(1);

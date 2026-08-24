@@ -1,13 +1,16 @@
 /**
  * Site geneli sabitler — SEO/GEO/AEO altyapısının tek doğruluk kaynağı.
+ * canonical, sitemap, og:url, robots ve llms.txt hepsi SITE_URL'den beslenir.
  *
- * DİKKAT: Canlıya çıkmadan önce NEXT_PUBLIC_SITE_URL ortam değişkenini gerçek
- * domainle (https://karneryazilim.com) set et — canonical, sitemap, og:url,
- * robots ve llms.txt hepsi buradan beslenir.
+ * Varsayılan artık gerçek domain (2026-08-24, canlıya çıkış). Önceden
+ * "karner.example" placeholder'ıydı: NEXT_PUBLIC_SITE_URL unutulur veya
+ * silinirse site sessizce yanlış canonical yayınlıyordu ve bu, arama
+ * motorlarının siteyi yanlış adrese sabitlemesi demek. Artık env değişkeni
+ * yalnızca ÖNİZLEME dağıtımlarını gerçek domainden ayırmak için gerekli.
  */
 // trim: env değeri satır sonu/boşlukla gelirse new URL() build'i düşürüyor
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://karner.example"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://karneryazilim.com"
 )
   .trim()
   .replace(/\/+$/, "");
