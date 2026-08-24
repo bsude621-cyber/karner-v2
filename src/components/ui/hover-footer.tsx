@@ -23,15 +23,20 @@ export const TextHoverEffect = ({
   const textMaskId = `textMask-${uid}`;
 
   useEffect(() => {
-    if (svgRef.current) {
-      const svgRect = svgRef.current.getBoundingClientRect();
-      const cxPercentage = ((cursor.x - svgRect.left) / svgRect.width) * 100;
-      const cyPercentage = ((cursor.y - svgRect.top) / svgRect.height) * 100;
-      setMaskPosition({
-        cx: `${cxPercentage}%`,
-        cy: `${cyPercentage}%`,
-      });
-    }
+    if (!svgRef.current) return;
+    const svgRect = svgRef.current.getBoundingClientRect();
+    // İlk boyamada (ve bölüm daha ölçülmemişken) genişlik/yükseklik 0 olabiliyor;
+    // sıfıra bölünce cx/cy "NaN%" çıkıyor ve tarayıcı her render'da
+    // "<radialGradient> attribute cx: Expected length" hatası basıyordu.
+    // Ölçü oturmadan konumu güncellemiyoruz — merkez (%50) yedeği zaten doğru.
+    if (svgRect.width === 0 || svgRect.height === 0) return;
+    const cxPercentage = ((cursor.x - svgRect.left) / svgRect.width) * 100;
+    const cyPercentage = ((cursor.y - svgRect.top) / svgRect.height) * 100;
+    if (!Number.isFinite(cxPercentage) || !Number.isFinite(cyPercentage)) return;
+    setMaskPosition({
+      cx: `${cxPercentage}%`,
+      cy: `${cyPercentage}%`,
+    });
   }, [cursor]);
 
   return (

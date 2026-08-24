@@ -106,7 +106,7 @@ export default function RootLayout({
             ayarlandığı için titreme olmuyor. */}
         <div aria-hidden className="uzay-zemin" />
         {/* Saf süsleme — kritik yol dışında, idle/etkileşim sonrası gelir */}
-        <DeferredMount>
+        <DeferredMount name="özel imleç">
           <CustomCursor />
         </DeferredMount>
         <SiteNav />

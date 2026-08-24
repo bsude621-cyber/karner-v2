@@ -17,11 +17,22 @@ export default function SmoothScroll({
     const start = () => {
       // Dokunmatik cihazlarda doğal kaydırma: Lenis'in kare döngüsü boşuna çalışıyordu
       if (window.matchMedia("(pointer: coarse)").matches) return;
-      lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-      });
+      // "Hareketi azalt" tercihi: yumuşatılmış kaydırma tam da bu tercihin
+      // kapsadığı şey — tarayıcının kendi kaydırmasına bırakıyoruz.
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      try {
+        lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+        });
+      } catch (err) {
+        // Yumuşak kaydırma bir SÜS. Kurulamazsa sayfa normal kaydırmayla
+        // çalışmaya devam etmeli; bu bileşen tüm sayfayı sardığı için buradan
+        // sızan bir hata siteyi komple hata ekranına düşürürdü.
+        console.warn("[KARNER] yumuşak kaydırma başlatılamadı:", err);
+        return;
+      }
       const raf = (time: number) => {
         lenis?.raf(time);
         rafId = requestAnimationFrame(raf);

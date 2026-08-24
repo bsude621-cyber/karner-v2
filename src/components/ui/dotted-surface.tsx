@@ -34,10 +34,7 @@ export function DottedSurface({
     let cancelled = false;
     let cleanupScene: (() => void) | undefined;
 
-    const start = async () => {
-      const THREE: typeof ThreeNS = await import("three");
-      if (cancelled) return;
-
+    const buildScene = (THREE: typeof ThreeNS) => {
       // Dar ekranda (mobil) nokta sayısı yarıya iner: 2400 → 864 (GPU/CPU tasarrufu)
       const narrowStart = window.innerWidth < 640;
       const SEPARATION = narrowStart ? 200 : 150;
@@ -51,6 +48,21 @@ export function DottedSurface({
       camera.position.set(0, 355, 1220);
 
       const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      const canvas = renderer.domElement;
+      // Bağlam kaybı (telefon uykudan uyanma, GPU belleği daralması):
+      // preventDefault() olmadan tarayıcı bağlamı geri vermez. three.js
+      // "restored" olayında kendi kaynaklarını yeniden yükler; bizim yapmamız
+      // gereken tek şey o arada çizmeye çalışmamak.
+      let contextLost = false;
+      const onContextLost = (e: Event) => {
+        e.preventDefault();
+        contextLost = true;
+      };
+      const onContextRestored = () => {
+        contextLost = false;
+      };
+      canvas.addEventListener("webglcontextlost", onContextLost, false);
+      canvas.addEventListener("webglcontextrestored", onContextRestored, false);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, narrowStart ? 1.25 : 2));
       // Tema: zemin saydam (sayfa arka planı görünür), açık temada noktalar koyulaşır
       const isLight = () => document.documentElement.dataset.theme === "light";
@@ -162,7 +174,7 @@ export function DottedSurface({
       let lastFrame = 0;
       const animate = () => {
         animationId = requestAnimationFrame(animate);
-        if (!visible) return; // ekran dışındayken çizme (performans)
+        if (!visible || contextLost) return; // ekran dışında / bağlam kayıpken çizme
         const nowMs = performance.now();
         if (nowMs - lastFrame < minFrameMs - 1) return;
         lastFrame = nowMs;
@@ -206,14 +218,34 @@ export function DottedSurface({
         visIo.disconnect();
         cancelAnimationFrame(animationId);
 
+        canvas.removeEventListener("webglcontextlost", onContextLost);
+        canvas.removeEventListener("webglcontextrestored", onContextRestored);
+
         geometry.dispose();
         material.dispose();
         renderer.dispose();
+        // Bir sayfanın eşzamanlı WebGL bağlamı sayısı sınırlı (WebKit'te en
+        // katı, iPhone'da sekme çökmesinin klasik sebebi). dispose() tek başına
+        // slotu her tarayıcıda hemen bırakmıyor; açıkça geri veriyoruz.
+        renderer.forceContextLoss();
 
-        if (container.contains(renderer.domElement)) {
-          container.removeChild(renderer.domElement);
+        if (container.contains(canvas)) {
+          container.removeChild(canvas);
         }
       };
+    };
+
+    const start = async () => {
+      const THREE: typeof ThreeNS = await import("three");
+      if (cancelled) return;
+      try {
+        buildScene(THREE);
+      } catch (err) {
+        // WebGL açılamadı / sürücü reddetti: bölüm süssüz ama SAĞLAM kalır.
+        // Bu hata React'e sızarsa (efekt içinde fırlatılırsa) sayfanın tamamı
+        // hata ekranına düşerdi.
+        console.warn("[KARNER] yıldız alanı yüklenemedi:", err);
+      }
     };
 
     // three ancak bölüm viewport'a yaklaşınca inmeye başlar

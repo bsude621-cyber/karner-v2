@@ -11,7 +11,7 @@ const MobileAssistant = dynamic(() => import("@/components/MobileAssistant"), {
 
 export default function DeferredAssistant() {
   return (
-    <DeferredMount>
+    <DeferredMount name="sohbet asistanı">
       <MobileAssistant />
     </DeferredMount>
   );

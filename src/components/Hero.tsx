@@ -33,7 +33,7 @@ export default function Hero() {
           DeferredMount: shader + robotlar kritik render yolundan çıkarıldı —
           metin ve gradient anında boyanır (LCP), sahneler ardından gelir. */}
       <div className="absolute inset-0 z-0">
-        <DeferredMount>
+        <DeferredMount name="hero arka plan shader'ı">
           <KarnerLineFlow angleDeg={-22} />
         </DeferredMount>
       </div>
@@ -52,13 +52,13 @@ export default function Hero() {
 
       {/* 3B robot maskotlar — shader'ın üstünde, metnin altında (mobilde de görünür) */}
       <div className="absolute inset-0 z-[12]">
-        <DeferredMount>
+        <DeferredMount name="3B robotlar">
           <HeroRobots />
         </DeferredMount>
       </div>
 
       {/* Robot konuşma balonları (karşılayıcı + asistan) */}
-      <DeferredMount>
+      <DeferredMount name="hero konuşma balonları">
         <HeroAssistant />
       </DeferredMount>
 

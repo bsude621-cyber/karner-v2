@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   Environment,
@@ -10,6 +10,55 @@ import {
   useAnimations,
 } from "@react-three/drei";
 import * as THREE from "three";
+import { useDeviceProfile } from "@/lib/use-device-profile";
+import type { DeviceProfile } from "@/lib/device";
+
+/**
+ * Sahnenin cihaza göre ayarları. Tek karar tablosu — dağınık `mobile ? a : b`
+ * ifadeleri yerine burada duruyor ki "hangi telefonda ne oluyor" tek bakışta
+ * okunsun.
+ *
+ * KRİTİK OLAN SATIR: `dpr`. Eskiden mobilde sabit 1'di. iPhone'un ekranı 3×
+ * yoğunlukta olduğu için 390 piksel genişliğinde çizilen sahne 1170 piksellik
+ * alana geriliyordu — her piksel dokuz piksele yayılıyordu. Robotların
+ * "kalitesiz" görünmesinin sebebi buydu, modelin kendisi değil. Artık cihazın
+ * gerçek gücüne göre 2×'e kadar çıkıyor (yakl. 4 kat piksel), buna karşılık
+ * MSAA kapanıyor ve kare hızı sınırlı kalıyor — net görüntü, aynı pil.
+ */
+function sceneSettings(p: DeviceProfile) {
+  const { tier, mobile } = p;
+  return {
+    /** Çizim çözünürlüğü tavanı (ekranın kendi yoğunluğuyla sınırlı) */
+    dpr: p.maxDpr,
+    antialias: p.antialias,
+    /** Yansıma/ortam haritası çözünürlüğü — krom gövdedeki parlamayı besler */
+    envResolution: mobile
+      ? tier === "high"
+        ? 128
+        : tier === "mid"
+          ? 96
+          : 64
+      : 256,
+    /**
+     * Temas gölgesinin haritası. Yoğun blur altında kaybolduğu için yüksek
+     * çözünürlük görünür bir kazanç getirmiyor — masaüstü değeri (256) olduğu
+     * gibi kalıyor. Mobilde 128 → 256: sahne artık 4 kat daha çok piksele
+     * çiziliyor, gölge tek zayıf halka olarak kalmasın.
+     */
+    shadowResolution: mobile ? (tier === "high" ? 256 : 128) : 256,
+    /** Gölge kaç kare boyunca güncellensin (1 = tek kare, statik) */
+    shadowFrames: mobile ? 1 : 120,
+    /**
+     * Nokta ışıklar ve alttaki dolgu panelleri masaüstüne özel. Mobilde bunlar
+     * bilinçli olarak kapalı (2026-08-23 hafifletmesi) ve öyle kalıyor: bu
+     * turda mobil GPU bütçesi çözünürlüğe harcandı — asıl şikâyet oydu.
+     * Işıkları da geri açmak iki ağır değişikliği üst üste bindirirdi.
+     */
+    richLighting: !mobile,
+    /** Saniyedeki kare — pil ömrünün asıl belirleyicisi */
+    fps: p.reducedMotion ? 0 : mobile ? (tier === "high" ? 30 : 24) : tier === "low" ? 30 : 60,
+  } as const;
+}
 
 useGLTF.preload("/models/robot-a.opt.glb");
 useGLTF.preload("/models/robot-b.opt.glb");
@@ -26,9 +75,11 @@ type RobotProps = {
   /** hedef yükseklik (birim). Rig'li modelde kaldırılan kola pay için biraz küçük tutulur */
   fit?: number;
   mouse: React.MutableRefObject<{ x: number; y: number }>;
+  /** "hareketi azalt" tercihi: robot duruşunu alır ve orada kalır */
+  still?: boolean;
 };
 
-function Robot({ src, position, faceBias, phase, oscAmp = 0.55, fit = 2.2, mouse }: RobotProps) {
+function Robot({ src, position, faceBias, phase, oscAmp = 0.55, fit = 2.2, mouse, still = false }: RobotProps) {
   const { scene, animations } = useGLTF(src);
   const outer = useRef<THREE.Group>(null);
   const inner = useRef<THREE.Group>(null);
@@ -64,7 +115,13 @@ function Robot({ src, position, faceBias, phase, oscAmp = 0.55, fit = 2.2, mouse
 
   // Malzemeleri canlandır: krom gövde ortamı daha güçlü yansıtsın, mor kenar
   // ışığı gövdeye işlesin. Renk değişmez (gümüş kalır), yalnızca kontrast/parlaklık.
+  const maxAnisotropy = useThree((st) => st.gl.capabilities.getMaxAnisotropy());
   useLayoutEffect(() => {
+    // Anizotropik filtreleme: eğik açıyla bakılan yüzeylerde (gövdenin yanları,
+    // ayak altları) doku bulanıklığını kaldırır. GPU'da neredeyse bedava, ama
+    // yüksek DPR'e çıkınca farkı en çok görünen ayar bu — 8 ile sınırlıyoruz,
+    // ötesi gözle ayırt edilmiyor.
+    const aniso = Math.min(8, maxAnisotropy || 1);
     scene.traverse((o) => {
       const m = (o as THREE.Mesh).material as THREE.Material | THREE.Material[] | undefined;
       if (!m) return;
@@ -75,21 +132,36 @@ function Robot({ src, position, faceBias, phase, oscAmp = 0.55, fit = 2.2, mouse
         // Dokular (renk / metalik-pürüz haritası) olduğu gibi kalır: saç mat,
         // gövde krom — model ne diyorsa o. Sadece ortam yansıması biraz güçlenir.
         std.envMapIntensity = 1.7;
+        for (const map of [std.map, std.metalnessMap, std.roughnessMap, std.normalMap]) {
+          if (map && map.anisotropy !== aniso) {
+            map.anisotropy = aniso;
+            map.needsUpdate = true;
+          }
+        }
         std.needsUpdate = true;
       }
     });
-  }, [scene]);
+  }, [scene, maxAnisotropy]);
 
   // varsa animasyonu (el salla) döngüde oynat
   useLayoutEffect(() => {
     if (!names.length) return;
     const action = actions[names[0]];
     if (!action) return;
+    if (still) {
+      // Hareketi azalt: klip sıfır hızda oynar — el sallama pozu ilk karesinde
+      // donar. (`paused` alanına doğrudan yazmak yerine setEffectiveTimeScale:
+      // aynı sonuç, dış nesneye atama yapmadan.)
+      action.reset().setEffectiveTimeScale(0).play();
+      return () => {
+        action.stop();
+      };
+    }
     action.reset().fadeIn(0.4).play();
     return () => {
       action.fadeOut(0.2);
     };
-  }, [actions, names]);
+  }, [actions, names, still]);
 
   // Giriş animasyonu ilerlemesi (0→1) ve "bakış" hedefi: robot ara sıra yönünü
   // değiştirir, fareye döner — canlı, ayakta duran bir figür hissi.
@@ -97,6 +169,21 @@ function Robot({ src, position, faceBias, phase, oscAmp = 0.55, fit = 2.2, mouse
   const glance = useRef({ target: 0, next: 2 + phase }); // ilk hedef faza bağlı (saf render)
 
   useFrame((state, delta) => {
+    // "Hareketi azalt" açıksa: robot son duruşunu bir kez alır, sonra kıpırdamaz.
+    // (Gizlemek yerine durdurmak doğrusu — figür yerinde, sadece hareket yok.)
+    if (still) {
+      if (inner.current) {
+        inner.current.rotation.y = faceBias;
+        inner.current.rotation.z = 0;
+        inner.current.position.set(0, baseY.current, 0);
+      }
+      if (outer.current) {
+        outer.current.rotation.set(0, 0, 0);
+        outer.current.scale.setScalar(1);
+        outer.current.position.y = position[1];
+      }
+      return;
+    }
     const t = state.clock.elapsedTime;
     // giriş: yerden hafif yükselerek, ölçek 0.92→1, ~1.1 sn ease-out
     if (entrance.current < 1) {
@@ -147,25 +234,101 @@ function Robot({ src, position, faceBias, phase, oscAmp = 0.55, fit = 2.2, mouse
 
 /**
  * Kare sınırlayıcı: Canvas "demand" modunda çalışır, burası belirli aralıkla
- * invalidate eder. Mobil 30 fps, masaüstü 60 fps — 120-144 Hz ekranlarda
- * robot sahnesi gereksiz yere 2× GPU yakıyordu; idle hareket 30-60'ta aynı.
+ * invalidate eder. 120-144 Hz ekranlarda robot sahnesi gereksiz yere 2× GPU
+ * yakıyordu; idle hareket 30-60'ta aynı görünüyor.
+ *
+ * fps = 0 → "hareketi azalt": sahne birkaç kare çizilip (model yüklenmesi,
+ * ortam haritası, gölge otursun diye) donar.
  */
 function FrameLimiter({ fps, active }: { fps: number; active: boolean }) {
   const invalidate = useThree((st) => st.invalidate);
   useEffect(() => {
     if (!active) return;
+    if (fps <= 0) {
+      // Statik sahne: yarım saniye boyunca birkaç kare, sonra sessizlik.
+      const id = window.setInterval(() => invalidate(), 120);
+      const stop = window.setTimeout(() => window.clearInterval(id), 1500);
+      return () => {
+        window.clearInterval(id);
+        window.clearTimeout(stop);
+      };
+    }
     const id = window.setInterval(() => invalidate(), 1000 / fps);
     return () => window.clearInterval(id);
   }, [fps, active, invalidate]);
   return null;
 }
 
+/**
+ * Adaptif kalite emniyeti.
+ *
+ * Cihaz profili bir TAHMİNDİR: çekirdek sayısı yüksek ama GPU'su zayıf
+ * telefonlar, ısınıp kısılan işlemciler, arka planda başka sekme yakan
+ * kullanıcılar var. Bu yüzden ölçüme de bakıyoruz.
+ *
+ * ÖLÇÜT: Sahne "demand" modunda çalışıyor — her kareyi FrameLimiter istiyor.
+ * Dolayısıyla `delta` render maliyeti DEĞİL, iki kare arasındaki gerçek süre.
+ * Doğru soru şu: istediğimiz kare hızını cihaz tutturabiliyor mu? 30 fps
+ * istiyorsak aralık 33 ms olmalı; ısrarla 53 ms'in (1,6 katı) üstündeyse cihaz
+ * bu sahnenin altında kalıyor demektir. Böylece 24 fps hedefleyen bir telefon,
+ * sırf hedefi düşük diye haksız yere cezalandırılmaz.
+ *
+ * Kalite yalnızca DÜŞER (2 → 1.5 → 1), asla geri yükselmez: yükseltmek gidip
+ * gelen bir salınım üretir, titrek görüntü kararsız kaliteden beterdir.
+ */
+function AdaptiveQuality({
+  maxDpr,
+  targetFps,
+  active,
+}: {
+  maxDpr: number;
+  targetFps: number;
+  active: boolean;
+}) {
+  const gl = useThree((st) => st.gl);
+  const samples = useRef<number[]>([]);
+  const current = useRef(maxDpr);
+
+  useEffect(() => {
+    current.current = maxDpr;
+    samples.current.length = 0;
+  }, [maxDpr]);
+
+  useFrame((_, delta) => {
+    // targetFps <= 0 → sahne zaten statik, ölçecek bir akış yok.
+    if (!active || targetFps <= 0 || current.current <= 1) return;
+    // İlk kareler model/doku yüklemesiyle şişkindir; sekme arka plana atılınca
+    // da aralık saniyelere çıkar. 250 ms üstü örnekler ölçüme girmez.
+    if (delta > 0.25) return;
+
+    const s = samples.current;
+    s.push(delta);
+    if (s.length < 45) return;
+
+    const avg = s.reduce((a, b) => a + b, 0) / s.length;
+    s.length = 0;
+
+    const budget = (1 / targetFps) * 1.6;
+    if (avg > budget) {
+      const next = current.current > 1.5 ? 1.5 : 1;
+      current.current = next;
+      gl.setPixelRatio(next);
+    }
+  });
+
+  return null;
+}
+
 function Rig({
   mouse,
   mobile,
+  settings,
+  still,
 }: {
   mouse: React.MutableRefObject<{ x: number; y: number }>;
   mobile: boolean;
+  settings: ReturnType<typeof sceneSettings>;
+  still: boolean;
 }) {
   // Mobilde robotlar birbirine yakın, biraz küçük ve aşağıda dursun.
   // y birimini piksele çevirmek için: kamera fov 38° ve mobilde z=8.2 olduğundan
@@ -209,7 +372,7 @@ function Rig({
       {/* arkadan hafif mor kenar ışığı — silüeti ayırır, renkleri boyamaz */}
       {/* MOBİL HAFİFLETME (2026-08-23): nokta ışıklar yok, ortam haritası 64px ve 3 panel,
           temas gölgesi tek kare (statik) 128px, dpr 1, 24 fps. Görünüm korunur, yük düşer. */}
-      {!mobile && (
+      {settings.richLighting && (
         <>
           <pointLight position={[-2.8, 0.9, -1.5]} intensity={10} distance={7} decay={2} color="#7B3FE4" />
           <pointLight position={[2.8, 0.9, -1.5]} intensity={10} distance={7} decay={2} color="#A78BFA" />
@@ -222,11 +385,11 @@ function Rig({
           soğuk buz-camgöbeği kicker → gövdede mor→beyaz→camgöbeği geçişleri.
           Mat yüzeyler (saç, kumaş) ortamı çok az yansıttığı için renkleri
           BOYANMAZ — daha önce geri alınan renkli ışık sorunu yaşanmaz. */}
-      <Environment resolution={mobile ? 64 : 128}>
+      <Environment resolution={settings.envResolution}>
         <Lightformer form="rect" intensity={4} position={[0, 3.2, 3]} scale={[10, 3.5, 1]} color="#ffffff" />
         <Lightformer form="rect" intensity={3.2} position={[-6, 1, 2]} scale={[3, 7, 1]} color="#8B5CF6" />
         <Lightformer form="rect" intensity={2.8} position={[6, 0.5, 1.5]} scale={[3, 7, 1]} color="#D8B4FE" />
-        {!mobile && (
+        {settings.richLighting && (
           <>
             <Lightformer form="rect" intensity={2.2} position={[0, -3, 2]} scale={[8, 2, 1]} color="#67E8F9" />
             <Lightformer form="ring" intensity={1.6} position={[0, 1, -5]} scale={[6, 6, 1]} color="#C084FC" />
@@ -244,8 +407,8 @@ function Rig({
         blur={2.2}
         opacity={0.8}
         color="#1a0a33"
-        resolution={mobile ? 128 : 256}
-        frames={mobile ? 1 : 120}
+        resolution={settings.shadowResolution}
+        frames={settings.shadowFrames}
       />
       {/* ayakların altında hafif mor zemin halkası — robotlar bir yüzeyde durur */}
       {[-x, x].map((px) => (
@@ -263,6 +426,7 @@ function Rig({
         phase={0}
         fit={fit}
         mouse={mouse}
+        still={still}
       />
       <Robot
         src="/models/robot-b.opt.glb"
@@ -271,6 +435,7 @@ function Rig({
         phase={1.6}
         fit={fit}
         mouse={mouse}
+        still={still}
       />
     </>
   );
@@ -281,8 +446,14 @@ export default function HeroRobots({ className = "" }: { className?: string }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(true);
   const [mobile, setMobile] = useState(false);
+  const profile = useDeviceProfile();
+  const settings = sceneSettings(profile);
 
-  // Ekran boyutunu izle (mobilde robotlar yakın + kamera geride)
+  // YERLEŞİM ölçütü — yalnızca genişlik. Cihaz profilindeki `mobile` bayrağı
+  // dokunmatik iPad'i de kapsıyor; onu buraya bağlamak, telefon için piksel
+  // piksel hesaplanmış hero yerleşimini (robot boyu, buton konumu) geniş
+  // ekranlı tabletlere de uygulardı. Kalite kademesi cihazdan, yerleşim
+  // ekrandan gelir — iki ayrı soru.
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 1023px)");
     const update = () => setMobile(mq.matches);
@@ -312,21 +483,63 @@ export default function HeroRobots({ className = "" }: { className?: string }) {
     return () => io.disconnect();
   }, []);
 
+  // WebGL yoksa (kurumsal politika, çok eski cihaz, GPU kara listesi) hiç
+  // denemeyiz: boş bir tuval bırakmak yerine katman tamamen yok sayılır,
+  // hero'nun metni ve butonları zaten kendi başına ayakta.
+  if (!profile.webgl) return null;
+
   return (
     <div ref={wrapRef} className={`pointer-events-none absolute inset-0 ${className}`}>
       <Canvas
+        // Yerleşim (kamera mesafesi, robot konumları) mobil/masaüstünde farklı;
+        // kademe değişimi ise sahneyi yeniden kurmayı GEREKTİRMEZ — anahtar
+        // yalnızca yerleşime bağlı, yoksa telefon çevrildiğinde modeller
+        // baştan yüklenirdi.
         key={mobile ? "m" : "d"}
         frameloop={visible ? "demand" : "never"}
         camera={{ position: [0, 0.15, mobile ? 8.2 : 6.2], fov: 38 }}
-        dpr={mobile ? [1, 1] : [1, 1.5]}
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-        onCreated={({ gl }) => {
+        dpr={[1, settings.dpr]}
+        gl={{
+          antialias: settings.antialias,
+          alpha: true,
+          powerPreference: "high-performance",
+          // WebKit'te GPU belleği daralınca tarayıcı bağlamı düşürür. Bu bayrak,
+          // three.js'in bağlam geri geldiğinde sahneyi yeniden kurabilmesi için
+          // gerekli davranışı açık tutar.
+          failIfMajorPerformanceCaveat: false,
+        }}
+        onCreated={({ gl, invalidate }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.2;
+
+          // BAĞLAM KAYBI: telefon uyandığında, sekme uzun süre arka planda
+          // kaldığında ya da bellek daraldığında tarayıcı WebGL bağlamını
+          // öldürür. preventDefault() olmadan tarayıcı bağlamı geri VERMEZ ve
+          // sahne kalıcı olarak siyah kalır. Buradaki iki satır, robotların
+          // "bir daha hiç gelmemesi" ile kendiliğinden geri gelmesi arasındaki
+          // farkı yaratıyor.
+          const canvas = gl.domElement;
+          const onLost = (e: Event) => {
+            e.preventDefault();
+          };
+          const onRestored = () => invalidate();
+          canvas.addEventListener("webglcontextlost", onLost, false);
+          canvas.addEventListener("webglcontextrestored", onRestored, false);
         }}
       >
-        <FrameLimiter fps={mobile ? 24 : 60} active={visible} />
-        <Rig mouse={mouse} mobile={mobile} />
+        <FrameLimiter fps={settings.fps} active={visible} />
+        <AdaptiveQuality maxDpr={settings.dpr} targetFps={settings.fps} active={visible} />
+        {/* useGLTF askıya alır (suspend). Sınır olmazsa askı en yakın ÜST
+            sınıra çıkar; model indirilemezse hata da oraya kadar tırmanır.
+            Burada yakalanınca en kötü ihtimalde robotlar gelmez — sayfa durur. */}
+        <Suspense fallback={null}>
+          <Rig
+            mouse={mouse}
+            mobile={mobile}
+            settings={settings}
+            still={profile.reducedMotion}
+          />
+        </Suspense>
       </Canvas>
     </div>
   );

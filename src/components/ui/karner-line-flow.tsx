@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * KARNER Line Flow — hero arka planı için özel yazılmış WebGL shader.
@@ -165,17 +165,34 @@ export function KarnerLineFlow({
   interactive = true,
 }: KarnerLineFlowProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // WebGL bağlamı kaybedilip geri verildiğinde bu sayaç artar ve aşağıdaki
+  // efekt baştan çalışır — shader'lar, program ve buffer yeniden kurulur.
+  // Bağlam kaybı gerçek dünyada sık: telefon uykudan uyandığında, sekme uzun
+  // süre arka planda kaldığında, GPU belleği daraldığında tarayıcı bağlamı
+  // öldürür. Karşılanmazsa arka plan kalıcı olarak kararırdı.
+  const [glEpoch, setGlEpoch] = useState(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // preventDefault() olmadan tarayıcı bağlamı geri VERMEZ — bu satır,
+    // "restored" olayının hiç gelmemesiyle gelmesi arasındaki fark.
+    const onContextLost = (e: Event) => e.preventDefault();
+    const onContextRestored = () => setGlEpoch((n) => n + 1);
+    canvas.addEventListener("webglcontextlost", onContextLost, false);
+    canvas.addEventListener("webglcontextrestored", onContextRestored, false);
+    const detachContextListeners = () => {
+      canvas.removeEventListener("webglcontextlost", onContextLost);
+      canvas.removeEventListener("webglcontextrestored", onContextRestored);
+    };
 
     // Tam ekran quad — antialias edilecek geometri kenarı yok, MSAA saf maliyet.
     // alpha:true — gündüz modunda beyaz zemin üstüne mor çizgiler (siyah kutu yok)
     const gl = canvas.getContext("webgl", { antialias: false, alpha: true, premultipliedAlpha: true });
     if (!gl) {
       console.warn("WebGL not supported.");
-      return;
+      return detachContextListeners;
     }
 
     const compile = (type: number, source: string) => {
@@ -193,16 +210,16 @@ export function KarnerLineFlow({
 
     const vs = compile(gl.VERTEX_SHADER, VERT);
     const fs = compile(gl.FRAGMENT_SHADER, FRAG);
-    if (!vs || !fs) return;
+    if (!vs || !fs) return detachContextListeners;
 
     const program = gl.createProgram();
-    if (!program) return;
+    if (!program) return detachContextListeners;
     gl.attachShader(program, vs);
     gl.attachShader(program, fs);
     gl.linkProgram(program);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
       console.error("Program link error:", gl.getProgramInfoLog(program));
-      return;
+      return detachContextListeners;
     }
 
     const buffer = gl.createBuffer();
@@ -285,7 +302,8 @@ export function KarnerLineFlow({
 
     const render = () => {
       frameId = requestAnimationFrame(render);
-      if (!visible) return;
+      // Bağlam kayıpken çizim çağrıları sessizce yutulur; boşuna kare harcama.
+      if (!visible || gl.isContextLost()) return;
       const nowMs = performance.now();
       if (nowMs - lastFrame < minFrameMs - 1) return;
       lastFrame = nowMs;
@@ -326,12 +344,37 @@ export function KarnerLineFlow({
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onPointerMove);
       io.disconnect();
-      gl.deleteProgram(program);
-      gl.deleteShader(vs);
-      gl.deleteShader(fs);
-      gl.deleteBuffer(buffer);
+      detachContextListeners();
+      // Bağlam zaten kaybolmuşsa silme çağrıları anlamsız; yalnızca yaşayan
+      // bağlamda temizlik yap.
+      //
+      // Burada bağlamı BIRAKMIYORUZ (loseContext yok) — bu temizlik bağlam geri
+      // geldiğinde de çalışıyor (glEpoch değişince) ve o an bağlamı öldürmek,
+      // hemen ardından kurulacak sahneyi doğduğu anda öldürürdü: arka plan
+      // kalıcı olarak kararırdı. Bağlamı bırakma işi yalnızca gerçek sökülmede,
+      // aşağıdaki ayrı efektte yapılıyor.
+      if (!gl.isContextLost()) {
+        gl.deleteProgram(program);
+        gl.deleteShader(vs);
+        gl.deleteShader(fs);
+        gl.deleteBuffer(buffer);
+      }
     };
-  }, [angleDeg, intensity, interactive]);
+  }, [angleDeg, intensity, interactive, glEpoch]);
+
+  // Yalnızca bileşen gerçekten söküldüğünde çalışır (bağımlılık listesi boş).
+  // Bir sayfada eşzamanlı WebGL bağlamı sayısı sınırlı — WebKit'te en katı — ve
+  // çöp toplayıcının bağlamı ne zaman bırakacağı belirsiz; slotu açıkça geri
+  // veriyoruz.
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    return () => {
+      const gl = canvas?.getContext("webgl") as WebGLRenderingContext | null;
+      if (gl && !gl.isContextLost()) {
+        gl.getExtension("WEBGL_lose_context")?.loseContext();
+      }
+    };
+  }, []);
 
   return (
     <canvas

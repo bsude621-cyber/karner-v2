@@ -25,6 +25,10 @@ const securityHeaders = [
     value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
   },
   { key: "X-DNS-Prefetch-Control", value: "on" },
+  // Sekmeyi kendisini açan yabancı sayfadan yalıtır (Lighthouse "Best
+  // Practices" maddesi). `-allow-popups` sürümü seçildi: tam yalıtım, sitenin
+  // açtığı pencerelerle (harita, telefon/e-posta uygulamaları) bağı koparabilir.
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
 ];
 
 const nextConfig: NextConfig = {
@@ -49,6 +53,26 @@ const nextConfig: NextConfig = {
    * geçerli — üretim derlemesini etkilemez.
    */
   allowedDevOrigins: ["192.168.1.*"],
+
+  // Sunucu imzası paylaşmanın faydası yok, her yanıtta birkaç bayt maliyeti var.
+  poweredByHeader: false,
+
+  /**
+   * Görsel teslimatı — tarayıcı ne destekliyorsa onu alsın.
+   *
+   * Next, isteğin `Accept` başlığına bakıp listeden İLK eşleşeni üretir; sıra
+   * bu yüzden önemli. AVIF, WebP'den ~%20 daha küçük ve artık Safari 16+
+   * dahil her yerde destekleniyor; desteklemeyen tarayıcı sessizce WebP'ye,
+   * o da yoksa özgün formata düşer. Hizmet görselleri 75-230 KB arası JPEG —
+   * mobilde en çok bayt bu satırla geri kazanılıyor.
+   */
+  images: {
+    formats: ["image/avif", "image/webp"],
+    // Görseller dosya adı değişmeden güncellenmiyor; 4 saatlik varsayılan TTL
+    // yerine 30 gün, tekrar tekrar yeniden üretmeyi (ve maliyeti) önler.
+    minimumCacheTTL: 2592000,
+  },
+
   experimental: {
     /**
      * CSS'i <style> olarak HTML'e göm: render-blocking CSS isteği kalkar,
@@ -56,6 +80,12 @@ const nextConfig: NextConfig = {
      * arama trafiği ağırlıklı sitede ziyaretçilerin çoğu ilk-ziyaret.
      */
     inlineCss: true,
+    /**
+     * framer-motion adlandırılmış onlarca modül dışa aktarıyor; bu liste
+     * yalnızca gerçekten kullanılanların paketlenmesini sağlıyor.
+     * (lucide-react zaten Next'in varsayılan listesinde.)
+     */
+    optimizePackageImports: ["framer-motion"],
   },
   async headers() {
     return [
