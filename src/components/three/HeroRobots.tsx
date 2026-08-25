@@ -60,8 +60,33 @@ function sceneSettings(p: DeviceProfile) {
   } as const;
 }
 
-useGLTF.preload("/models/robot-a.opt.glb");
-useGLTF.preload("/models/robot-b.opt.glb");
+/**
+ * Model çiftleri. Mobil sürümlerin dokuları 512², masaüstününkiler 1024².
+ * (Üretimi: scripts/make-mobile-models.mjs — türetilmiş dosyalar, elle
+ * düzenlenmez.)
+ *
+ * Sebep GPU belleği: sıkıştırılmış .glb boyutları yakın (çoğu geometri ve
+ * animasyon), ama GPU'da doku sıkıştırılmadan durur. Sekiz adet 1024² doku
+ * ~43 MB, 512² olanlar ~11 MB. Robotlar telefonda 230 piksel boyunda
+ * göründüğü için aradaki fark ekranda görünmüyor — iOS Safari'nin sekme
+ * bellek tavanında ise 32 MB'lık bir yer açıyor.
+ */
+const MODELS = {
+  desktop: ["/models/robot-a.opt.glb", "/models/robot-b.opt.glb"],
+  mobile: ["/models/robot-a.mobile.glb", "/models/robot-b.mobile.glb"],
+} as const;
+
+const pickModels = (mobile: boolean) => (mobile ? MODELS.mobile : MODELS.desktop);
+
+// Bu modül yalnızca tarayıcıda yükleniyor (Hero.tsx'te dynamic + ssr:false),
+// bu yüzden burada ölçüm yapmak güvenli. Ölçüt aşağıdaki yerleşim kırılma
+// noktasının AYNISI — yoksa telefon önce masaüstü modellerini indirir, sonra
+// mobil olanları: 2.5 MB boşa giderdi.
+if (typeof window !== "undefined") {
+  for (const src of pickModels(window.matchMedia("(max-width: 1023px)").matches)) {
+    useGLTF.preload(src);
+  }
+}
 
 type RobotProps = {
   src: string;
@@ -346,6 +371,7 @@ function Rig({
   // Hero.tsx'teki buton konumu (top: calc(418px + clamp(140px, 100dvh − 541px, 230px)))
   // bu formülle eşleşir: ayak + 26 px. Birim↔px: görünür yükseklik 5.648 birim
   // (fov 38°, z 8.2), kamera y 0.15 → üst kenar 0.15 + 2.824 birim.
+  const [modelA, modelB] = pickModels(mobile);
   const { size } = useThree();
   const H = Math.max(1, size.height);
   const aspect = size.width / H;
@@ -420,7 +446,7 @@ function Rig({
 
       {/* soldaki: Robot A, hafif sağa dönük — sağdaki: Robot B, hafif sola dönük */}
       <Robot
-        src="/models/robot-a.opt.glb"
+        src={modelA}
         position={[-x, y, 0]}
         faceBias={0.35}
         phase={0}
@@ -429,7 +455,7 @@ function Rig({
         still={still}
       />
       <Robot
-        src="/models/robot-b.opt.glb"
+        src={modelB}
         position={[x, y, 0]}
         faceBias={-0.35}
         phase={1.6}
