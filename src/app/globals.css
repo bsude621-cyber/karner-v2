@@ -195,6 +195,14 @@ html[data-theme="light"] .uzay-zemin::after {
     animation: none;
     transform: scale(1.04);
     background-image: url("/backgrounds/uzay-aydinlik-mobil.webp");
+    /* will-change KALKAR. Bu blokta animasyon zaten kapalı, ama will-change
+       kalırsa tarayıcı "birazdan oynayacak" diye tam ekran boyutunda bir GPU
+       katmanını KALICI olarak ayrılmış tutar — telefonda ~12 MB, her sayfada,
+       hiç kıpırdamayan bir görsel için. Safari'nin sekme belleği sınırlıdır ve
+       bu katman yalnızca aydınlık modda var; "aydınlıkta gezerken sayfa
+       çöküyor" tablosunun payı burada.
+       Kural: will-change yalnızca gerçekten animasyon oynarken durmalı. */
+    will-change: auto;
   }
 }
 
@@ -223,6 +231,16 @@ html[data-theme="light"]
 .showreel-strip:hover .showreel-track,
 .showreel-strip:focus-within .showreel-track {
   animation-play-state: paused;
+}
+/* Bölüm ekran dışındayken şerit durur VE GPU katmanını bırakır.
+   Şerit 12 kareden oluşuyor ve `w-max` ile çok geniş: telefonda bileşik katmanı
+   ~20 MB. Sonsuz animasyon hiç durmadığı için bu katman, bölüm ekranda olmasa
+   da sayfa açık kaldığı sürece bellekte duruyordu. Sınıfı Showreel.tsx
+   IntersectionObserver ile ekliyor; JS çalışmazsa eski davranış (sürekli akış)
+   aynen geçerli. */
+.showreel-strip.showreel-paused .showreel-track {
+  animation-play-state: paused;
+  will-change: auto;
 }
 @keyframes showreel-run {
   from { transform: translateX(0); }

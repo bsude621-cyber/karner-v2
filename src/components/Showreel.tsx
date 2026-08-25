@@ -75,6 +75,26 @@ function Frame({ clip, index }: { clip: Clip; index: number }) {
 
 export default function Showreel() {
   const list = [...CLIPS, ...CLIPS]; // kesintisiz döngü için iki kopya
+  const stripRef = useRef<HTMLDivElement>(null);
+
+  // Şerit ekran dışındayken animasyonu durdur.
+  //
+  // Sonsuz bir transform animasyonu, bölüm görünmese bile tarayıcının o
+  // katmanı GPU'da hazır tutmasına sebep oluyor. Şerit 12 kare genişliğinde;
+  // telefonda ~20 MB'lık bir bileşik katman, sayfa açık kaldığı sürece
+  // bellekte. Safari sekme belleği dolunca sayfayı öldürüyor ("bu sayfada
+  // birçok kez sorun oluştu"). Duraklatınca CSS will-change'i de bırakıyor.
+  useEffect(() => {
+    const el = stripRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => el.classList.toggle("showreel-paused", !entry.isIntersecting),
+      { rootMargin: "200px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section id="sahadan" className="relative overflow-hidden bg-background py-24 sm:py-28">
       <div className="mx-auto max-w-6xl px-6">
@@ -85,7 +105,7 @@ export default function Showreel() {
           subtitle="Müşteri işlerinden kısa kesitler — ses kapalı, döngüde. Tamamı ve hikâyeleri İşlerimiz sayfasında."
         />
       </div>
-      <div className="showreel-strip relative mt-12">
+      <div ref={stripRef} className="showreel-strip relative mt-12">
         {/* kenar erimeleri */}
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-background to-transparent sm:w-32" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent sm:w-32" />
