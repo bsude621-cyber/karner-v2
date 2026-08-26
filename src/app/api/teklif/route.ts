@@ -1,10 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
+import { mailConfigured, sendLeadEmail } from "@/lib/mail";
 
 export const runtime = "nodejs";
 
 /**
- * Teklif formu → n8n webhook (KARNER instance) → Telegram bildirimi + tablo kaydı.
- * Webhook adresi sunucuda gizli (TEKLIF_WEBHOOK_URL); tarayıcıya sızmaz.
+ * Teklif formu → İKİ BAĞIMSIZ KANAL:
+ *   1. n8n webhook (TEKLIF_WEBHOOK_URL) → Telegram bildirimi + tablo kaydı
+ *   2. Doğrudan e-posta (bkz. lib/mail.ts) → karneryazilim@gmail.com
+ *
+ * İkinci kanal sonradan eklendi: n8n iş akışında e-posta adımı hiç yoktu, bu
+ * yüzden talepler Telegram'a düşüyor ama posta kutusuna hiç ulaşmıyordu.
+ *
+ * Kanallar birbirine bağlı DEĞİL ve paralel çalışır. BİRİ bile başarılı olursa
+ * talep bize ulaşmış demektir ve ziyaretçiye başarı dönülür — n8n durduğu için
+ * müşteri kaybetmek ya da e-posta sağlayıcısı takıldı diye ziyaretçiye hata
+ * göstermek istemiyoruz. İkisi birden başarısız olursa gerçek bir hata vardır
+ * ve ziyaretçi telefon/e-postaya yönlendirilir.
+ *
+ * Webhook adresi ve API anahtarı sunucuda kalır; tarayıcıya sızmaz.
  * Honeypot alanı (website) doluysa bot sayılır, sessizce "ok" döner.
  */
 type Payload = {
@@ -60,23 +73,28 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const url = process.env.TEKLIF_WEBHOOK_URL;
-  if (!url) {
+  const lead = { name, email, phone, message, paket, page };
+
+  const webhookUrl = process.env.TEKLIF_WEBHOOK_URL;
+  const channels: Promise<boolean>[] = [];
+
+  if (webhookUrl) channels.push(postToWebhook(webhookUrl, lead));
+  if (mailConfigured()) channels.push(sendLeadEmail(lead));
+
+  if (channels.length === 0) {
     return NextResponse.json(
       { ok: false, error: "Form şu anda yapılandırılmamış; lütfen e-posta ile yazın." },
       { status: 503 },
     );
   }
 
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, phone, message, paket, page }),
-      signal: AbortSignal.timeout(8000),
-    });
-    if (!res.ok) throw new Error(`webhook ${res.status}`);
-  } catch {
+  // Paralel: biri yavaşsa diğerini bekletmesin. allSettled — bir kanalın
+  // patlaması diğerinin sonucunu düşürmemeli.
+  const results = await Promise.allSettled(channels);
+  const delivered = results.some((r) => r.status === "fulfilled" && r.value);
+
+  if (!delivered) {
+    console.error("[KARNER] teklif hiçbir kanaldan iletilemedi:", results);
     return NextResponse.json(
       { ok: false, error: "Mesaj iletilemedi; lütfen e-posta veya telefonla ulaşın." },
       { status: 502 },
@@ -84,4 +102,24 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ ok: true });
+}
+
+/** n8n kanalı. Hata fırlatmaz; iki durumlu sonuç döner (bkz. rota başlığı). */
+async function postToWebhook(url: string, lead: Record<string, string>) {
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(lead),
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!res.ok) {
+      console.error("[KARNER] n8n webhook yanıtı:", res.status);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("[KARNER] n8n webhook hatası:", err);
+    return false;
+  }
 }
