@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createStableResize } from "@/lib/stable-resize";
 
 /**
  * KARNER Line Flow — hero arka planı için özel yazılmış WebGL shader.
@@ -284,7 +285,16 @@ export function KarnerLineFlow({
     };
 
     resize();
-    window.addEventListener("resize", resize);
+    // iOS'ta kaydırırken URL çubuğu oynadıkça her seferinde WebGL tamponunu
+    // yeniden ayırmayı bırakıyoruz — ayrıntı: lib/stable-resize.ts
+    const stableResize = createStableResize(() => {
+      const parent = canvas.parentElement;
+      return {
+        width: parent ? parent.clientWidth : window.innerWidth,
+        height: parent ? parent.clientHeight : window.innerHeight,
+      };
+    }, resize);
+    window.addEventListener("resize", stableResize.notify);
     if (interactOn) window.addEventListener("pointermove", onPointerMove);
 
     let visible = true;
@@ -341,7 +351,8 @@ export function KarnerLineFlow({
 
     return () => {
       cancelAnimationFrame(frameId);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", stableResize.notify);
+      stableResize.dispose();
       window.removeEventListener("pointermove", onPointerMove);
       io.disconnect();
       detachContextListeners();

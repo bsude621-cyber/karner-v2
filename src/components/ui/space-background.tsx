@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { createStableResize } from "@/lib/stable-resize";
 
 interface Particle {
   color: string;
@@ -150,18 +151,30 @@ export function SpaceBackground({
     );
     io.observe(canvas);
 
+    // Yeniden ayırmayı gecikmeli ve gerçekten gerektiğinde yap: iOS'ta URL
+    // çubuğu kıpırdadıkça tuval tamponunu baştan ayırmak boşuna bellek
+    // hareketi (bkz. lib/stable-resize.ts).
+    const stableResize = createStableResize(
+      () => ({
+        width: parent ? parent.clientWidth : window.innerWidth,
+        height: parent ? parent.clientHeight : window.innerHeight,
+      }),
+      setupCanvas,
+    );
+
     let resizeObserver: ResizeObserver | null = null;
     if (parent && typeof ResizeObserver !== "undefined") {
-      resizeObserver = new ResizeObserver(() => setupCanvas());
+      resizeObserver = new ResizeObserver(stableResize.notify);
       resizeObserver.observe(parent);
     } else {
-      window.addEventListener("resize", setupCanvas);
+      window.addEventListener("resize", stableResize.notify);
     }
 
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       if (resizeObserver) resizeObserver.disconnect();
-      else window.removeEventListener("resize", setupCanvas);
+      else window.removeEventListener("resize", stableResize.notify);
+      stableResize.dispose();
       io.disconnect();
     };
   }, [particleCount, particleColor]);

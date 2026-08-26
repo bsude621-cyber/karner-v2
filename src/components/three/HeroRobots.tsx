@@ -522,6 +522,14 @@ export default function HeroRobots({ className = "" }: { className?: string }) {
         // yalnızca yerleşime bağlı, yoksa telefon çevrildiğinde modeller
         // baştan yüklenirdi.
         key={mobile ? "m" : "d"}
+        // Ölçümü geciktir. iOS'ta kaydırırken URL çubuğu oynuyor, görüntü
+        // alanının yüksekliği değişiyor ve r3f her değişimde çizim tamponunu
+        // (mobilde 780×1328 ≈ 4 MB) yeniden ayırıyordu. Kullanıcı bir aşağı bir
+        // yukarı gezdikçe saniyede birkaç kez megabaytlık ayırma/bırakma —
+        // iOS Safari'nin sekme bellek tavanını "bir süre sonra" aşmasının
+        // sebeplerinden biri buydu. Gecikme, o seli tek bir ayırmaya indiriyor;
+        // nihai boyut yine doğru ölçülüyor, yerleşim matematiği bozulmuyor.
+        resize={{ debounce: { scroll: 200, resize: 200 } }}
         frameloop={visible ? "demand" : "never"}
         camera={{ position: [0, 0.15, mobile ? 8.2 : 6.2], fov: 38 }}
         dpr={[1, settings.dpr]}

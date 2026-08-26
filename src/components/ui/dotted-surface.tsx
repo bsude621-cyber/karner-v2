@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import React, { useEffect, useRef } from "react";
+import { createStableResize } from "@/lib/stable-resize";
 // Yalnızca tip — çalışma zamanında silinir. three'nin kendisi aşağıda,
 // bölüm viewport'a yaklaşınca dinamik import edilir; statik import edilseydi
 // ~600KB'lık kütüphane ana pakete girer, açılışta 2+ sn script yerdi.
@@ -201,7 +202,14 @@ export function DottedSurface({
       resize();
       animate();
 
-      const observer = new ResizeObserver(resize);
+      // Gecikmeli + yalnızca gerçek boyut değişiminde: iOS'ta kaydırma
+      // boyunca renderer.setSize çağırmak WebGL tamponunu tekrar tekrar
+      // ayırıyordu (bkz. lib/stable-resize.ts).
+      const stableResize = createStableResize(() => {
+        const r = wrapper.getBoundingClientRect();
+        return { width: r.width, height: r.height };
+      }, resize);
+      const observer = new ResizeObserver(stableResize.notify);
       observer.observe(wrapper);
 
       const visIo = new IntersectionObserver(
@@ -215,6 +223,7 @@ export function DottedSurface({
       cleanupScene = () => {
         themeObs.disconnect();
         observer.disconnect();
+        stableResize.dispose();
         visIo.disconnect();
         cancelAnimationFrame(animationId);
 
