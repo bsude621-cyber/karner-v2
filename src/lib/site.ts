@@ -8,6 +8,8 @@
  * motorlarının siteyi yanlış adrese sabitlemesi demek. Artık env değişkeni
  * yalnızca ÖNİZLEME dağıtımlarını gerçek domainden ayırmak için gerekli.
  */
+import { services } from "@/data/services";
+
 // trim: env değeri satır sonu/boşlukla gelirse new URL() build'i düşürüyor
 export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://karneryazilim.com"
@@ -77,6 +79,35 @@ export const TEAM_ROLES = [
   },
 ] as const;
 
+/**
+ * Organization'ın hizmet kataloğu — yayındaki services verisinden üretilir.
+ * Her Offer, o hizmetin kendi sayfasındaki Service düğümüne @id ile bağlanır;
+ * böylece "KARNER neler yapıyor" sorusunun cevabı tek düğümde toplanır ve
+ * grafiğin uçları birbirini doğrular.
+ *
+ * Fiyat alanı bilerek YOK: site fiyat yayınlamıyor, schema'da uydurulmaz.
+ */
+function offerCatalogJsonLd() {
+  return {
+    "@type": "OfferCatalog",
+    "@id": `${SITE_URL}/#hizmet-katalogu`,
+    name: "KARNER hizmetleri",
+    inLanguage: "tr",
+    numberOfItems: services.length,
+    itemListElement: services.map((s, i) => ({
+      "@type": "Offer",
+      position: i + 1,
+      itemOffered: {
+        "@type": "Service",
+        "@id": `${SITE_URL}/hizmetler/${s.slug}#service`,
+        name: s.title,
+        description: s.summary,
+        url: `${SITE_URL}/hizmetler/${s.slug}`,
+      },
+    })),
+  };
+}
+
 /** Organization düğümü — @id ile diğer schema'lardan referans alınır. */
 export function organizationJsonLd() {
   return {
@@ -112,6 +143,7 @@ export function organizationJsonLd() {
     areaServed: [{ "@type": "Country", name: "Türkiye" }],
     knowsAbout: [...KNOWS_ABOUT],
     knowsLanguage: ["tr"],
+    hasOfferCatalog: offerCatalogJsonLd(),
     sameAs: [...SAME_AS],
   };
 }
