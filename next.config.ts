@@ -87,6 +87,20 @@ const nextConfig: NextConfig = {
      */
     optimizePackageImports: ["framer-motion"],
   },
+  /**
+   * Tek kanonik host: karneryazilim.com. Vercel üretim takma adı
+   * (karner-v2.vercel.app) ve www, 308 ile apex'e döner — arama motoru
+   * aynı sayfayı üç adreste görmesin. Önizleme URL'leri (karner-v2-xxx-…)
+   * bilerek kapsam dışı; Beyza'nın preview'ları çalışmaya devam eder.
+   */
+  async redirects() {
+    return ["karner-v2.vercel.app", "www.karneryazilim.com"].map((host) => ({
+      source: "/:path*",
+      has: [{ type: "host", value: host }],
+      destination: "https://karneryazilim.com/:path*",
+      permanent: true,
+    }));
+  },
   async headers() {
     return [
       { source: "/(.*)", headers: securityHeaders },
