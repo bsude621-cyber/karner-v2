@@ -128,6 +128,16 @@ export function organizationJsonLd() {
     image: { "@id": `${SITE_URL}/#logo` },
     description: ORG_DESCRIPTION,
     slogan: "Yazılım ve Medya",
+    /**
+     * Yalnızca yıl (Sude 2026-08-27). Ay/gün bilinmiyor, uydurulmaz —
+     * schema.org Date alanı ISO 8601 olduğu için "2026" tek başına geçerli.
+     *
+     * address YOK ve bilinçli: fiziksel adres yayınlanmıyor. Uydurma adres
+     * yazmak, arama motorlarının işletmeyi yanlış konuma sabitlemesi demek;
+     * boş bırakmaktan çok daha pahalı. Adres yayınlanmaya karar verilirse
+     * PostalAddress buraya eklenir ve areaServed onunla tutarlı tutulur.
+     */
+    foundingDate: "2026",
     email: CONTACT.email,
     telephone: CONTACT.phoneE164,
     contactPoint: [
