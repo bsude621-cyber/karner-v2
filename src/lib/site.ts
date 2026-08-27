@@ -55,6 +55,7 @@ export const SOCIAL_PROFILES = [
   { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/karner-yazilim-ve-medya-10b937418/" },
   { id: "instagram", label: "Instagram", href: "https://www.instagram.com/karneryazilim/" },
   { id: "youtube", label: "YouTube", href: "https://www.youtube.com/@karnerlab" },
+  { id: "tiktok", label: "TikTok", href: "https://www.tiktok.com/@karnerlab" },
   { id: "github", label: "GitHub", href: "https://github.com/bsude621-cyber" },
 ] as const;
 
