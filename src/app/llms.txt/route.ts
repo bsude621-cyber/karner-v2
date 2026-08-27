@@ -2,7 +2,7 @@ import { services } from "@/data/services";
 import { guides } from "@/data/guides";
 import { cases } from "@/data/cases";
 import { sectors } from "@/data/sectors";
-import { BRAND_SENTENCE, CONTACT, ORG_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { BRAND_SENTENCE, CONTACT, ORG_DESCRIPTION, SITE_NAME, SITE_URL, SOCIAL_PROFILES } from "@/lib/site";
 
 export const dynamic = "force-static";
 
@@ -16,6 +16,7 @@ export function GET() {
     BRAND_SENTENCE,
     "",
     `İletişim: ${CONTACT.email} — ${CONTACT.phoneDisplay}`,
+    `Profiller: ${SOCIAL_PROFILES.map((p) => `${p.label} ${p.href}`).join(" · ")}`,
     "",
     "## Hizmetler",
     "",

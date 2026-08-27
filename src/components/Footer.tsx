@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { Mail, Phone, MapPin, GitBranch } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import { SOCIAL_PROFILES } from "@/lib/site";
 import {
   FooterBackgroundGradient,
   TextHoverEffect,
@@ -71,14 +72,37 @@ const contactInfo = [
   },
 ];
 
-// Gerçek hesaplar geldikçe eklenir (Instagram / LinkedIn) — yer tutucu bağlantı yok.
-const socialLinks = [
-  {
-    icon: <GitBranch size={18} />,
-    label: "GitHub",
-    href: "https://github.com/bsude621-cyber",
-  },
-];
+// Marka ikonları lucide'da yok (1.x'te kaldırıldı) — satır içi SVG, stroke = currentColor.
+const SOCIAL_ICONS: Record<(typeof SOCIAL_PROFILES)[number]["id"], React.ReactNode> = {
+  linkedin: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  ),
+  instagram: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <rect x="2" y="2" width="20" height="20" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+    </svg>
+  ),
+  youtube: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M22.5 7.2a2.9 2.9 0 0 0-2-2C18.7 4.7 12 4.7 12 4.7s-6.7 0-8.5.5a2.9 2.9 0 0 0-2 2A30 30 0 0 0 1 12a30 30 0 0 0 .5 4.8 2.9 2.9 0 0 0 2 2c1.8.5 8.5.5 8.5.5s6.7 0 8.5-.5a2.9 2.9 0 0 0 2-2A30 30 0 0 0 23 12a30 30 0 0 0-.5-4.8z" />
+      <path d="m10 15 5-3-5-3z" fill="currentColor" />
+    </svg>
+  ),
+  github: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+      <path d="M9 18c-4.51 2-5-2-7-2" />
+    </svg>
+  ),
+};
+
+const socialLinks = SOCIAL_PROFILES.map((p) => ({ ...p, icon: SOCIAL_ICONS[p.id] }));
 
 export default function Footer() {
   return (
@@ -156,7 +180,7 @@ export default function Footer() {
                   aria-label={label}
                   className="transition-colors hover:text-(--footer-accent)"
                   target={href.startsWith("http") ? "_blank" : undefined}
-                  rel={href.startsWith("http") ? "noreferrer" : undefined}
+                  rel={href.startsWith("http") ? "me noreferrer" : undefined}
                 >
                   {icon}
                 </a>

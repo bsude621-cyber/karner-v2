@@ -49,9 +49,16 @@ export const KNOWS_ABOUT = [
 /**
  * Doğrulanmış dış profiller — sameAs. Yalnızca gerçekten var olan ve
  * KARNER'a ait hesaplar; tahminle URL yazılmaz. (LinkedIn / Instagram
- * hesapları açılınca buraya eklenir.)
+ * hesapları 2026-08-27 Sude verdi.)
  */
-export const SAME_AS = ["https://github.com/bsude621-cyber"] as const;
+export const SOCIAL_PROFILES = [
+  { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/karner-yazilim-ve-medya-10b937418/" },
+  { id: "instagram", label: "Instagram", href: "https://www.instagram.com/karneryazilim/" },
+  { id: "youtube", label: "YouTube", href: "https://www.youtube.com/@karnerlab" },
+  { id: "github", label: "GitHub", href: "https://github.com/bsude621-cyber" },
+] as const;
+
+export const SAME_AS = SOCIAL_PROFILES.map((p) => p.href);
 
 /**
  * Ekip — İSİMSİZ (Sude 2026-08-21: "kişi kişi isim vermeyelim").
