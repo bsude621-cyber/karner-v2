@@ -39,6 +39,10 @@ const jsonLd = {
       description: DESCRIPTION,
       inLanguage: "tr",
       isPartOf: { "@id": `${SITE_URL}/#website` },
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: ["h1", ".speakable-summary"],
+      },
       breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
       datePublished: dates.published,
       dateModified: dates.modified,
@@ -76,7 +80,7 @@ export default function CasesHubPage() {
           <h1 className="max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl">
             Yayında olan gerçek işler, tarihli gözlemlerle
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
+          <p className="speakable-summary mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
             <strong className="text-white">
               Her projede üç şey yazılıdır: çözülen sorun, kurulan yapı ve ölçülen sonuç.
             </strong>{" "}

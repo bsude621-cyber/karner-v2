@@ -8,6 +8,8 @@
  * motorlarının siteyi yanlış adrese sabitlemesi demek. Artık env değişkeni
  * yalnızca ÖNİZLEME dağıtımlarını gerçek domainden ayırmak için gerekli.
  */
+import { services } from "@/data/services";
+
 // trim: env değeri satır sonu/boşlukla gelirse new URL() build'i düşürüyor
 export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://karneryazilim.com"
@@ -16,6 +18,43 @@ export const SITE_URL = (
   .replace(/\/+$/, "");
 
 export const SITE_NAME = "KARNER";
+
+/**
+ * Arama motoru doğrulama kodları — Search Console / Bing / Yandex panelinden
+ * alınan benzersiz token'lar. Kod DEĞİL, ortam değişkeni olarak tutulur:
+ * her token tek bir mülke ait, sabit yazılırsa önizleme dağıtımları da aynı
+ * kodu yayınlar ve doğrulama yanlış mülke bağlanır.
+ *
+ * Kurulum (Vercel → Settings → Environment Variables), yalnız Production:
+ *   NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION  (Search Console → HTML etiketi)
+ *   NEXT_PUBLIC_BING_SITE_VERIFICATION    (Bing Webmaster → msvalidate.01)
+ *   NEXT_PUBLIC_YANDEX_SITE_VERIFICATION  (Yandex Webmaster)
+ *
+ * Tanımlı olmayan sağlayıcı için etiket hiç basılmaz — boş content'li
+ * doğrulama etiketi doğrulamayı başarısız kılar, yoksa saymaktan kötüdür.
+ */
+const envToken = (v: string | undefined) => {
+  const t = v?.trim();
+  return t && t.length > 0 ? t : undefined;
+};
+
+export const SITE_VERIFICATION = {
+  google: envToken(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION),
+  bing: envToken(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION),
+  yandex: envToken(process.env.NEXT_PUBLIC_YANDEX_SITE_VERIFICATION),
+} as const;
+
+/** metadata.verification — yalnızca tanımlı sağlayıcılar döner, yoksa undefined. */
+export function verificationMetadata() {
+  const { google, bing, yandex } = SITE_VERIFICATION;
+  if (!google && !bing && !yandex) return undefined;
+  return {
+    ...(google ? { google } : {}),
+    ...(yandex ? { yandex } : {}),
+    // Bing'in etiket adi msvalidate.01; Next bunu "other" altından basar.
+    ...(bing ? { other: { "msvalidate.01": bing } } : {}),
+  };
+}
 
 /** Tek cümlelik marka tanımı — entity disambiguation (görünür metin + schema aynı cümle). */
 export const BRAND_SENTENCE =
@@ -85,6 +124,35 @@ export const TEAM_ROLES = [
   },
 ] as const;
 
+/**
+ * Organization'ın hizmet kataloğu — yayındaki services verisinden üretilir.
+ * Her Offer, o hizmetin kendi sayfasındaki Service düğümüne @id ile bağlanır;
+ * böylece "KARNER neler yapıyor" sorusunun cevabı tek düğümde toplanır ve
+ * grafiğin uçları birbirini doğrular.
+ *
+ * Fiyat alanı bilerek YOK: site fiyat yayınlamıyor, schema'da uydurulmaz.
+ */
+function offerCatalogJsonLd() {
+  return {
+    "@type": "OfferCatalog",
+    "@id": `${SITE_URL}/#hizmet-katalogu`,
+    name: "KARNER hizmetleri",
+    inLanguage: "tr",
+    numberOfItems: services.length,
+    itemListElement: services.map((s, i) => ({
+      "@type": "Offer",
+      position: i + 1,
+      itemOffered: {
+        "@type": "Service",
+        "@id": `${SITE_URL}/hizmetler/${s.slug}#service`,
+        name: s.title,
+        description: s.summary,
+        url: `${SITE_URL}/hizmetler/${s.slug}`,
+      },
+    })),
+  };
+}
+
 /** Organization düğümü — @id ile diğer schema'lardan referans alınır. */
 export function organizationJsonLd() {
   return {
@@ -105,6 +173,16 @@ export function organizationJsonLd() {
     image: { "@id": `${SITE_URL}/#logo` },
     description: ORG_DESCRIPTION,
     slogan: "Yazılım ve Medya",
+    /**
+     * Yalnızca yıl (Sude 2026-08-27). Ay/gün bilinmiyor, uydurulmaz —
+     * schema.org Date alanı ISO 8601 olduğu için "2026" tek başına geçerli.
+     *
+     * address YOK ve bilinçli: fiziksel adres yayınlanmıyor. Uydurma adres
+     * yazmak, arama motorlarının işletmeyi yanlış konuma sabitlemesi demek;
+     * boş bırakmaktan çok daha pahalı. Adres yayınlanmaya karar verilirse
+     * PostalAddress buraya eklenir ve areaServed onunla tutarlı tutulur.
+     */
+    foundingDate: "2026",
     email: CONTACT.email,
     telephone: CONTACT.phoneE164,
     contactPoint: [
@@ -120,6 +198,7 @@ export function organizationJsonLd() {
     areaServed: [{ "@type": "Country", name: "Türkiye" }],
     knowsAbout: [...KNOWS_ABOUT],
     knowsLanguage: ["tr"],
+    hasOfferCatalog: offerCatalogJsonLd(),
     sameAs: [...SAME_AS],
   };
 }
