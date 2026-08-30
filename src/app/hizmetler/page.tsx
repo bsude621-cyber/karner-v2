@@ -54,6 +54,10 @@ const jsonLd = {
       about: { "@id": `${SITE_URL}/#organization` },
       datePublished: dates.published,
       dateModified: dates.modified,
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: ["h1", ".speakable-summary"],
+      },
       breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
       mainEntity: { "@id": `${pageUrl}#list` },
     },
@@ -103,7 +107,7 @@ export default function ServicesHubPage() {
           <h1 className="max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl">
             Yazılım ve medyada sekiz hizmet, tek ekip
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
+          <p className="speakable-summary mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
             <strong className="text-white">
               KARNER; web, mobil, yapay zekâ destekli medya, arama görünürlüğü,
               otomasyon ve sosyal medya içeriğini aynı çatıda sunan bir yazılım ve medya ajansıdır.

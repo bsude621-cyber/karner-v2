@@ -11,6 +11,7 @@ import {
   SITE_NAME,
   SITE_URL,
   organizationJsonLd,
+  verificationMetadata,
   webSiteJsonLd,
 } from "@/lib/site";
 
@@ -53,6 +54,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
   },
+  // Search Console / Bing / Yandex doğrulama etiketleri — ortam
+  // değişkeni tanımlıysa basılır, yoksa hiç yazılmaz.
+  verification: verificationMetadata(),
   robots: {
     index: true,
     follow: true,

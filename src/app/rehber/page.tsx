@@ -50,6 +50,10 @@ const jsonLd = {
       description: DESCRIPTION,
       inLanguage: "tr",
       isPartOf: { "@id": `${SITE_URL}/#website` },
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: ["h1", ".speakable-summary"],
+      },
       breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
       datePublished: dates.published,
       dateModified: dates.modified,
@@ -96,7 +100,7 @@ export default function GuidesHubPage() {
           <h1 className="max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl">
             Karar vermeden önce konuyu anlamak isteyenler için
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
+          <p className="speakable-summary mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
             <strong className="text-white">
               Web sitesi, yapay zekâ araması, otomasyon ve AI video hakkında teknik rehberler.
             </strong>{" "}

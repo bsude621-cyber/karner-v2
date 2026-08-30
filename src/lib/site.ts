@@ -19,6 +19,43 @@ export const SITE_URL = (
 
 export const SITE_NAME = "KARNER";
 
+/**
+ * Arama motoru doğrulama kodları — Search Console / Bing / Yandex panelinden
+ * alınan benzersiz token'lar. Kod DEĞİL, ortam değişkeni olarak tutulur:
+ * her token tek bir mülke ait, sabit yazılırsa önizleme dağıtımları da aynı
+ * kodu yayınlar ve doğrulama yanlış mülke bağlanır.
+ *
+ * Kurulum (Vercel → Settings → Environment Variables), yalnız Production:
+ *   NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION  (Search Console → HTML etiketi)
+ *   NEXT_PUBLIC_BING_SITE_VERIFICATION    (Bing Webmaster → msvalidate.01)
+ *   NEXT_PUBLIC_YANDEX_SITE_VERIFICATION  (Yandex Webmaster)
+ *
+ * Tanımlı olmayan sağlayıcı için etiket hiç basılmaz — boş content'li
+ * doğrulama etiketi doğrulamayı başarısız kılar, yoksa saymaktan kötüdür.
+ */
+const envToken = (v: string | undefined) => {
+  const t = v?.trim();
+  return t && t.length > 0 ? t : undefined;
+};
+
+export const SITE_VERIFICATION = {
+  google: envToken(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION),
+  bing: envToken(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION),
+  yandex: envToken(process.env.NEXT_PUBLIC_YANDEX_SITE_VERIFICATION),
+} as const;
+
+/** metadata.verification — yalnızca tanımlı sağlayıcılar döner, yoksa undefined. */
+export function verificationMetadata() {
+  const { google, bing, yandex } = SITE_VERIFICATION;
+  if (!google && !bing && !yandex) return undefined;
+  return {
+    ...(google ? { google } : {}),
+    ...(yandex ? { yandex } : {}),
+    // Bing'in etiket adi msvalidate.01; Next bunu "other" altından basar.
+    ...(bing ? { other: { "msvalidate.01": bing } } : {}),
+  };
+}
+
 /** Tek cümlelik marka tanımı — entity disambiguation (görünür metin + schema aynı cümle). */
 export const BRAND_SENTENCE =
   "KARNER; Türkiye genelinde hizmet veren bir yazılım ve medya ajansıdır.";
