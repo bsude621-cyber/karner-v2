@@ -1,0 +1,34 @@
+# Her production dagitimindan sonra IndexNow'a haber ver.
+#
+# Neden burada: IndexNow'in calismasi icin YAYINDAKI sitemap.xml okunmali,
+# yani dagitim bitmeden calistirilamaz. Bu is akisi Vercel "deployment_status"
+# olayini bekler ve yalnizca production basariyla yayina girdiginde tetiklenir.
+# Boylece "npm run indexnow" komutunu kimsenin elle calistirmasi gerekmez.
+name: IndexNow bildirimi
+
+on:
+  deployment_status:
+  workflow_dispatch:      # gerekirse Actions sekmesinden elle de calistirilabilir
+
+jobs:
+  bildir:
+    # Yalnizca basarili PRODUCTION dagitimlari; onizleme dagitimlari haric
+    # (onizleme adresleri arama motorlarina bildirilmemeli).
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: IndexNow'a gonder
+        env:
+          NEXT_PUBLIC_SITE_URL: https://karneryazilim.com
+        run: node scripts/indexnow-submit.mjs
