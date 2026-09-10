@@ -1,0 +1,191 @@
+# Meshy ile robot modeli uret, web butcesine indir, PR ac.
+#
+# NEDEN BURADA
+# Meshy API'sine gelistirme ortamindan erisilemiyor (ag politikasi). GitHub'in
+# calistiricilari erisebiliyor. Anahtar da burada guvende duruyor: depo
+# secret'inda sifreli, kodda ve gecmiste gorunmuyor.
+#
+# KURULUM (tek sefer)
+#   Depo > Settings > Secrets and variables > Actions > New repository secret
+#   Ad: MESHY_API_KEY   Deger: Meshy hesabindaki API anahtari
+#
+# CALISTIRMA
+#   Actions sekmesi > "Meshy robot modeli" > Run workflow
+#   Referans gorselin herkese acik bir URL olmasi gerekiyor (Meshy indirecek).
+#
+# CIKTI
+#   Yeni bir dal ve PR: public/models/<ad>.opt.glb + <ad>.mobile.glb
+#   Master (sikistirilmamis) dosya da is ciktisi olarak eklenir; ileride farkli
+#   bir butceye yeniden indirmek gerekirse kaynak elde kalir.
+name: Meshy robot modeli
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_url:
+        description: "Referans gorselin herkese acik URL'i"
+        required: true
+      name:
+        description: "Dosya adi (robot-a veya robot-b)"
+        required: true
+        default: robot-a
+      target_polycount:
+        description: "Hedef ucgen sayisi (mevcut modeller ~30.800)"
+        required: true
+        default: "30000"
+      texture_resolution:
+        description: "Doku boyutu (masaustu 1024 onerilir; 2048+ iOS Safari'de bellek riski)"
+        required: true
+        default: "1024"
+
+jobs:
+  uret:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Meshy gorevini baslat
+        id: baslat
+        env:
+          KEY: ${{ secrets.MESHY_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${KEY:-}" ]; then
+            echo "::error::MESHY_API_KEY secret'i tanimli degil. Settings > Secrets and variables > Actions"
+            exit 1
+          fi
+
+          govde=$(jq -n \
+            --arg url  '${{ inputs.image_url }}' \
+            --argjson poly ${{ inputs.target_polycount }} \
+            --argjson tex  ${{ inputs.texture_resolution }} \
+            '{image_url:$url, should_texture:true, enable_pbr:true,
+              target_polycount:$poly, texture_resolution:$tex,
+              topology:"quad", should_remesh:true}')
+
+          echo "istek: $govde"
+          yanit=$(curl -sS -X POST "https://api.meshy.ai/openapi/v1/image-to-3d" \
+            -H "Authorization: Bearer $KEY" \
+            -H "Content-Type: application/json" \
+            -d "$govde")
+          echo "yanit: $yanit"
+
+          id=$(echo "$yanit" | jq -r '.result // .id // empty')
+          if [ -z "$id" ]; then
+            echo "::error::Gorev kimligi alinamadi. Yanit yukarida."
+            exit 1
+          fi
+          echo "gorev=$id" >> "$GITHUB_OUTPUT"
+          echo "Gorev kimligi: $id"
+
+      - name: Bitmesini bekle
+        id: bekle
+        env:
+          KEY: ${{ secrets.MESHY_API_KEY }}
+        run: |
+          set -euo pipefail
+          id='${{ steps.baslat.outputs.gorev }}'
+          # 60 deneme x 20 sn = 20 dakika tavan
+          for i in $(seq 1 60); do
+            y=$(curl -sS "https://api.meshy.ai/openapi/v1/image-to-3d/$id" \
+                  -H "Authorization: Bearer $KEY")
+            durum=$(echo "$y" | jq -r '.status // "?"')
+            ilerleme=$(echo "$y" | jq -r '.progress // 0')
+            echo "[$i/60] durum=$durum ilerleme=%$ilerleme"
+
+            case "$durum" in
+              SUCCEEDED)
+                glb=$(echo "$y" | jq -r '.model_urls.glb // empty')
+                [ -z "$glb" ] && { echo "::error::GLB adresi yok: $y"; exit 1; }
+                echo "glb=$glb" >> "$GITHUB_OUTPUT"
+                exit 0
+                ;;
+              FAILED|CANCELED)
+                echo "::error::Meshy gorevi basarisiz: $(echo "$y" | jq -r '.task_error.message // "sebep bildirilmedi"')"
+                exit 1
+                ;;
+            esac
+            sleep 20
+          done
+          echo "::error::20 dakikada bitmedi; Meshy panelinden gorevin durumuna bakin."
+          exit 1
+
+      - name: Indir ve web butcesine getir
+        run: |
+          set -euo pipefail
+          ad='${{ inputs.name }}'
+          mkdir -p uretim
+          curl -sSL '${{ steps.bekle.outputs.glb }}' -o "uretim/$ad.master.glb"
+          echo "master boyut: $(du -h "uretim/$ad.master.glb" | cut -f1)"
+
+          # Draco geometri sikistirma + kullanilmayan veriyi at + doku boyutunu sabitle.
+          # Mevcut modellerle ayni hat: .opt.glb masaustu surumu.
+          npx --yes @gltf-transform/cli@4 optimize \
+            "uretim/$ad.master.glb" "public/models/$ad.opt.glb" \
+            --compress draco \
+            --texture-compress webp \
+            --texture-size ${{ inputs.texture_resolution }}
+
+          echo "opt boyut: $(du -h "public/models/$ad.opt.glb" | cut -f1)"
+
+      - name: Mobil surumu uret (dokular 512)
+        run: |
+          set -euo pipefail
+          npm ci
+          node scripts/make-mobile-models.mjs
+          ls -la public/models/
+
+      - name: Olcum ozeti
+        run: |
+          node -e '
+            const fs=require("fs");
+            for (const f of fs.readdirSync("public/models").filter(x=>x.endsWith(".glb"))) {
+              const b=fs.readFileSync("public/models/"+f);
+              const j=JSON.parse(b.slice(20,20+b.readUInt32LE(12)).toString("utf8"));
+              const tris=(j.meshes||[]).flatMap(m=>m.primitives).reduce((s,p)=>{
+                const a=j.accessors[p.indices!==undefined?p.indices:p.attributes.POSITION];
+                return s+a.count/3;},0);
+              console.log(f.padEnd(24)+" "+(b.length/1048576).toFixed(2)+" MB | ucgen "+
+                Math.round(tris).toLocaleString("tr")+" | doku "+(j.images||[]).length+
+                " | animasyon "+(j.animations||[]).length);
+            }'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.name }}-master
+          path: uretim/*.master.glb
+          retention-days: 30
+
+      - name: PR ac
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: meshy/${{ inputs.name }}-${{ github.run_number }}
+          title: "Meshy: ${{ inputs.name }} modeli yenilendi"
+          commit-message: |
+            Meshy: ${{ inputs.name }} modeli yenilendi
+
+            Hedef ucgen ${{ inputs.target_polycount }}, doku ${{ inputs.texture_resolution }}.
+            Mobil surum scripts/make-mobile-models.mjs ile turetildi.
+            Sikistirilmamis master dosya is ciktisinda.
+          body: |
+            `${{ inputs.name }}` modeli Meshy ile yeniden uretildi.
+
+            - Referans gorsel: ${{ inputs.image_url }}
+            - Hedef ucgen: ${{ inputs.target_polycount }}
+            - Doku: ${{ inputs.texture_resolution }}
+
+            Olcum ozeti icin is kaydindaki "Olcum ozeti" adimina bakin.
+            Sikistirilmamis master dosya bu calismanin ciktilarinda 30 gun duruyor.
+
+            **Birlestirmeden once:** onizleme dagitiminda robotlari telefonda acin.
+            Bu modeller iOS Safari'de sekme bellegini zorluyordu; doku boyutu
+            buyudukce o risk geri geliyor.
+          add-paths: public/models
