@@ -19,6 +19,7 @@ const benefits: Record<string, string> = {
   "otomasyon-sistemleri": "Tekrarlayan işlere son, zaman kazanın",
   "marka-grafik-tasarim": "Her yüzeyde tutarlı marka",
   "sosyal-medya-icerik-yonetimi": "Takvimli, düzenli, markaya uygun içerik",
+  "3d-anamorfik-led-video": "Ekranın ölçüsüne göre kurulan 3D sahne",
 };
 
 export default function ServicesSection() {

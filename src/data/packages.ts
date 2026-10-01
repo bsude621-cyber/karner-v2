@@ -477,6 +477,61 @@ export const PACKAGE_CATEGORIES: PackageCategory[] = [
       },
     ],
   },
+  {
+    slug: "anamorfik-led",
+    serviceSlug: "3d-anamorfik-led-video",
+    name: "3D anamorfik LED video",
+    intro:
+      "Her pakette ortak: ekran ölçüleri onaylanmadan üretime başlanmaz, video panel çözünürlüğünde ve dikişsiz döngü olarak teslim edilir. Paketler ekranın biçimine ve sahne sayısına göre ayrılır.",
+    tiers: [
+      {
+        slug: "baslangic",
+        name: "Başlangıç",
+        tagline: "Düz ekran için çerçeveden taşan tek sahne.",
+        audience: "Tek, düz LED ekranı olan ve içeriğini öne çıkarmak isteyen işletme.",
+        includes: [
+          "Ekran ölçüsü ve izleme noktası keşfi",
+          "Tek ürün ya da logo ile tek sahne",
+          "10 saniyeye kadar dikişsiz döngü",
+          "Onay için durağan kare, ardından hareket önizlemesi",
+          "Panel çözünürlüğünde teslim",
+          "1 revizyon turu",
+        ],
+        excludes: ["Ürünün ayrıntılı 3D modellemesi (basit form dışı)", "Ekrana yükleme ve operatör işleri", "Ses tasarımı"],
+      },
+      {
+        slug: "standart",
+        name: "Standart",
+        tagline: "Köşe ya da çok panelli ekran için anamorfik döngü.",
+        audience: "Köşe dönen, kanatlı ya da birden çok panelden oluşan ekranı olan işletme.",
+        includes: [
+          "Panel dizilimi, açı ve piksel haritasına göre kurulan sahne",
+          "Ürünün 3D modellenmesi ve marka renklerine göre malzeme",
+          "10–15 saniyelik dikişsiz döngü",
+          "Mekânın ölçekli simülasyonunda yerinde önizleme videosu",
+          "Panel bazında ve birleşik dosya teslimi",
+          "2 revizyon turu",
+        ],
+        excludes: ["Ekrana yükleme ve operatör işleri", "Ses tasarımı", "Sosyal medya kesimleri"],
+        highlight: true,
+      },
+      {
+        slug: "pro",
+        name: "Pro",
+        tagline: "Kampanya: birden çok sahne ve mecra kesimleri.",
+        audience: "Lansman ya da sezon kampanyası için ekranını ana mecra olarak kullanan marka.",
+        includes: [
+          "Standart paketteki her şey",
+          "Aynı ekran için birden çok sahne (kapsam teklifte yazılır)",
+          "Sıvı, parçalanma ya da parçacık gibi özel efekt",
+          "Yerinde önizlemeden sosyal medya için dikey ve yatay kesim",
+          "Teslim notu: dosya listesi, teknik değerler, izleme noktası",
+          "2 revizyon turu",
+        ],
+        excludes: ["Ekrana yükleme ve operatör işleri", "Ekran kiralama ya da mecra satın alma"],
+      },
+    ],
+  },
 ];
 
 export const PACKAGE_FAQ = [

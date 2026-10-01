@@ -37,6 +37,7 @@ const SERVICE_KEYS: Record<string, string[]> = {
   "seo-geo-aeo": ["seo", "geo", "aeo", "google", "arama", "chatgpt", "gemini", "siralama", "gorun", "harita", "isletme profili", "gbp"],
   "otomasyon-sistemleri": ["otomasyon", "n8n", "bot", "telegram", "whatsapp", "randevu", "akis", "entegrasyon", "crm"],
   "marka-grafik-tasarim": ["logo", "marka", "kimlik", "grafik", "tasarim", "kurumsal kimlik", "sablon"],
+  "3d-anamorfik-led-video": ["anamorfik", "anamorphic", "led", "billboard", "ekrandan tasan", "ciplak goz"],
   "sosyal-medya-icerik-yonetimi": ["sosyal", "instagram", "tiktok", "linkedin", "icerik", "post", "takvim", "paylasim"],
 };
 
@@ -50,7 +51,7 @@ function pickServices(q: string): string[] {
 
 const BASE_KNOWLEDGE = `
 ## Şirket
-${BRAND_SENTENCE} Sekiz hizmet alanı; Türkiye genelinde uzaktan çalışır (keşif, tasarım onayı, teslim çevrim içi).
+${BRAND_SENTENCE} Dokuz hizmet alanı; Türkiye genelinde uzaktan çalışır (keşif, tasarım onayı, teslim çevrim içi).
 
 ## Hizmetler (detay sayfası: /hizmetler/<slug>)
 ${services.map((s) => `- ${s.title} — /hizmetler/${s.slug}: ${s.summary}`).join("\n")}

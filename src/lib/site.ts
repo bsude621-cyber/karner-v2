@@ -83,6 +83,7 @@ export const KNOWS_ABOUT = [
   "İş akışı otomasyonu",
   "Marka ve grafik tasarım",
   "Sosyal medya içerik yönetimi",
+  "3D anamorfik LED video",
 ] as const;
 
 /**

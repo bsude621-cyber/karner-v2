@@ -36,6 +36,7 @@ const footerLinks = [
       { label: "Otomasyon", href: "/hizmetler/otomasyon-sistemleri" },
       { label: "Marka & Tasarım", href: "/hizmetler/marka-grafik-tasarim" },
       { label: "Sosyal Medya İçerik", href: "/hizmetler/sosyal-medya-icerik-yonetimi" },
+      { label: "3D Anamorfik LED Video", href: "/hizmetler/3d-anamorfik-led-video" },
     ],
   },
   {

@@ -144,7 +144,7 @@ export default function AboutPage() {
           <h2 className="mb-4 text-2xl font-semibold text-white">Ne yapıyoruz?</h2>
           <p className="mb-6 leading-relaxed text-white/70">
             Yerel işletmelerden dijital ürün fikirlerine kadar farklı
-            ölçeklerde çalışıyoruz. Sekiz hizmet alanımız:
+            ölçeklerde çalışıyoruz. Dokuz hizmet alanımız:
           </p>
           <ul className="grid gap-3 sm:grid-cols-2">
             {services.map((s) => (

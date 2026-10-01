@@ -422,6 +422,60 @@ export const services: Service[] = [
       },
     ],
   },
+  {
+    slug: "3d-anamorfik-led-video",
+    no: "09",
+    tag: "3D LED",
+    title: "3D Anamorfik LED Video",
+    summary: "LED ekranın ölçüsüne ve izleme noktasına göre üretilen, ekrandan taşıyormuş gibi görünen 3D video.",
+    imageSrc: "/services/3d-anamorfik-led-video.jpg",
+    tags: ["Anamorfik", "LED ekran", "Blender", "Çıplak göz 3D"],
+    intro:
+      "LED ekranınız için gözlüksüz 3D etkisi veren video üretiyoruz. İllüzyon tesadüf değildir: sahne, ekranın gerçek ölçülerine ve izleyicinin durduğu noktaya göre kurulur; ürün ya da logo çerçevenin dışına çıkıyormuş gibi görünür.",
+    features: [
+      {
+        title: "Ekrana Özel Sahne",
+        desc: "Panel ölçüleri, dizilim ve piksel çözünürlüğü alınmadan sahne kurulmaz; kamera, ekranın geometrisine göre hesaplanır.",
+      },
+      {
+        title: "Çerçeveden Taşan Hareket",
+        desc: "Nesne ekranın içindeki derinlikten gelir, çerçevenin önüne çıkar ve geri döner; derinliği gölge ve örtüşme satar.",
+      },
+      {
+        title: "Yerinde Önizleme",
+        desc: "Video ekrana yüklenmeden önce, ekranın bulunduğu mekânın ölçekli simülasyonunda nasıl görüneceğini gösteririz.",
+      },
+      {
+        title: "Ekrana Hazır Teslim",
+        desc: "Panel çözünürlüğünde, dikişsiz döngü olarak; operatörün istediği dosya biçimi ve kare hızında teslim.",
+      },
+    ],
+    seoTitle: "3D Anamorfik LED Video — Ekrandan Taşan 3D İçerik | KARNER",
+    seoDescription:
+      "LED ekranlar için gözlüksüz 3D etkisi veren anamorfik video üretimi: ekran ölçüsüne ve izleme noktasına göre kurulan sahne, yerinde önizleme, panel çözünürlüğünde teslim.",
+    faq: [
+      {
+        q: "Anamorfik LED video nedir?",
+        a: "Anamorfik LED video, belirli bir noktadan bakıldığında ekranın içinde derinlik varmış ve nesneler ekrandan dışarı çıkıyormuş gibi görünen 3D içeriktir. Gözlük gerekmez. Etki, görüntünün ekranın şekline ve izleyicinin konumuna göre perspektifi kaydırılarak üretilmesiyle oluşur; doğru noktadan bakınca göz bunu derinlik olarak okur.",
+      },
+      {
+        q: "Etki her açıdan görünür mü?",
+        a: "Hayır. İllüzyon en güçlü hâliyle tek bir izleme bölgesinden görünür; o noktadan uzaklaştıkça görüntü eğilmeye başlar. Bu yüzden üretimden önce insanların ekrana en çok nereden baktığı belirlenir ve sahne o noktaya göre kurulur.",
+      },
+      {
+        q: "Düz bir LED ekranda da yapılabilir mi?",
+        a: "Yapılabilir. Köşe dönen ya da kanatlı ekranlarda derinlik etkisi daha güçlüdür; düz ekranda ise görüntünün içine çizilen sahte bir çerçeve kullanılır ve nesne bu çerçevenin dışına taşırılır. Hangi yöntemin uygun olduğu ekranın biçimine göre belirlenir.",
+      },
+      {
+        q: "Üretim için bizden ne gerekiyor?",
+        a: "Ekranın gerçek ölçüleri, panellerin dizilimi ve aralarındaki açı, piksel çözünürlüğü, ekranın yerden yüksekliği ve izleyicinin durduğu yer. Bunların yanında gösterilecek ürünün ya da logonun görselleri ve marka renkleri gerekir. Ölçüler onaylanmadan sahne kurulmaz; yanlış ölçüyle üretilen video ekranda eğri görünür.",
+      },
+      {
+        q: "Video yapay zekâ ile mi üretiliyor?",
+        a: "Hayır, bu iş 3D yazılımda (Blender) modellenip kare kare render edilerek üretilir. Anamorfik etki, ekranın ölçüsüne ve izleme noktasına göre hesaplanmış bir kamera gerektirir; bu hesap 3D sahnede yapılır.",
+      },
+    ],
+  },
 ];
 
 export function getService(slug: string): Service | undefined {

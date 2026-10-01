@@ -20,7 +20,7 @@ export function GET() {
     "",
     "## Hizmetler",
     "",
-    `- [Tüm hizmetler](${SITE_URL}/hizmetler): Sekiz hizmet alanının özeti ve rehber bağlantıları`,
+    `- [Tüm hizmetler](${SITE_URL}/hizmetler): Dokuz hizmet alanının özeti ve rehber bağlantıları`,
     ...services.map(
       (s) => `- [${s.title}](${SITE_URL}/hizmetler/${s.slug}): ${s.summary}`,
     ),

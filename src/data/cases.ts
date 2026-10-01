@@ -435,6 +435,158 @@ export const cases: CaseStudy[] = [
     published: "2026-08-20",
     modified: "2026-08-20",
   },
+  {
+    slug: "klinik-randevu-asistani",
+    client: "Klinik Randevu Asistanı (KARNER ürünü)",
+    sector: "Klinik — randevu karşılama",
+    location: "Türkiye",
+    title: "Klinik Randevu Asistanı: yazılı ve sesli randevu karşılama",
+    seoTitle: "Klinik Randevu Asistanı: Yazılı ve Sesli Yapay Zekâ Randevu Botu | KARNER",
+    seoDescription:
+      "Klinikler için KARNER'ın geliştirdiği randevu asistanı: web sohbeti ve sesli görüşmeyle müsait saatleri okur, talebi alır, personel onayına düşürür. Demo aşamasında, tanıtım filmiyle.",
+    summary:
+      "Klinikler için geliştirdiğimiz bir randevu asistanı: hasta yazarak ya da konuşarak randevu ister, asistan takvimdeki müsait saatleri okur, ad ve telefonu alıp tekrar ederek doğrular ve talebi personelin onay kuyruğuna bırakır. Tıbbi soruya ve fiyata cevap vermez, kliniğe yönlendirir. Ürün demo aşamasındadır.",
+    image: { src: "/isler/is-klinik-asistan.webp", alt: "Klinik Randevu Asistanı tanıtım filminden üç kare", width: 1280, height: 800 },
+    videos: [
+      {
+        src: "/isler/klinik-asistan.mp4",
+        poster: "/isler/klinik-asistan-poster.jpg",
+        name: "Klinik Randevu Asistanı — tanıtım filmi",
+        description: "Asistanın sesli randevu görüşmesini canlandıran dikey tanıtım filmi; diyalog örnektir, sesler sentetiktir.",
+        uploadDate: "2026-09-30",
+        duration: "PT0M38S",
+      },
+    ],
+    services: ["otomasyon-sistemleri", "ai-video-reklam"],
+    stack: ["n8n (self-host)", "Dil modeli", "Sesli yapay zekâ ajanı", "Veri tablosu (müsait saatler, talepler)", "Web sohbet arayüzü"],
+    facts: [
+      { label: "Sorun", value: "Klinik meşgulken ya da kapalıyken gelen randevu talebi cevapsız kalıyor" },
+      { label: "Kurulan", value: "Yazılı ve sesli asistan + müsait saat tablosu + personel onay kuyruğu" },
+      { label: "Durum", value: "Demo aşamasında; yazılı ve sesli akış uçtan uca çalışır hâlde denendi" },
+    ],
+    blocks: [
+      { type: "h2", text: "Hangi sorunu çözüyor?" },
+      {
+        type: "p",
+        text: "Klinikte randevu talebi çoğunlukla telefonla ya da mesajla gelir. Banko meşgulse, mesai bitmişse ya da hat doluysa talep cevapsız kalır ve hasta bir sonraki kliniği arar. **Asistanın işi bu ilk karşılamayı üstlenmek: müsait saati söylemek, talebi eksiksiz almak ve personele bırakmak.**",
+      },
+      { type: "h2", text: "Nasıl çalışıyor?" },
+      {
+        type: "ol",
+        items: [
+          "**Karşılama ve izin** — asistan önce kişisel verinin işleneceğini söyler ve onay ister; onay olmadan bilgi almaz.",
+          "**Müsait saatler** — saatleri kendisi uydurmaz; kliniğin güncellediği tablodan okur.",
+          "**Talebi alma** — gün ve saat seçilince ad-soyad ve telefon ister; üçü tamamlanmadan kayıt açmaz. Sesli görüşmede bilgileri tekrar ederek doğrular.",
+          "**Onay kuyruğu** — talep \"beklemede\" olarak kaydedilir. Asistan \"randevunuz onaylandı\" demez; randevu, klinik personeli onayladığında kesinleşir.",
+          "**Sınırlar** — tedavi önerisi, teşhis ve fiyat sorularını cevaplamaz; kliniğe yönlendirir.",
+        ],
+      },
+      { type: "h2", text: "Neden onay kuyruğu var?" },
+      {
+        type: "p",
+        text: "Sağlıkta yanlış verilmiş bir randevu, verilmemiş randevudan daha pahalıdır. Hekimin o gün gerçekten uygun olup olmadığını, işlemin süresini ve hastanın durumunu bilen kişi personeldir. Bu yüzden asistan randevuyu kesinleştirmez; talebi düzgün ve eksiksiz hâlde personelin önüne koyar.",
+      },
+      { type: "h2", text: "Şu an hangi aşamada?" },
+      {
+        type: "ul",
+        items: [
+          "Web sohbeti ve tarayıcıdan sesli görüşme demo ortamında uçtan uca denendi: saat okuma, bilgi alma ve talebin kaydedilmesi çalışıyor.",
+          "Henüz bir klinikte canlı kullanımda değil; bu sayfa bir müşteri işi değil, ürün tanıtımıdır.",
+          "Telefon hattına ve WhatsApp'a bağlanması klinik bazında ayrı kurulum ister: hat yönlendirmesi ve WhatsApp tarafında Meta onayı.",
+          "Sağlık verisi hassas olduğu için canlı kurulumda aydınlatma metni, açık rıza ve verinin nerede tutulduğu klinikle birlikte netleştirilir.",
+        ],
+      },
+      {
+        type: "callout",
+        title: "İlgili sayfalar",
+        text: "Hizmet kapsamı [Otomasyon Sistemleri](/hizmetler/otomasyon-sistemleri) sayfasında; klinikler için site ve randevu akışı [Klinik ve sağlık](/sektor/klinik-ve-saglik) sektör sayfasında.",
+      },
+    ],
+    faq: [
+      {
+        q: "Asistan randevuyu kendisi mi veriyor?",
+        a: "Hayır. Asistan müsait saatleri okur ve talebi alır; talep personelin onay kuyruğuna düşer. Randevu, personel onayladığında kesinleşir.",
+      },
+      {
+        q: "Hasta tıbbi bir soru sorarsa ne olur?",
+        a: "Asistan teşhis, tedavi önerisi ve fiyat konularında cevap vermez; bu soruları kliniğe yönlendirir. Görevi randevu talebini almaktır.",
+      },
+      {
+        q: "Filmdeki görüşme gerçek bir hasta görüşmesi mi?",
+        a: "Hayır. Filmdeki diyalog örnek bir canlandırmadır ve sesler sentetiktir; gerçek hasta verisi kullanılmamıştır.",
+      },
+    ],
+    disclosure:
+      "Bu sayfa bir müşteri işi değildir. Klinik Randevu Asistanı KARNER'ın kendi geliştirdiği bir üründür ve demo aşamasındadır.",
+    published: "2026-10-01",
+    modified: "2026-10-01",
+  },
+  {
+    slug: "apart-pansiyon-yonetim-sistemi",
+    client: "Apart pansiyon (müşteri adı paylaşılmıyor)",
+    sector: "Konaklama — rezervasyon ve tahsilat takibi",
+    location: "Kütahya",
+    title: "Apart pansiyon yönetim sistemi: kâğıt formun yerine geçen web uygulaması",
+    seoTitle: "Apart Pansiyon Yönetim Sistemi: Rezervasyon ve Tahsilat Takibi | KARNER",
+    seoDescription:
+      "Bir apart pansiyonun rezervasyon, konaklama ve tahsilat takibini kâğıt formdan web uygulamasına taşıdık: rol bazlı yetki, gider takibi, raporlar, Telegram botu.",
+    summary:
+      "Sekiz daireli bir apart pansiyonun günlük kâğıt formunun yerine geçen bir web uygulaması kurduk: rezervasyon, konaklama, tahsilat ve gider kayıtları tek yerde; her kullanıcı rolüne göre yalnızca yetkili olduğu ekranı görüyor. Sistem 31 Ağustos 2026'dan beri kullanımda.",
+    image: { src: "/isler/is-pansiyon-yonetim.webp", alt: "Apart pansiyon yönetim sistemi için temsili doluluk çizelgesi", width: 1280, height: 800 },
+    services: ["web-sitesi-gelistirme", "otomasyon-sistemleri"],
+    stack: ["Next.js (App Router)", "TypeScript", "Tailwind CSS", "Supabase (PostgreSQL, Auth, satır düzeyinde güvenlik)", "n8n + Telegram botu"],
+    facts: [
+      { label: "Başlangıç", value: "Rezervasyon, konaklama ve tahsilat günlük kâğıt formla tutuluyordu" },
+      { label: "Kurulan", value: "Girişli web uygulaması + rol bazlı yetki + gider takibi + raporlar + Telegram botu" },
+      { label: "Kullanım", value: "31 Ağustos 2026'dan beri işletmede kullanılıyor; üç rol tanımlı" },
+    ],
+    blocks: [
+      { type: "h2", text: "Sorun neydi?" },
+      {
+        type: "p",
+        text: "İşletme rezervasyonu, konaklamayı ve tahsilatı her gün elle doldurulan bir kâğıt formla takip ediyordu. Kimin hangi dairede kaldığı, kimin ödeme yaptığı ve ay sonunda ne kaldığı forma bakan kişiye bağlıydı. İhtiyaç: herkesin aynı kaydı gördüğü, ama herkesin her şeyi görmediği bir sistem.",
+      },
+      { type: "h2", text: "Ne kurduk?" },
+      {
+        type: "ol",
+        items: [
+          "**Girişli web uygulaması** — rezervasyon, konaklama ve tahsilat kayıtları tek veri tabanında tutuluyor.",
+          "**Rol bazlı yetki** — sahip, ortak ve resepsiyon rolleri; örneğin resepsiyon kayıt girer ama raporları görmez. Yetki arayüzde değil veri tabanında (satır düzeyinde güvenlik) uygulanıyor.",
+          "**Giderler** — işletmenin giderleri aynı sistemde kaydediliyor.",
+          "**Raporlar** — gelir ve gider özetleri yalnızca yetkili rollere açık.",
+          "**Telegram botu** — yetkili kişiler özet bilgiye uygulamayı açmadan ulaşabiliyor.",
+        ],
+      },
+      { type: "h2", text: "Bu işten ne öğrendik?" },
+      {
+        type: "ul",
+        items: [
+          "Para ve yetki içeren sistemde kuralı veri tabanına yazmak gerekiyor; arayüzde gizlenen düğme güvenlik değildir.",
+          "İş kuralları otomatik testlerle korunuyor; yeni bir özellik eskisini bozduğunda yayına çıkmadan görülüyor.",
+          "Sistem kullanıma girdikten sonra da gelişiyor; yeni ihtiyaçlar kullanım sırasında ortaya çıkıyor.",
+        ],
+      },
+      {
+        type: "callout",
+        title: "İlgili sayfalar",
+        text: "Benzer senaryolar [küçük işletme için otomasyon örnekleri](/rehber/kucuk-isletme-icin-otomasyon-ornekleri) rehberinde; hizmet kapsamı [Otomasyon Sistemleri](/hizmetler/otomasyon-sistemleri) sayfasında.",
+      },
+    ],
+    faq: [
+      {
+        q: "Uygulamayı herkes görebilir mi?",
+        a: "Hayır. Uygulama girişlidir; yalnızca işletmenin tanımladığı kullanıcılar girebilir ve her kullanıcı rolünün izin verdiği ekranları görür.",
+      },
+      {
+        q: "Aynı sistem başka bir konaklama işletmesine kurulabilir mi?",
+        a: "Kurulabilir, ama olduğu gibi kopyalanmaz. Daire sayısı, fiyat düzeni, roller ve takip edilen kalemler işletmeye göre değişir; kurulum bu farklara göre uyarlanır.",
+      },
+    ],
+    disclosure:
+      "Müşteri adı ve işletmeye ait veriler bu sayfada paylaşılmamıştır. Kapak görseli temsili bir çizelgedir, uygulamanın ekran görüntüsü değildir.",
+    published: "2026-10-01",
+    modified: "2026-10-01",
+  },
 ];
 
 export function getCase(slug: string) {

@@ -16,7 +16,7 @@ const dates = pageDates(PATH);
 
 const TITLE = "Hizmetler — Web, Mobil, AI Video, SEO/GEO/AEO, Otomasyon | KARNER";
 const DESCRIPTION =
-  "KARNER'ın sekiz hizmet alanı tek sayfada: 3D web sitesi geliştirme, mobil uygulama, AI video ve reklam, AI ürün görseli, SEO/GEO/AEO, iş akışı otomasyonu, marka ve grafik tasarım, sosyal medya içerik yönetimi.";
+  "KARNER'ın dokuz hizmet alanı tek sayfada: 3D web sitesi geliştirme, mobil uygulama, AI video ve reklam, AI ürün görseli, SEO/GEO/AEO, iş akışı otomasyonu, marka ve grafik tasarım, sosyal medya içerik yönetimi.";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -105,7 +105,7 @@ export default function ServicesHubPage() {
             Hizmetler
           </p>
           <h1 className="max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl">
-            Yazılım ve medyada sekiz hizmet, tek ekip
+            Yazılım ve medyada dokuz hizmet, tek ekip
           </h1>
           <p className="speakable-summary mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
             <strong className="text-white">

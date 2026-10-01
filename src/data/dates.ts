@@ -10,13 +10,13 @@ export type PageDates = { published: string; modified: string };
 
 export const PAGE_DATES: Record<string, PageDates> = {
   "/": { published: "2026-08-11", modified: "2026-10-01" },
-  "/hakkimizda": { published: "2026-08-18", modified: "2026-08-20" },
-  "/hizmetler": { published: "2026-08-20", modified: "2026-08-20" },
+  "/hakkimizda": { published: "2026-08-18", modified: "2026-10-01" },
+  "/hizmetler": { published: "2026-08-20", modified: "2026-10-01" },
   "/rehber": { published: "2026-08-20", modified: "2026-08-20" },
   "/sektor": { published: "2026-08-20", modified: "2026-08-20" },
   "/isler": { published: "2026-08-20", modified: "2026-10-01" },
   "/surec": { published: "2026-08-20", modified: "2026-08-20" },
-  "/paketler": { published: "2026-08-20", modified: "2026-08-20" },
+  "/paketler": { published: "2026-08-20", modified: "2026-10-01" },
   "/gizlilik": { published: "2026-08-20", modified: "2026-08-20" },
   "/iletisim": { published: "2026-08-20", modified: "2026-08-20" },
   "/3d-web-sitesi": { published: "2026-08-18", modified: "2026-08-20" },
@@ -30,6 +30,7 @@ export const PAGE_DATES: Record<string, PageDates> = {
   "/hizmetler/otomasyon-sistemleri": { published: "2026-08-11", modified: "2026-08-20" },
   "/hizmetler/marka-grafik-tasarim": { published: "2026-08-11", modified: "2026-08-20" },
   "/hizmetler/sosyal-medya-icerik-yonetimi": { published: "2026-08-20", modified: "2026-08-20" },
+  "/hizmetler/3d-anamorfik-led-video": { published: "2026-10-01", modified: "2026-10-01" },
 };
 
 export function pageDates(path: string): PageDates {
