@@ -21,6 +21,8 @@ export type Sector = {
   summary: string;
   /** WorksSection'daki eşleşen demo (varsa) */
   demo?: { title: string; url: string; poster: string; video: string };
+  /** Aynı sektörden diğer kurgu demolar — data/demos.ts id'leri */
+  moreDemos?: string[];
   /** İlgili hizmet slug'ları (hizmetler/[slug]) */
   services: string[];
   /** İlgili rehber / pillar yolları */
@@ -164,6 +166,7 @@ export const sectors: Sector[] = [
       poster: "/demos/diyetisyen-poster.jpg",
       video: "/demos/diyetisyen.webm",
     },
+    moreDemos: ["disklinigi", "fizyoterapi"],
     services: ["web-sitesi-gelistirme", "otomasyon-sistemleri", "seo-geo-aeo", "sosyal-medya-icerik-yonetimi"],
     guides: [
       "/yapay-zeka-aramasinda-gorunmek",
@@ -260,7 +263,7 @@ export const sectors: Sector[] = [
       },
     ],
     published: "2026-08-20",
-    modified: "2026-08-20",
+    modified: "2026-10-01",
   },
 
   // ───────────────────────────────────────────── MİMARLIK & İÇ MİMARLIK
@@ -614,6 +617,7 @@ export const sectors: Sector[] = [
       "Tesisat, doğalgaz, klima, temizlik, baca ve tadilat firmaları için şehir + hizmet aramasında çıkan site, Google Business Profile, tıkla-ara ve AI aramasında önerilme.",
     summary:
       "Yerel hizmet işletmesi için dijital, \"şehir + hizmet\" aramasında çıkmak demektir. KARNER bunun için tıkla-ara odaklı hızlı bir site, gerçek içerikli hizmet ve bölge sayfaları, Google Business Profile uyumu, yorum toplama akışı ve yapay zekâ araçlarının \"X şehrinde Y firması\" sorusunda işletmeyi önermesini hedefleyen yapı kurar.",
+    moreDemos: ["otoservis", "nakliyat"],
     services: ["seo-geo-aeo", "web-sitesi-gelistirme", "otomasyon-sistemleri"],
     guides: [
       "/yapay-zeka-aramasinda-gorunmek",
@@ -705,7 +709,7 @@ export const sectors: Sector[] = [
       },
     ],
     published: "2026-08-20",
-    modified: "2026-08-20",
+    modified: "2026-10-01",
   },
 
   // ──────────────────────────────────────────────── BUTİK & E-TİCARET

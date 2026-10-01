@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import { cases } from "@/data/cases";
+import { demos } from "@/data/demos";
 import { pageDates } from "@/data/dates";
 import Footer from "@/components/Footer";
 import SubpageHeader from "@/components/seo/SubpageHeader";
@@ -85,7 +86,11 @@ export default function CasesHubPage() {
               Her projede üç şey yazılıdır: çözülen sorun, kurulan yapı ve ölçülen sonuç.
             </strong>{" "}
             Arama sonuçları değişir; bu yüzden gözlemleri tarihiyle yazıyor, kalıcı vaat gibi
-            sunmuyoruz. Sektörel demo sitelerimiz ana sayfadaki &ldquo;demo&rdquo; vitrininde ayrı durur.
+            sunmuyoruz. Sektörel demo sitelerimiz{" "}
+            <a href="#demolar" className="text-accent-light underline-offset-4 hover:underline">
+              aşağıda ayrı bir bölümde
+            </a>{" "}
+            durur.
           </p>
         </div>
       </section>
@@ -119,6 +124,47 @@ export default function CasesHubPage() {
             </li>
           ))}
         </ol>
+      </section>
+
+      <section id="demolar" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-10">
+        <p className="text-sm uppercase tracking-[0.35em] text-accent-light">Demo</p>
+        <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl">Sektörel demo siteler</h2>
+        <p className="mt-4 max-w-2xl leading-relaxed text-white/70">
+          Farklı sektörler için tasarlayıp yayına aldığımız kurgu siteler.{" "}
+          <strong className="text-white">Gerçek müşteri işi değildir</strong>; marka adları ve
+          içerikler örnektir. Bir sektörde sitenin nasıl durabileceğini göstermek için yapıldı.
+        </p>
+        <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {demos.map((d) => (
+            <li key={d.id}>
+              <a
+                href={d.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${d.title} — demo siteyi yeni sekmede aç`}
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition hover:border-accent/50 hover:bg-white/[0.06]"
+              >
+                <Image
+                  src={d.poster}
+                  alt={`${d.title} demo sitesinin açılış ekranı`}
+                  width={640}
+                  height={360}
+                  className="aspect-video w-full object-cover"
+                />
+                <span className="flex flex-1 flex-col p-5">
+                  <span className="text-xs uppercase tracking-[0.2em] text-accent-light">
+                    {d.sector} · Demo
+                  </span>
+                  <span className="mt-2 flex items-start justify-between gap-3 font-semibold text-white">
+                    {d.title}
+                    <ExternalLink className="mt-1 h-4 w-4 shrink-0 text-white/40 transition group-hover:text-accent-light" />
+                  </span>
+                  <span className="mt-2 text-sm leading-relaxed text-white/65">{d.summary}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
       </section>
       <div className="h-10" />
       <Footer />

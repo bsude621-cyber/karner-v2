@@ -9,12 +9,12 @@
 export type PageDates = { published: string; modified: string };
 
 export const PAGE_DATES: Record<string, PageDates> = {
-  "/": { published: "2026-08-11", modified: "2026-08-20" },
+  "/": { published: "2026-08-11", modified: "2026-10-01" },
   "/hakkimizda": { published: "2026-08-18", modified: "2026-08-20" },
   "/hizmetler": { published: "2026-08-20", modified: "2026-08-20" },
   "/rehber": { published: "2026-08-20", modified: "2026-08-20" },
   "/sektor": { published: "2026-08-20", modified: "2026-08-20" },
-  "/isler": { published: "2026-08-20", modified: "2026-08-20" },
+  "/isler": { published: "2026-08-20", modified: "2026-10-01" },
   "/surec": { published: "2026-08-20", modified: "2026-08-20" },
   "/paketler": { published: "2026-08-20", modified: "2026-08-20" },
   "/gizlilik": { published: "2026-08-20", modified: "2026-08-20" },

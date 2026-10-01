@@ -4,103 +4,12 @@ import { useCallback, useEffect, useRef } from "react";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import SectionHeading from "@/components/ui/section-heading";
 import { cn } from "@/lib/utils";
+import { demos, featuredDemos, type Demo } from "@/data/demos";
 
-type Work = {
-  id: string;
-  title: string;
-  sector: string;
-  summary: string;
-  url: string;
-  /** Hero videosu (public/demos altında). */
-  video: string;
-  /**
-   * Gerçek poster görseli. Önceden video adresine `#t=8` gibi medya parçası
-   * ekleyip tarayıcıdan o kareyi göstermesini istiyordum; masaüstünde çalıştı
-   * ama iOS Safari kullanıcı dokunmadan videoyu yüklemediği için kartlar
-   * siyah kutu olarak görünüyordu. Poster görseli her yerde çalışıyor.
-   */
-  poster: string;
-  /** Oynatma bu saniyeden başlar — poster karesiyle aynı yer, geçiş pürüzsüz olsun. */
-  posterTime: number;
-  tags: string[];
-};
+type Work = Demo;
 
-const works: Work[] = [
-  {
-    id: "icmimar",
-    title: "İç Mimarlık Stüdyosu",
-    sector: "İç Mimarlık",
-    summary:
-      "Ziyaretçi daha okumadan işin kalitesini görüyor, teklif formu elinin altında.",
-    url: "https://icmimar-demo.vercel.app",
-    video: "/demos/icmimar.webm",
-    poster: "/demos/icmimar-poster.jpg",
-    posterTime: 8,
-    tags: ["Video Hero", "Proje Galerisi", "Teklif Formu"],
-  },
-  {
-    id: "mimar",
-    title: "Mimarlık Stüdyosu",
-    sector: "Mimarlık",
-    summary:
-      "Sade tasarım projeleri öne çıkarıyor, dikkat doğrudan işin kendisine gidiyor.",
-    url: "https://mimar-demo.vercel.app",
-    video: "/demos/mimar.webm",
-    poster: "/demos/mimar-poster.jpg",
-    posterTime: 8,
-    tags: ["Sinematik", "Portfolyo"],
-  },
-  {
-    id: "insaat",
-    title: "İnşaat & Mühendislik",
-    sector: "İnşaat",
-    summary:
-      "Büyük bütçeli işlerde aranan kurumsal güveni veren duruş, referanslar önde.",
-    url: "https://insaat-web-eight.vercel.app",
-    video: "/demos/insaat.webm",
-    poster: "/demos/insaat-poster.jpg",
-    posterTime: 4,
-    tags: ["Kurumsal", "Referanslar", "Güven"],
-  },
-  {
-    id: "dustas",
-    title: "Duşakabin & Banyo",
-    sector: "Banyo & Yapı",
-    summary:
-      "Ziyaretçi aradığı ürünü birkaç tıkta buluyor, iletişim her ekranda.",
-    url: "https://dustas-demo.vercel.app",
-    video: "/demos/dustas.webm",
-    poster: "/demos/dustas-poster.jpg",
-    posterTime: 8,
-    tags: ["Ürün Vitrini", "Katalog"],
-  },
-  {
-    id: "diyetisyen",
-    title: "Diyetisyen Kliniği",
-    sector: "Sağlık",
-    summary:
-      "Randevuya giden yolu kısaltıyor, danışan yorumları güveni pekiştiriyor.",
-    url: "https://diyetisyen-demo.vercel.app",
-    video: "/demos/diyetisyen.webm",
-    poster: "/demos/diyetisyen-poster.jpg",
-    posterTime: 8,
-    tags: ["Randevu", "Paketler"],
-  },
-  {
-    id: "meridyen",
-    title: "Gayrimenkul Ofisi",
-    sector: "Gayrimenkul",
-    summary:
-      "Kaydırdıkça açılan sinematik giriş — ilan sitelerinden ayrışan ilk izlenim.",
-    url: "https://meridyen-demo.vercel.app",
-    // Kaynak sitede video yok: hero'su 120 JPEG'lik kare dizisi. Kartta
-    // oynatabilmek için o kareler videoya dönüştürüldü (24 fps, 5 sn).
-    video: "/demos/meridyen.webm",
-    poster: "/demos/meridyen-poster.jpg",
-    posterTime: 2.5,
-    tags: ["Scroll Animasyon", "Sinematik"],
-  },
-];
+// Ana sayfada yalnızca öne çıkan demolar; tamamı /isler#demolar bölümünde.
+const works = featuredDemos;
 
 export default function WorksSection() {
   // Aynı anda yalnızca tek video oynasın — altı videoyu birlikte oynatmak
@@ -158,6 +67,16 @@ export default function WorksSection() {
             <WorkCard key={w.id} work={w} onPlay={play} onStop={stop} />
           ))}
         </div>
+
+        <p className="reveal mt-10 text-center">
+          <a
+            href="/isler#demolar"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-white/80 transition-colors hover:text-accent-light"
+          >
+            Tüm demo siteleri gör ({demos.length} sektör örneği)
+            <ArrowUpRight className="h-4 w-4" />
+          </a>
+        </p>
       </div>
     </section>
   );

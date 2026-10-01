@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { sectors, getSector } from "@/data/sectors";
 import { getService } from "@/data/services";
+import { getDemo } from "@/data/demos";
 import { getGuide } from "@/data/guides";
 import { PILLAR_3D } from "@/data/pillar-3d";
 import { PILLAR_AI_VIDEO } from "@/data/pillar-ai-video";
@@ -63,6 +65,7 @@ export default async function SectorPage({
     { name: s.name, href: `/sektor/${s.slug}` },
   ];
   const services = s.services.map(getService).filter(Boolean);
+  const moreDemos = (s.moreDemos ?? []).map(getDemo).filter((d) => d !== undefined);
   const others = sectors.filter((x) => x.slug !== s.slug);
 
   const jsonLd = {
@@ -173,6 +176,45 @@ export default async function SectorPage({
                 Demoyu aç <ExternalLink className="h-4 w-4" />
               </a>
             </div>
+          </section>
+        ) : null}
+
+        {moreDemos.length ? (
+          <section className="mt-12">
+            <h2 className="text-xl font-semibold text-white/80">
+              {s.demo ? "Bu sektörden diğer demolar" : "Bu sektör için demo siteler"}
+            </h2>
+            <p className="mt-2 text-sm text-white/60">
+              Kurgu demo sitelerdir — gerçek müşteri sitesi değildir.
+            </p>
+            <ul className="mt-4 grid gap-4 sm:grid-cols-2">
+              {moreDemos.map((d) => (
+                <li key={d.id}>
+                  <a
+                    href={d.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${d.title} — demo siteyi yeni sekmede aç`}
+                    className="group block overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition hover:border-accent/50 hover:bg-white/[0.06]"
+                  >
+                    <Image
+                      src={d.poster}
+                      alt={`${d.title} demo sitesinin açılış ekranı`}
+                      width={640}
+                      height={360}
+                      className="aspect-video w-full object-cover"
+                    />
+                    <span className="block p-5">
+                      <span className="flex items-start justify-between gap-3 font-medium text-white">
+                        {d.title}
+                        <ExternalLink className="mt-1 h-4 w-4 shrink-0 text-white/40 transition group-hover:text-accent-light" />
+                      </span>
+                      <span className="mt-1 block text-sm leading-relaxed text-white/60">{d.summary}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </section>
         ) : null}
 
