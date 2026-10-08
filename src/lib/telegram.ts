@@ -22,8 +22,10 @@ import { SITE_URL } from "@/lib/site";
  * YAPILANDIRMA (Vercel → Settings → Environment Variables)
  *   TELEGRAM_BOT_TOKEN  zorunlu. BotFather'dan alınan token (n8n'deki Telegram
  *                       kimlik bilgisinde kayıtlı olan aynı token).
- *   TELEGRAM_CHAT_ID    zorunlu. Bildirimin düşeceği sohbet/grup kimliği
- *                       (n8n Telegram düğümündeki "Chat ID" alanı).
+ *   TELEGRAM_CHAT_ID    zorunlu. Bildirimin düşeceği kişi/grup kimliği. Birden
+ *                       fazla kişiye gitsin diye virgülle ayrılabilir:
+ *                       "8783386179,123456789". Her kişi botta bir kez BAŞLAT'a
+ *                       basmış olmalı; yoksa bot ona yazamaz (400 chat not found).
  *   İkisinden biri yoksa bu modül sessizce devre dışı kalır; site eskisi gibi
  *   çalışır.
  *   TELEGRAM_API_BASE   isteğe bağlı, yalnızca test: uç noktayı sahte bir
@@ -56,20 +58,37 @@ const HOST = new URL(SITE_URL).host;
 /** Vercel sunucusu UTC'de çalışır; saat Türkiye saatiyle yazılmalı. */
 const stamp = () => new Date().toLocaleString("tr-TR", { timeZone: "Europe/Istanbul" });
 
+/**
+ * Bot özel sohbette yalnızca chat_id'ye yazar; "bota eklenmek" bildirim almak
+ * için yetmez. Ekipte herkes ayrı kişi olarak listelenir — grup yerine bu,
+ * çünkü grup ayarı değişince grubun kimliği değişip bildirim sessizce kesilebilir.
+ */
+const chatIds = () =>
+  (process.env.TELEGRAM_CHAT_ID ?? "")
+    .split(",")
+    .map((id) => id.trim())
+    .filter(Boolean);
+
 export const telegramConfigured = () =>
-  Boolean(process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID);
+  Boolean(process.env.TELEGRAM_BOT_TOKEN && chatIds().length > 0);
 
 /**
- * Mesajı gönderir.
+ * Mesajı listedeki herkese paralel gönderir.
  *
- * @returns gönderildiyse true; yapılandırılmamışsa veya başarısızsa false.
- *          ASLA hata fırlatmaz — mail.ts ile aynı iki durumlu sözleşme.
+ * @returns en az bir kişiye ulaştıysa true; yapılandırılmamışsa veya hiçbirine
+ *          ulaşmadıysa false. ASLA hata fırlatmaz — mail.ts ile aynı iki
+ *          durumlu sözleşme.
  */
 async function send(text: string): Promise<boolean> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chatId) return false;
+  const ids = chatIds();
+  if (!token || ids.length === 0) return false;
 
+  const results = await Promise.all(ids.map((chatId) => sendTo(token, chatId, text)));
+  return results.some(Boolean);
+}
+
+async function sendTo(token: string, chatId: string, text: string): Promise<boolean> {
   try {
     const res = await fetch(`${API_BASE}/bot${token}/sendMessage`, {
       method: "POST",
@@ -88,6 +107,7 @@ async function send(text: string): Promise<boolean> {
       // found" chat id yanlış ya da bot gruba ekli değil.
       console.error(
         "[KARNER] Telegram gönderilemedi:",
+        chatId,
         res.status,
         await res.text().catch(() => ""),
       );
@@ -95,7 +115,7 @@ async function send(text: string): Promise<boolean> {
     }
     return true;
   } catch (err) {
-    console.error("[KARNER] Telegram gönderilemedi:", err);
+    console.error("[KARNER] Telegram gönderilemedi:", chatId, err);
     return false;
   }
 }
