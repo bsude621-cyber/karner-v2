@@ -1,4 +1,5 @@
 import type { Lead } from "@/lib/mail";
+import { SITE_URL } from "@/lib/site";
 
 /**
  * Teklif talebi ve asistan sohbetini doğrudan Telegram'a gönderir.
@@ -49,6 +50,12 @@ function line(label: string, value: string) {
   return value ? `<b>${label}:</b> ${escapeHtml(value)}\n` : "";
 }
 
+/** Önizleme dağıtımından gelen bildirim canlıdan ayırt edilsin diye alan adı başlıkta. */
+const HOST = new URL(SITE_URL).host;
+
+/** Vercel sunucusu UTC'de çalışır; saat Türkiye saatiyle yazılmalı. */
+const stamp = () => new Date().toLocaleString("tr-TR", { timeZone: "Europe/Istanbul" });
+
 export const telegramConfigured = () =>
   Boolean(process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID);
 
@@ -95,7 +102,8 @@ async function send(text: string): Promise<boolean> {
 
 export function sendLeadTelegram(lead: Lead) {
   const head =
-    "📩 <b>Yeni teklif talebi</b>\n\n" +
+    `📩 <b>Yeni teklif talebi</b> — ${HOST}\n` +
+    `🕒 ${stamp()}\n\n` +
     line("Ad", lead.name) +
     line("E-posta", lead.email) +
     line("Telefon", lead.phone) +
@@ -112,11 +120,13 @@ export function sendChatTelegram(chat: {
   message: string;
   reply: string;
 }) {
+  // n8n'in gönderdiği eski bildirimle aynı düzen — ekip alışık olduğu biçimi görsün.
   const head =
-    `💬 <b>Site asistanı</b> · ${chat.turn ? `${chat.turn}. mesaj` : "yeni mesaj"}\n` +
-    line("Oturum", chat.sessionId) +
-    line("Sayfa", chat.page) +
-    `\n👤 <b>Ziyaretçi:</b>\n${escapeHtml(chat.message)}\n\n🤖 <b>Asistan:</b>\n`;
+    `💬 Site sohbeti — ${HOST}\n` +
+    `🧵 Oturum ${escapeHtml(chat.sessionId || "-")} · ${chat.turn ? `${chat.turn}. mesaj` : "yeni mesaj"}\n` +
+    `📄 ${escapeHtml(chat.page || "-")}\n` +
+    `🕒 ${stamp()}\n\n` +
+    `👤 Ziyaretçi:\n${escapeHtml(chat.message)}\n\n🤖 Asistan:\n`;
   // Ziyaretçi mesajı rotada 500 karaktere kırpılıyor; taşan kısım her zaman cevaptır.
   const room = MAX_TEXT - head.length;
   return send(head + escapeHtml(cut(chat.reply, room)));
