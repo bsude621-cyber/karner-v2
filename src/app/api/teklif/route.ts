@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { mailConfigured, sendLeadEmail } from "@/lib/mail";
+import { sendLeadTelegram, telegramConfigured } from "@/lib/telegram";
 
 export const runtime = "nodejs";
 
 /**
- * Teklif formu → İKİ BAĞIMSIZ KANAL:
- *   1. n8n webhook (TEKLIF_WEBHOOK_URL) → Telegram bildirimi + tablo kaydı
+ * Teklif formu → ÜÇ BAĞIMSIZ KANAL:
+ *   1. n8n webhook (TEKLIF_WEBHOOK_URL) → tablo kaydı
  *   2. Doğrudan e-posta (bkz. lib/mail.ts) → karneryazilim@gmail.com
+ *   3. Doğrudan Telegram (bkz. lib/telegram.ts) → ekip bildirimi
  *
- * İkinci kanal sonradan eklendi: n8n iş akışında e-posta adımı hiç yoktu, bu
- * yüzden talepler Telegram'a düşüyor ama posta kutusuna hiç ulaşmıyordu.
+ * 2 ve 3 sonradan eklendi: n8n'de e-posta adımı hiç yoktu; Telegram ise
+ * yalnızca n8n üzerinden geliyordu ve n8n durunca bildirim de sessizce kesildi.
  *
  * Kanallar birbirine bağlı DEĞİL ve paralel çalışır. BİRİ bile başarılı olursa
  * talep bize ulaşmış demektir ve ziyaretçiye başarı dönülür — n8n durduğu için
@@ -80,6 +82,7 @@ export async function POST(req: NextRequest) {
 
   if (webhookUrl) channels.push(postToWebhook(webhookUrl, lead));
   if (mailConfigured()) channels.push(sendLeadEmail(lead));
+  if (telegramConfigured()) channels.push(sendLeadTelegram(lead));
 
   if (channels.length === 0) {
     return NextResponse.json(

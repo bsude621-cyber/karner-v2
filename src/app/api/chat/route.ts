@@ -6,6 +6,7 @@ import { PROCESS_STEPS } from "@/data/process";
 import { cases } from "@/data/cases";
 import { guides } from "@/data/guides";
 import { BRAND_SENTENCE } from "@/lib/site";
+import { sendChatTelegram, telegramConfigured } from "@/lib/telegram";
 
 export const runtime = "nodejs";
 
@@ -270,30 +271,39 @@ export async function POST(req: NextRequest) {
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 
-  // Ziyaretçi mesajı + asistan cevabı ekibe düşsün (KARNER n8n → Telegram + tablo).
-  // Yanıt gönderildikten SONRA çalışır; webhook yoksa/hata verirse sohbeti etkilemez.
+  // Ziyaretçi mesajı + asistan cevabı ekibe düşsün: doğrudan Telegram (bildirim)
+  // ve n8n (tablo kaydı) birbirinden bağımsız. Yanıt gönderildikten SONRA çalışır;
+  // ikisi de hata verse sohbet etkilenmez.
   const hook = process.env.CHAT_WEBHOOK_URL;
   const lastUser = lastUserMsg;
-  if (hook && lastUser) {
+  if (lastUser && (hook || telegramConfigured())) {
+    const event = { ...meta, message: lastUser, reply };
     after(async () => {
-      try {
-        await fetch(hook, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            sessionId: meta.sessionId,
-            page: meta.page,
-            turn: meta.turn,
-            message: lastUser,
-            reply,
-          }),
-          signal: AbortSignal.timeout(8000),
-        });
-      } catch {
-        /* bildirim başarısız olsa da sohbet devam eder */
-      }
+      await Promise.allSettled([
+        telegramConfigured() ? sendChatTelegram(event) : null,
+        hook ? postChatWebhook(hook, event) : null,
+      ]);
     });
   }
 
   return NextResponse.json({ reply });
+}
+
+/**
+ * n8n kanalı. Eskiden hata tamamen yutuluyordu ve n8n durduğunda bunu kimse
+ * fark etmedi; artık sebep Vercel günlüklerinde görünür (404 = iş akışı
+ * pasif ya da adres değişmiş, bağlantı hatası/zaman aşımı = sunucu kapalı).
+ */
+async function postChatWebhook(url: string, event: Record<string, unknown>) {
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(event),
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!res.ok) console.error("[KARNER] n8n sohbet webhook yanıtı:", res.status);
+  } catch (err) {
+    console.error("[KARNER] n8n sohbet webhook hatası:", err);
+  }
 }

@@ -1,0 +1,123 @@
+import type { Lead } from "@/lib/mail";
+
+/**
+ * Teklif talebi ve asistan sohbetini doğrudan Telegram'a gönderir.
+ *
+ * NEDEN VAR
+ * Telegram bildirimi şimdiye kadar yalnızca n8n üzerinden geliyordu: site
+ * webhook'a POST atıyor, n8n de Telegram'a düşürüyordu. Ekim 2026'da n8n
+ * tarafı sessizce durdu; form ve asistan aynı anda sustu, e-posta ise (n8n'e
+ * bağlı olmadığı için) gelmeye devam etti. Sitenin kodu değişmemişti — tek
+ * ortak bağımlılık n8n'di. Bu dosya Telegram adımını, e-postada olduğu gibi,
+ * sitenin içine alıyor: n8n çökse de bildirim gelir.
+ *
+ * n8n'İN YENİ GÖREVİ
+ * Bu kanal açıkken n8n iş akışlarındaki Telegram düğümü KAPATILMALI, yoksa
+ * her mesaj iki kez gelir. n8n tablo kaydı için çalışmaya devam eder.
+ *
+ * NEDEN KÜTÜPHANESİZ
+ * Bot API düz bir POST; mail.ts ile aynı gerekçe — yeni bağımlılık yok.
+ *
+ * YAPILANDIRMA (Vercel → Settings → Environment Variables)
+ *   TELEGRAM_BOT_TOKEN  zorunlu. BotFather'dan alınan token (n8n'deki Telegram
+ *                       kimlik bilgisinde kayıtlı olan aynı token).
+ *   TELEGRAM_CHAT_ID    zorunlu. Bildirimin düşeceği sohbet/grup kimliği
+ *                       (n8n Telegram düğümündeki "Chat ID" alanı).
+ *   İkisinden biri yoksa bu modül sessizce devre dışı kalır; site eskisi gibi
+ *   çalışır.
+ *   TELEGRAM_API_BASE   isteğe bağlı, yalnızca test: uç noktayı sahte bir
+ *                       sunucuya yönlendirmek için. Üretimde ayarlanmaz.
+ */
+
+const API_BASE = process.env.TELEGRAM_API_BASE || "https://api.telegram.org";
+
+/**
+ * Telegram tek mesaj sınırı 4096 karakter (etiketler ve &amp; gibi kaçışlar
+ * ayrıştırıldıktan sonra sayılır). Ham metin bu sınıra göre kırpılır, pay bırakıldı.
+ */
+const MAX_TEXT = 3900;
+
+/** parse_mode=HTML: ziyaretçi metni etiket olarak yorumlanmasın. */
+function escapeHtml(value: string) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+const cut = (value: string, max: number) =>
+  value.length > max ? `${value.slice(0, max)}…` : value;
+
+function line(label: string, value: string) {
+  return value ? `<b>${label}:</b> ${escapeHtml(value)}\n` : "";
+}
+
+export const telegramConfigured = () =>
+  Boolean(process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID);
+
+/**
+ * Mesajı gönderir.
+ *
+ * @returns gönderildiyse true; yapılandırılmamışsa veya başarısızsa false.
+ *          ASLA hata fırlatmaz — mail.ts ile aynı iki durumlu sözleşme.
+ */
+async function send(text: string): Promise<boolean> {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return false;
+
+  try {
+    const res = await fetch(`${API_BASE}/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+      }),
+      signal: AbortSignal.timeout(8000),
+    });
+
+    if (!res.ok) {
+      // Vercel günlüklerinde sebebi yazar: 401 token yanlış, 400 "chat not
+      // found" chat id yanlış ya da bot gruba ekli değil.
+      console.error(
+        "[KARNER] Telegram gönderilemedi:",
+        res.status,
+        await res.text().catch(() => ""),
+      );
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("[KARNER] Telegram gönderilemedi:", err);
+    return false;
+  }
+}
+
+export function sendLeadTelegram(lead: Lead) {
+  const head =
+    "📩 <b>Yeni teklif talebi</b>\n\n" +
+    line("Ad", lead.name) +
+    line("E-posta", lead.email) +
+    line("Telefon", lead.phone) +
+    line("Paket", lead.paket) +
+    line("Sayfa", lead.page);
+  const room = MAX_TEXT - head.length - 20;
+  return send(`${head}\n<b>Mesaj:</b>\n${escapeHtml(cut(lead.message, room))}`);
+}
+
+export function sendChatTelegram(chat: {
+  sessionId: string;
+  page: string;
+  turn: number;
+  message: string;
+  reply: string;
+}) {
+  const head =
+    `💬 <b>Site asistanı</b> · ${chat.turn ? `${chat.turn}. mesaj` : "yeni mesaj"}\n` +
+    line("Oturum", chat.sessionId) +
+    line("Sayfa", chat.page) +
+    `\n👤 <b>Ziyaretçi:</b>\n${escapeHtml(chat.message)}\n\n🤖 <b>Asistan:</b>\n`;
+  // Ziyaretçi mesajı rotada 500 karaktere kırpılıyor; taşan kısım her zaman cevaptır.
+  const room = MAX_TEXT - head.length;
+  return send(head + escapeHtml(cut(chat.reply, room)));
+}
