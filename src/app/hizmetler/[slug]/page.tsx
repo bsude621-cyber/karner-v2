@@ -4,7 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Check, ArrowRight } from "lucide-react";
 import { services, getService } from "@/data/services";
-import { SITE_URL, breadcrumbJsonLd, type Crumb } from "@/lib/site";
+import { SITE_URL, breadcrumbJsonLd, imageRights, type Crumb } from "@/lib/site";
 import { pageDates } from "@/data/dates";
 import Breadcrumb from "@/components/seo/Breadcrumb";
 import { guides } from "@/data/guides";
@@ -79,8 +79,7 @@ function serviceJsonLd(service: NonNullable<ReturnType<typeof getService>>) {
       url: `${SITE_URL}${service.imageSrc}`,
       contentUrl: `${SITE_URL}${service.imageSrc}`,
       caption: service.title,
-      creditText: "KARNER",
-      copyrightHolder: { "@id": `${SITE_URL}/#organization` },
+      ...imageRights(),
     },
     {
       "@type": "Service",

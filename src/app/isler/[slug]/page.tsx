@@ -11,7 +11,7 @@ import Breadcrumb from "@/components/seo/Breadcrumb";
 import ArticleMeta from "@/components/seo/ArticleMeta";
 import GuideBlocks from "@/components/seo/GuideBlocks";
 import FaqList from "@/components/seo/FaqList";
-import { SITE_URL, breadcrumbJsonLd, type Crumb } from "@/lib/site";
+import { SITE_URL, breadcrumbJsonLd, imageRights, isoWithTz, type Crumb } from "@/lib/site";
 
 export function generateStaticParams() {
   return cases.map((c) => ({ slug: c.slug }));
@@ -93,8 +93,7 @@ export default async function CasePage({
       width: c.image.width,
       height: c.image.height,
       caption: c.image.alt,
-      creditText: "KARNER",
-      copyrightHolder: { "@id": `${SITE_URL}/#organization` },
+      ...imageRights(),
     },
     {
       "@type": "WebPage",
@@ -130,7 +129,7 @@ export default async function CasePage({
       description: c.video.description,
       thumbnailUrl: `${SITE_URL}${c.video.poster}`,
       contentUrl: `${SITE_URL}${c.video.src}`,
-      uploadDate: c.video.uploadDate,
+      uploadDate: isoWithTz(c.video.uploadDate),
       duration: c.video.duration,
       inLanguage: "tr",
       publisher: { "@id": `${SITE_URL}/#organization` },
@@ -145,7 +144,7 @@ export default async function CasePage({
       description: v.description,
       thumbnailUrl: `${SITE_URL}${v.poster}`,
       contentUrl: `${SITE_URL}${v.src}`,
-      uploadDate: v.uploadDate,
+      uploadDate: isoWithTz(v.uploadDate),
       duration: v.duration,
       inLanguage: "tr",
       publisher: { "@id": `${SITE_URL}/#organization` },

@@ -118,6 +118,13 @@ const nextConfig: NextConfig = {
         source: "/:key([a-f0-9]{32}).txt",
         headers: [{ key: "X-Robots-Tag", value: "noindex" }],
       },
+      {
+        // llms*.txt sayfa içeriğinin düz metin kopyası; canonical taşıyamaz →
+        // GSC "standart sayfa olmadan kopya" (2026-11-05). noindex yalnız
+        // arama sonucunu kapatır, AI botları dosyayı okumaya devam eder.
+        source: "/:file(llms|llms-full|humans).txt",
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
+      },
     ];
   },
 };

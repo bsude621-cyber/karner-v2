@@ -20,6 +20,31 @@ export const SITE_URL = (
 export const SITE_NAME = "KARNER";
 
 /**
+ * "2026-06-25" → "2026-06-25T00:00:00+03:00". Google VideoObject.uploadDate ve
+ * video sitemap publication_date için saat + zaman dilimi ister (GSC uyarısı
+ * 2026-11-05). Zaten saat içeren değer olduğu gibi döner.
+ */
+export function isoWithTz(date: string): string {
+  return /T/.test(date) ? date : `${date}T00:00:00+03:00`;
+}
+
+/**
+ * Google "Resim meta verisi" alanları (GSC uyarısı 2026-11-05): creator,
+ * license, acquireLicensePage, copyrightNotice. Görseller KARNER üretimi;
+ * lisans talebi iletişim sayfasından yapılır.
+ */
+export function imageRights() {
+  return {
+    creditText: SITE_NAME,
+    creator: { "@id": `${SITE_URL}/#organization` },
+    copyrightHolder: { "@id": `${SITE_URL}/#organization` },
+    copyrightNotice: `© ${SITE_NAME}`,
+    license: `${SITE_URL}/iletisim`,
+    acquireLicensePage: `${SITE_URL}/iletisim`,
+  };
+}
+
+/**
  * Arama motoru doğrulama kodları — Search Console / Bing / Yandex panelinden
  * alınan benzersiz token'lar. Kod DEĞİL, ortam değişkeni olarak tutulur:
  * her token tek bir mülke ait, sabit yazılırsa önizleme dağıtımları da aynı
@@ -170,6 +195,7 @@ export function organizationJsonLd() {
       width: 512,
       height: 512,
       caption: "KARNER logo",
+      ...imageRights(),
     },
     image: { "@id": `${SITE_URL}/#logo` },
     description: ORG_DESCRIPTION,

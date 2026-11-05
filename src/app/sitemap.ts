@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { services } from "@/data/services";
 import { PAGE_DATES } from "@/data/dates";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, isoWithTz } from "@/lib/site";
 import { guides } from "@/data/guides";
 import { sectors } from "@/data/sectors";
 import { cases } from "@/data/cases";
@@ -38,7 +38,7 @@ function caseVideos(c: (typeof cases)[number]) {
     description: v.description,
     content_loc: `${SITE_URL}${v.src}`,
     duration: sureSaniye(v.duration),
-    publication_date: v.uploadDate,
+    publication_date: isoWithTz(v.uploadDate),
     family_friendly: "yes" as const,
   }));
 }
