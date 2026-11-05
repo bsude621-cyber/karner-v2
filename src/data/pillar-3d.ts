@@ -7,9 +7,9 @@
 export const PILLAR_3D = {
   slug: "3d-web-sitesi",
   title: "3D Web Sitesi",
-  seoTitle: "3D Web Sitesi Yaptırma — WebGL ile Etkileşimli Site | KARNER",
+  seoTitle: "3D Web Sitesi Yaptırma: Etkileşimli 3D İnternet Sitesi | KARNER",
   seoDescription:
-    "3D web sitesi nedir, hangi işletmelere uygun, hızlı olur mu? WebGL/Three.js ile etkileşimli site rehberi ve Türkiye genelinde 3D web sitesi geliştirme.",
+    "3D web sitesi nedir, hangi işletmelere uygun, telefonda hızlı açılır mı? WebGL ve Three.js ile 3D internet sitesi rehberi; Türkiye genelinde 3D web sitesi yaptırma.",
   summary:
     "3D web sitesi; ürünü veya markayı tarayıcıda gerçek zamanlı, döndürülebilir üç boyutlu sahnelerle sunan sitedir. WebGL ve Three.js ile çalışır, doğru optimize edildiğinde klasik site kadar hızlı açılır.",
 } as const;

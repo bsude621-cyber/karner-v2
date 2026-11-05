@@ -41,7 +41,7 @@ const orbitron = Orbitron({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "KARNER — Yazılım ve Medya Ajansı | 3D Web, Mobil, AI Video",
+    default: "KARNER Yazılım — Yazılım ve Medya Ajansı | 3D Web, Mobil, AI Video",
     template: `%s | ${SITE_NAME}`,
   },
   description: ORG_DESCRIPTION,

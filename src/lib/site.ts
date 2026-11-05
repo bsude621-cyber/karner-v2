@@ -185,7 +185,7 @@ export function organizationJsonLd() {
     "@type": "Organization",
     "@id": `${SITE_URL}/#organization`,
     name: SITE_NAME,
-    alternateName: "KARNER Yazılım ve Medya",
+    alternateName: ["KARNER Yazılım", "KARNER Yazılım ve Medya", "Karner Yazılım"],
     url: SITE_URL,
     logo: {
       "@type": "ImageObject",

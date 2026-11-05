@@ -154,7 +154,7 @@ export default function Pillar3DPage() {
             Rehber
           </p>
           <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">
-            3D Web Sitesi: Markanızı Üç Boyutta Anlatan Modern Web
+            3D Web Sitesi: Markanızı Üç Boyutta Anlatan İnternet Sitesi
           </h1>
           <ArticleMeta dates={dates} />
 

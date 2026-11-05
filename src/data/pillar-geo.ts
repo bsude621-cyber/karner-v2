@@ -6,14 +6,18 @@
 export const PILLAR_GEO = {
   slug: "yapay-zeka-aramasinda-gorunmek",
   title: "Yapay Zekâ Aramasında Görünmek",
-  seoTitle: "ChatGPT'de Çıkmak: Yapay Zekâ Aramasında Görünme | KARNER",
+  seoTitle: "ChatGPT'de Görünmek: Yapay Zekâ Aramalarında Çıkmak | KARNER",
   seoDescription:
-    "Firmam ChatGPT'de neden çıkmıyor? Yapay zekâ araçları hangi siteleri kaynak seçer, GEO nedir, görünürlük nasıl kurulur? Türkiye genelinde GEO hizmeti.",
+    "ChatGPT'de görünmek ve yapay zekâ aramalarında çıkmak için ne gerekir? Araçlar hangi siteleri kaynak seçer, GEO nedir, adım adım nasıl kurulur?",
   summary:
-    "ChatGPT, Gemini ve Perplexity bir soruya cevap verirken web'den kaynak seçer. Firmanızın o cevaplarda önerilmesi şansa değil mühendisliğe bağlıdır: yapay zekâ botlarına açık site, yapısal veri, alıntılanabilir içerik ve tutarlı işletme kimliği.",
+    "ChatGPT'de görünmek için sitenizin yapay zekâ botlarına açık, yapısal verili ve alıntılanabilir olması gerekir. ChatGPT, Gemini ve Perplexity bir soruya cevap verirken web'den kaynak seçer. Firmanızın o cevaplarda önerilmesi şansa değil mühendisliğe bağlıdır: yapay zekâ botlarına açık site, yapısal veri, alıntılanabilir içerik ve tutarlı işletme kimliği.",
 } as const;
 
 export const PILLAR_GEO_FAQ = [
+  {
+    q: "ChatGPT'de görünmek için ne yapmak gerekiyor?",
+    a: "Dört temel adım var: robots.txt'te GPTBot, OAI-SearchBot ve ChatGPT-User botlarına izin vermek; içeriği JavaScript'e gömmeden doğrudan HTML'de sunmak; firmanızı schema.org yapısal verisiyle tanımlamak; ve sık sorulan sorulara kısa, net, alıntılanabilir cevaplar yazmak. ChatGPT arama sonuçlarının bir bölümünü Bing dizininden aldığı için sitenin Bing'e kayıtlı olması da gerekir.",
+  },
   {
     q: "ChatGPT'de çıkmak için reklam mı vermek gerekiyor?",
     a: "Hayır. Yapay zekâ araçlarının cevaplarında kaynak gösterilen ve önerilen siteler, reklamla değil içerik sinyalleriyle seçilir: botların siteye erişebilmesi, içeriğin net ve alıntılanabilir olması, yapısal veri ve güncellik. Bu sinyaller kurulduğunda görünürlük organik olarak gelir.",

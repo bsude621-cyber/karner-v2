@@ -255,7 +255,7 @@ export const services: Service[] = [
       "Google'da, ChatGPT'de ve Gemini'de aynı anda öne çıkın. Teknik SEO, generatif arama (GEO) ve cevap motoru (AEO) optimizasyonu — Türkiye genelinde.",
     guide: {
       href: "/yapay-zeka-aramasinda-gorunmek",
-      label: "Rehber: ChatGPT'de Çıkmak",
+      label: "Rehber: ChatGPT'de Görünmek",
       desc: "Yapay zekâ araçları hangi siteleri kaynak seçer, firmanız neden görünmüyor, görünürlük nasıl kurulur — detaylı rehberimizi okuyun.",
     },
     faq: [

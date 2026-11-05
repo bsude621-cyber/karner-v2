@@ -147,8 +147,8 @@ export default function PillarGeoPage() {
             Rehber
           </p>
           <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">
-            ChatGPT&apos;de Çıkmak: Firmanız Yapay Zekâ Aramasında Nasıl
-            Görünür?
+            ChatGPT&apos;de Görünmek: Firmanız Yapay Zekâ Aramalarında Nasıl
+            Çıkar?
           </h1>
           <ArticleMeta dates={dates} />
 
