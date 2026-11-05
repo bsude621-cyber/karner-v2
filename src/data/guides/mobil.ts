@@ -180,6 +180,10 @@ export const MOBIL_GUIDES: Guide[] = [
     ],
     faq: [
       {
+        q: "PWA mı APK mı?",
+        a: "APK, Android uygulamalarının kurulum paketidir; telefona Google Play'den ya da dosya olarak yüklenir ve cihaz özelliklerine tam erişir. PWA ise tarayıcıda çalışan, ana ekrana eklenebilen bir web uygulamasıdır; kurulum dosyası yoktur, güncellemesi anında yayılır ve iPhone'da da açılır. Yalnızca Android hedefleniyor ve derin cihaz erişimi gerekiyorsa APK (mağaza uygulaması), iki platformda tek adresle hızlı yayın isteniyorsa PWA seçilir.",
+      },
+      {
         q: "PWA mağazaya yüklenebilir mi?",
         a: "Google Play, PWA'nın paketlenip yayımlanmasına izin verir; App Store'da ise doğrudan PWA listelenmez, uygulama paketi gerekir. Bu yüzden iki mağazada da yer almak isteyen ürünler için Expo gibi cross-platform yaklaşım daha düz bir yoldur. PWA, mağaza dışı dağıtımın güçlü olduğu senaryolarda mantıklıdır.",
       },
@@ -206,7 +210,7 @@ export const MOBIL_GUIDES: Guide[] = [
       "web-sitesi-hizi-neden-onemli",
     ],
     published: "2026-08-20",
-    modified: "2026-08-20",
+    modified: "2026-11-05",
   },
   {
     slug: "mobil-uygulama-gelistirme-sureci",

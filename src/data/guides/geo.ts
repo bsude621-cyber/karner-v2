@@ -197,7 +197,7 @@ export const GEO_GUIDES: Guide[] = [
   {
     slug: "google-ai-overview-nasil-cikilir",
     title: "Google AI Overview'da nasıl çıkılır? Hangi sayfalar alıntılanır?",
-    seoTitle: "Google AI Overview'da Çıkmak: Kaynak Seçilme | KARNER",
+    seoTitle: "Google AI Overview Nedir, Nasıl Çıkılır? | KARNER",
     seoDescription:
       "Google AI Bakışı (AI Overview) hangi sayfaları alıntılar, AI Mode farkı ne? Üst sıra, alıntılanabilir pasaj, yapısal veri ve güncellikle hazırlık adımları.",
     summary:
@@ -330,7 +330,7 @@ export const GEO_GUIDES: Guide[] = [
       "chatgpt-firmami-neden-onermiyor",
     ],
     published: "2026-08-20",
-    modified: "2026-08-20",
+    modified: "2026-11-05",
   },
 
   /* ------------------------------------------------------------------ */
@@ -959,11 +959,178 @@ export const GEO_GUIDES: Guide[] = [
       },
     ],
     related: [
+      "turkiye-buyuk-siteler-yapay-zeka-botu-taramasi-2026",
       "llms-txt-nedir",
       "chatgpt-firmami-neden-onermiyor",
-      "google-ai-overview-nasil-cikilir",
     ],
     published: "2026-08-20",
-    modified: "2026-08-20",
+    modified: "2026-11-05",
+  },
+  /* ------------------------------------------------------------------ */
+  /* 7. Araştırma: Türkiye'nin büyük siteleri AI botlarına açık mı?      */
+  /* ------------------------------------------------------------------ */
+  {
+    slug: "turkiye-buyuk-siteler-yapay-zeka-botu-taramasi-2026",
+    title:
+      "Türkiye'nin büyük siteleri yapay zekâ botlarına açık mı? 111 sitelik robots.txt ve llms.txt taraması (Kasım 2026)",
+    seoTitle: "Türk Siteleri AI Botlarına Açık mı? 2026 Taraması | KARNER",
+    seoDescription:
+      "111 büyük Türk sitesinin robots.txt ve llms.txt dosyalarını taradık: GPTBot'u kim engelliyor, kaç sitede llms.txt var, sektör farkları. Ham veri CSV olarak indirilebilir.",
+    summary:
+      "5 Kasım 2026'da 111 büyük Türk sitesini taradık; robots.txt dosyası okunabilen 88 sitenin 42'sinde llms.txt var, yalnızca 7'si GPTBot'u tamamen engelliyor. Engelleyenlerin çoğu haber siteleri; e-ticaret, banka ve telekom siteleri yapay zekâ botlarına büyük ölçüde açık.",
+    cluster: "geo",
+    pillar: PILLAR,
+    serviceSlug: "seo-geo-aeo",
+    blocks: [
+      { type: "h2", text: "Bu tarama neyi ölçtü?" },
+      {
+        type: "p",
+        text: "Yapay zekâ araçlarının bir siteyi önerebilmesi için önce onu okuyabilmesi gerekir. Bunun ilk kapısı robots.txt dosyasıdır. Türkiye'de geniş kitleye hitap eden 111 sitenin bu kapıyı nasıl ayarladığına baktık: hangi yapay zekâ botuna izin veriliyor, hangisi engelleniyor ve kimler llms.txt dosyası yayımlıyor.",
+      },
+      {
+        type: "ul",
+        items: [
+          "**Tarih:** 5 Kasım 2026, tek günlük anlık görüntü.",
+          "**Örneklem:** e-ticaret, haber, banka-finans, telekom-teknoloji, seyahat-otomotiv, emlak-yapı, sağlık-eğitim ve üretim-gıda sektörlerinden seçtiğimiz 111 alan adı. Rastgele örneklem değildir; Türkiye'deki tüm siteleri temsil etmez.",
+          "**Okunabilen:** 88 sitenin robots.txt dosyası okundu. 23 site tarama isteğimize hata ya da zaman aşımıyla döndü; bunlar sonuçlara katılmadı.",
+          "**Kontrol edilen 12 bot:** GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended, CCBot, Bytespider, Applebot-Extended, Meta-ExternalAgent, Amazonbot.",
+          "**“Engelli” tanımı:** bota uyan kural grubunda tüm siteyi kapatan “Disallow: /” satırı. Sepet, arama gibi belirli yolları kapatan kurallar engel sayılmadı.",
+        ],
+      },
+
+      { type: "h2", text: "Türk siteleri GPTBot'u engelliyor mu?" },
+      {
+        type: "p",
+        text: "**Çoğunluk engellemiyor: okunabilen 88 sitenin 7'si GPTBot'u, 4'ü ChatGPT'nin arama botu OAI-SearchBot'u tamamen kapatıyor.** En çok engellenen botlar Anthropic'in ClaudeBot'u ve ByteDance'in Bytespider'ı oldu (9'ar site).",
+      },
+      {
+        type: "table",
+        caption: "Okunabilen 88 sitede bot bazında durum (5 Kasım 2026)",
+        head: ["Bot", "Sahibi / amacı", "Tamamen engelleyen site", "robots.txt'te adıyla geçtiği site"],
+        rows: [
+          ["GPTBot", "OpenAI, model eğitimi", "7", "23"],
+          ["OAI-SearchBot", "OpenAI, ChatGPT arama", "4", "23"],
+          ["ChatGPT-User", "OpenAI, kullanıcı isteğiyle sayfa getirme", "4", "19"],
+          ["ClaudeBot", "Anthropic, model eğitimi", "9", "19"],
+          ["Claude-SearchBot", "Anthropic, arama", "2", "15"],
+          ["PerplexityBot", "Perplexity, arama", "4", "21"],
+          ["Google-Extended", "Google, Gemini eğitimi", "1", "14"],
+          ["CCBot", "Common Crawl, açık veri seti", "5", "13"],
+          ["Bytespider", "ByteDance", "9", "13"],
+          ["Applebot-Extended", "Apple, model eğitimi", "2", "14"],
+          ["Meta-ExternalAgent", "Meta, model eğitimi", "6", "13"],
+          ["Amazonbot", "Amazon", "3", "8"],
+        ],
+      },
+      {
+        type: "p",
+        text: "Son sütun da önemli. 88 sitenin 30'u robots.txt'te en az bir yapay zekâ botunu adıyla anıyor; geri kalan 58 site bu botlar için ayrı bir karar yazmamış ve genel kurala (User-agent: *) bırakmış. Yani sitelerin üçte ikisinde yapay zekâ botları bilinçli bir tercihle değil, varsayılan ayar sayesinde içeri giriyor.",
+      },
+
+      { type: "h2", text: "Hangi sektörler yapay zekâ botlarını engelliyor?" },
+      {
+        type: "table",
+        caption: "Sektör bazında yapay zekâ botu engeli (okunabilen 88 site)",
+        head: ["Sektör", "Okunabilen site", "En az bir botu engelleyen", "GPTBot'u engelleyen"],
+        rows: [
+          ["Haber", "17", "4", "4"],
+          ["E-ticaret", "19", "5", "2"],
+          ["Banka-finans", "10", "3", "0"],
+          ["Emlak-yapı", "8", "2", "0"],
+          ["Seyahat-otomotiv", "8", "1", "1"],
+          ["Telekom-teknoloji", "6", "0", "0"],
+          ["Sağlık-eğitim", "8", "0", "0"],
+          ["Üretim-gıda", "12", "0", "0"],
+        ],
+      },
+      {
+        type: "p",
+        text: "**Ayrışma net: içeriği ürünün kendisi olan haber siteleri botları kapatıyor, hizmet ve ürün satan siteler açık tutuyor.** hurriyet.com.tr, ntv.com.tr ve cnnturk.com aynı beş botu (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot) tamamen kapatıyor; cumhuriyet.com.tr eğitim botlarını engelliyor. Haberde mantık açık: satılan şey yazının kendisidir ve yapay zekâ cevabı okurun siteye gelme ihtiyacını azaltabilir.",
+      },
+      {
+        type: "p",
+        text: "Bankalarda görülen tek engel Bytespider (garantibbva.com.tr, yapikredi.com.tr, halkbank.com.tr): ChatGPT, Claude ve Perplexity'ye kapı açık, tek bir bot ayıklanmış. hepsiemlak.com ve zingat.com eğitim botlarını (ClaudeBot, CCBot, Bytespider, Meta-ExternalAgent, Amazonbot) kapatıp arama botlarını açık bırakıyor. Bu da robots.txt'in toptan aç-kapa değil, bot bazında verilen bir karar olduğunu gösteriyor.",
+      },
+      {
+        type: "p",
+        text: "Örneklemdeki en geniş engel amazon.com.tr'de: 12 botun 10'u tamamen kapalı. flo.com.tr ise OpenAI botlarına açıkken Anthropic, Apple, Meta, Amazon ve ByteDance botlarını kapatıyor.",
+      },
+
+      { type: "h2", text: "Kaç Türk sitesinde llms.txt var?" },
+      {
+        type: "p",
+        text: "**Okunabilen 88 sitenin 42'si kök dizinde geçerli bir llms.txt dosyası yayımlıyor.** Yayımlayanlar arasında trendyol.com, migros.com.tr, ikea.com.tr gibi perakendeciler; garantibbva.com.tr, akbank.com, yapikredi.com.tr, halkbank.com.tr gibi bankalar; turkcell.com.tr, vodafone.com.tr ve turktelekom.com.tr operatörleri; sozcu.com.tr ve sabah.com.tr gibi haber siteleri var.",
+      },
+      {
+        type: "p",
+        text: "Dosyaların içeriği siteden siteye çok farklı: bazıları markayı ve ana sayfaları tanıtan kısa bir Markdown özeti, bazıları kategori listesi. llms.txt henüz bir standart değil, bir öneri; yapay zekâ şirketlerinin bu dosyayı ne ölçüde kullandığı belgelenmiş değil. Yine de büyük markaların yarısının bu dosyayı yayımlaması, yapay zekâ aramasına hazırlığın kurumsal gündeme girdiğini gösteriyor. Dosyanın ne olduğunu ve nasıl yazıldığını [llms.txt nedir](/rehber/llms-txt-nedir) rehberinde anlattık.",
+      },
+
+      { type: "h2", text: "Küçük işletme bu sonuçlardan ne çıkarmalı?" },
+      {
+        type: "ol",
+        items: [
+          "**Engellemek büyük yayıncıların kararı, hizmet satanların değil.** Haber siteleri içeriğini korumak için kapatıyor. Hizmet ya da ürün satan bir işletme için yapay zekâ cevabında adının geçmesi çoğunlukla lehinedir.",
+          "**Sessiz kalmak da bir karar.** Büyük sitelerin üçte ikisi yapay zekâ botları için ayrı kural yazmamış. Genel kural bir güvenlik eklentisi ya da CDN tarafından kısıtlanmışsa botlar siz fark etmeden dışarıda kalır.",
+          "**Bot bazında karar verin.** Bankalar ve emlak portalları, arama botlarını açık tutup belirli eğitim botlarını kapatmanın mümkün olduğunu gösteriyor. İzin listesi ve örnek dosya için [yapay zekâ botlarına site nasıl açılır](/rehber/yapay-zeka-botlarina-site-nasil-acilir) rehberine bakın.",
+          "**llms.txt artık istisna değil.** Taranan büyük sitelerin yarısı bu dosyayı yayımlıyor; küçük bir işletmenin sitesi için kısa bir iştir.",
+        ],
+      },
+
+      { type: "h2", text: "Yöntem ve sınırlar" },
+      {
+        type: "ul",
+        items: [
+          "Her alan adı için önce “https://www.” sonra “https://” ön ekiyle robots.txt istendi. İstekler kendimizi tanıtan bir kullanıcı aracısıyla (KARNER-robots-survey) atıldı. 23 sitenin bu isteği reddetmesi ya da yanıt vermemesi, gerçek yapay zekâ botlarına da kapalı oldukları anlamına gelmez.",
+          "Kural eşleşmesi robots.txt protokolündeki gruplama mantığıyla yapıldı: bot adıyla bir grup varsa o grup, yoksa “User-agent: *” grubu geçerli sayıldı.",
+          "CDN ya da güvenlik duvarı düzeyindeki engeller robots.txt'te görünmez ve bu taramada ölçülmedi. Bir site robots.txt'te açık görünüp sunucu tarafında botu reddedebilir.",
+          "llms.txt'in “var” sayılması için dosyanın 200 yanıtıyla, HTML olmayan ve Markdown başlığı içeren bir metin olarak dönmesi şartı arandı.",
+          "Sonuçlar 5 Kasım 2026 tarihli anlık görüntüdür; siteler robots.txt dosyalarını sık değiştirir.",
+        ],
+      },
+      {
+        type: "callout",
+        title: "Ham veri",
+        text: "Site bazında tüm sonuçlar [CSV dosyası](/arastirma/ai-bot-taramasi-2026-11.csv) olarak indirilebilir. Veri CC BY 4.0 lisanslıdır: kaynak göstererek (KARNER, karneryazilim.com) serbestçe kullanabilirsiniz.",
+      },
+      {
+        type: "callout",
+        title: "KARNER teslimlerinde",
+        text: KARNER_CALLOUT,
+      },
+    ],
+    faq: [
+      {
+        q: "Türkiye'de hangi büyük siteler GPTBot'u engelliyor?",
+        a: "5 Kasım 2026 taramamızda robots.txt'i okunabilen 88 sitenin 7'si GPTBot'u tamamen engelliyordu: amazon.com.tr, yemeksepeti.com, hurriyet.com.tr, ntv.com.tr, cnnturk.com, cumhuriyet.com.tr ve arabam.com. Siteler bu dosyaları sık değiştirdiği için güncel durumu sitenin /robots.txt adresinden kontrol etmek gerekir.",
+      },
+      {
+        q: "Türk sitelerinin kaçında llms.txt var?",
+        a: "Taramamızda robots.txt'i okunabilen 88 büyük Türk sitesinin 42'sinde kök dizinde geçerli bir llms.txt dosyası vardı. Aralarında Trendyol, Migros, IKEA Türkiye, Garanti BBVA, Akbank, Yapı Kredi, Halkbank, Turkcell, Vodafone ve Türk Telekom bulunuyor.",
+      },
+      {
+        q: "Haber siteleri neden yapay zekâ botlarını engelliyor?",
+        a: "Haber sitesinde satılan şey içeriğin kendisidir. Yapay zekâ aracı haberi özetleyip cevap verdiğinde okurun siteye gelme ihtiyacı azalabilir; içeriğin model eğitiminde izinsiz kullanılması da telif tartışması yaratır. Bu yüzden haber siteleri hem eğitim hem arama botlarını kapatmaya daha yatkındır.",
+      },
+      {
+        q: "Bu veriyi kullanabilir miyim?",
+        a: "Evet. Site bazında sonuçlar sayfadaki CSV dosyasında. Kullanırken kaynak olarak KARNER'i ve bu sayfanın adresini belirtmeniz yeterli.",
+      },
+    ],
+    related: [
+      "yapay-zeka-botlarina-site-nasil-acilir",
+      "llms-txt-nedir",
+      "chatgpt-firmami-neden-onermiyor",
+    ],
+    published: "2026-11-05",
+    modified: "2026-11-05",
+    dataset: {
+      name: "Türkiye büyük siteler yapay zekâ botu robots.txt ve llms.txt taraması (Kasım 2026)",
+      description:
+        "Türkiye'de 8 sektörden 111 büyük sitenin robots.txt dosyasında 12 yapay zekâ botunun (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended, CCBot, Bytespider, Applebot-Extended, Meta-ExternalAgent, Amazonbot) engel durumu ve llms.txt varlığı. 5 Kasım 2026 anlık görüntüsü.",
+      file: "/arastirma/ai-bot-taramasi-2026-11.csv",
+      keywords: ["robots.txt", "llms.txt", "GPTBot", "ClaudeBot", "PerplexityBot", "yapay zekâ botları", "Türkiye", "GEO"],
+      temporalCoverage: "2026-11-05",
+    },
   },
 ];

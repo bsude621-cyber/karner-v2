@@ -38,6 +38,16 @@ export type Guide = {
   related: string[];
   published: string;
   modified: string;
+  /** Özgün veri yayımlayan rehberlerde schema.org Dataset (Google Dataset Search) */
+  dataset?: {
+    name: string;
+    description: string;
+    /** public/ altındaki dosya yolu, ör. /arastirma/x.csv */
+    file: string;
+    keywords: string[];
+    /** Ölçüm tarihi (ISO) */
+    temporalCoverage: string;
+  };
 };
 
 export const CLUSTER_LABEL: Record<GuideCluster, string> = {

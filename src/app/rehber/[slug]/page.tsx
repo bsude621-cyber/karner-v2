@@ -110,6 +110,34 @@ export default async function GuidePage({
           acceptedAnswer: { "@type": "Answer", text: f.a },
         })),
       },
+      ...(g.dataset
+        ? [
+            {
+              "@type": "Dataset",
+              "@id": `${pageUrl}#dataset`,
+              name: g.dataset.name,
+              description: g.dataset.description,
+              url: pageUrl,
+              keywords: g.dataset.keywords,
+              temporalCoverage: g.dataset.temporalCoverage,
+              spatialCoverage: { "@type": "Country", name: "Türkiye" },
+              inLanguage: "tr",
+              isAccessibleForFree: true,
+              license: "https://creativecommons.org/licenses/by/4.0/",
+              creator: { "@id": `${SITE_URL}/#organization` },
+              publisher: { "@id": `${SITE_URL}/#organization` },
+              datePublished: g.published,
+              dateModified: g.modified,
+              distribution: [
+                {
+                  "@type": "DataDownload",
+                  encodingFormat: "text/csv",
+                  contentUrl: `${SITE_URL}${g.dataset.file}`,
+                },
+              ],
+            },
+          ]
+        : []),
     ],
   };
 

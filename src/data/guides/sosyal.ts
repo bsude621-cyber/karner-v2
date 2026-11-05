@@ -16,7 +16,7 @@ export const SOSYAL_GUIDES: Guide[] = [
     title: "Instagram içerik takvimi nasıl kurulur? KOBİ için aylık plan",
     seoTitle: "Instagram İçerik Takvimi Nasıl Kurulur? Aylık Plan | KARNER",
     seoDescription:
-      "Küçük işletme için Instagram içerik takvimi: içerik sütunları, haftalık ritim, post/reels dengesi, üretim ve yayın akışı. Şablon iskeleti ve sık yapılan hatalar.",
+      "Küçük işletme için Instagram içerik ve paylaşım takvimi: içerik sütunları, haftalık ritim, post/reels dengesi, üretim ve yayın akışı. Şablon iskeleti ve sık yapılan hatalar.",
     summary:
       "İçerik takvimi, bir ay boyunca ne zaman ne paylaşacağınızı önceden yazdığınız tablodur. Üç-dört içerik sütunu seçilir, haftalık ritim belirlenir, içerikler toplu üretilir ve günü gelince yayınlanır. Takvim olmadan hesap ya susar ya da aynı şeyi tekrar eder.",
     cluster: "sosyal",
@@ -119,7 +119,7 @@ export const SOSYAL_GUIDES: Guide[] = [
     ],
     related: ["kobi-icin-sosyal-medyada-ne-paylasilir", "reels-reklam-senaryosu-nasil-yazilir"],
     published: "2026-08-20",
-    modified: "2026-08-20",
+    modified: "2026-11-05",
   },
   {
     slug: "kobi-icin-sosyal-medyada-ne-paylasilir",
