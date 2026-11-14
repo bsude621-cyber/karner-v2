@@ -78,12 +78,18 @@ const MODELS = {
 
 const pickModels = (mobile: boolean) => (mobile ? MODELS.mobile : MODELS.desktop);
 
+/** Telefon yerleşimi: hero metninin `sm` kırılımıyla (640 px) AYNI olmalı. */
+const PHONE_LAYOUT_QUERY = "(max-width: 639px)";
+/** Hafif (512² dokulu) modeller: tablet ve dar pencerelerde yeterli. Hero.tsx'teki
+ *  önyükleme bağlantılarının `media` değerleri bununla eşleşmeli. */
+const LITE_MODELS_QUERY = "(max-width: 1023px)";
+
 // Bu modül yalnızca tarayıcıda yükleniyor (Hero.tsx'te dynamic + ssr:false),
 // bu yüzden burada ölçüm yapmak güvenli. Ölçüt aşağıdaki yerleşim kırılma
 // noktasının AYNISI — yoksa telefon önce masaüstü modellerini indirir, sonra
 // mobil olanları: 2.5 MB boşa giderdi.
 if (typeof window !== "undefined") {
-  for (const src of pickModels(window.matchMedia("(max-width: 1023px)").matches)) {
+  for (const src of pickModels(window.matchMedia(LITE_MODELS_QUERY).matches)) {
     useGLTF.preload(src);
   }
 }
@@ -347,11 +353,15 @@ function AdaptiveQuality({
 function Rig({
   mouse,
   mobile,
+  lite,
   settings,
   still,
 }: {
   mouse: React.MutableRefObject<{ x: number; y: number }>;
+  /** Telefon YERLEŞİMİ (≤639 px — hero metninin sm kırılımıyla aynı) */
   mobile: boolean;
+  /** Hafif (512² dokulu) modeller (≤1023 px) */
+  lite: boolean;
   settings: ReturnType<typeof sceneSettings>;
   still: boolean;
 }) {
@@ -371,7 +381,7 @@ function Rig({
   // Hero.tsx'teki buton konumu (top: calc(418px + clamp(140px, 100dvh − 541px, 230px)))
   // bu formülle eşleşir: ayak + 26 px. Birim↔px: görünür yükseklik 5.648 birim
   // (fov 38°, z 8.2), kamera y 0.15 → üst kenar 0.15 + 2.824 birim.
-  const [modelA, modelB] = pickModels(mobile);
+  const [modelA, modelB] = pickModels(lite);
   const { size } = useThree();
   const H = Math.max(1, size.height);
   const aspect = size.width / H;
@@ -380,10 +390,21 @@ function Rig({
   // Ölçüm: fit birimi modelin en büyük boyutu; görünen boy ≈ fit × 1.087.
   // Yığın kısıtı: 392 (kafa) + R + 26 + 43 (buton) + 80 (sohbet düğmesi) ≤ H.
   const robotPx = Math.max(140, Math.min(230, H - 541));
-  const fit = mobile ? (robotPx * upp) / 1.087 : 2.1;
+  // GENİŞ YERLEŞİM (≥640 px): robotlar hero metninin iki yanında. Eskiden
+  // 640–1023 px aralığı (küçük laptop, yan paneli açık tarayıcı, %125
+  // yakınlaştırma) telefon yerleşimini alıyordu: robotlar küçülüp ortaya,
+  // paragrafın arkasına giriyor, "robotlar yok" gibi görünüyordu. Artık geniş
+  // yerleşimde ekran daraldıkça robotlar kenara yaslanıp orantılı küçülür.
+  // Kamera z=6.2 → görünür yarı yükseklik tan(19°)·6.2 ≈ 2.135 birim.
+  const halfWWide = 2.135 * aspect;
+  const wideFit = 2.1 * Math.min(1, Math.max(0.6, aspect / 1.6));
+  const fit = mobile ? (robotPx * upp) / 1.087 : wideFit;
   const headTopUnits = 0.15 + 2.824 - 392 * upp;
   const y = mobile ? headTopUnits - fit / 2 : -0.15;
-  const x = mobile ? Math.min(1.15, Math.max(0.62, halfW - 0.45)) : 2.7;
+  // Robotun yarı genişliği ≈ boyunun %18'i; kenara 0.1 birim pay.
+  const x = mobile
+    ? Math.min(1.15, Math.max(0.62, halfW - 0.45))
+    : Math.min(2.7, halfWWide - 0.18 * fit - 0.1);
   // Gölge robotların ayak hizasında dursun. Model kendi merkezine hizalandığı
   // için ayak seviyesi y - fit/2; 0.08 birim altına konuyor ki gölge ayakların
   // altından taşsın. Masaüstünde bu -1.28 veriyor (eski sabit değerin aynısı).
@@ -472,6 +493,7 @@ export default function HeroRobots({ className = "" }: { className?: string }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(true);
   const [mobile, setMobile] = useState(false);
+  const [lite, setLite] = useState(false);
   const profile = useDeviceProfile();
   const settings = sceneSettings(profile);
 
@@ -481,11 +503,19 @@ export default function HeroRobots({ className = "" }: { className?: string }) {
   // ekranlı tabletlere de uygulardı. Kalite kademesi cihazdan, yerleşim
   // ekrandan gelir — iki ayrı soru.
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 1023px)");
-    const update = () => setMobile(mq.matches);
+    const phone = window.matchMedia(PHONE_LAYOUT_QUERY);
+    const small = window.matchMedia(LITE_MODELS_QUERY);
+    const update = () => {
+      setMobile(phone.matches);
+      setLite(small.matches);
+    };
     update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
+    phone.addEventListener("change", update);
+    small.addEventListener("change", update);
+    return () => {
+      phone.removeEventListener("change", update);
+      small.removeEventListener("change", update);
+    };
   }, []);
 
   // Parallax için fareyi pencereden dinle — böylece katman hiçbir tıklamayı engellemez
@@ -570,6 +600,7 @@ export default function HeroRobots({ className = "" }: { className?: string }) {
           <Rig
             mouse={mouse}
             mobile={mobile}
+            lite={lite}
             settings={settings}
             still={profile.reducedMotion}
           />

@@ -58,7 +58,7 @@ export default function WorksSection() {
             href="/isler"
             className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-5 py-2.5 text-sm font-medium text-white transition hover:border-accent hover:bg-accent/20"
           >
-            Gerçek müşteri işlerimiz: AYSA, BNS, Çolakoğlu, Dükkân Takip →
+            Gerçek müşteri işlerimiz: Zeytinoğlu İnşaat, AYSA, BNS, Çolakoğlu →
           </a>
         </p>
 
@@ -105,6 +105,7 @@ function WorkCard({
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !v.getAttribute("src")) {
+          v.setAttribute("poster", work.poster);
           v.setAttribute("src", `${work.video}#t=${work.posterTime}`);
           io.disconnect();
         }
@@ -113,7 +114,7 @@ function WorkCard({
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [work.video, work.posterTime]);
+  }, [work.video, work.poster, work.posterTime]);
 
   // 2) Dokunmatik cihazda hover yok: kart ekranın ortasına geldiğinde oynat.
   //    Eşik 0.6 olduğu için pratikte aynı anda tek kart tetikleniyor.
@@ -145,9 +146,9 @@ function WorkCard({
   const media = (
     <video
       ref={videoRef}
-      // src bilerek verilmiyor — yukarıdaki gözlemci kart ekrana yaklaşınca
-      // atıyor. Görüntü poster'dan geliyor, video yalnızca oynatılınca iniyor.
-      poster={work.poster}
+      // src ve poster bilerek verilmiyor — yukarıdaki gözlemci kart ekrana
+      // yaklaşınca atıyor. Böylece açılışta (hero yüklenirken) altı poster
+      // görseli bant genişliği için robotlarla yarışmıyor.
       muted
       loop
       playsInline

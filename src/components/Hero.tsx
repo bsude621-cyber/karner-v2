@@ -29,6 +29,27 @@ export default function Hero() {
   // Safari'nin çubuğunun altında kalıp görünmez oluyorlardı.
   return (
     <section className="hero-root relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-background">
+      {/* Robot modellerini HTML ile birlikte indirmeye başla. Eskiden indirme,
+          three.js paketi yüklenip sahne kurulunca (~2,3 sn) başlıyordu; 2 MB'lık
+          modeller ancak ondan sonra iniyor, robotlar geç geliyordu. React bu
+          bağlantıları <head>'e taşır. Yalnızca masaüstü (≥1024 px, HeroRobots.tsx'teki
+          model seçimiyle aynı eşik): telefonda mobil veri ve ilk boyama
+          korunur, orada modeller eskisi gibi sahneyle birlikte iner. Düşük
+          öncelik: sayfanın kendi JS'i ve fontlarıyla yarışmasın. */}
+      {[
+        ["/models/robot-a.opt.glb", "(min-width: 1024px)"],
+        ["/models/robot-b.opt.glb", "(min-width: 1024px)"],
+      ].map(([href, media]) => (
+        <link
+          key={href}
+          rel="preload"
+          href={href}
+          as="fetch"
+          crossOrigin="anonymous"
+          media={media}
+          fetchPriority="low"
+        />
+      ))}
       {/* En arkada: çapraz akan KARNER filament shader arka planı.
           DeferredMount: shader + robotlar kritik render yolundan çıkarıldı —
           metin ve gradient anında boyanır (LCP), sahneler ardından gelir. */}

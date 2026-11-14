@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import ServicesSection from "@/components/ServicesSection";
 import WorksSection from "@/components/WorksSection";
+import AnamorphicSection from "@/components/AnamorphicSection";
 import AboutTeaser from "@/components/AboutTeaser";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
@@ -85,6 +86,9 @@ export default function Home() {
 
       <SectionDivider />
       <WorksSection />
+
+      <SectionDivider />
+      <AnamorphicSection />
 
       <SectionDivider />
       <Showreel />

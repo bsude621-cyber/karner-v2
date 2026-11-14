@@ -21,8 +21,6 @@ export type CaseStudy = {
   video?: { src: string; poster: string; name: string; description: string; uploadDate: string; duration: string };
   /** Çoklu film galerisi (dikey reklam filmleri vb.) — her biri ayrı VideoObject */
   videos?: { src: string; poster: string; name: string; description: string; uploadDate: string; duration: string }[];
-  /** Film galerisinin oranı — varsayılan dikey (9:16); "wide" yatay 16:9 gösterir. */
-  videosAspect?: "wide";
   services: string[];
   stack: string[];
   /** Kısa "sorun → yapılan → sonuç" şeridi */
@@ -112,91 +110,6 @@ export const cases: CaseStudy[] = [
         a: "Video web için sıkıştırıldı (masaüstünde 1280 piksel genişlik, telefonda kare kırpım), sessiz ve bir kez oynuyor. Video yüklenene kadar kapak görseli görünüyor.",
       },
     ],
-    published: "2026-11-14",
-    modified: "2026-11-14",
-  },
-  {
-    slug: "thy-anamorfik-led-konsept",
-    client: "Türk Hava Yolları (konsept çalışma)",
-    sector: "3D anamorfik LED video",
-    location: "İstanbul (temsili sokak)",
-    title: "THY konsepti: köşe LED ekranda kırılan afiş ve ekrandan çıkan uçak",
-    seoTitle: "3D Anamorfik LED Video Örneği: THY Köşe Ekran Konsepti | KARNER",
-    seoDescription:
-      "Bina köşesindeki LED ekran için Blender'da ürettiğimiz 3D anamorfik konsept: düz afiş parçalanıyor, ekran derin bir kutuya dönüşüyor ve uçak gün batımı gökyüzünden izleyiciye doğru uçuyor. Bağımsız konsept çalışmadır.",
-    summary:
-      "Türk Hava Yolları markası üzerine bağımsız bir anamorfik LED konsepti ürettik: köşe ekrandaki kırmızı \"Uçmaya hazır mısın?\" afişi parçalara ayrılıyor, ekran gün batımı gökyüzüne açılan derin bir kutuya dönüşüyor, uçak ekranın içinden izleyiciye doğru uçup geçiyor ve logo ile kapanıyor. Sahne Blender'da 3D olarak kuruldu; aynı film gündüz ve gece sokak görünümüyle iki ayrı önizleme olarak hazırlandı.",
-    image: { src: "/isler/is-thy-anamorfik.webp", alt: "Bina köşesindeki LED ekranda gün batımı gökyüzünden çıkan uçak — THY anamorfik konsept", width: 1280, height: 800 },
-    videos: [
-      {
-        src: "/isler/thy-anamorfik/thy-1.mp4",
-        poster: "/isler/thy-anamorfik/thy-1-poster.jpg",
-        name: "THY konsepti — akşamüstü sokak görünümü",
-        description: "Köşe LED ekranda kırmızı afiş parçalanıyor, ekran gün batımı gökyüzüne açılıyor, uçak izleyiciye doğru uçup geçiyor; logo ile kapanış.",
-        uploadDate: "2026-11-13",
-        duration: "PT18S",
-      },
-      {
-        src: "/isler/thy-anamorfik/thy-2.mp4",
-        poster: "/isler/thy-anamorfik/thy-2-poster.jpg",
-        name: "THY konsepti — gece sokak görünümü",
-        description: "Aynı anamorfik film, ıslak zeminli gece sokağında ve daha geniş bir bina açısından.",
-        uploadDate: "2026-11-13",
-        duration: "PT18S",
-      },
-    ],
-    videosAspect: "wide",
-    services: ["3d-anamorfik-led-video"],
-    stack: ["Blender", "3D modelleme ve animasyon", "Anamorfik kamera kurulumu", "FFmpeg"],
-    facts: [
-      { label: "Fikir", value: "Düz bir afişin kırılıp derin bir gökyüzüne açılması ve uçağın ekrandan çıkması" },
-      { label: "Üretilen", value: "18 saniyelik anamorfik film, gündüz ve gece iki sokak önizlemesi" },
-      { label: "Teknik", value: "Blender'da 3D sahne, ekran köşesine göre kurulan anamorfik perspektif" },
-    ],
-    blocks: [
-      { type: "h2", text: "Anamorfik köşe ekran nasıl çalışır?" },
-      {
-        type: "p",
-        text: "Bina köşesindeki LED ekran iki yüzden oluşur ve köşede katlanır. Görüntü bu iki yüze, sokaktan bakan kişinin perspektifine göre bölünerek hazırlanır; doğru açıdan bakınca ekran düz bir yüzey değil, binanın içine doğru uzanan derin bir kutu gibi görünür ve nesneler ekrandan dışarı taşıyormuş gibi okunur. Bu yüzden sahne, ekranın ölçüsüne ve izleme yönüne göre 3D olarak kurulur.",
-      },
-      { type: "h2", text: "Film nasıl ilerliyor?" },
-      {
-        type: "ol",
-        items: [
-          "**Düz afiş** — köşe ekranda alışık olunan kırmızı bir reklam afişi: \"Uçmaya hazır mısın? İstanbul'dan dünyaya.\"",
-          "**Kırılma** — afiş parçalara ayrılıp dağılıyor; izleyici ekranın aslında bir pencere olduğunu fark ediyor.",
-          "**Derinlik** — ekran, beyaz çerçeveli derin bir kutuya ve içinde gün batımı bulutlarına dönüşüyor.",
-          "**Uçak** — uçak uzaktan beliriyor, izleyiciye doğru büyüyerek geliyor, ekranın önünden geçip bulutların arasında kayboluyor.",
-          "**Kapanış** — gökyüzü üzerinde logo.",
-        ],
-      },
-      { type: "h2", text: "Neden iki önizleme?" },
-      {
-        type: "p",
-        text: "Anamorfik etki izleme açısına ve çevre ışığına bağlıdır. Aynı filmi akşamüstü ve gece, iki farklı bina açısından gösterdik; böylece içeriğin sokakta farklı saatlerde ve farklı noktalardan nasıl okunacağı önceden görülebiliyor. **Önizlemelerdeki bina ve sokak temsilidir, gerçek mekân çekimi değildir.**",
-      },
-      {
-        type: "callout",
-        title: "İlgili hizmet",
-        text: "Ekran ölçüsü, izleme noktası ve teslim formatı için [3D Anamorfik LED Video](/hizmetler/3d-anamorfik-led-video) hizmet sayfasına bakabilirsiniz.",
-      },
-    ],
-    faq: [
-      {
-        q: "Bu iş Türk Hava Yolları için mi yapıldı?",
-        a: "Hayır. Bu, anamorfik LED tekniğini göstermek için hazırladığımız bağımsız bir konsept çalışmadır; Türk Hava Yolları'nın siparişi veya onayıyla üretilmemiştir.",
-      },
-      {
-        q: "Video nasıl üretildi?",
-        a: "Sahne, uçak, afiş parçaları ve gökyüzü Blender'da 3D olarak kurulup canlandırıldı ve render edildi. Anamorfik etki, ekranın köşesine ve izleme noktasına göre hesaplanmış kamera ile elde edildi.",
-      },
-      {
-        q: "Kendi markamız ve ekranımız için uyarlanabilir mi?",
-        a: "Evet. Ekranın ölçüsü, köşe açısı ve izleyicinin durduğu nokta alınarak sahne o ekran için yeniden kurulur; marka, ürün ve hikâye işletmeye göre değişir.",
-      },
-    ],
-    disclosure:
-      "Bu sayfadaki videolar bağımsız bir konsept çalışmadır; Türk Hava Yolları ile bir iş birliği veya sipariş ilişkisi yoktur. Marka adı ve logosu yalnızca tekniği göstermek amacıyla kullanılmıştır. Bina ve sokak görüntüleri temsilidir.",
     published: "2026-11-14",
     modified: "2026-11-14",
   },

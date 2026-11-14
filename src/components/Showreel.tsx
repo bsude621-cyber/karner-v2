@@ -27,8 +27,22 @@ function Frame({ clip, index }: { clip: Clip; index: number }) {
   useEffect(() => {
     const v = ref.current;
     if (!v) return;
+    // Poster de tembel: bölüm sayfanın altında, açılışta 12 poster (~380 KB)
+    // hero ile bant genişliği için yarışıyordu.
+    const near = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          v.setAttribute("poster", clip.poster);
+          near.disconnect();
+        }
+      },
+      { rootMargin: "600px" }
+    );
+    near.observe(v);
     // Mobil/dokunmatik: video indirilmez, poster kalır (6 eşzamanlı video mobilde kasıyordu)
-    if (window.matchMedia("(pointer: coarse), (max-width: 767px)").matches) return;
+    if (window.matchMedia("(pointer: coarse), (max-width: 767px)").matches) {
+      return () => near.disconnect();
+    }
     const io = new IntersectionObserver(
       ([e]) => {
         if (e.isIntersecting) {
@@ -41,8 +55,11 @@ function Frame({ clip, index }: { clip: Clip; index: number }) {
       { threshold: 0.2 }
     );
     io.observe(v);
-    return () => io.disconnect();
-  }, [clip.src]);
+    return () => {
+      near.disconnect();
+      io.disconnect();
+    };
+  }, [clip.src, clip.poster]);
 
   return (
     <Link
@@ -55,7 +72,6 @@ function Frame({ clip, index }: { clip: Clip; index: number }) {
       <video
         ref={ref}
         className="h-full w-full object-cover"
-        poster={clip.poster}
         muted
         loop
         playsInline
