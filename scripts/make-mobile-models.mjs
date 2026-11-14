@@ -23,6 +23,14 @@
  *
  * Kaynak modeller değişirse (yeni robot, yeni doku) bunu yeniden çalıştırın —
  * mobil sürümler türetilmiş dosyalardır, elle düzenlenmez.
+ *
+ * SIKIŞTIRMA (2026-11-15): public/models altındaki dört dosya meshopt ile
+ * sıkıştırıldı (EXT_meshopt_compression, ~%50 küçük; drei'nin useGLTF'i
+ * çözücüyü pakette taşıyor, ek indirme yok). Bu betik sıkıştırılmış GLB'nin
+ * bufferView düzenini bilmez — kaynak modeller değişirse sıra şu:
+ *   1) SIKIŞTIRILMAMIŞ yeni robot-*.opt.glb dosyalarıyla bu betiği çalıştır
+ *   2) sonra dördünü de sıkıştır:
+ *      npx @gltf-transform/cli meshopt <girdi.glb> <çıktı.glb> --level medium
  */
 
 import fs from "node:fs";
