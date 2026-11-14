@@ -5,6 +5,7 @@ import { SITE_URL, isoWithTz } from "@/lib/site";
 import { guides } from "@/data/guides";
 import { sectors } from "@/data/sectors";
 import { cases } from "@/data/cases";
+import { anamorphicProjects } from "@/data/anamorphic";
 
 /**
  * lastmod = sayfanın GERÇEK son içerik değişikliği (data/dates.ts).
@@ -121,6 +122,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
       images: [`${SITE_URL}${c.image.src}`],
       videos: caseVideos(c),
+    })),
+    ...anamorphicProjects.map((p) => ({
+      url: `${SITE_URL}/anamorfik-videolar/${p.slug}`,
+      lastModified: new Date(p.modified),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+      images: p.videos.map((v) => `${SITE_URL}${v.poster}`),
+      videos: p.videos.map((v) => ({
+        title: `${p.title} — ${v.title}`,
+        thumbnail_loc: `${SITE_URL}${v.poster}`,
+        description: v.description,
+        content_loc: `${SITE_URL}${v.src}`,
+        duration: sureSaniye(v.duration),
+        publication_date: isoWithTz(v.uploadDate),
+        family_friendly: "yes" as const,
+      })),
     })),
   ];
 }
