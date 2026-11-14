@@ -28,6 +28,32 @@ export type Demo = {
 
 export const demos: Demo[] = [
   {
+    id: "nakliyat",
+    title: "Evden Eve Nakliyat",
+    sector: "Yerel Hizmet",
+    summary:
+      "Taşınmanın üç sorusuna ilk ekranda cevap: paketleme, yazılı fiyat, belli gün.",
+    url: "https://nakliyat-demo.vercel.app",
+    video: "/demos/nakliyat.webm",
+    poster: "/demos/nakliyat-poster.jpg",
+    posterTime: 4,
+    tags: ["Video Hero", "Teklif Formu"],
+    featured: true,
+  },
+  {
+    id: "butikotel",
+    title: "Butik Otel",
+    sector: "Konaklama",
+    summary:
+      "Odalar kısa videolarla geziliyor; atmosfer rezervasyondan önce hissediliyor.",
+    url: "https://butik-otel-demo.vercel.app",
+    video: "/demos/butikotel.webm",
+    poster: "/demos/butikotel-poster.jpg",
+    posterTime: 4,
+    tags: ["Oda Galerisi", "Sinematik", "Rezervasyon"],
+    featured: true,
+  },
+  {
     id: "icmimar",
     title: "İç Mimarlık Stüdyosu",
     sector: "İç Mimarlık",
@@ -38,32 +64,6 @@ export const demos: Demo[] = [
     poster: "/demos/icmimar-poster.jpg",
     posterTime: 8,
     tags: ["Video Hero", "Proje Galerisi", "Teklif Formu"],
-    featured: true,
-  },
-  {
-    id: "mimar",
-    title: "Mimarlık Stüdyosu",
-    sector: "Mimarlık",
-    summary:
-      "Sade tasarım projeleri öne çıkarıyor, dikkat doğrudan işin kendisine gidiyor.",
-    url: "https://mimar-demo.vercel.app",
-    video: "/demos/mimar.webm",
-    poster: "/demos/mimar-poster.jpg",
-    posterTime: 8,
-    tags: ["Sinematik", "Portfolyo"],
-    featured: true,
-  },
-  {
-    id: "insaat",
-    title: "İnşaat & Mühendislik",
-    sector: "İnşaat",
-    summary:
-      "Büyük bütçeli işlerde aranan kurumsal güveni veren duruş, referanslar önde.",
-    url: "https://insaat-web-eight.vercel.app",
-    video: "/demos/insaat.webm",
-    poster: "/demos/insaat-poster.jpg",
-    posterTime: 4,
-    tags: ["Kurumsal", "Referanslar", "Güven"],
     featured: true,
   },
   {
@@ -80,6 +80,19 @@ export const demos: Demo[] = [
     featured: true,
   },
   {
+    id: "disklinigi",
+    title: "Diş Kliniği",
+    sector: "Sağlık",
+    summary:
+      "Önce bilgilendiren sakin bir anlatım; tedavi adımları randevudan önce anlaşılıyor.",
+    url: "https://dis-klinigi-demo-eight.vercel.app",
+    video: "/demos/disklinigi.webm",
+    poster: "/demos/disklinigi-poster.jpg",
+    posterTime: 4,
+    tags: ["Video Hero", "Tedavi Akışı", "Randevu"],
+    featured: true,
+  },
+  {
     id: "diyetisyen",
     title: "Diyetisyen Kliniği",
     sector: "Sağlık",
@@ -91,6 +104,30 @@ export const demos: Demo[] = [
     posterTime: 8,
     tags: ["Randevu", "Paketler"],
     featured: true,
+  },
+  {
+    id: "mimar",
+    title: "Mimarlık Stüdyosu",
+    sector: "Mimarlık",
+    summary:
+      "Sade tasarım projeleri öne çıkarıyor, dikkat doğrudan işin kendisine gidiyor.",
+    url: "https://mimar-demo.vercel.app",
+    video: "/demos/mimar.webm",
+    poster: "/demos/mimar-poster.jpg",
+    posterTime: 8,
+    tags: ["Sinematik", "Portfolyo"],
+  },
+  {
+    id: "insaat",
+    title: "İnşaat & Mühendislik",
+    sector: "İnşaat",
+    summary:
+      "Büyük bütçeli işlerde aranan kurumsal güveni veren duruş, referanslar önde.",
+    url: "https://insaat-web-eight.vercel.app",
+    video: "/demos/insaat.webm",
+    poster: "/demos/insaat-poster.jpg",
+    posterTime: 4,
+    tags: ["Kurumsal", "Referanslar", "Güven"],
   },
   {
     id: "meridyen",
@@ -105,19 +142,6 @@ export const demos: Demo[] = [
     poster: "/demos/meridyen-poster.jpg",
     posterTime: 2.5,
     tags: ["Scroll Animasyon", "Sinematik"],
-    featured: true,
-  },
-  {
-    id: "disklinigi",
-    title: "Diş Kliniği",
-    sector: "Sağlık",
-    summary:
-      "Önce bilgilendiren sakin bir anlatım; tedavi adımları randevudan önce anlaşılıyor.",
-    url: "https://dis-klinigi-demo-eight.vercel.app",
-    video: "/demos/disklinigi.webm",
-    poster: "/demos/disklinigi-poster.jpg",
-    posterTime: 4,
-    tags: ["Video Hero", "Tedavi Akışı", "Randevu"],
   },
   {
     id: "fizyoterapi",
@@ -144,18 +168,6 @@ export const demos: Demo[] = [
     tags: ["Scroll Animasyon", "Süreç", "Randevu"],
   },
   {
-    id: "nakliyat",
-    title: "Evden Eve Nakliyat",
-    sector: "Yerel Hizmet",
-    summary:
-      "Taşınmanın üç sorusuna ilk ekranda cevap: paketleme, yazılı fiyat, belli gün.",
-    url: "https://nakliyat-demo.vercel.app",
-    video: "/demos/nakliyat.webm",
-    poster: "/demos/nakliyat-poster.jpg",
-    posterTime: 4,
-    tags: ["Video Hero", "Teklif Formu"],
-  },
-  {
     id: "malimusavir",
     title: "Mali Müşavirlik Ofisi",
     sector: "Mali Müşavirlik",
@@ -166,18 +178,6 @@ export const demos: Demo[] = [
     poster: "/demos/malimusavir-poster.jpg",
     posterTime: 4,
     tags: ["Kurumsal", "Hizmetler", "İletişim"],
-  },
-  {
-    id: "butikotel",
-    title: "Butik Otel",
-    sector: "Konaklama",
-    summary:
-      "Odalar kısa videolarla geziliyor; atmosfer rezervasyondan önce hissediliyor.",
-    url: "https://butik-otel-demo.vercel.app",
-    video: "/demos/butikotel.webm",
-    poster: "/demos/butikotel-poster.jpg",
-    posterTime: 4,
-    tags: ["Oda Galerisi", "Sinematik", "Rezervasyon"],
   },
   {
     id: "kres",

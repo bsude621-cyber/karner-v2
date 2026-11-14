@@ -21,6 +21,8 @@ export type CaseStudy = {
   video?: { src: string; poster: string; name: string; description: string; uploadDate: string; duration: string };
   /** Çoklu film galerisi (dikey reklam filmleri vb.) — her biri ayrı VideoObject */
   videos?: { src: string; poster: string; name: string; description: string; uploadDate: string; duration: string }[];
+  /** Film galerisinin oranı — varsayılan dikey (9:16); "wide" yatay 16:9 gösterir. */
+  videosAspect?: "wide";
   services: string[];
   stack: string[];
   /** Kısa "sorun → yapılan → sonuç" şeridi */
@@ -34,6 +36,170 @@ export type CaseStudy = {
 };
 
 export const cases: CaseStudy[] = [
+  {
+    slug: "zeytinoglu-insaat",
+    client: "Zeytinoğlu İnşaat A.Ş.",
+    sector: "İnşaat, taahhüt ve konut projeleri",
+    location: "Akçaova, Menteşe / Muğla",
+    title: "Zeytinoğlu İnşaat: videolu açılış, proje sayfaları ve yapay zekâ aramasına hazır kurumsal site",
+    seoTitle: "Zeytinoğlu İnşaat Web Sitesi: Videolu Hero, Proje Sayfaları, TR/EN | KARNER",
+    seoDescription:
+      "Muğla Akçaova merkezli Zeytinoğlu İnşaat için kurduğumuz kurumsal site: açılışta oynayan sinematik video, her proje için ayrı sayfa ve galeri, TR/EN dil, ön-render ve schema.org ile Google ve yapay zekâ aramasına hazır altyapı.",
+    summary:
+      "Zeytinoğlu İnşaat için sıfırdan kurumsal bir site kurduk (zeytinogluinsaat.com): açılışta bir kez oynayıp son karede duran sinematik video, Livapark, Villa Perla, Bayır 5 ve Kafaca İş Merkezi gibi projeler için ayrı sayfa ve galeri, Türkçe/İngilizce dil, karanlık/aydınlık tema ve WhatsApp'a tek dokunuşla ulaşan bilgi formu. Sayfalar ön-render edildiği için Google ve yapay zekâ botları içeriği JavaScript çalıştırmadan okuyabiliyor.",
+    url: "https://www.zeytinogluinsaat.com",
+    image: { src: "/isler/is-zeytinoglu.webp", alt: "Zeytinoğlu İnşaat web sitesi ana sayfası — gün batımında yükselen bina ve 'Muğla'da güvenle yükselen yaşam alanları' başlığı", width: 1280, height: 800 },
+    video: {
+      src: "/isler/zeytinoglu/hero.mp4",
+      poster: "/isler/zeytinoglu/hero-poster.jpg",
+      name: "Zeytinoğlu İnşaat — ana sayfa açılış videosu",
+      description: "Sitenin açılışında bir kez oynayıp son karede duran, yükselen bina temalı hero videosu.",
+      uploadDate: "2026-10-24",
+      duration: "PT9S",
+    },
+    services: ["web-sitesi-gelistirme", "seo-geo-aeo"],
+    stack: ["HTML / CSS / JavaScript (statik)", "Vercel", "Ön-render (headless Chrome)", "schema.org graph", "llms.txt", "WebP + H.264 görsel hattı"],
+    facts: [
+      { label: "Başlangıç", value: "Projeleri anlatan, aramada bulunabilen bir web adresi yoktu" },
+      { label: "Kurulan", value: "Videolu açılış + proje sayfaları ve galeriler + TR/EN + WhatsApp bilgi formu" },
+      { label: "Altyapı", value: "Ön-render, temiz proje adresleri, schema.org grafiği, AI botlarına açık robots.txt ve llms.txt" },
+    ],
+    blocks: [
+      { type: "h2", text: "İhtiyaç neydi?" },
+      {
+        type: "p",
+        text: "Zeytinoğlu İnşaat, Muğla Menteşe'nin Akçaova bölgesinde konut, villa ve ticari projeler geliştiren bir inşaat ve taahhüt firması. Daire arayan biri projeleri görmek, konumunu öğrenmek ve hızlıca iletişime geçmek istiyor; firmanın bu bilgileri tek yerde toplayan, aramada bulunabilen bir sitesi yoktu.",
+      },
+      { type: "h2", text: "Ne kurduk?" },
+      {
+        type: "ul",
+        items: [
+          "**Sinematik açılış** — ana sayfada yaklaşık 9 saniyelik video bir kez oynuyor ve son karede duruyor; başlıklar videonun akışına göre beliriyor. Masaüstü ve telefon için ayrı kırpılmış iki video var; otomatik oynatma engellenirse son kare gösteriliyor.",
+          "**Proje sayfaları** — Livapark 1, 2 ve 3, Ortaköy Villa Perla, Bayır 5, Kafaca İş Merkezi ve örnek daire iç mekânları için ayrı sayfa; özellik listesi, durum bilgisi ve gece/gündüz albümlü galeri.",
+          "**Türkçe / İngilizce** — tüm metinler iki dilde; yabancı alıcılar için ayrı site yerine aynı sayfada dil düğmesi.",
+          "**İletişim** — telefon, WhatsApp ve konum her ekranda; bilgi formu doğrudan firmanın WhatsApp hattına bağlanıyor.",
+          "**Görsel hattı** — firmanın render ve fotoğrafları tek komutla WebP'ye (tam boy + küçük) ve web için sıkıştırılmış videoya dönüştürülüyor; yeni proje eklemek bir veri dosyasına satır eklemek kadar kolay.",
+        ],
+      },
+      { type: "h2", text: "Arama ve yapay zekâ altyapısı" },
+      {
+        type: "ul",
+        items: [
+          "**Ön-render** — site JavaScript ile çalışıyor ama her sayfa yayından önce tam metinle HTML'e yazılıyor; Google, ChatGPT, Claude ve Perplexity botları içeriği eksiksiz okuyor.",
+          "**Temiz adresler** — her proje kendi `/projeler/...` adresinde; eski adresler kalıcı yönlendirmeyle yenilerine taşındı.",
+          "**Yapısal veri** — firma, web sitesi, proje, sık sorulan sorular ve kırıntı düğümleri tek schema.org grafiğinde; her sayfanın kendi başlığı, açıklaması ve paylaşım kartı var.",
+          "**Bot erişimi** — görselli site haritası, yapay zekâ botlarına izin veren robots.txt, llms.txt ve llms-full.txt.",
+          "**Uydurma bilgi yok** — firmanın teyit etmediği rakamlar sitede ve yapısal veride gösterilmiyor; teyit gelince tek dosyadan açılıyor.",
+        ],
+      },
+      {
+        type: "callout",
+        title: "İlgili hizmet",
+        text: "Kapsam için [Web Sitesi Geliştirme](/hizmetler/web-sitesi-gelistirme) ve [SEO / GEO / AEO](/hizmetler/seo-geo-aeo) sayfalarına bakabilirsiniz.",
+      },
+    ],
+    faq: [
+      {
+        q: "Site hazır bir tema mı?",
+        a: "Hayır. Statik HTML, CSS ve JavaScript ile özel olarak kuruldu ve Vercel üzerinde yayında. Proje bilgileri tek bir veri dosyasında tutuluyor; sayfalar ve arama altyapısı bu dosyadan üretiliyor.",
+      },
+      {
+        q: "Yeni proje eklemek zor mu?",
+        a: "Proje klasörüne görseller konuyor ve veri dosyasına proje bilgileri ekleniyor; görsel dönüştürme ve ön-render komutları sayfayı, galeriyi, site haritasını ve yapısal veriyi otomatik üretiyor.",
+      },
+      {
+        q: "Açılış videosu siteyi yavaşlatmıyor mu?",
+        a: "Video web için sıkıştırıldı (masaüstünde 1280 piksel genişlik, telefonda kare kırpım), sessiz ve bir kez oynuyor. Video yüklenene kadar kapak görseli görünüyor.",
+      },
+    ],
+    published: "2026-11-14",
+    modified: "2026-11-14",
+  },
+  {
+    slug: "thy-anamorfik-led-konsept",
+    client: "Türk Hava Yolları (konsept çalışma)",
+    sector: "3D anamorfik LED video",
+    location: "İstanbul (temsili sokak)",
+    title: "THY konsepti: köşe LED ekranda kırılan afiş ve ekrandan çıkan uçak",
+    seoTitle: "3D Anamorfik LED Video Örneği: THY Köşe Ekran Konsepti | KARNER",
+    seoDescription:
+      "Bina köşesindeki LED ekran için Blender'da ürettiğimiz 3D anamorfik konsept: düz afiş parçalanıyor, ekran derin bir kutuya dönüşüyor ve uçak gün batımı gökyüzünden izleyiciye doğru uçuyor. Bağımsız konsept çalışmadır.",
+    summary:
+      "Türk Hava Yolları markası üzerine bağımsız bir anamorfik LED konsepti ürettik: köşe ekrandaki kırmızı \"Uçmaya hazır mısın?\" afişi parçalara ayrılıyor, ekran gün batımı gökyüzüne açılan derin bir kutuya dönüşüyor, uçak ekranın içinden izleyiciye doğru uçup geçiyor ve logo ile kapanıyor. Sahne Blender'da 3D olarak kuruldu; aynı film gündüz ve gece sokak görünümüyle iki ayrı önizleme olarak hazırlandı.",
+    image: { src: "/isler/is-thy-anamorfik.webp", alt: "Bina köşesindeki LED ekranda gün batımı gökyüzünden çıkan uçak — THY anamorfik konsept", width: 1280, height: 800 },
+    videos: [
+      {
+        src: "/isler/thy-anamorfik/thy-1.mp4",
+        poster: "/isler/thy-anamorfik/thy-1-poster.jpg",
+        name: "THY konsepti — akşamüstü sokak görünümü",
+        description: "Köşe LED ekranda kırmızı afiş parçalanıyor, ekran gün batımı gökyüzüne açılıyor, uçak izleyiciye doğru uçup geçiyor; logo ile kapanış.",
+        uploadDate: "2026-11-13",
+        duration: "PT18S",
+      },
+      {
+        src: "/isler/thy-anamorfik/thy-2.mp4",
+        poster: "/isler/thy-anamorfik/thy-2-poster.jpg",
+        name: "THY konsepti — gece sokak görünümü",
+        description: "Aynı anamorfik film, ıslak zeminli gece sokağında ve daha geniş bir bina açısından.",
+        uploadDate: "2026-11-13",
+        duration: "PT18S",
+      },
+    ],
+    videosAspect: "wide",
+    services: ["3d-anamorfik-led-video"],
+    stack: ["Blender", "3D modelleme ve animasyon", "Anamorfik kamera kurulumu", "FFmpeg"],
+    facts: [
+      { label: "Fikir", value: "Düz bir afişin kırılıp derin bir gökyüzüne açılması ve uçağın ekrandan çıkması" },
+      { label: "Üretilen", value: "18 saniyelik anamorfik film, gündüz ve gece iki sokak önizlemesi" },
+      { label: "Teknik", value: "Blender'da 3D sahne, ekran köşesine göre kurulan anamorfik perspektif" },
+    ],
+    blocks: [
+      { type: "h2", text: "Anamorfik köşe ekran nasıl çalışır?" },
+      {
+        type: "p",
+        text: "Bina köşesindeki LED ekran iki yüzden oluşur ve köşede katlanır. Görüntü bu iki yüze, sokaktan bakan kişinin perspektifine göre bölünerek hazırlanır; doğru açıdan bakınca ekran düz bir yüzey değil, binanın içine doğru uzanan derin bir kutu gibi görünür ve nesneler ekrandan dışarı taşıyormuş gibi okunur. Bu yüzden sahne, ekranın ölçüsüne ve izleme yönüne göre 3D olarak kurulur.",
+      },
+      { type: "h2", text: "Film nasıl ilerliyor?" },
+      {
+        type: "ol",
+        items: [
+          "**Düz afiş** — köşe ekranda alışık olunan kırmızı bir reklam afişi: \"Uçmaya hazır mısın? İstanbul'dan dünyaya.\"",
+          "**Kırılma** — afiş parçalara ayrılıp dağılıyor; izleyici ekranın aslında bir pencere olduğunu fark ediyor.",
+          "**Derinlik** — ekran, beyaz çerçeveli derin bir kutuya ve içinde gün batımı bulutlarına dönüşüyor.",
+          "**Uçak** — uçak uzaktan beliriyor, izleyiciye doğru büyüyerek geliyor, ekranın önünden geçip bulutların arasında kayboluyor.",
+          "**Kapanış** — gökyüzü üzerinde logo.",
+        ],
+      },
+      { type: "h2", text: "Neden iki önizleme?" },
+      {
+        type: "p",
+        text: "Anamorfik etki izleme açısına ve çevre ışığına bağlıdır. Aynı filmi akşamüstü ve gece, iki farklı bina açısından gösterdik; böylece içeriğin sokakta farklı saatlerde ve farklı noktalardan nasıl okunacağı önceden görülebiliyor. **Önizlemelerdeki bina ve sokak temsilidir, gerçek mekân çekimi değildir.**",
+      },
+      {
+        type: "callout",
+        title: "İlgili hizmet",
+        text: "Ekran ölçüsü, izleme noktası ve teslim formatı için [3D Anamorfik LED Video](/hizmetler/3d-anamorfik-led-video) hizmet sayfasına bakabilirsiniz.",
+      },
+    ],
+    faq: [
+      {
+        q: "Bu iş Türk Hava Yolları için mi yapıldı?",
+        a: "Hayır. Bu, anamorfik LED tekniğini göstermek için hazırladığımız bağımsız bir konsept çalışmadır; Türk Hava Yolları'nın siparişi veya onayıyla üretilmemiştir.",
+      },
+      {
+        q: "Video nasıl üretildi?",
+        a: "Sahne, uçak, afiş parçaları ve gökyüzü Blender'da 3D olarak kurulup canlandırıldı ve render edildi. Anamorfik etki, ekranın köşesine ve izleme noktasına göre hesaplanmış kamera ile elde edildi.",
+      },
+      {
+        q: "Kendi markamız ve ekranımız için uyarlanabilir mi?",
+        a: "Evet. Ekranın ölçüsü, köşe açısı ve izleyicinin durduğu nokta alınarak sahne o ekran için yeniden kurulur; marka, ürün ve hikâye işletmeye göre değişir.",
+      },
+    ],
+    disclosure:
+      "Bu sayfadaki videolar bağımsız bir konsept çalışmadır; Türk Hava Yolları ile bir iş birliği veya sipariş ilişkisi yoktur. Marka adı ve logosu yalnızca tekniği göstermek amacıyla kullanılmıştır. Bina ve sokak görüntüleri temsilidir.",
+    published: "2026-11-14",
+    modified: "2026-11-14",
+  },
   {
     slug: "aysa-endustriyel-temizlik",
     client: "AYSA Endüstriyel Temizlik",

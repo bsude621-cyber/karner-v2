@@ -237,11 +237,21 @@ export default async function CasePage({
 
         {c.videos && c.videos.length > 0 ? (
           <section aria-label="Filmler" className="mt-8">
-            <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+            <ul
+              className={
+                c.videosAspect === "wide"
+                  ? "grid gap-3 sm:grid-cols-2 sm:gap-4"
+                  : "grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
+              }
+            >
               {c.videos.map((v) => (
                 <li key={v.src} className="overflow-hidden rounded-2xl border border-white/10 bg-black">
                   <video
-                    className="aspect-[9/16] w-full bg-black object-cover"
+                    className={
+                      c.videosAspect === "wide"
+                        ? "aspect-video w-full bg-black object-cover"
+                        : "aspect-[9/16] w-full bg-black object-cover"
+                    }
                     controls
                     preload="none"
                     poster={v.poster}
