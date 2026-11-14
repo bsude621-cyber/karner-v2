@@ -42,33 +42,24 @@ export const anamorphicProjects: AnamorphicProject[] = [
     slug: "thy-kose-led-konsepti",
     title: "THY konsepti — köşe LED ekran",
     summary:
-      "Köşe ekrandaki düz afiş parçalanıyor, ekran gün batımına açılıyor ve uçak izleyiciye doğru ekrandan çıkıyor. Akşam ve gece olmak üzere iki önizleme.",
+      "Köşe ekrandaki düz afiş parçalanıyor, ekran gün batımına açılıyor ve uçak izleyiciye doğru ekrandan çıkıyor.",
     story: [
       "Bina köşesindeki LED ekranda önce alışık olunan kırmızı bir afiş görünüyor: \"Uçmaya hazır mısın? İstanbul'dan dünyaya.\" Afiş parçalara ayrılıp dağılıyor ve ekranın aslında derin bir pencere olduğu ortaya çıkıyor.",
       "Pencerenin içinde gün batımı bulutları var. Uçak uzaktan beliriyor, izleyiciye doğru büyüyerek geliyor, ekranın önünden geçip bulutların arasında kayboluyor; film logo ile kapanıyor.",
-      "Anamorfik etki izleme açısına ve çevre ışığına bağlı olduğu için aynı filmi akşamüstü ve gece, iki farklı bina açısından önizledik. Sahne Blender'da 3D olarak kuruldu.",
+      "Önizleme, ıslak zeminli bir gece sokağında binayı geniş açıdan gösteriyor; böylece ekranın sokaktan nasıl okunacağı görülebiliyor. Sahne Blender'da 3D olarak kuruldu.",
     ],
     seoTitle: "THY Köşe LED Ekran Konsepti — 3D Anamorfik Video | KARNER",
     seoDescription:
-      "Bina köşesindeki LED ekran için Blender'da ürettiğimiz 3D anamorfik konsept: düz afiş parçalanıyor, uçak gün batımı gökyüzünden izleyiciye doğru uçuyor. Akşam ve gece önizlemeleri.",
+      "Bina köşesindeki LED ekran için Blender'da ürettiğimiz 3D anamorfik konsept: düz afiş parçalanıyor, uçak gün batımı gökyüzünden izleyiciye doğru uçuyor.",
     tags: ["Köşe LED", "Blender 3D", "Konsept"],
     posterTime: 10,
     videos: [
       {
-        src: "/anamorfik/thy-1.mp4",
-        poster: "/anamorfik/thy-1-poster.jpg",
-        title: "Akşam görünümü",
-        description:
-          "Köşe LED ekranda afiş parçalanıyor, ekran gün batımına açılıyor, uçak izleyiciye doğru uçup geçiyor; logo ile kapanış.",
-        uploadDate: "2026-11-13",
-        duration: "PT18S",
-      },
-      {
         src: "/anamorfik/thy-2.mp4",
         poster: "/anamorfik/thy-2-poster.jpg",
-        title: "Gece görünümü",
+        title: "Gece sokağı — geniş açı",
         description:
-          "Aynı anamorfik film, ıslak zeminli gece sokağında ve daha geniş bir bina açısından.",
+          "Köşe LED ekranda afiş parçalanıyor, ekran gün batımına açılıyor, uçak izleyiciye doğru uçup geçiyor; logo ile kapanış. Islak zeminli gece sokağı, geniş bina açısı.",
         uploadDate: "2026-11-13",
         duration: "PT18S",
       },

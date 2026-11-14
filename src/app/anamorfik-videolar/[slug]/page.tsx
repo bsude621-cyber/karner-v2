@@ -134,7 +134,10 @@ export default async function AnamorphicProjectPage({
                 className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]"
               >
                 <video
-                  className="aspect-video w-full bg-black object-contain"
+                  // Sabit oran yok: videolar farklı oranlarda (16:9, 3:2). Kutu,
+                  // kapak görselinin (sonra videonun) kendi oranını alır —
+                  // yanlarda siyah bant kalmaz.
+                  className="block h-auto w-full bg-black"
                   controls
                   playsInline
                   preload="none"
