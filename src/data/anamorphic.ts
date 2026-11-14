@@ -4,7 +4,8 @@
  * siparişi değildir, gerçek işler bölümüne (cases.ts) girmez.
  *
  * Videolar yatay (16:9 civarı) önizlemelerdir: LED'e giden düz dosyanın
- * temsili bir bina köşesine yerleştirilmiş hâli. Dosyalar public/anamorfik.
+ * temsili bir mekâna (bina köşesi, AVM duvarı) yerleştirilmiş hâli.
+ * Dosyalar public/anamorfik.
  */
 export type AnamorphicVideo = {
   id: string;
@@ -38,5 +39,15 @@ export const anamorphicVideos: AnamorphicVideo[] = [
     poster: "/anamorfik/thy-2-poster.jpg",
     posterTime: 10,
     tags: ["Köşe LED", "Blender 3D", "Konsept"],
+  },
+  {
+    id: "gratis-stay-it",
+    title: "Gratis konsepti — AVM ekranı",
+    summary:
+      "AVM duvarındaki LED ekranda derin bir vitrin kutusu: ruj kutudan dışarı taşıyor, ürün özellikleri ve kapanışta marka.",
+    video: "/anamorfik/gratis.mp4",
+    poster: "/anamorfik/gratis-poster.jpg",
+    posterTime: 4.6,
+    tags: ["AVM LED", "Blender 3D", "Konsept"],
   },
 ];

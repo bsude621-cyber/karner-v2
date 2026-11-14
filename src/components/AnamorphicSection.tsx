@@ -46,10 +46,10 @@ export default function AnamorphicSection() {
           eyebrow="Vitrin"
           title="Anamorfik videolarımız"
           highlight="Anamorfik"
-          subtitle="Bina köşesindeki LED ekranlar için Blender'da ürettiğimiz 3D anamorfik videolar. Kartın üzerine gelin, video oynasın — görüntüler temsili bina üzerinde önizlemedir."
+          subtitle="Bina köşelerindeki ve AVM'lerdeki LED ekranlar için Blender'da ürettiğimiz 3D anamorfik videolar. Kartın üzerine gelin, video oynasın — görüntüler temsili mekânda önizlemedir."
         />
 
-        <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {anamorphicVideos.map((v) => (
             <AnamorphicCard key={v.id} item={v} onPlay={play} onStop={stop} />
           ))}
