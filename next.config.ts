@@ -101,6 +101,15 @@ const nextConfig: NextConfig = {
       permanent: true,
     }));
   },
+  /**
+   * Yurt dışı outreach kataloğu: public/katalog/ altında tek başına çalışan
+   * statik sayfa (TR/EN/DE, dil #tr/#en/#de ile seçilir). Next.js public/
+   * klasöründe dizin index'i sunmadığı için /katalog adresi index.html'e
+   * yönlendiriliyor. Sayfa noindex; yalnız bağlantıyla açılır.
+   */
+  async rewrites() {
+    return [{ source: "/katalog", destination: "/katalog/index.html" }];
+  },
   async headers() {
     return [
       { source: "/(.*)", headers: securityHeaders },
