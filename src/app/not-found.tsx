@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center bg-background px-6 text-center">
+    <main className="relative flex min-h-screen flex-col overflow-hidden items-center justify-center bg-background px-6 text-center">
       <div className="pointer-events-none absolute left-1/2 top-1/3 h-[28rem] w-[48rem] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(123,63,228,0.15),transparent_65%)] blur-2xl" />
       <div className="relative">
         <Image

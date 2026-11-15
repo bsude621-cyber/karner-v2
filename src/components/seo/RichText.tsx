@@ -19,7 +19,10 @@ export default function RichText({ text }: { text: string }) {
       );
     }
     const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
-    if (m) {
+    // Yalnızca gerçek adresler bağlantı olur. Metin içinde örnek olarak geçen
+    // Markdown sözdizimi ("[Sayfa adı](tam URL)") olduğu gibi yazı kalır —
+    // yoksa "/rehber/tam URL" diye kırık bir bağlantı üretiyordu.
+    if (m && /^(\/|#|https?:\/\/|mailto:|tel:)/.test(m[2])) {
       const [, label, href] = m;
       const external = /^https?:\/\//.test(href);
       return external ? (
