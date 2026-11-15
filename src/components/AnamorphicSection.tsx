@@ -5,7 +5,15 @@ import { useCallback, useEffect, useRef } from "react";
 import { ArrowUpRight, PlayCircle } from "lucide-react";
 import SectionHeading from "@/components/ui/section-heading";
 import { anamorphicProjects, type AnamorphicProject } from "@/data/anamorphic";
-import { ensureVideoSrc, isTouchOnly, unloadVideo } from "@/lib/video";
+import {
+  createTouchVideo,
+  ensureVideoSrc,
+  isStarting,
+  isTouchOnly,
+  NEAR_MARGIN,
+  pauseVideo,
+  playVideo,
+} from "@/lib/video";
 
 /**
  * "Anamorfik videolarımız" — Demo sitelerimiz vitrininin altında. Her kart
@@ -20,19 +28,22 @@ import { ensureVideoSrc, isTouchOnly, unloadVideo } from "@/lib/video";
 export default function AnamorphicSection() {
   const activeRef = useRef<HTMLVideoElement | null>(null);
 
+  // Aynı anda tek video. Oynat/durdur lib/video.ts'deki güvenli
+  // yardımcılardan geçer: başlamakta olan videoya pause verilmez (iPad'de yan
+  // yana iki kart aynı anda girince sekme kilitleniyordu).
   const play = useCallback((v: HTMLVideoElement | null) => {
     if (!v) return;
-    if (activeRef.current && activeRef.current !== v) activeRef.current.pause();
+    if (activeRef.current && activeRef.current !== v) pauseVideo(activeRef.current);
     activeRef.current = v;
-    void v.play().catch(() => {
-      /* otomatik oynatma engellenebilir — poster karesi kalır */
-    });
+    playVideo(v);
   }, []);
 
   const stop = useCallback((v: HTMLVideoElement | null, resetTo?: number) => {
     if (!v) return;
-    v.pause();
-    if (resetTo !== undefined) {
+    pauseVideo(v);
+    // Kapak karesine dönüş yalnızca video gerçekten durmuşsa — başlamakta olan
+    // videoda sarma da aynı kilitlenmeye yol açabilir.
+    if (resetTo !== undefined && !isStarting(v)) {
       try {
         v.currentTime = resetTo;
       } catch {
@@ -94,53 +105,58 @@ function AnamorphicCard({
   const first = project.videos[0];
   const count = project.videos.length;
 
-  // Tembel poster (+ masaüstünde kaynak): kart ekrana 400 px yaklaşınca.
-  // Dokunmatikte src'yi aşağıdaki gözlemci yönetir (bkz. lib/video.ts).
-  useEffect(() => {
-    const el = cardRef.current;
-    const v = videoRef.current;
-    if (!el || !v) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          v.setAttribute("poster", first.poster);
-          if (!isTouchOnly()) ensureVideoSrc(v, first.src, project.posterTime);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "400px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [first.poster, first.src, project.posterTime]);
-
-  // Dokunmatikte hover yok: kart ekranın ortasına gelince oynat, ekrandan
-  // çıkınca videoyu boşalt — iOS'ta biriken videolar sekmeyi çökertiyordu.
+  // Kart videosunun yaşam döngüsü (ayrıntı: lib/video.ts).
+  //  Masaüstü (hover): poster + src kart 400 px yaklaşınca bir kez atanır;
+  //    oynatma fareyle, ekrandan çıkınca durur ve kapak karesine döner.
+  //  Dokunmatik: src yaklaşınca atanır, kart ortaya gelince (0,3 sn sonra)
+  //    oynar, 400 px bölgesinden çıkınca 2 sn sonra bellekten boşaltılır —
+  //    iOS'ta biriken videolar sekmeyi çökertiyordu.
+  //  Dokunmatik + hareketi azalt: yalnızca poster, video hiç yüklenmez.
   useEffect(() => {
     const el = cardRef.current;
     const v = videoRef.current;
     if (!el || !v) return;
     const canHover = !isTouchOnly();
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const io = new IntersectionObserver(
+    const touch =
+      canHover || reduceMotion
+        ? null
+        : createTouchVideo(v, first.src, project.posterTime, onPlay, (x) => onStop(x));
+
+    const nearIo = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          if (!canHover && !reduceMotion) {
+          if (!v.getAttribute("poster")) v.setAttribute("poster", first.poster);
+          if (touch) touch.near();
+          else if (canHover) {
             ensureVideoSrc(v, first.src, project.posterTime);
-            onPlay(v);
-          }
-        } else if (canHover) {
+            nearIo.disconnect();
+          } else nearIo.disconnect(); // hareketi azalt: poster yeter
+        } else touch?.far();
+      },
+      { rootMargin: NEAR_MARGIN },
+    );
+    nearIo.observe(el);
+
+    const viewIo = new IntersectionObserver(
+      ([entry]) => {
+        if (touch) {
+          if (entry.isIntersecting) touch.show();
+          else touch.hide();
+        } else if (!entry.isIntersecting) {
           onStop(v, project.posterTime);
-        } else {
-          onStop(v);
-          unloadVideo(v);
         }
       },
       { threshold: canHover ? 0.01 : 0.6 },
     );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [onPlay, onStop, first.src, project.posterTime]);
+    viewIo.observe(el);
+
+    return () => {
+      nearIo.disconnect();
+      viewIo.disconnect();
+      touch?.dispose();
+    };
+  }, [onPlay, onStop, first.src, first.poster, project.posterTime]);
 
   return (
     <div

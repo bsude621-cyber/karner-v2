@@ -5,7 +5,15 @@ import { ArrowUpRight, ExternalLink } from "lucide-react";
 import SectionHeading from "@/components/ui/section-heading";
 import { cn } from "@/lib/utils";
 import { demos, featuredDemos, type Demo } from "@/data/demos";
-import { ensureVideoSrc, isTouchOnly, unloadVideo } from "@/lib/video";
+import {
+  createTouchVideo,
+  ensureVideoSrc,
+  isStarting,
+  isTouchOnly,
+  NEAR_MARGIN,
+  pauseVideo,
+  playVideo,
+} from "@/lib/video";
 
 type Work = Demo;
 
@@ -17,21 +25,22 @@ export default function WorksSection() {
   // hero'da düzelttiğimiz kare düşmesini geri getirir.
   const activeRef = useRef<HTMLVideoElement | null>(null);
 
+  // Aynı anda tek video. Oynat/durdur lib/video.ts'deki güvenli
+  // yardımcılardan geçer: başlamakta olan videoya pause verilmez (iPad'de yan
+  // yana iki kart aynı anda girince sekme kilitleniyordu).
   const play = useCallback((v: HTMLVideoElement | null) => {
     if (!v) return;
-    if (activeRef.current && activeRef.current !== v) {
-      activeRef.current.pause();
-    }
+    if (activeRef.current && activeRef.current !== v) pauseVideo(activeRef.current);
     activeRef.current = v;
-    void v.play().catch(() => {
-      /* otomatik oynatma engellenebilir — poster karesi kalır, sorun değil */
-    });
+    playVideo(v);
   }, []);
 
   const stop = useCallback((v: HTMLVideoElement | null, resetTo?: number) => {
     if (!v) return;
-    v.pause();
-    if (resetTo !== undefined) {
+    pauseVideo(v);
+    // Kapak karesine dönüş yalnızca video gerçekten durmuşsa — başlamakta olan
+    // videoda sarma da aynı kilitlenmeye yol açabilir.
+    if (resetTo !== undefined && !isStarting(v)) {
       try {
         v.currentTime = resetTo;
       } catch {
@@ -95,68 +104,58 @@ function WorkCard({
   const videoRef = useRef<HTMLVideoElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // 1) Tembel kaynak: src ancak kart ekrana yaklaşınca atanır. Kart görüntüsü
-  //    poster görselinden geliyor, o yüzden src gelene kadar da doğru görünür.
-  //    preload="none" ile src atandıktan sonra bile oynatılana kadar bayt inmez.
+  // Kart videosunun yaşam döngüsü (ayrıntı: lib/video.ts).
+  //  Masaüstü (hover): poster + src kart 400 px yaklaşınca bir kez atanır;
+  //    oynatma fareyle, ekrandan çıkınca durur ve kapak karesine döner.
+  //  Dokunmatik: src yaklaşınca atanır, kart ortaya gelince (0,3 sn sonra)
+  //    oynar, 400 px bölgesinden çıkınca 2 sn sonra bellekten boşaltılır —
+  //    iOS'ta biriken videolar sekmeyi çökertiyordu.
+  //  Dokunmatik + hareketi azalt: yalnızca poster, video hiç yüklenmez.
   useEffect(() => {
     const el = cardRef.current;
     const v = videoRef.current;
     if (!el || !v) return;
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          v.setAttribute("poster", work.poster);
-          // Dokunmatikte src'yi oynatma gözlemcisi (2) yönetir: kart ortaya
-          // gelince atar, ekrandan çıkınca boşaltır (bkz. lib/video.ts).
-          if (!isTouchOnly()) ensureVideoSrc(v, work.video, work.posterTime);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "400px" }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [work.video, work.poster, work.posterTime]);
-
-  // 2) Dokunmatik cihazda hover yok: kart ekranın ortasına geldiğinde oynat.
-  //    Eşik 0.6 olduğu için pratikte aynı anda tek kart tetikleniyor.
-  useEffect(() => {
-    const el = cardRef.current;
-    const v = videoRef.current;
-    if (!el || !v) return;
-
     const canHover = !isTouchOnly();
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const touch =
+      canHover || reduceMotion
+        ? null
+        : createTouchVideo(v, work.video, work.posterTime, onPlay, (x) => onStop(x));
 
-    const io = new IntersectionObserver(
+    const nearIo = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // hover'lı cihazlarda ekrana girmek tek başına oynatmaz
-          if (!canHover && !reduceMotion) {
+          if (!v.getAttribute("poster")) v.setAttribute("poster", work.poster);
+          if (touch) touch.near();
+          else if (canHover) {
             ensureVideoSrc(v, work.video, work.posterTime);
-            onPlay(v);
-          }
-        } else {
-          onStop(v);
-          // Dokunmatik: ekrandan çıkan videonun belleğini bırak (iOS çökmesi)
-          if (!canHover) unloadVideo(v);
-          else {
-            try {
-              v.currentTime = work.posterTime;
-            } catch {
-              /* seek her zaman mümkün olmayabilir */
-            }
-          }
+            nearIo.disconnect();
+          } else nearIo.disconnect(); // hareketi azalt: poster yeter
+        } else touch?.far();
+      },
+      { rootMargin: NEAR_MARGIN },
+    );
+    nearIo.observe(el);
+
+    const viewIo = new IntersectionObserver(
+      ([entry]) => {
+        if (touch) {
+          if (entry.isIntersecting) touch.show();
+          else touch.hide();
+        } else if (!entry.isIntersecting) {
+          onStop(v, work.posterTime);
         }
       },
-      { threshold: canHover ? 0.01 : 0.6 }
+      { threshold: canHover ? 0.01 : 0.6 },
     );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [onPlay, onStop, work.video, work.posterTime]);
+    viewIo.observe(el);
+
+    return () => {
+      nearIo.disconnect();
+      viewIo.disconnect();
+      touch?.dispose();
+    };
+  }, [onPlay, onStop, work.video, work.poster, work.posterTime]);
 
   const media = (
     <video
