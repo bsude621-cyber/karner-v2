@@ -12,18 +12,21 @@
  * kaldırılır + load(), çözücüyü bırakan resmi yol budur). Poster kalır, kart
  * aynı görünür. Böylece bellekte yalnızca ekrana yakın 2-3 kartın videosu olur.
  *
- * ZAMANLAMA KURALLARI (WebKit testinde bulundu): src'yi oynatmadan hemen önce
- * atamak, `#t=` başlangıç atlaması ile play() aynı anda medya katmanına
- * düşüyordu; hızlı kaydırmada sekme kilitleniyordu (iPad emülasyonunda 16
- * denemede 5-8 donma, ana iş parçacığı medya katmanında takılı). Bu yüzden:
- *   - src, kart YAKLAŞIRKEN atanır — oynatma anında değil. Atlama, kart ekrana
- *     gelmeden biter.
- *   - Oynatma, kart ekranda DWELL_MS kaldıktan sonra başlar — parmakla
- *     savrulan sayfada video hiç başlatılmaz.
- *   - Boşaltma gecikmelidir ve kart geri gelirse iptal edilir.
+ * ZAMANLAMA KURALLARI (WebKit testinde bulundu): Hızlı kaydırmada video,
+ * src atandıktan ~0,3 sn sonra play() alıyordu; video daha `#t=` başlangıç
+ * karesini yüklerken gelen play(), WebKit'in medya katmanını kilitleyip
+ * sekmeyi donduruyordu (iPad emülasyonunda 16 denemede 5-9 donma; ana iş
+ * parçacığı medya katmanında takılı). Eski kod videoyu src'den ~1,3 sn sonra
+ * başlatıyordu ve hiç donmadı. Bu yüzden dokunmatikte:
+ *   - src, kart YAKLAŞIRKEN (400 px) atanır.
+ *   - Oynatma için kart ekranda DWELL_MS kalmalı VE src en az SETTLE_MS önce
+ *     atanmış olmalı. Parmakla savrulan sayfada video hiç başlatılmaz.
+ *   - Boşaltma gecikmelidir (RELEASE_MS), kart geri gelirse iptal edilir,
+ *     başlamakta olan videoyu beklemeye uyar.
  */
 
-const DWELL_MS = 300;
+const DWELL_MS = 700;
+const SETTLE_MS = 1200;
 const RELEASE_MS = 2000;
 /** Kartın "yakın" sayıldığı mesafe: video bu bölgede yüklü durur. */
 export const NEAR_MARGIN = "400px";
@@ -37,42 +40,26 @@ export function ensureVideoSrc(v: HTMLVideoElement, src: string, startAt: number
 }
 
 /*
- * GÜVENLİ OYNAT / DURDUR. iPad'de yan yana iki kart aynı anda ekrana girince
- * iki video 15 ms arayla play() alıyordu; ikisi birden başlamaya çalışırken
- * (readyState 0) medya katmanı kilitlenip sekmeyi donduruyordu. Araya giren
- * pause() da aynı etkiyi yapıyordu. Kurallar:
- *   1) Videolar SIRAYLA başlar: bir video gerçekten oynamaya başlayana kadar
- *      (en çok START_GAP_MS) sıradaki bekler.
- *   2) Başlamakta olan videoya pause verilmez — istenen durum not edilir,
- *      play() sonuçlanınca uygulanır.
- *   3) Boşaltma da başlamakta olan videoyu beklemeye uyar (createTouchVideo).
+ * GÜVENLİ DURDUR. Başlamakta olan videoya (play() henüz sonuçlanmamış) pause
+ * verilmez — istenen durum not edilir, play() sonuçlanınca uygulanır.
+ * Boşaltma da başlamakta olan videoyu bekler (createTouchVideo).
  */
-const START_GAP_MS = 3000;
 const pendingPlay = new WeakMap<HTMLVideoElement, Promise<void>>();
 const wantPlaying = new WeakMap<HTMLVideoElement, boolean>();
-let startQueue: Promise<void> = Promise.resolve();
 
 export function playVideo(v: HTMLVideoElement) {
   wantPlaying.set(v, true);
   if (pendingPlay.has(v) || !v.paused) return;
-  const pr: Promise<void> = startQueue
-    .then(() => {
-      // Sıra gelene kadar vazgeçildiyse ya da video boşaltıldıysa başlatma.
-      if (!wantPlaying.get(v) || !v.getAttribute("src")) return;
-      return v.play().catch(() => {
-        /* otomatik oynatma engellenebilir — poster karesi kalır */
-      });
+  const pr: Promise<void> = v
+    .play()
+    .catch(() => {
+      /* otomatik oynatma engellenebilir — poster karesi kalır */
     })
     .finally(() => {
       if (pendingPlay.get(v) === pr) pendingPlay.delete(v);
       if (!wantPlaying.get(v)) v.pause();
     });
   pendingPlay.set(v, pr);
-  // Takılan bir yükleme kuyruğu sonsuza dek kilitlemesin.
-  startQueue = Promise.race([
-    pr,
-    new Promise<void>((r) => window.setTimeout(r, START_GAP_MS)),
-  ]);
 }
 
 /** Durdurur; play() hâlâ sürüyorsa durdurmayı onun sonuna bırakır. */
@@ -110,10 +97,17 @@ export function createTouchVideo(
 ) {
   let dwell: number | undefined;
   let release: number | undefined;
+  let srcAt = 0;
+  const load = () => {
+    if (!v.getAttribute("src")) {
+      ensureVideoSrc(v, src, startAt);
+      srcAt = performance.now();
+    }
+  };
   return {
     near() {
       window.clearTimeout(release);
-      ensureVideoSrc(v, src, startAt);
+      load();
     },
     far() {
       window.clearTimeout(release);
@@ -126,11 +120,10 @@ export function createTouchVideo(
     },
     show() {
       window.clearTimeout(dwell);
-      dwell = window.setTimeout(() => {
-        // Normalde src "near" ile çoktan atanmış olur; yine de güvence.
-        ensureVideoSrc(v, src, startAt);
-        play(v);
-      }, DWELL_MS);
+      // Normalde src "near" ile çoktan atanmış olur; yine de güvence.
+      load();
+      const wait = Math.max(DWELL_MS, srcAt + SETTLE_MS - performance.now());
+      dwell = window.setTimeout(() => play(v), wait);
     },
     hide() {
       window.clearTimeout(dwell);
