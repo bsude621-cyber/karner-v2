@@ -164,8 +164,10 @@ export function detectDeviceProfile(): DeviceProfile {
     screenDpr,
     // 1.75× ve üstünde zaten süper örnekleme yapıyoruz: MSAA görsel olarak fark
     // yaratmaz ama WebKit'te fazladan GPU belleği ister (sekme çökmesinin klasik
-    // sebebi). Düşük DPR'de ise kenarları kurtardığı için açık kalır.
-    antialias: maxDpr < 1.75,
+    // sebebi). Düşük DPR'de ise kenarları kurtardığı için açık kalır — iOS
+    // hariç: orada orta kademe (1.5×) de MSAA alıyordu; iPhone'un sekme bellek
+    // tavanı en dar yer olduğu için iOS'ta hiç açılmaz.
+    antialias: maxDpr < 1.75 && !ios,
     mobile,
     coarse,
     ios,

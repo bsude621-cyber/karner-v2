@@ -48,7 +48,12 @@ export function DottedSurface({
       const camera = new THREE.PerspectiveCamera(60, 1, 1, 10000);
       camera.position.set(0, 355, 1220);
 
-      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      // Telefonda MSAA yok: yumuşak nokta dokusu kenarları zaten kendi siliyor,
+      // MSAA ise iOS'ta fazladan GPU belleği istiyor (sekme çökmesi).
+      const renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: !narrowStart && window.matchMedia("(hover: hover)").matches,
+      });
       const canvas = renderer.domElement;
       // Bağlam kaybı (telefon uykudan uyanma, GPU belleği daralması):
       // preventDefault() olmadan tarayıcı bağlamı geri vermez. three.js

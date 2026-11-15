@@ -5,6 +5,7 @@ import { ArrowUpRight, ExternalLink } from "lucide-react";
 import SectionHeading from "@/components/ui/section-heading";
 import { cn } from "@/lib/utils";
 import { demos, featuredDemos, type Demo } from "@/data/demos";
+import { ensureVideoSrc, isTouchOnly, unloadVideo } from "@/lib/video";
 
 type Work = Demo;
 
@@ -104,9 +105,11 @@ function WorkCard({
 
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !v.getAttribute("src")) {
+        if (entry.isIntersecting) {
           v.setAttribute("poster", work.poster);
-          v.setAttribute("src", `${work.video}#t=${work.posterTime}`);
+          // Dokunmatikte src'yi oynatma gözlemcisi (2) yönetir: kart ortaya
+          // gelince atar, ekrandan çıkınca boşaltır (bkz. lib/video.ts).
+          if (!isTouchOnly()) ensureVideoSrc(v, work.video, work.posterTime);
           io.disconnect();
         }
       },
@@ -123,7 +126,7 @@ function WorkCard({
     const v = videoRef.current;
     if (!el || !v) return;
 
-    const canHover = window.matchMedia("(hover: hover)").matches;
+    const canHover = !isTouchOnly();
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -132,16 +135,28 @@ function WorkCard({
       ([entry]) => {
         if (entry.isIntersecting) {
           // hover'lı cihazlarda ekrana girmek tek başına oynatmaz
-          if (!canHover && !reduceMotion) onPlay(v);
+          if (!canHover && !reduceMotion) {
+            ensureVideoSrc(v, work.video, work.posterTime);
+            onPlay(v);
+          }
         } else {
-          onStop(v, work.posterTime);
+          onStop(v);
+          // Dokunmatik: ekrandan çıkan videonun belleğini bırak (iOS çökmesi)
+          if (!canHover) unloadVideo(v);
+          else {
+            try {
+              v.currentTime = work.posterTime;
+            } catch {
+              /* seek her zaman mümkün olmayabilir */
+            }
+          }
         }
       },
       { threshold: canHover ? 0.01 : 0.6 }
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [onPlay, onStop, work.posterTime]);
+  }, [onPlay, onStop, work.video, work.posterTime]);
 
   const media = (
     <video

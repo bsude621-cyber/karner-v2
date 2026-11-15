@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { ArrowUpRight, PlayCircle } from "lucide-react";
 import SectionHeading from "@/components/ui/section-heading";
 import { anamorphicProjects, type AnamorphicProject } from "@/data/anamorphic";
+import { ensureVideoSrc, isTouchOnly, unloadVideo } from "@/lib/video";
 
 /**
  * "Anamorfik videolarımız" — Demo sitelerimiz vitrininin altında. Her kart
@@ -90,18 +91,20 @@ function AnamorphicCard({
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const [near, setNear] = useState(false);
   const first = project.videos[0];
   const count = project.videos.length;
 
-  // Tembel poster + kaynak: kart ekrana 400 px yaklaşınca.
+  // Tembel poster (+ masaüstünde kaynak): kart ekrana 400 px yaklaşınca.
+  // Dokunmatikte src'yi aşağıdaki gözlemci yönetir (bkz. lib/video.ts).
   useEffect(() => {
     const el = cardRef.current;
-    if (!el) return;
+    const v = videoRef.current;
+    if (!el || !v) return;
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setNear(true);
+          v.setAttribute("poster", first.poster);
+          if (!isTouchOnly()) ensureVideoSrc(v, first.src, project.posterTime);
           io.disconnect();
         }
       },
@@ -109,28 +112,35 @@ function AnamorphicCard({
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [first.poster, first.src, project.posterTime]);
 
-  // Dokunmatikte hover yok: kart ekranın ortasına gelince oynat.
+  // Dokunmatikte hover yok: kart ekranın ortasına gelince oynat, ekrandan
+  // çıkınca videoyu boşalt — iOS'ta biriken videolar sekmeyi çökertiyordu.
   useEffect(() => {
     const el = cardRef.current;
     const v = videoRef.current;
     if (!el || !v) return;
-    const canHover = window.matchMedia("(hover: hover)").matches;
+    const canHover = !isTouchOnly();
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          if (!canHover && !reduceMotion) onPlay(v);
-        } else {
+          if (!canHover && !reduceMotion) {
+            ensureVideoSrc(v, first.src, project.posterTime);
+            onPlay(v);
+          }
+        } else if (canHover) {
           onStop(v, project.posterTime);
+        } else {
+          onStop(v);
+          unloadVideo(v);
         }
       },
       { threshold: canHover ? 0.01 : 0.6 },
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [onPlay, onStop, project.posterTime]);
+  }, [onPlay, onStop, first.src, project.posterTime]);
 
   return (
     <div
@@ -147,8 +157,7 @@ function AnamorphicCard({
         <div className="relative aspect-video overflow-hidden bg-black">
           <video
             ref={videoRef}
-            src={near ? `${first.src}#t=${project.posterTime}` : undefined}
-            poster={near ? first.poster : undefined}
+            // src ve poster bilerek yok: yukarıdaki gözlemciler atıyor/boşaltıyor
             muted
             loop
             playsInline
